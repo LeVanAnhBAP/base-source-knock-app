@@ -1,4 +1,4 @@
-import 'dart:io';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,7 +23,7 @@ class IconItem extends StatelessWidget {
       width: size,
       height: size,
       colorFilter: ColorFilter.mode(
-        isSelected ? context.colors.primary : context.colors.border,
+        isSelected ? context.colors.secondary : context.colors.primary,
         BlendMode.srcIn,
       ),
     );

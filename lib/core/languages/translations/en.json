@@ -18,9 +18,11 @@
     "Quizzes": "{number} Quizzes"
   },
   "Dashboard": {
-    "Home": "Home",
-    "Collections": "Collections",
-    "Account": "Account"
+    "Home": "ホーム",
+    "OnSite": "現場",
+    "Chat": "チャット",
+    "Search": "探す",
+    "Profile": "マイページ"
   },
   "Errors": {
     "UnknownError": "Unknown error",

@@ -10,10 +10,11 @@ final AppTheme darkTheme = AppTheme(
   brightness: Brightness.dark,
   colors: const AppColors(
     primarySwatch: Colors.deepPurple,
-    primary: Color(0xFF2B1BE1),
-    secondary: Color(0xFFFFAB49),
-    accent: Color(0xFFFFFFFF),
-    background: Color(0xFFFFFFFF),
+    primary: Color(0xFF5F5F5F),
+    secondary: Color(0xFFEE9B01),
+    tertiary: Color(0xFF4175B1),
+    accent: Color.fromARGB(255, 0, 0, 0),
+    background: Color(0xFFF1F1F1),
     backgroundDark: Color(0xFF0E1118),
     disabled: Color(0xFF9CA4AF),
     information: Color(0xFF5487F5),
@@ -21,7 +22,7 @@ final AppTheme darkTheme = AppTheme(
     alert: Color(0xFFFBA707),
     warning: Color(0xFFFF9D5C),
     error: Color(0xFFFF0000),
-    text: Color(0xFFFFFFFF),
+    text: Color.fromARGB(255, 11, 11, 11),
     border: Color(0xFF454F60),
     hint: Color(0xFF888B8E),
     divider: Color(0xFFD9D9D9),
@@ -106,6 +107,7 @@ final AppTheme darkTheme = AppTheme(
           fontSize: 12,
           fontWeight: FontWeight.w600,
           height: 1.3,
+        
         ),
       ),
       minimumSize: const MaterialStatePropertyAll(Size.zero),
@@ -154,6 +156,7 @@ final AppTheme darkTheme = AppTheme(
         ),
       ),
     ),
+    textStyle: TextStyle(color: Colors.black.withOpacity(0.7)),
     shadow: const [
       BoxShadow(
         color: Color(0xFFFFFFFF),
@@ -194,7 +197,7 @@ class AppTheme extends ThemeExtension<AppTheme> {
         primaryColor: colors.primary,
         unselectedWidgetColor: colors.hint,
         disabledColor: colors.disabled,
-        scaffoldBackgroundColor: colors.primary,
+        scaffoldBackgroundColor: colors.background,
         hintColor: colors.hint,
         dividerColor: colors.border,
         colorScheme: _baseColorScheme.copyWith(
@@ -208,7 +211,7 @@ class AppTheme extends ThemeExtension<AppTheme> {
           onBackground: colors.text,
         ),
         textTheme: TextTheme(
-          bodyMedium: typographies.body,
+          bodyMedium: typographies.body.withColor(darkTheme.colors.text),
         ),
         appBarTheme: AppBarTheme(
           elevation: 0,
@@ -234,6 +237,9 @@ class AppTheme extends ThemeExtension<AppTheme> {
                   : null; // Defer to the widget's default.
             }),
           ),
+        ),
+        iconTheme: IconThemeData(
+          color: colors.primary
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: styles.buttonLarge.copyWith(
@@ -284,11 +290,14 @@ class AppTheme extends ThemeExtension<AppTheme> {
             }),
           ),
         ),
+        primaryTextTheme: TextTheme(
+          bodyMedium: typographies.body.withColor(darkTheme.colors.text),
+        ),
         inputDecorationTheme: InputDecorationTheme(
           contentPadding:
               const EdgeInsets.symmetric(vertical: 17, horizontal: 16),
           hintStyle: typographies.body.withColor(colors.hint),
-          labelStyle: typographies.body.withColor(colors.hint),
+          labelStyle: typographies.body.withColor(colors.accent),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
           enabledBorder:
               OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
@@ -326,7 +335,7 @@ class AppTheme extends ThemeExtension<AppTheme> {
         tooltipTheme: TooltipThemeData(
           preferBelow: true,
           showDuration: const Duration(seconds: 2),
-          textStyle: typographies.caption2.withColor(colors.hint),
+          textStyle: typographies.caption2.withColor(colors.text),
           decoration: BoxDecoration(
             color: colors.background,
             borderRadius: BorderRadius.circular(6),

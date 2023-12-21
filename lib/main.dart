@@ -51,8 +51,9 @@ class MyApp extends StatelessWidget {
           listenWhen: (previous, current) =>
               previous.account != current.account && current.account == null,
           listener: (context, state) {
-            // _appRouter.replaceAll([const LoginRoute()]);
-            _appRouter.replaceAll([const DashboardRoute()]);
+            _appRouter.replaceAll([const LoginRoute()]);
+            
+            // _appRouter.replaceAll([const DashboardRoute()]);
           },
         ),
       ],
@@ -70,12 +71,15 @@ class MyApp extends StatelessWidget {
                 TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
               }),
             ),
-            locale: system.locale,
+            // locale: system.locale,
+            //TODO: CONST LOCAL
+            locale: const Locale('ja'),
             supportedLocales: context.supportedLocales,
             localizationsDelegates: [
               ...context.localizationDelegates,
               // more delegates here
             ],
+          
             routerConfig: _appRouter.config(
               navigatorObservers: () => [AutoRouteObserver()],
             ),

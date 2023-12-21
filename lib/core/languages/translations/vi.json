@@ -18,9 +18,11 @@
     "Quizzes": "{number} Câu hỏi"
   },
   "Dashboard": {
-    "Home": "Trang chủ",
-    "Collections": "Bộ sưu tập",
-    "Account": "Tài khoản"
+    "Home": "ホーム",
+    "OnSite": "現場",
+    "Chat": "チャット",
+    "Search": "探す",
+    "Profile": "マイページ"
   },
   "Errors": {
     "UnknownError": "Lỗi không xác định",

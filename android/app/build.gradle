@@ -84,17 +84,12 @@ android {
         debug {
             debuggable true
         }
+       
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'gson.proguard-rules.pro'
-            productFlavors.all { flavor ->
-                flavor.signingConfig = android.signingConfigs.create("${flavor.name}")
-                flavor.signingConfig.storeFile = rootProject.file(keystoreProperties["${flavor.name}StoreFile"])
-                flavor.signingConfig.storePassword = keystoreProperties["${flavor.name}StorePassword"]
-                flavor.signingConfig.keyAlias = keystoreProperties["${flavor.name}KeyAlias"]
-                flavor.signingConfig.keyPassword = keystoreProperties["${flavor.name}KeyPassword"]
-            }
+        
         }
     }
 }

@@ -44,8 +44,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/.gitkeep
   String get gitkeep => 'assets/images/.gitkeep';
 
+  /// File path: assets/images/img_app_logo.png
+  AssetGenImage get imgAppLogo => const AssetGenImage('assets/images/img_app_logo.png');
+
+  /// File path: assets/images/img_building_logo.png
+  AssetGenImage get imgBuildingLogo => const AssetGenImage('assets/images/img_building_logo.png');
+
   /// List of all assets
-  List<String> get values => [gitkeep];
+  List<dynamic> get values => [gitkeep, imgAppLogo, imgBuildingLogo];
 }
 
 class $AssetsIconsPngGen {
@@ -54,8 +60,35 @@ class $AssetsIconsPngGen {
   /// File path: assets/icons/png/.gitkeep
   String get gitkeep => 'assets/icons/png/.gitkeep';
 
+  /// File path: assets/icons/png/ic_dashboard_chat.png
+  AssetGenImage get icDashboardChat =>
+      const AssetGenImage('assets/icons/png/ic_dashboard_chat.png');
+
+  /// File path: assets/icons/png/ic_dashboard_home.png
+  AssetGenImage get icDashboardHome =>
+      const AssetGenImage('assets/icons/png/ic_dashboard_home.png');
+
+  /// File path: assets/icons/png/ic_dashboard_onsite.png
+  AssetGenImage get icDashboardOnsite =>
+      const AssetGenImage('assets/icons/png/ic_dashboard_onsite.png');
+
+  /// File path: assets/icons/png/ic_dashboard_profile.png
+  AssetGenImage get icDashboardProfile =>
+      const AssetGenImage('assets/icons/png/ic_dashboard_profile.png');
+
+  /// File path: assets/icons/png/ic_dashboard_search.png
+  AssetGenImage get icDashboardSearch =>
+      const AssetGenImage('assets/icons/png/ic_dashboard_search.png');
+
   /// List of all assets
-  List<String> get values => [gitkeep];
+  List<dynamic> get values => [
+        gitkeep,
+        icDashboardChat,
+        icDashboardHome,
+        icDashboardOnsite,
+        icDashboardProfile,
+        icDashboardSearch
+      ];
 }
 
 class $AssetsIconsSvgGen {
@@ -64,21 +97,55 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/.gitkeep
   String get gitkeep => 'assets/icons/svg/.gitkeep';
 
+  /// File path: assets/icons/svg/ic_calendar.svg
+  SvgGenImage get icCalendar => const SvgGenImage('assets/icons/svg/ic_calendar.svg');
+
   /// File path: assets/icons/svg/ic_dashboard_account.svg
   SvgGenImage get icDashboardAccount =>
       const SvgGenImage('assets/icons/svg/ic_dashboard_account.svg');
 
+  /// File path: assets/icons/svg/ic_dashboard_chat.svg
+  SvgGenImage get icDashboardChat => const SvgGenImage('assets/icons/svg/ic_dashboard_chat.svg');
+
   /// File path: assets/icons/svg/ic_dashboard_home.svg
-  SvgGenImage get icDashboardHome =>
-      const SvgGenImage('assets/icons/svg/ic_dashboard_home.svg');
+  SvgGenImage get icDashboardHome => const SvgGenImage('assets/icons/svg/ic_dashboard_home.svg');
+
+  /// File path: assets/icons/svg/ic_dashboard_onsite.svg
+  SvgGenImage get icDashboardOnsite =>
+      const SvgGenImage('assets/icons/svg/ic_dashboard_onsite.svg');
+
+  /// File path: assets/icons/svg/ic_dashboard_profile.svg
+  SvgGenImage get icDashboardProfile =>
+      const SvgGenImage('assets/icons/svg/ic_dashboard_profile.svg');
+
+  /// File path: assets/icons/svg/ic_dashboard_search.svg
+  SvgGenImage get icDashboardSearch =>
+      const SvgGenImage('assets/icons/svg/ic_dashboard_search.svg');
+
+  /// File path: assets/icons/svg/ic_location.svg
+  SvgGenImage get icLocation => const SvgGenImage('assets/icons/svg/ic_location.svg');
 
   /// File path: assets/icons/svg/ic_search.svg
-  SvgGenImage get icSearch =>
-      const SvgGenImage('assets/icons/svg/ic_search.svg');
+  SvgGenImage get icSearch => const SvgGenImage('assets/icons/svg/ic_search.svg');
+
+  /// File path: assets/icons/svg/ic_under_construction.svg
+  SvgGenImage get icUnderConstruction =>
+      const SvgGenImage('assets/icons/svg/ic_under_construction.svg');
 
   /// List of all assets
-  List<dynamic> get values =>
-      [gitkeep, icDashboardAccount, icDashboardHome, icSearch];
+  List<dynamic> get values => [
+        gitkeep,
+        icCalendar,
+        icDashboardAccount,
+        icDashboardChat,
+        icDashboardHome,
+        icDashboardOnsite,
+        icDashboardProfile,
+        icDashboardSearch,
+        icLocation,
+        icSearch,
+        icUnderConstruction
+      ];
 }
 
 class Assets {

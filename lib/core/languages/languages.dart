@@ -27,6 +27,10 @@ class AppLanguages extends StatelessWidget {
       locale: Locale('vi'),
       name: 'Tiếng Việt',
     ),
+    const AppLanguage(
+      locale: Locale('ja'),
+      name: '日本',
+    ),
   ];
 
   static final List<Locale> supportedLocales =
