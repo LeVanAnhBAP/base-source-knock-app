@@ -14,6 +14,8 @@ class NewPassPage extends StatefulWidget {
 }
 
 class _NewPassWordState extends State<NewPassPage> {
+  final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController retypePassword = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,26 +28,26 @@ class _NewPassWordState extends State<NewPassPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Image.asset( Assets.icons.png.icKnock.path),
-              const SizedBox(
+               SizedBox(
                 height: 300,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'パスワード再設定',
                       style: TextStyle(
                         fontSize: 24,
                       ),
                     ),
-                    Text(
+                    const Text(
                       '※8文字以上の半角英数記号で設定できます。',
                       style: TextStyle(color: Colors.red),
                     ),
                     Column(
                       children: [
-                        InputField(textFieldHintText: '新しいパスワード'),
-                        Gap(16),
-                        InputField(textFieldHintText: '新しいパスワード（確認用）')
+                        InputField(textFieldHintText: '新しいパスワード', controller: newPasswordController,),
+                        const Gap(16),
+                        InputField(textFieldHintText: '新しいパスワード（確認用）', controller: retypePassword,)
                       ],
                     )
                   ],

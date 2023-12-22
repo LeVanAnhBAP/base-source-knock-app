@@ -13,14 +13,15 @@ class ScheduleCard extends StatefulWidget {
   final DateTime dayTo;
   final String company;
   final String companyLogo;
-  const ScheduleCard({
-    required this.title,
-    required this.location,
-    required this.dayFrom,
-    required this.dayTo,
-    required this.company,
-    required this.companyLogo,
-  });
+  final Function() clickDropRight;
+  const ScheduleCard(
+      {required this.title,
+      required this.location,
+      required this.dayFrom,
+      required this.dayTo,
+      required this.company,
+      required this.companyLogo,
+      required this.clickDropRight});
   @override
   State<StatefulWidget> createState() => _ScheduleCardState();
 }
@@ -56,7 +57,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
           ),
         ),
         Container(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 12),
           height: 160,
           decoration: BoxDecoration(
               color: context.colors.background,
@@ -66,7 +67,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
           child: Column(
             children: [
               Align(
-                alignment:Alignment.centerLeft,
+                alignment: Alignment.centerLeft,
                 child: Text(
                   widget.title,
                   style: const TextStyle(fontSize: 22),
@@ -74,32 +75,48 @@ class _ScheduleCardState extends State<ScheduleCard> {
               ),
               const Gap(20),
               Expanded(
-                child: Column(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SvgPicture.asset(
-                            Assets.icons.svg.icScheduleCardLocation.path),
-                        const Gap(4),
-                        Text(widget.location),
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                                Assets.icons.svg.icScheduleCardLocation.path),
+                            const Gap(4),
+                            Text(widget.location),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                                Assets.icons.svg.icScheduleCardCalendar.path),
+                            const Gap(4),
+                            Text(
+                                '${DateFormat('yyyy/MM/dd(E)').format(widget.dayFrom)} ~ ${DateFormat('yyyy/MM/dd(E)').format(widget.dayTo)}')
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Image.asset(widget.companyLogo),
+                            const Gap(8),
+                            Text(widget.company)
+                          ],
+                        )
                       ],
                     ),
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                            Assets.icons.svg.icScheduleCardCalendar.path),
-                        const Gap(4),
-                        Text(
-                            '${DateFormat('yyyy/MM/dd(E)').format(widget.dayFrom)} ~ ${DateFormat('yyyy/MM/dd(E)').format(widget.dayTo)}')
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Image.asset(widget.companyLogo),
-                        const Gap(8),
-                        Text(widget.company)
-                      ],
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: InkWell(
+                        onTap: widget.clickDropRight,
+                        child: SvgPicture.asset(
+                          Assets.icons.svg.icScheduleArrowDropright.path,
+                          height: 32,
+                        ),
+                      ),
                     )
                   ],
                 ),

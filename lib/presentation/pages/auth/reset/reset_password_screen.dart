@@ -3,10 +3,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import '../../../../assets.gen.dart';
-import '../../../navigation/navigation.dart';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/log_button.dart';
-import '../../dashboard/widgets/icon_item.dart';
+
 
 @RoutePage()
 class ResetPassPage extends StatefulWidget {
@@ -17,6 +16,7 @@ class ResetPassPage extends StatefulWidget {
 }
 
 class _ResetPassState extends State<ResetPassPage> {
+  final TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +29,9 @@ class _ResetPassState extends State<ResetPassPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Image.asset( Assets.icons.png.icKnock.path),
-              const Column(
+               Column(
                 children: [
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
@@ -43,8 +43,8 @@ class _ResetPassState extends State<ResetPassPage> {
                       Gap(8)
                     ],
                   ),
-                  Gap(40),
-                  Column(
+                  const Gap(40),
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('パスワードをお忘れの方は'),
@@ -53,8 +53,8 @@ class _ResetPassState extends State<ResetPassPage> {
                       Text('再設定手続き用のURLが記載されたメールを送信いたします。'),
                     ],
                   ),
-                  Gap(40),
-                  InputField(textFieldHintText: 'メールアドレス'),
+                  const Gap(40),
+                  InputField(textFieldHintText: 'メールアドレス', controller: emailController,),
                 ],
               ),
 

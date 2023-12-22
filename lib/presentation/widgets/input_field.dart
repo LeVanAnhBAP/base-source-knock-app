@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
 class InputField extends StatelessWidget {
-  const InputField({super.key, required this.textFieldHintText});
+  const InputField({
+    super.key,
+    required this.textFieldHintText,
+    required this.controller,
+  });
   final String textFieldHintText;
+  final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,15 +23,17 @@ class InputField extends StatelessWidget {
             blurRadius: 1,
             spreadRadius: 1,
           ),
-        ],),
+        ],
+      ),
       child: Center(
         child: TextField(
+          controller: controller,
           decoration: InputDecoration(
             filled: true,
             fillColor: const Color.fromRGBO(247, 248, 250, 1),
-            border: const OutlineInputBorder(borderSide: BorderSide.none
-            ),
-            enabledBorder: const OutlineInputBorder(borderSide: BorderSide.none),
+            border: const OutlineInputBorder(borderSide: BorderSide.none),
+            enabledBorder:
+                const OutlineInputBorder(borderSide: BorderSide.none),
             hintStyle: const TextStyle(
               fontSize: 16,
               color: Colors.cyan,

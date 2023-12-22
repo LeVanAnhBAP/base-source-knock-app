@@ -23,7 +23,7 @@ class IconItem extends StatelessWidget {
       width: size,
       height: size,
       colorFilter: ColorFilter.mode(
-        isSelected ? context.colors.primary : context.colors.border,
+        isSelected ? context.colors.secondary : context.colors.border,
         BlendMode.srcIn,
       ),
     );

@@ -102,6 +102,10 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/ic_menu.svg
   SvgGenImage get icMenu => const SvgGenImage('assets/icons/svg/ic_menu.svg');
 
+  /// File path: assets/icons/svg/ic_schedule_arrow_dropright.svg
+  SvgGenImage get icScheduleArrowDropright =>
+      const SvgGenImage('assets/icons/svg/ic_schedule_arrow_dropright.svg');
+
   /// File path: assets/icons/svg/ic_schedule_card.svg
   SvgGenImage get icScheduleCard => const SvgGenImage('assets/icons/svg/ic_schedule_card.svg');
 
@@ -132,6 +136,7 @@ class $AssetsIconsSvgGen {
         icDashboardSite,
         icFeatherBell,
         icMenu,
+        icScheduleArrowDropright,
         icScheduleCard,
         icScheduleCardCalendar,
         icScheduleCardLocation,
