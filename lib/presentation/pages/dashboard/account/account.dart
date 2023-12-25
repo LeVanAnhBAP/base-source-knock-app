@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:uq_system_app/di/injector.dart';
+import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/account/account_bloc.dart';
 
 @RoutePage()
@@ -11,7 +11,7 @@ class DashboardAccountPage extends StatefulWidget {
 }
 
 class _DashboardAccountPageState extends State<DashboardAccountPage> {
-  final AccountBloc _bloc = provider.get<AccountBloc>();
+  final AccountBloc _bloc = getIt.get<AccountBloc>();
 
   @override
   void dispose() {

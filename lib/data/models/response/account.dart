@@ -6,10 +6,13 @@ part 'account.g.dart';
 @freezed
 class Account with _$Account {
   const factory Account({
-    @JsonKey(name: 'user_id') required String id,
-    @JsonKey(name: 'user_name') String? name,
+    @JsonKey(name: 'id') required int id,
+    @JsonKey(name: 'first_name') String? firstName,
+    @JsonKey(name: 'last_name') String? lastName,
+    @JsonKey(name: 'first_name_kana') String? firstNameKana,
+    @JsonKey(name: 'last_name_kana') String? lastNameKana,
     @JsonKey(name: 'email') required String email,
-    @JsonKey(name: 'accessToken') required String? accessToken,
+    @JsonKey(name: 'role') required int role,
   }) = _Account;
 
   factory Account.fromJson(Map<String, dynamic> json) =>

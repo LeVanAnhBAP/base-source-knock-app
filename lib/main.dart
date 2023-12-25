@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:injectable/injectable.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_state.dart';
 import 'package:uq_system_app/presentation/blocs/bloc_observer.dart';
@@ -14,7 +15,7 @@ import 'package:uq_system_app/presentation/navigation/navigation.dart';
 
 import 'env.dart';
 import 'core/languages/languages.dart';
-import 'di/injector.dart';
+import 'di/injection.dart';
 import 'presentation/blocs/global_bloc_providers.dart';
 
 Future<void> main() async {
@@ -25,7 +26,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables();
 
-  await injectDependencies();
+  await configureInjection(Environment.dev);
 
   Bloc.observer = const AppBlocObserver();
 
@@ -51,9 +52,7 @@ class MyApp extends StatelessWidget {
           listenWhen: (previous, current) =>
               previous.account != current.account && current.account == null,
           listener: (context, state) {
-            _appRouter.replaceAll([const LoginRoute()]);
-            
-            // _appRouter.replaceAll([const DashboardRoute()]);
+            _appRouter.replaceAll([const LoginRoute()]);        
           },
         ),
       ],

@@ -1,4 +1,4 @@
-import 'package:uq_system_app/di/injector.dart';
+import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:uq_system_app/presentation/blocs/system/system_bloc.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +17,10 @@ class GlobalBlocProviders extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>.value(
-          value: provider.get<AuthBloc>(),
+          value: getIt.get<AuthBloc>(),
         ),
         BlocProvider<SystemBloc>.value(
-          value: provider.get<SystemBloc>(),
+          value: getIt.get<SystemBloc>(),
         ),
       ],
       child: child,

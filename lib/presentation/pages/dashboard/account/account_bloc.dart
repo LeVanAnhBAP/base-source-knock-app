@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/account/account_event.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/account/account_state.dart';
 
+@lazySingleton
 class AccountBloc extends Bloc<AccountEvent, AccountState> {
   AccountBloc() : super(const AccountState()) {
     on<AccountErrorOccurred>(_onErrorOccurred);

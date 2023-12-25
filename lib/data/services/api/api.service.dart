@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:uq_system_app/core/exceptions/network_exception.dart';
 import 'package:uq_system_app/core/exceptions/unauthorized_exception.dart';
+import 'package:uq_system_app/core/exceptions/unknown_exception.dart';
+import 'package:uq_system_app/core/languages/translation_keys.g.dart';
 import 'package:uq_system_app/data/services/auth/auth.services.dart';
 import 'package:uq_system_app/data/sources/network/network_urls.dart';
 
@@ -51,19 +53,17 @@ class ApiServices extends DioForNative implements Interceptor {
     if (statusCode == 401) {
       return handler.next(UnauthorizedException());
     }
-
-    return handler.next(err);
+    return handler.next(UnknownException(err.response?.data['message'][0] ?? LocaleKeys.Errors_UnknownError));
   }
 
   @override
   Future<void> onRequest(
       RequestOptions originalOptions, RequestInterceptorHandler handler) async {
     final options = originalOptions.copyWith();
-    // TODO:
-    // if (NetworkUrls.requireAuthentication(options.path)) {
-    //   options.headers =
-    //       await _authServices.getAuthenticatedHeaders(options.headers);
-    // }
+    if (NetworkUrls.requireAuthentication(options.path)) {
+      options.headers =
+          await _authServices.getAuthenticatedHeaders(options.headers);
+    }
     options.headers =
         await _authServices.getAuthenticatedHeaders(options.headers);
     return handler.next(options);
@@ -72,13 +72,11 @@ class ApiServices extends DioForNative implements Interceptor {
   @override
   Future<void> onResponse(
       Response response, ResponseInterceptorHandler handler) async {
-    //TODO: save access token when user login app
     if (response.requestOptions.path == NetworkUrls.login &&
         response.data is Map) {
-      final accessToken = response.data['data']?['accessToken'];
+      final accessToken = response.data['data']?['access_token'];
       await _authServices.saveAccessToken(accessToken);
     }
-    //TODO: clear access token when user logout app
     if (response.requestOptions.path == NetworkUrls.logout) {
       await _authServices.removeAllTokens();
     }

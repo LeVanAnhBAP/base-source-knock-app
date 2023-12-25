@@ -21,16 +21,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: DashboardAccountPage(),
       );
     },
-    DashboardRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const DashboardPage(),
-      );
-    },
     DashboardHomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const DashboardHomePage(),
+      );
+    },
+    DashboardRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const DashboardPage(),
       );
     },
     LoginRoute.name: (routeData) {
@@ -39,16 +39,22 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const LoginPage(),
       );
     },
+    NewPasswordRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const NewPasswordPage(),
+      );
+    },
     ResetPasswordRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const ResetPasswordPage(),
       );
     },
-    NewPasswordRoute.name: (routeData) {
+    SplashRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const NewPasswordPage(),
+        child: const SplashPage(),
       );
     },
   };
@@ -69,20 +75,6 @@ class DashboardAccountRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [DashboardPage]
-class DashboardRoute extends PageRouteInfo<void> {
-  const DashboardRoute({List<PageRouteInfo>? children})
-      : super(
-          DashboardRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'DashboardRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [DashboardHomePage]
 class DashboardHomeRoute extends PageRouteInfo<void> {
   const DashboardHomeRoute({List<PageRouteInfo>? children})
@@ -92,6 +84,20 @@ class DashboardHomeRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'DashboardHomeRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [DashboardPage]
+class DashboardRoute extends PageRouteInfo<void> {
+  const DashboardRoute({List<PageRouteInfo>? children})
+      : super(
+          DashboardRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DashboardRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -111,6 +117,20 @@ class LoginRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [NewPasswordPage]
+class NewPasswordRoute extends PageRouteInfo<void> {
+  const NewPasswordRoute({List<PageRouteInfo>? children})
+      : super(
+          NewPasswordRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'NewPasswordRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [ResetPasswordPage]
 class ResetPasswordRoute extends PageRouteInfo<void> {
   const ResetPasswordRoute({List<PageRouteInfo>? children})
@@ -125,15 +145,15 @@ class ResetPasswordRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [NewPasswordPage]
-class NewPasswordRoute extends PageRouteInfo<void> {
-  const NewPasswordRoute({List<PageRouteInfo>? children})
+/// [SplashPage]
+class SplashRoute extends PageRouteInfo<void> {
+  const SplashRoute({List<PageRouteInfo>? children})
       : super(
-          NewPasswordRoute.name,
+          SplashRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'NewPasswordRoute';
+  static const String name = 'SplashRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

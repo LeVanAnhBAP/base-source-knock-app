@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'auth_state.freezed.dart';
 
-enum AuthSignOutStatus {
+enum AuthStatus {
   initial,
   loading,
   success,
@@ -15,7 +15,7 @@ enum AuthSignOutStatus {
 class AuthState with _$AuthState {
   const factory AuthState({
     Account? account,
-    @Default(AuthSignOutStatus.initial) AuthSignOutStatus signOutStatus,
+    @Default(AuthStatus.initial) AuthStatus authStatus,
     BaseException? error,
   }) = _AuthState;
 }

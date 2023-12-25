@@ -1,7 +1,8 @@
 class NetworkUrls {
-  static const String users = '/users';
-  static const String login = '$users/login';
-  static const String logout = '$users/logout';
+  static const String users = '/user';
+  static const String login = '$users/auth/login';
+  static const String resetPassword = '$users/auth/reset-password';
+  static const String logout = '$users/auth/logout';
   static const String signUp = '$users/sign-up';
   static const String account = '$users/account';
   static const String getCategories = '/api/categories';
@@ -13,6 +14,7 @@ class NetworkUrls {
   static bool requireAuthentication(String url) {
     return ![
       login,
+      resetPassword,
       signUp,
     ].contains(url);
   }

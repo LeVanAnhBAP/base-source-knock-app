@@ -5,6 +5,7 @@ import 'package:uq_system_app/presentation/pages/auth/login/login_page.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/account/account.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/dashboard.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home.dart';
+import 'package:uq_system_app/presentation/pages/splash/splash.dart';
 
 part 'navigation.gr.dart';
 
@@ -14,7 +15,8 @@ class AppRouter extends _$AppRouter{
   
   @override
   final List<AutoRoute> routes = [
-    AutoRoute(path: '/login', page: LoginRoute.page, initial: true),
+    AutoRoute(path: '/', page: SplashRoute.page, initial: true),
+    AutoRoute(path: '/login', page: LoginRoute.page),
     AutoRoute(path: '/resetpassword', page: ResetPasswordRoute.page),
     AutoRoute(path: '/newpassword', page: NewPasswordRoute.page),
     AutoRoute(path: '/dashboard', page: DashboardRoute.page, children: [

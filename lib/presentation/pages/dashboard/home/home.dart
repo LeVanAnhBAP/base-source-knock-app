@@ -1,21 +1,16 @@
 import 'dart:async';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
-import 'package:uq_system_app/core/languages/translation_keys.g.dart';
 import 'package:uq_system_app/data/models/response/schedule.dart';
-import 'package:uq_system_app/di/injector.dart';
+import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/widgets/calendar_view.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/widgets/schedule_item.dart';
-import 'package:uq_system_app/presentation/widgets/base_app_bar.dart';
 import 'package:uq_system_app/presentation/widgets/dashboard_app_bar.dart';
-import 'package:uq_system_app/presentation/widgets/header_item.dart';
-import 'package:uq_system_app/presentation/widgets/search_field.dart';
 
 import 'home_event.dart';
 import 'home_state.dart';
@@ -29,7 +24,7 @@ class DashboardHomePage extends StatefulWidget {
 }
 
 class _DashboardHomePageState extends State<DashboardHomePage> {
-  final HomeBloc _bloc = provider.get<HomeBloc>();
+  final HomeBloc _bloc = getIt.get<HomeBloc>();
 
   Future _onRefresh() async {
     _bloc.add(const HomeRefreshData());

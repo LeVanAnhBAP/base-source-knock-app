@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/core/exceptions/unauthorized_exception.dart';
-import 'package:uq_system_app/di/injector.dart';
+import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_event.dart';
 import 'package:uq_system_app/presentation/blocs/system/system_bloc.dart';
@@ -11,9 +11,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
 
-  AuthBloc get _authBloc => provider.get<AuthBloc>();
+  AuthBloc get _authBloc => getIt.get<AuthBloc>();
 
-  SystemBloc get _systemBloc => provider.get<SystemBloc>();
+  SystemBloc get _systemBloc => getIt.get<SystemBloc>();
 
   @override
   void onChange(BlocBase bloc, Change change) {
