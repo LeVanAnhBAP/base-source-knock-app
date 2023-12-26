@@ -29,9 +29,12 @@ import 'package:uq_system_app/data/sources/network/network.dart' as _i7;
 import 'package:uq_system_app/data/usecases/get_user_by_id.dart' as _i17;
 import 'package:uq_system_app/data/usecases/login_usecase.dart' as _i18;
 import 'package:uq_system_app/data/usecases/logout.dart' as _i12;
-import 'package:uq_system_app/data/usecases/save_language.dart' as _i19;
-import 'package:uq_system_app/di/register_module.dart' as _i21;
-import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart' as _i20;
+import 'package:uq_system_app/data/usecases/resetpassword_usecase.dart' as _i19;
+import 'package:uq_system_app/data/usecases/save_language.dart' as _i20;
+import 'package:uq_system_app/di/register_module.dart' as _i23;
+import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart' as _i21;
+import 'package:uq_system_app/presentation/pages/auth/reset_password/reset_password_bloc.dart'
+    as _i22;
 import 'package:uq_system_app/presentation/pages/dashboard/account/account_bloc.dart'
     as _i3;
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart'
@@ -84,14 +87,19 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i17.GetUserById(gh<_i15.UserRepository>()));
     gh.lazySingleton<_i18.LoginUseCase>(
         () => _i18.LoginUseCase(gh<_i15.UserRepository>()));
-    gh.lazySingleton<_i19.SaveLanguage>(
-        () => _i19.SaveLanguage(gh<_i13.SystemRepository>()));
-    gh.lazySingleton<_i20.AuthBloc>(() => _i20.AuthBloc(
+    gh.lazySingleton<_i19.ResetPasswordUsecase>(
+        () => _i19.ResetPasswordUsecase(gh<_i15.UserRepository>()));
+    gh.lazySingleton<_i20.SaveLanguage>(
+        () => _i20.SaveLanguage(gh<_i13.SystemRepository>()));
+    gh.lazySingleton<_i21.AuthBloc>(() => _i21.AuthBloc(
           gh<_i12.Logout>(),
           gh<_i18.LoginUseCase>(),
+          gh<_i19.ResetPasswordUsecase>(),
         ));
+    gh.factory<_i22.ResetPasswordBloc>(
+        () => _i22.ResetPasswordBloc(gh<_i19.ResetPasswordUsecase>()));
     return this;
   }
 }
 
-class _$RegisterModule extends _i21.RegisterModule {}
+class _$RegisterModule extends _i23.RegisterModule {}

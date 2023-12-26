@@ -15,6 +15,30 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    DashBoardChatRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: DashBoardChatPage(),
+      );
+    },
+    DashBoardOnSiteRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: DashBoardOnSitePage(),
+      );
+    },
+    DashBoardProfileRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: DashBoardProfilePage(),
+      );
+    },
+    DashBoardSearchRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: DashBoardSearchPage(),
+      );
+    },
     DashboardAccountRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -39,12 +63,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const LoginPage(),
       );
     },
-    NewPasswordRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const NewPasswordPage(),
-      );
-    },
     ResetPasswordRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -58,6 +76,62 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [DashBoardChatPage]
+class DashBoardChatRoute extends PageRouteInfo<void> {
+  const DashBoardChatRoute({List<PageRouteInfo>? children})
+      : super(
+          DashBoardChatRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DashBoardChatRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [DashBoardOnSitePage]
+class DashBoardOnSiteRoute extends PageRouteInfo<void> {
+  const DashBoardOnSiteRoute({List<PageRouteInfo>? children})
+      : super(
+          DashBoardOnSiteRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DashBoardOnSiteRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [DashBoardProfilePage]
+class DashBoardProfileRoute extends PageRouteInfo<void> {
+  const DashBoardProfileRoute({List<PageRouteInfo>? children})
+      : super(
+          DashBoardProfileRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DashBoardProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [DashBoardSearchPage]
+class DashBoardSearchRoute extends PageRouteInfo<void> {
+  const DashBoardSearchRoute({List<PageRouteInfo>? children})
+      : super(
+          DashBoardSearchRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DashBoardSearchRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -112,20 +186,6 @@ class LoginRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'LoginRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [NewPasswordPage]
-class NewPasswordRoute extends PageRouteInfo<void> {
-  const NewPasswordRoute({List<PageRouteInfo>? children})
-      : super(
-          NewPasswordRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'NewPasswordRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -50,30 +50,29 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
             leftIcon: Icons.menu,
             rightIcon: Icons.notifications_outlined),
         body: SingleChildScrollView(
+         
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Container(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: _buildNotification(),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    _buildCalendar(),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    _buildSheduleManager()
-                  ],
-                ),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: _buildNotification(),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  _buildCalendar(),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  _buildSheduleManager()
+                ],
               ),
             ),
           ),

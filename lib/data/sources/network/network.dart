@@ -20,8 +20,9 @@ abstract class NetworkDataSource {
     @Body() LoginParams params,
   );
   @POST(NetworkUrls.resetPassword)
-  Future<Map<String, dynamic>> resetPassword(
-    @Body() LoginParams params,
+  Future<HttpResponse> resetPassword(
+    @Query('email') String email,
+    @Query('type') String type
   );
   @POST(NetworkUrls.logout)
   Future<void> logout();

@@ -61,26 +61,28 @@ class MyApp extends StatelessWidget {
           value: system.theme.themeData.brightness == Brightness.light
               ? SystemUiOverlayStyle.dark
               : SystemUiOverlayStyle.light,
-          child: MaterialApp.router(
-            debugShowCheckedModeBanner: false,
-            title: AppEnv.appName,
-            theme: system.theme.themeData.copyWith(
-              pageTransitionsTheme: const PageTransitionsTheme(builders: {
-                TargetPlatform.iOS: NoShadowCupertinoPageTransitionsBuilder(),
-                TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-              }),
-            ),
-            // locale: system.locale,
-            //TODO: CONST LOCAL
-            locale: const Locale('ja'),
-            supportedLocales: context.supportedLocales,
-            localizationsDelegates: [
-              ...context.localizationDelegates,
-              // more delegates here
-            ],
-          
-            routerConfig: _appRouter.config(
-              navigatorObservers: () => [AutoRouteObserver()],
+          child: SafeArea(
+            child: MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              title: AppEnv.appName,
+              theme: system.theme.themeData.copyWith(
+                pageTransitionsTheme: const PageTransitionsTheme(builders: {
+                  TargetPlatform.iOS: NoShadowCupertinoPageTransitionsBuilder(),
+                  TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+                }),
+              ),
+              // locale: system.locale,
+              //TODO: CONST LOCAL
+              locale: const Locale('ja'),
+              supportedLocales: context.supportedLocales,
+              localizationsDelegates: [
+                ...context.localizationDelegates,
+                // more delegates here
+              ],
+            
+              routerConfig: _appRouter.config(
+                navigatorObservers: () => [AutoRouteObserver()],
+              ),
             ),
           ),
         );

@@ -28,67 +28,67 @@ final AppTheme darkTheme = AppTheme(
     divider: Color(0xFFD9D9D9),
   ),
   typographies: AppTypography(
-    title1: GoogleFonts.rubik(
+    title1: GoogleFonts.zenKakuGothicAntique(
       fontSize: 32,
       fontWeight: FontWeight.w700,
       height: 1.3,
     ),
-    title1SemiBold: GoogleFonts.rubik(
+    title1SemiBold: GoogleFonts.zenKakuGothicAntique(
       fontSize: 32,
       fontWeight: FontWeight.w600,
       height: 1.3,
     ),
-    title1Normal: GoogleFonts.rubik(
+    title1Normal: GoogleFonts.zenKakuGothicAntique(
       fontSize: 32,
       fontWeight: FontWeight.w400,
       height: 1.3,
     ),
-    title2: GoogleFonts.rubik(
+    title2: GoogleFonts.zenKakuGothicAntique(
       fontSize: 24,
       fontWeight: FontWeight.w600,
       height: 1.3,
     ),
-    title2Bold: GoogleFonts.rubik(
+    title2Bold: GoogleFonts.zenKakuGothicAntique(
       fontSize: 24,
       fontWeight: FontWeight.w700,
       height: 1.3,
     ),
-    title3: GoogleFonts.rubik(
+    title3: GoogleFonts.zenKakuGothicAntique(
       fontSize: 18,
       fontWeight: FontWeight.w600,
       height: 1.3,
     ),
-    title3Bold: GoogleFonts.rubik(
+    title3Bold: GoogleFonts.zenKakuGothicAntique(
       fontSize: 18,
       fontWeight: FontWeight.w700,
       height: 1.3,
     ),
-    body: GoogleFonts.rubik(
+    body: GoogleFonts.zenKakuGothicAntique(
       fontSize: 17,
       fontWeight: FontWeight.w400,
       height: 1.3,
     ),
-    bodyBold: GoogleFonts.rubik(
+    bodyBold: GoogleFonts.zenKakuGothicAntique(
       fontSize: 17,
       fontWeight: FontWeight.w600,
       height: 1.3,
     ),
-    caption1: GoogleFonts.rubik(
+    caption1: GoogleFonts.zenKakuGothicAntique(
       fontSize: 14,
       fontWeight: FontWeight.w400,
       height: 1.3,
     ),
-    caption1Bold: GoogleFonts.rubik(
+    caption1Bold: GoogleFonts.zenKakuGothicAntique(
       fontSize: 14,
       fontWeight: FontWeight.w600,
       height: 1.3,
     ),
-    caption2: GoogleFonts.rubik(
+    caption2: GoogleFonts.zenKakuGothicAntique(
       fontSize: 12,
       fontWeight: FontWeight.w400,
       height: 1.3,
     ),
-    caption2Bold: GoogleFonts.rubik(
+    caption2Bold: GoogleFonts.zenKakuGothicAntique(
       fontSize: 12,
       fontWeight: FontWeight.w600,
       height: 1.3,
@@ -103,7 +103,7 @@ final AppTheme darkTheme = AppTheme(
         StadiumBorder(),
       ),
       textStyle: MaterialStatePropertyAll(
-        GoogleFonts.rubik(
+        GoogleFonts.zenKakuGothicAntique(
           fontSize: 12,
           fontWeight: FontWeight.w600,
           height: 1.3,
@@ -120,7 +120,7 @@ final AppTheme darkTheme = AppTheme(
         StadiumBorder(),
       ),
       textStyle: MaterialStatePropertyAll(
-        GoogleFonts.rubik(
+        GoogleFonts.zenKakuGothicAntique(
           fontSize: 16,
           fontWeight: FontWeight.w600,
           height: 1.3,
@@ -136,7 +136,7 @@ final AppTheme darkTheme = AppTheme(
         StadiumBorder(),
       ),
       textStyle: MaterialStatePropertyAll(
-        GoogleFonts.rubik(
+        GoogleFonts.zenKakuGothicAntique(
           fontSize: 17,
           fontWeight: FontWeight.w600,
           height: 1.3,
@@ -149,7 +149,7 @@ final AppTheme darkTheme = AppTheme(
       padding: const MaterialStatePropertyAll(EdgeInsets.zero),
       // splashFactory: NoSplash.splashFactory,
       textStyle: MaterialStatePropertyAll(
-        GoogleFonts.rubik(
+        GoogleFonts.zenKakuGothicAntique(
           fontSize: 17,
           fontWeight: FontWeight.w600,
           height: 1.3,

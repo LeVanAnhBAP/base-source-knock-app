@@ -53,7 +53,8 @@ class ApiServices extends DioForNative implements Interceptor {
     if (statusCode == 401) {
       return handler.next(UnauthorizedException());
     }
-    return handler.next(UnknownException(err.response?.data['message'][0] ?? LocaleKeys.Errors_UnknownError));
+    return handler.next(UnknownException(
+        err.response?.data['message'][0] ?? LocaleKeys.Errors_UnknownError));
   }
 
   @override

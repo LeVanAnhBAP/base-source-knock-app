@@ -40,6 +40,7 @@ class _CalendarViewState extends State<CalendarView> {
             _focusedDay = dateTime;
           });
         },
+        
         rowHeight: 70,
         onDaySelected: (selectedDay, focusedDay) {
           setState(() {

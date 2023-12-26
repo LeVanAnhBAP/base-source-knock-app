@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uq_system_app/assets.gen.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
+import 'package:uq_system_app/core/utils/utils.dart';
 import 'package:uq_system_app/data/models/request/login_params.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:uq_system_app/presentation/blocs/auth/auth_event.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_selector.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_state.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
+import 'package:uq_system_app/presentation/widgets/alert_dialog.dart';
 
 @RoutePage()
 class LoginPage extends StatefulWidget {
@@ -27,8 +29,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   String? _errorEmail;
   String? _errorPassword;
+  bool isVisiblePassword = false;
 
-  String? loginErrorText;
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
@@ -55,9 +57,9 @@ class _LoginPageState extends State<LoginPage> {
             case AuthStatus.failure:
               {
                 Navigator.pop(context);
-                setState(() {
-                  loginErrorText = state.error?.data.toString();
-                });
+                showAlertDialog(
+                    context: context,
+                    message: Utils.baseExceptionToString(context, state.error));
               }
               break;
             default:
@@ -133,18 +135,6 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ],
               )),
-          if (loginErrorText != null) ...[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  loginErrorText!,
-                  style: TextStyle(color: context.colors.error, fontSize: 12),
-                ),
-              ),
-            )
-          ],
           const SizedBox(
             height: 19,
           ),
@@ -275,16 +265,26 @@ class _LoginPageState extends State<LoginPage> {
           });
           return errorValue;
         },
-        obscureText: true,
+        obscureText: !isVisiblePassword,
         controller: _passwordController,
         style: context.appTheme.styles.textStyle,
-        decoration: const InputDecoration(
-            errorStyle: TextStyle(
+        decoration: InputDecoration(
+            suffixIcon: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isVisiblePassword = !isVisiblePassword;
+                  });
+                },
+                child: Icon(!isVisiblePassword
+                    ? Icons.visibility
+                    : Icons.visibility_off)),
+            suffixIconColor: context.colors.primary,
+            errorStyle: const TextStyle(
               fontSize: 0,
             ),
-            fillColor: Color(0xffF7F8FA),
+            fillColor: const Color(0xffF7F8FA),
             enabledBorder: InputBorder.none,
-            hintStyle: TextStyle(color: Color(0xffA2A2A2)),
+            hintStyle: const TextStyle(color: Color(0xffA2A2A2)),
             hintText: "パスワード",
             border: InputBorder.none),
       ),

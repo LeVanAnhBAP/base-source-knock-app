@@ -1,10 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uq_system_app/assets.gen.dart';
-import 'package:uq_system_app/data/services/api/api.service.dart';
 import 'package:uq_system_app/data/services/auth/auth.services.dart';
-import 'package:uq_system_app/data/sources/local/local.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
 

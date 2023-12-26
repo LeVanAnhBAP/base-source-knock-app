@@ -80,6 +80,12 @@ class $AssetsIconsPngGen {
   AssetGenImage get icDashboardSearch =>
       const AssetGenImage('assets/icons/png/ic_dashboard_search.png');
 
+  /// File path: assets/icons/png/ic_invisible.png
+  AssetGenImage get icInvisible => const AssetGenImage('assets/icons/png/ic_invisible.png');
+
+  /// File path: assets/icons/png/ic_visible.png
+  AssetGenImage get icVisible => const AssetGenImage('assets/icons/png/ic_visible.png');
+
   /// List of all assets
   List<dynamic> get values => [
         gitkeep,
@@ -87,7 +93,9 @@ class $AssetsIconsPngGen {
         icDashboardHome,
         icDashboardOnsite,
         icDashboardProfile,
-        icDashboardSearch
+        icDashboardSearch,
+        icInvisible,
+        icVisible
       ];
 }
 

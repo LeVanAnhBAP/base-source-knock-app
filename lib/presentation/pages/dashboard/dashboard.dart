@@ -25,11 +25,16 @@ class _DashboardPageState extends State<DashboardPage> {
     return AutoTabsScaffold(
       routes: const [
         DashboardHomeRoute(),
+        DashBoardOnSiteRoute(),
+        DashBoardChatRoute(),
+        DashBoardSearchRoute(),
         DashboardAccountRoute(),
+
       ],
       bottomNavigationBuilder: (context, tabsRouter) => BottomNavigationBar(
         selectedItemColor: context.colors.secondary,
         currentIndex: tabsRouter.activeIndex,
+        
         onTap: tabsRouter.setActiveIndex,
         items: [
           BottomNavigationBarItem(
@@ -38,6 +43,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 isSelected: tabsRouter.activeIndex == 0),
             icon: IconItem(path: Assets.icons.svg.icDashboardHome.path),
             label: context.tr(LocaleKeys.Dashboard_Home),
+            
           ),
           BottomNavigationBarItem(
             activeIcon: IconItem(
@@ -45,6 +51,27 @@ class _DashboardPageState extends State<DashboardPage> {
                 isSelected: tabsRouter.activeIndex == 1),
             icon: IconItem(path: Assets.icons.svg.icDashboardOnsite.path),
             label: context.tr(LocaleKeys.Dashboard_OnSite),
+          ),
+          BottomNavigationBarItem(
+            activeIcon: IconItem(
+                path: Assets.icons.svg.icDashboardChat.path,
+                isSelected: tabsRouter.activeIndex == 2),
+            icon: IconItem(path: Assets.icons.svg.icDashboardChat.path),
+            label: context.tr(LocaleKeys.Dashboard_Chat),
+          ),
+          BottomNavigationBarItem(
+            activeIcon: IconItem(
+                path: Assets.icons.svg.icDashboardSearch.path,
+                isSelected: tabsRouter.activeIndex == 3),
+            icon: IconItem(path: Assets.icons.svg.icDashboardSearch.path),
+            label: context.tr(LocaleKeys.Dashboard_Search),
+          ),
+          BottomNavigationBarItem(
+            activeIcon: IconItem(
+                path: Assets.icons.svg.icDashboardProfile.path,
+                isSelected: tabsRouter.activeIndex == 4),
+            icon: IconItem(path: Assets.icons.svg.icDashboardProfile.path),
+            label: context.tr(LocaleKeys.Dashboard_Chat),
           ),
         ],
       ),

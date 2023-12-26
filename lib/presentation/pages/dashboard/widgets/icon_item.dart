@@ -13,7 +13,7 @@ class IconItem extends StatelessWidget {
     super.key,
     required this.path,
     this.isSelected = false,
-    this.size = 24,
+    this.size = 18,
   });
 
   @override
