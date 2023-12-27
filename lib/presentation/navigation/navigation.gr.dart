@@ -63,10 +63,22 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const LoginPage(),
       );
     },
+    NotificationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: NotificationPage(),
+      );
+    },
     ResetPasswordRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const ResetPasswordPage(),
+      );
+    },
+    ScheduleDetailsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ScheduleDetailsPage(),
       );
     },
     SplashRoute.name: (routeData) {
@@ -191,6 +203,20 @@ class LoginRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [NotificationPage]
+class NotificationRoute extends PageRouteInfo<void> {
+  const NotificationRoute({List<PageRouteInfo>? children})
+      : super(
+          NotificationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'NotificationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [ResetPasswordPage]
 class ResetPasswordRoute extends PageRouteInfo<void> {
   const ResetPasswordRoute({List<PageRouteInfo>? children})
@@ -200,6 +226,20 @@ class ResetPasswordRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ResetPasswordRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ScheduleDetailsPage]
+class ScheduleDetailsRoute extends PageRouteInfo<void> {
+  const ScheduleDetailsRoute({List<PageRouteInfo>? children})
+      : super(
+          ScheduleDetailsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ScheduleDetailsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

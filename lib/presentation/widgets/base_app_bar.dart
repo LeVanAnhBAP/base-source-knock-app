@@ -30,27 +30,37 @@ class CustomAppBar extends AppBar {
     this.onSettings,
     this.iconSettingOptions = const IconOptions(),
     this.iconBackOptions = const IconOptions(),
-    this.titleAlign = TextAlign.start,
+    this.titleAlign = TextAlign.center,
     super.title,
     super.toolbarHeight,
     super.elevation,
-    super.backgroundColor,
+    super.backgroundColor = Colors.white,
     super.titleSpacing = 0,
   });
 
   @override
   Widget? get title => Container(
         margin: titleMargin ??
-            EdgeInsets.only(
-              left: onBackPress != null ? 0 : 24,
-              right: onSettings != null ? 0 : 24,
+            const EdgeInsets.only(
+              right: 34,
               top: 0,
               bottom: 0,
             ),
         width: double.infinity,
-        child: Text(
-          appBarTitle,
-          textAlign: titleAlign,
+        child: Column(
+          children: [
+            Text(
+              appBarTitle,
+              textAlign: titleAlign,
+            ),
+            Container(
+              width: 60,
+              height: 3,
+              decoration: BoxDecoration(
+                  color:const Color(0xFFEE9B01),
+                  borderRadius: BorderRadius.circular(5)),
+            )
+          ],
         ),
       );
 

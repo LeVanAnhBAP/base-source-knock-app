@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/data/models/response/schedule.dart';
 import 'package:uq_system_app/di/injection.dart';
+import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/widgets/calendar_view.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/widgets/schedule_item.dart';
@@ -50,7 +51,6 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
             leftIcon: Icons.menu,
             rightIcon: Icons.notifications_outlined),
         body: SingleChildScrollView(
-         
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Padding(
@@ -106,13 +106,18 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
               const SizedBox(
                 width: 20,
               ),
-              Container(
-                decoration: const BoxDecoration(
-                    color: Colors.white, shape: BoxShape.circle),
-                child: Icon(
-                  Icons.keyboard_arrow_right,
-                  size: 30,
-                  color: context.appTheme.colors.tertiary,
+              GestureDetector(
+                onTap: () {
+                  context.router.push(const NotificationRoute());
+                },
+                child: Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.white, shape: BoxShape.circle),
+                  child: Icon(
+                    Icons.keyboard_arrow_right,
+                    size: 30,
+                    color: context.appTheme.colors.tertiary,
+                  ),
                 ),
               ),
             ],
@@ -221,11 +226,16 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
               ),
             ),
             const Expanded(child: SizedBox()),
-            Text("スケジュール管理",
-                style: TextStyle(
-                    color: context.colors.tertiary,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600)),
+            GestureDetector(
+              onTap: () {
+                context.router.push(const ScheduleDetailsRoute());
+              },
+              child: Text("スケジュール管理",
+                  style: TextStyle(
+                      color: context.colors.tertiary,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600)),
+            ),
             const SizedBox(
               width: 40,
             )

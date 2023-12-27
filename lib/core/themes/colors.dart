@@ -5,6 +5,8 @@ class AppColors {
   final Color primary;
   final Color secondary;
   final Color tertiary;
+  final Color quaternary;
+  final Color quinary;
   final Color accent;
   final Color background;
   final Color backgroundDark;
@@ -24,6 +26,8 @@ class AppColors {
     required this.primary,
     required this.tertiary,
     required this.secondary,
+    required this.quaternary,
+    required this.quinary,
     required this.accent,
     required this.background,
     required this.backgroundDark,
@@ -48,6 +52,8 @@ class AppColors {
       primary: Color.lerp(primary, other.primary, t)!,
       tertiary: Color.lerp(tertiary, other.tertiary, t)!,
       secondary: Color.lerp(secondary, other.secondary, t)!,
+      quaternary: Color.lerp(quaternary, other.quaternary, t)!,
+      quinary: Color.lerp(quinary, other.quinary, t)!,
       accent: Color.lerp(accent, other.accent, t)!,
       background: Color.lerp(background, other.background, t)!,
       backgroundDark: Color.lerp(backgroundDark, other.backgroundDark, t)!,

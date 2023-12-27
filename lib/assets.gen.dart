@@ -83,6 +83,9 @@ class $AssetsIconsPngGen {
   /// File path: assets/icons/png/ic_invisible.png
   AssetGenImage get icInvisible => const AssetGenImage('assets/icons/png/ic_invisible.png');
 
+  /// File path: assets/icons/png/ic_note.png
+  AssetGenImage get icNote => const AssetGenImage('assets/icons/png/ic_note.png');
+
   /// File path: assets/icons/png/ic_visible.png
   AssetGenImage get icVisible => const AssetGenImage('assets/icons/png/ic_visible.png');
 
@@ -95,6 +98,7 @@ class $AssetsIconsPngGen {
         icDashboardProfile,
         icDashboardSearch,
         icInvisible,
+        icNote,
         icVisible
       ];
 }

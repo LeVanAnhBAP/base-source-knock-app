@@ -13,6 +13,8 @@ final AppTheme darkTheme = AppTheme(
     primary: Color(0xFF5F5F5F),
     secondary: Color(0xFFEE9B01),
     tertiary: Color(0xFF4175B1),
+    quaternary: Color(0xFF4BA77A),
+    quinary: Color(0xFFD9D9D9),
     accent: Color.fromARGB(255, 0, 0, 0),
     background: Color(0xFFF1F1F1),
     backgroundDark: Color(0xFF0E1118),
@@ -22,7 +24,7 @@ final AppTheme darkTheme = AppTheme(
     alert: Color(0xFFFBA707),
     warning: Color(0xFFFF9D5C),
     error: Color(0xFFFF0000),
-    text: Color.fromARGB(255, 11, 11, 11),
+    text: Color(0xFF333333),
     border: Color(0xFF454F60),
     hint: Color(0xFF888B8E),
     divider: Color(0xFFD9D9D9),
@@ -56,6 +58,7 @@ final AppTheme darkTheme = AppTheme(
     title3: GoogleFonts.zenKakuGothicAntique(
       fontSize: 18,
       fontWeight: FontWeight.w600,
+      color: const Color(0xFF333333),
       height: 1.3,
     ),
     title3Bold: GoogleFonts.zenKakuGothicAntique(
@@ -67,9 +70,43 @@ final AppTheme darkTheme = AppTheme(
       fontSize: 17,
       fontWeight: FontWeight.w400,
       height: 1.3,
+      color: const Color(0xFF333333),
     ),
     bodyBold: GoogleFonts.zenKakuGothicAntique(
       fontSize: 17,
+      fontWeight: FontWeight.w600,
+      height: 1.3,
+    ),
+    subBody1: GoogleFonts.zenKakuGothicAntique(
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      height: 1.3,
+      color: const Color(0xFF333333),
+    ),
+    subBodyBold1: GoogleFonts.zenKakuGothicAntique(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      height: 1.3,
+    ),
+    subBody2: GoogleFonts.zenKakuGothicAntique(
+      fontSize: 13,
+      fontWeight: FontWeight.w400,
+      height: 1.3,
+      color: const Color(0xFF333333),
+    ),
+    subBodyBold2: GoogleFonts.zenKakuGothicAntique(
+      fontSize: 13,
+      fontWeight: FontWeight.w600,
+      height: 1.3,
+    ),
+    subBody3: GoogleFonts.zenKakuGothicAntique(
+      fontSize: 11,
+      fontWeight: FontWeight.w400,
+      height: 1.3,
+      color: const Color(0xFF333333),
+    ),
+    subBodyBold3: GoogleFonts.zenKakuGothicAntique(
+      fontSize: 11,
       fontWeight: FontWeight.w600,
       height: 1.3,
     ),
@@ -107,7 +144,6 @@ final AppTheme darkTheme = AppTheme(
           fontSize: 12,
           fontWeight: FontWeight.w600,
           height: 1.3,
-        
         ),
       ),
       minimumSize: const MaterialStatePropertyAll(Size.zero),
@@ -214,10 +250,10 @@ class AppTheme extends ThemeExtension<AppTheme> {
           bodyMedium: typographies.body.withColor(darkTheme.colors.text),
         ),
         appBarTheme: AppBarTheme(
-          elevation: 0,
-          backgroundColor: colors.primary,
-          titleTextStyle: typographies.title3,
-        ),
+            elevation: 0,
+            backgroundColor: colors.background,
+            titleTextStyle: typographies.title3,
+            iconTheme: IconThemeData(color: colors.text)),
         tabBarTheme: TabBarTheme(
           labelStyle: typographies.body,
           unselectedLabelStyle: typographies.body,
@@ -238,9 +274,7 @@ class AppTheme extends ThemeExtension<AppTheme> {
             }),
           ),
         ),
-        iconTheme: IconThemeData(
-          color: colors.primary
-        ),
+        iconTheme: IconThemeData(color: colors.primary),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: styles.buttonLarge.copyWith(
             backgroundColor: MaterialStateProperty.resolveWith((states) {

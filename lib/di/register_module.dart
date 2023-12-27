@@ -1,15 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uq_system_app/core/languages/languages.dart';
 import 'package:uq_system_app/data/services/api/api.service.dart';
 import 'package:uq_system_app/data/services/auth/auth.services.dart';
-import 'package:uq_system_app/data/sources/local/local.dart';
 import 'package:uq_system_app/data/sources/network/network.dart';
-import 'package:uq_system_app/data/usecases/save_language.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/env.dart';
-import 'package:uq_system_app/presentation/blocs/system/system_bloc.dart';
 
 @module
 abstract class RegisterModule {
