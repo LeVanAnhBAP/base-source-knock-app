@@ -50,8 +50,29 @@ class $AssetsImagesGen {
   /// File path: assets/images/img_building_logo.png
   AssetGenImage get imgBuildingLogo => const AssetGenImage('assets/images/img_building_logo.png');
 
+  /// File path: assets/images/img_negotiate.png
+  AssetGenImage get imgNegotiate => const AssetGenImage('assets/images/img_negotiate.png');
+
+  /// File path: assets/images/img_onsite_information.png
+  AssetGenImage get imgOnsiteInformation =>
+      const AssetGenImage('assets/images/img_onsite_information.png');
+
+  /// File path: assets/images/img_woker1.png
+  AssetGenImage get imgWoker1 => const AssetGenImage('assets/images/img_woker1.png');
+
+  /// File path: assets/images/img_woker2.png
+  AssetGenImage get imgWoker2 => const AssetGenImage('assets/images/img_woker2.png');
+
   /// List of all assets
-  List<dynamic> get values => [gitkeep, imgAppLogo, imgBuildingLogo];
+  List<dynamic> get values => [
+        gitkeep,
+        imgAppLogo,
+        imgBuildingLogo,
+        imgNegotiate,
+        imgOnsiteInformation,
+        imgWoker1,
+        imgWoker2
+      ];
 }
 
 class $AssetsIconsPngGen {
@@ -137,12 +158,30 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/ic_location.svg
   SvgGenImage get icLocation => const SvgGenImage('assets/icons/svg/ic_location.svg');
 
+  /// File path: assets/icons/svg/ic_marker.svg
+  SvgGenImage get icMarker => const SvgGenImage('assets/icons/svg/ic_marker.svg');
+
+  /// File path: assets/icons/svg/ic_marker_selected.svg
+  SvgGenImage get icMarkerSelected => const SvgGenImage('assets/icons/svg/ic_marker_selected.svg');
+
+  /// File path: assets/icons/svg/ic_menu.svg
+  SvgGenImage get icMenu => const SvgGenImage('assets/icons/svg/ic_menu.svg');
+
+  /// File path: assets/icons/svg/ic_notification.svg
+  SvgGenImage get icNotification => const SvgGenImage('assets/icons/svg/ic_notification.svg');
+
+  /// File path: assets/icons/svg/ic_personal.svg
+  SvgGenImage get icPersonal => const SvgGenImage('assets/icons/svg/ic_personal.svg');
+
   /// File path: assets/icons/svg/ic_search.svg
   SvgGenImage get icSearch => const SvgGenImage('assets/icons/svg/ic_search.svg');
 
   /// File path: assets/icons/svg/ic_under_construction.svg
   SvgGenImage get icUnderConstruction =>
       const SvgGenImage('assets/icons/svg/ic_under_construction.svg');
+
+  /// File path: assets/icons/svg/ic_wrench.svg
+  SvgGenImage get icWrench => const SvgGenImage('assets/icons/svg/ic_wrench.svg');
 
   /// List of all assets
   List<dynamic> get values => [
@@ -155,8 +194,14 @@ class $AssetsIconsSvgGen {
         icDashboardProfile,
         icDashboardSearch,
         icLocation,
+        icMarker,
+        icMarkerSelected,
+        icMenu,
+        icNotification,
+        icPersonal,
         icSearch,
-        icUnderConstruction
+        icUnderConstruction,
+        icWrench
       ];
 }
 

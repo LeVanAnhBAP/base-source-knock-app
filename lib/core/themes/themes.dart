@@ -32,26 +32,31 @@ final AppTheme darkTheme = AppTheme(
   typographies: AppTypography(
     title1: GoogleFonts.zenKakuGothicAntique(
       fontSize: 32,
+       color: const Color(0xFF333333),
       fontWeight: FontWeight.w700,
       height: 1.3,
     ),
     title1SemiBold: GoogleFonts.zenKakuGothicAntique(
       fontSize: 32,
+       color: const Color(0xFF333333),
       fontWeight: FontWeight.w600,
       height: 1.3,
     ),
     title1Normal: GoogleFonts.zenKakuGothicAntique(
       fontSize: 32,
+       color: const Color(0xFF333333),
       fontWeight: FontWeight.w400,
       height: 1.3,
     ),
     title2: GoogleFonts.zenKakuGothicAntique(
       fontSize: 24,
+       color: const Color(0xFF333333),
       fontWeight: FontWeight.w600,
       height: 1.3,
     ),
     title2Bold: GoogleFonts.zenKakuGothicAntique(
       fontSize: 24,
+       color: const Color(0xFF333333),
       fontWeight: FontWeight.w700,
       height: 1.3,
     ),

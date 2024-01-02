@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/search/search_event.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/search/search_state.dart';
 
+
+@injectable
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc() : super(const SearchState()) {
     on<SearchErrorOccurred>(_onErrorOccurred);

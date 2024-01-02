@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uq_system_app/assets.gen.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/data/models/response/schedule.dart';
 import 'package:uq_system_app/di/injection.dart';
@@ -46,10 +46,10 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
     return BlocProvider.value(
       value: _bloc,
       child: Scaffold(
-        appBar: const DashBoardAppBar(
+        appBar:  DashBoardAppBar(
             title: "ホーム",
-            leftIcon: Icons.menu,
-            rightIcon: Icons.notifications_outlined),
+            leftIcPath: Assets.icons.svg.icMenu.path,
+            rightIcPath: Assets.icons.svg.icNotification.path),
         body: SingleChildScrollView(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
