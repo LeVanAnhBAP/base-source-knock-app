@@ -5,10 +5,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uq_system_app/assets.gen.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
-import 'package:uq_system_app/data/models/response/schedule.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/home/home_selector.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/widgets/calendar_view.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/widgets/schedule_item.dart';
 import 'package:uq_system_app/presentation/widgets/dashboard_app_bar.dart';
@@ -36,7 +36,8 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
   @override
   void initState() {
     scheduleMicrotask(() {
-      _bloc.add(const DashboardHomeGetDataStarted());
+      _bloc.add(HomeEvent.paginateSite(
+          DateTime.now()));
     });
     super.initState();
   }
@@ -46,7 +47,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
     return BlocProvider.value(
       value: _bloc,
       child: Scaffold(
-        appBar:  DashBoardAppBar(
+        appBar: DashBoardAppBar(
             title: "ホーム",
             leftIcPath: Assets.icons.svg.icMenu.path,
             rightIcPath: Assets.icons.svg.icNotification.path),
@@ -148,109 +149,68 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15), color: Colors.white),
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "2023年5月",
-              style: TextStyle(
-                  color: context.colors.primary,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            const Row(
-              children: [
-                Expanded(
-                  child: SizedBox(height: 100, child: CalendarView()),
-                )
-              ],
-            )
-          ]),
+      child: const SizedBox(height: 124, child: CalendarView()),
     );
   }
 
   Widget _buildSheduleManager() {
-    var shedules = <Schedule>[
-      const Schedule(
-          id: 1,
-          title: '千葉県稲毛市クロス貼り替え',
-          address: '東京都稲城市東長沼2111',
-          startTime: '2023/05/12(金)',
-          endTime: '2023/05/18(木)',
-          company: '(株)職人インテリア'),
-      const Schedule(
-          id: 1,
-          title: '千葉県稲毛市クロス貼り替え',
-          address: '東京都稲城市東長沼2111',
-          startTime: '2023/05/12(金)',
-          endTime: '2023/05/18(木)',
-          company: '(株)職人インテリア'),
-      const Schedule(
-          id: 1,
-          title: '千葉県稲毛市クロス貼り替え',
-          address: '東京都稲城市東長沼2111',
-          startTime: '2023/05/12(金)',
-          endTime: '2023/05/18(木)',
-          company: '(株)職人インテリア'),
-      const Schedule(
-          id: 1,
-          title: '千葉県稲毛市クロス貼り替え',
-          address: '東京都稲城市東長沼2111',
-          startTime: '2023/05/12(金)',
-          endTime: '2023/05/18(木)',
-          company: '(株)職人インテリア')
-    ];
-    return Column(
-      children: [
-        Row(
-          children: [
-            Text("5/12 の現場",
-                style: TextStyle(
-                    color: context.colors.primary,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600)),
-            const SizedBox(
-              width: 20,
-            ),
-            Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  color: context.colors.secondary, shape: BoxShape.circle),
-              child: const Text(
-                "2",
-                style: TextStyle(color: Colors.white, fontSize: 9),
+    return HomeStatusSelector(
+      builder: (status) {
+        if (status == HomeStatus.success) {
+          var sites = _bloc.state.sites;
+          return Column(
+            children: [
+              Row(
+                children: [
+                  Text("${_bloc.state.startDayRequest?.month}/${_bloc.state.startDayRequest?.day} の現場",
+                      style: TextStyle(
+                          color: context.colors.primary,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600)),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        color: context.colors.secondary,
+                        shape: BoxShape.circle),
+                    child: Text(
+                      sites.length.toString(),
+                      style: const TextStyle(color: Colors.white, fontSize: 9),
+                    ),
+                  ),
+                  const Expanded(child: SizedBox()),
+                  GestureDetector(
+                    onTap: () {
+                      context.router.push(const ScheduleDetailsRoute());
+                    },
+                    child: Text("スケジュール管理",
+                        style: TextStyle(
+                            color: context.colors.tertiary,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600)),
+                  ),
+                  const SizedBox(
+                    width: 40,
+                  )
+                ],
               ),
-            ),
-            const Expanded(child: SizedBox()),
-            GestureDetector(
-              onTap: () {
-                context.router.push(const ScheduleDetailsRoute());
-              },
-              child: Text("スケジュール管理",
-                  style: TextStyle(
-                      color: context.colors.tertiary,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600)),
-            ),
-            const SizedBox(
-              width: 40,
-            )
-          ],
-        ),
-        ListView.builder(
-          itemCount: shedules.length,
-          physics: const NeverScrollableScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemBuilder: (context, index) => ScheduleItem(
-            schedule: shedules[index],
-          ),
-        ),
-      ],
+              ListView.builder(
+                itemCount: sites.length,
+                physics: const NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemBuilder: (context, index) => ScheduleItem(
+                  site: sites[index],
+                  companyType: _bloc.state.account?.company.type ?? 1,
+                ),
+              ),
+            ],
+          );
+        }
+        return Container();
+      },
     );
   }
 }

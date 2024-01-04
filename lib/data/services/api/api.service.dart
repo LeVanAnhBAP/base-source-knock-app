@@ -77,9 +77,19 @@ class ApiServices extends DioForNative implements Interceptor {
         response.data is Map) {
       final accessToken = response.data['data']?['access_token'];
       await _authServices.saveAccessToken(accessToken);
+      final expiresAt = response.data['data']?['expires_at'];
+      await _authServices.saveTokenExpiresTime(expiresAt);
     }
+    
     if (response.requestOptions.path == NetworkUrls.logout) {
       await _authServices.removeAllTokens();
+    }
+
+    if(NetworkUrls.requireAuthentication(response.requestOptions.path) && response.data is Map){
+       final accessToken = response.data['new_token']?['access_token'];
+      await _authServices.saveAccessToken(accessToken);
+      final expiresAt = response.data['new_token']?['expires_at'];
+      await _authServices.saveTokenExpiresTime(expiresAt);
     }
     return handler.next(response);
   }

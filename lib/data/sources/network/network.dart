@@ -1,5 +1,7 @@
 import 'package:uq_system_app/core/bases/responses/base_response.dart';
+import 'package:uq_system_app/core/bases/responses/paginate_response.dart';
 import 'package:uq_system_app/data/models/request/login_params.dart';
+import 'package:uq_system_app/data/models/response/site_response.dart';
 import 'package:uq_system_app/data/models/response/login_response.dart';
 import 'package:uq_system_app/data/services/api/api.service.dart';
 import 'package:uq_system_app/data/sources/network/network_urls.dart';
@@ -26,4 +28,11 @@ abstract class NetworkDataSource {
   );
   @POST(NetworkUrls.logout)
   Future<void> logout();
+
+  //Home
+  @GET(NetworkUrls.factoryFloor)
+  Future<BaseResponse<PaginateResponse<List<SiteResponse>>>> paginateSite(
+    @Query('page') int page,
+    @Query('start_day_request') String? startDayRequest,
+  );
 }

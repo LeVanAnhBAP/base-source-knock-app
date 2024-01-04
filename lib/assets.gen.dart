@@ -176,6 +176,27 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/ic_search.svg
   SvgGenImage get icSearch => const SvgGenImage('assets/icons/svg/ic_search.svg');
 
+  /// File path: assets/icons/svg/ic_site_status_1.svg
+  SvgGenImage get icSiteStatus1 => const SvgGenImage('assets/icons/svg/ic_site_status_1.svg');
+
+  /// File path: assets/icons/svg/ic_site_status_2.svg
+  SvgGenImage get icSiteStatus2 => const SvgGenImage('assets/icons/svg/ic_site_status_2.svg');
+
+  /// File path: assets/icons/svg/ic_site_status_3.svg
+  SvgGenImage get icSiteStatus3 => const SvgGenImage('assets/icons/svg/ic_site_status_3.svg');
+
+  /// File path: assets/icons/svg/ic_site_status_4.svg
+  SvgGenImage get icSiteStatus4 => const SvgGenImage('assets/icons/svg/ic_site_status_4.svg');
+
+  /// File path: assets/icons/svg/ic_site_status_5.svg
+  SvgGenImage get icSiteStatus5 => const SvgGenImage('assets/icons/svg/ic_site_status_5.svg');
+
+  /// File path: assets/icons/svg/ic_site_status_6.svg
+  SvgGenImage get icSiteStatus6 => const SvgGenImage('assets/icons/svg/ic_site_status_6.svg');
+
+  /// File path: assets/icons/svg/ic_site_status_7.svg
+  SvgGenImage get icSiteStatus7 => const SvgGenImage('assets/icons/svg/ic_site_status_7.svg');
+
   /// File path: assets/icons/svg/ic_under_construction.svg
   SvgGenImage get icUnderConstruction =>
       const SvgGenImage('assets/icons/svg/ic_under_construction.svg');
@@ -200,6 +221,13 @@ class $AssetsIconsSvgGen {
         icNotification,
         icPersonal,
         icSearch,
+        icSiteStatus1,
+        icSiteStatus2,
+        icSiteStatus3,
+        icSiteStatus4,
+        icSiteStatus5,
+        icSiteStatus6,
+        icSiteStatus7,
         icUnderConstruction,
         icWrench
       ];

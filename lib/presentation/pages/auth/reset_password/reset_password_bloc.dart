@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uq_system_app/data/models/request/reset_pass_params.dart';
-import 'package:uq_system_app/data/usecases/resetpassword_usecase.dart';
+import 'package:uq_system_app/data/usecases/auth/resetpassword_usecase.dart';
 import 'package:uq_system_app/presentation/pages/auth/reset_password/reset_password_event.dart';
 import 'package:uq_system_app/presentation/pages/auth/reset_password/reset_password_state.dart';
 

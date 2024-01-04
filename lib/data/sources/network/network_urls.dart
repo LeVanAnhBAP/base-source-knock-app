@@ -2,6 +2,7 @@ class NetworkUrls {
   static const String users = '/user';
   static const String login = '$users/auth/login';
   static const String resetPassword = '$users/auth/forgot-password';
+  static const String factoryFloor = '$users/factory-floors';
   static const String logout = '$users/auth/logout';
   static const String signUp = '$users/sign-up';
   static const String account = '$users/account';

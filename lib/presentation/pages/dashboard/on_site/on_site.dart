@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,10 +7,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:uq_system_app/assets.gen.dart';
 import 'package:uq_system_app/core/extensions/text_style.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
-import 'package:uq_system_app/data/models/response/schedule.dart';
+import 'package:uq_system_app/data/models/response/site_response.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/widgets/schedule_item.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/on_site/on_site_bloc.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/on_site/on_site_event.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/on_site/on_site_selector.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/on_site/on_site_state.dart';
 import 'package:uq_system_app/presentation/widgets/dashboard_app_bar.dart';
 
 @RoutePage()
@@ -19,6 +24,15 @@ class DashBoardOnSitePage extends StatefulWidget {
 
 class _DashBoardOnSitePageState extends State<DashBoardOnSitePage> {
   final OnSiteBloc _bloc = getIt.get<OnSiteBloc>();
+  ScrollController controller = ScrollController();
+  List<SiteResponse> sites = [];
+  @override
+  void initState() {
+    scheduleMicrotask(() {
+      _bloc.add(const OnSiteEvent.onLoad());
+    });
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -38,14 +52,22 @@ class _DashBoardOnSitePageState extends State<DashBoardOnSitePage> {
           rightIcPath: Assets.icons.svg.icDashboardOnsite.path,
           rightIcDescription: "新規登録",
         ),
-        body: SingleChildScrollView(
+        body: OnSiteStatusListener(
+          statuses: const [OnSiteStatus.success],
+          listener: (BuildContext context, OnSiteState state) {
+            setState(() {
+              sites.addAll(state.sites);
+            });
+          },
           child: Column(
             children: [
               const SizedBox(
                 height: 10,
               ),
               _buildSearch(),
-              _buildList()
+              Expanded(
+                child: _buildList(),
+              )
             ],
           ),
         ),
@@ -91,47 +113,47 @@ class _DashBoardOnSitePageState extends State<DashBoardOnSitePage> {
   }
 
   Widget _buildList() {
-    var shedules = <Schedule>[
-      const Schedule(
-          id: 1,
-          title: '千葉県稲毛市クロス貼り替え',
-          address: '東京都稲城市東長沼2111',
-          startTime: '2023/05/12(金)',
-          endTime: '2023/05/18(木)',
-          company: '(株)職人インテリア'),
-      const Schedule(
-          id: 1,
-          title: '千葉県稲毛市クロス貼り替え',
-          address: '東京都稲城市東長沼2111',
-          startTime: '2023/05/12(金)',
-          endTime: '2023/05/18(木)',
-          company: '(株)職人インテリア'),
-      const Schedule(
-          id: 1,
-          title: '千葉県稲毛市クロス貼り替え',
-          address: '東京都稲城市東長沼2111',
-          startTime: '2023/05/12(金)',
-          endTime: '2023/05/18(木)',
-          company: '(株)職人インテリア'),
-      const Schedule(
-          id: 1,
-          title: '千葉県稲毛市クロス貼り替え',
-          address: '東京都稲城市東長沼2111',
-          startTime: '2023/05/12(金)',
-          endTime: '2023/05/18(木)',
-          company: '(株)職人インテリア')
-    ];
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: ListView.builder(
-        itemCount: shedules.length,
-        physics: const NeverScrollableScrollPhysics(),
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemBuilder: (context, index) => ScheduleItem(
-          schedule: shedules[index],
-        ),
-      ),
-    );
+    return OnSiteStatusSelector(builder: (status) {
+      if (status == OnSiteStatus.success ||
+          status == OnSiteStatus.loadingMore) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: ListView.builder(
+            controller: controller
+              ..addListener(() {
+                if (controller.position.pixels ==
+                    controller.position.maxScrollExtent) {
+                  scheduleMicrotask(() {
+                    _bloc.add(const OnSiteEvent.onLoadMore());
+                  });
+                }
+              }),
+            itemCount: status == OnSiteStatus.loadingMore
+                ? sites.length
+                : sites.length + 1,
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              if (index < sites.length) {
+                return ScheduleItem(
+                  site: sites[index],
+                  companyType: _bloc.state.account?.company.type ?? 1,
+                );
+              } else {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: context.colors.secondary,
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
+        );
+      }
+      return Container();
+    });
   }
 }

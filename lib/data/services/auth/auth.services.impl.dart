@@ -26,6 +26,8 @@ class AuthServicesImpl extends AuthServices {
 
   String get _refreshTokenKey => '$_prefix/$key/refreshToken';
 
+  String get _tokenExpiresTime => '$_prefix/$key/tokenExpiresTime';
+
 
   @override
   Future<String?> getAccessToken() async {
@@ -43,7 +45,7 @@ class AuthServicesImpl extends AuthServices {
 
     return {
       ...headers,
-      'token': 'Bearer $accessToken',
+      'Authorization': 'Bearer $accessToken',
     };
   }
 
@@ -73,5 +75,17 @@ class AuthServicesImpl extends AuthServices {
   @override
   Future<void> logout() async {
     await removeAllTokens();
+  }
+  
+ 
+  
+  @override
+  Future<void> saveTokenExpiresTime(String? expiresAt) {
+    return _storage.write(key: _tokenExpiresTime, value: expiresAt);
+  }
+  
+  @override
+  Future<String?> getTokenExpiresTime() {
+    return _storage.read(key: _tokenExpiresTime).onError((_, __) => null);
   }
 }
