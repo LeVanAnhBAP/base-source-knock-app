@@ -5,10 +5,10 @@ import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/data/models/response/site_response.dart';
 import 'package:uq_system_app/utils/utils.dart';
 
-class ScheduleItem extends StatelessWidget {
+class SiteItem extends StatelessWidget {
   final SiteResponse site;
   final int companyType;
-  const ScheduleItem({super.key, required this.site, required this.companyType});
+  const SiteItem({super.key, required this.site, required this.companyType});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class ScheduleItem extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       decoration: BoxDecoration(
           color: context.colors.tertiary,
           borderRadius: const BorderRadius.only(
@@ -42,8 +42,9 @@ class ScheduleItem extends StatelessWidget {
                 ),
                 Text(
                   Utils.siteStatusToString(site.status, companyType),
-                  style:
-                      TextStyle(color: Utils.siteStatusToColor(site.status, context), fontSize: 6),
+                  style: TextStyle(
+                      color: Utils.siteStatusToColor(site.status, context),
+                      fontSize: 6),
                 )
               ],
             ),
@@ -75,6 +76,8 @@ class ScheduleItem extends StatelessWidget {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
                 site.name ?? "",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     color: context.colors.primary,
                     fontSize: 17,
@@ -125,7 +128,6 @@ class ScheduleItem extends StatelessWidget {
           Row(
             children: [
               const SizedBox(width: 5),
-              
               CircleAvatar(
                 radius: 12,
                 backgroundImage: Image.network(site.companyLogo).image,

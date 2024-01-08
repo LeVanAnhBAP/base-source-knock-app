@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:uq_system_app/assets.gen.dart';
-import 'package:uq_system_app/core/extensions/text_style.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
-import 'package:uq_system_app/data/models/response/woker.dart';
+import 'package:uq_system_app/data/models/response/partner_response.dart';
+import 'package:uq_system_app/utils/utils.dart';
 
 class SearchItem extends StatefulWidget {
-  final Worker worker;
-  const SearchItem({super.key, required this.worker});
+  final PartnerResponse partner;
+  const SearchItem({super.key, required this.partner});
 
   @override
   State<SearchItem> createState() => _SearchItemState();
 }
 
 class _SearchItemState extends State<SearchItem> {
-  late DateTime _selectedDay;
+   late DateTime _selectedDay;
   @override
   void initState() {
     super.initState();
@@ -45,35 +45,17 @@ class _SearchItemState extends State<SearchItem> {
   }
 
   Widget _buildInfo(BuildContext context) {
+    var partner = widget.partner;
     return Container(
       padding: const EdgeInsets.all(10),
       child: Stack(
         children: [
-          if (widget.worker.isDone) ...[
-            Positioned(
-              top: 0,
-              left: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: context.colors.tertiary,
-                    borderRadius: BorderRadiusDirectional.circular(10)),
-                padding: const EdgeInsets.only(
-                    right: 13, top: 5, left: 23, bottom: 7),
-                child: Text(
-                  "Knock済み",
-                  style: context.typographies.subBody1
-                      .withColor(Colors.white)
-                      .withWeight(FontWeight.w600),
-                ),
-              ),
-            )
-          ],
-          if (widget.worker.isDone) ...[
+          if (partner.isFavorite) ...[
             Positioned(
                 top: 0,
                 right: 0,
                 child: SvgPicture.asset(
-                  Assets.icons.svg.icMarker.path,
+                  Assets.icons.svg.icMarkerSelected.path,
                   height: 30,
                 ))
           ] else
@@ -81,29 +63,25 @@ class _SearchItemState extends State<SearchItem> {
                 top: 0,
                 right: 0,
                 child: SvgPicture.asset(
-                  Assets.icons.svg.icMarkerSelected.path,
+                  Assets.icons.svg.icMarker.path,
                   height: 30,
                 )),
           Row(children: [
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.03,
             ),
-            Column(
-              children: [
-                if (widget.worker.isDone) ...[
-                  Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1, color: context.colors.primary)),
-                    child: AssetGenImage(
-                      Assets.images.imgWoker1.path,
-                    ).image(height: 120),
-                  )
-                ] else
-                  AssetGenImage(
-                    Assets.images.imgWoker2.path,
-                  ).image(height: 120),
-              ],
+            Image.network(
+              partner.logo?.path ?? "",
+              width: 100,
+              errorBuilder:
+                  (BuildContext context, Object error, StackTrace? stackTrace) {
+                return Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors
+                      .grey, 
+                );
+              },
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.04,
@@ -113,15 +91,17 @@ class _SearchItemState extends State<SearchItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.worker.title,
+                    partner.name ?? "",
                     style: context.typographies.body,
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Text(
-                    widget.worker.content,
+                    partner.intro ?? "情報未入力",
                     style: context.typographies.subBody1,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(
                     height: 16,
@@ -137,8 +117,10 @@ class _SearchItemState extends State<SearchItem> {
                       ),
                       Expanded(
                         child: Text(
-                          widget.worker.address,
+                          Utils.joinDataWithSeparator(
+                              partner.workAreas.map((e) => e.name).toList()),
                           style: context.typographies.subBody2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       )
                     ],
@@ -158,7 +140,8 @@ class _SearchItemState extends State<SearchItem> {
                       ),
                       Expanded(
                         child: Text(
-                          widget.worker.job,
+                          Utils.joinDataWithSeparator(
+                              partner.occSubItem.map((e) => e.name).toList()),
                           style: context.typographies.subBody2,
                         ),
                       )
@@ -178,7 +161,7 @@ class _SearchItemState extends State<SearchItem> {
                       ),
                       Expanded(
                         child: Text(
-                          "稼働可能人員目安　${widget.worker.amount}人",
+                          "稼働可能人員目安　${partner.manNumber}人",
                           style: context.typographies.subBody2,
                         ),
                       )
@@ -197,16 +180,15 @@ class _SearchItemState extends State<SearchItem> {
   }
 
   Widget _buildCalendar(BuildContext context) {
+    var schedules =
+        widget.partner.schedules.map((e){
+          return  DateTime.parse(e.date);
+        }).toList();
     return TableCalendar(
         locale: 'ja',
         headerVisible: false,
         selectedDayPredicate: (day) {
-          return isSameDay(_selectedDay, day);
-        },
-        onDaySelected: (selectedDay, focusedDay) {
-          setState(() {
-            _selectedDay = selectedDay;
-          });
+          return schedules.contains(day);
         },
         rowHeight: 50,
         calendarStyle: CalendarStyle(
@@ -218,9 +200,9 @@ class _SearchItemState extends State<SearchItem> {
             selectedDecoration: BoxDecoration(
                 color: context.colors.quaternary, shape: BoxShape.circle)),
         calendarFormat: CalendarFormat.week,
-        startingDayOfWeek: StartingDayOfWeek.values[DateTime.now().weekday - 2],
+        startingDayOfWeek: StartingDayOfWeek.values[DateTime.now().weekday - 1],
         focusedDay: DateTime.now(),
-        firstDay: DateTime.now().subtract(const Duration(days: 3)),
-        lastDay: DateTime.now().add(const Duration(days: 3)));
+        firstDay: DateTime.utc(2023, 10, 16),
+        lastDay: DateTime.utc(2030, 10, 16));
   }
 }

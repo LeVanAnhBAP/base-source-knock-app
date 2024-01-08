@@ -15,7 +15,7 @@ final AppTheme darkTheme = AppTheme(
     tertiary: Color(0xFF4175B1),
     quaternary: Color(0xFF4BA77A),
     quinary: Color(0xFFD9D9D9),
-    accent: Color.fromARGB(255, 0, 0, 0),
+    accent: Color.fromARGB(255, 173, 173, 173),
     background: Color(0xFFF1F1F1),
     backgroundDark: Color(0xFF0E1118),
     disabled: Color(0xFF9CA4AF),

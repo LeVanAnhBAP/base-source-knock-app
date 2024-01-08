@@ -16,7 +16,6 @@ enum OnSiteStatus {
 @freezed
 class OnSiteState with _$OnSiteState {
   const factory OnSiteState({
-    Account? account,
     @Default(<SiteResponse>[])
     List<SiteResponse> sites,
     @Default(OnSiteStatus.initial) OnSiteStatus status,

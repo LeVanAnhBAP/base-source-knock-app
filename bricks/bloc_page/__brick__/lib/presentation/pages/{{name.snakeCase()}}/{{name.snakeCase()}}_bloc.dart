@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/presentation/pages/{{name.snakeCase()}}/{{name.snakeCase()}}_event.dart';
 import 'package:uq_system_app/presentation/pages/{{name.snakeCase()}}/{{name.snakeCase()}}_state.dart';
 
@@ -13,6 +14,7 @@ class {{name.pascalCase()}}Bloc extends Bloc<{{name.pascalCase()}}Event, {{name.
 
   @override
   void onError(Object error, StackTrace stackTrace) {
+    add({{name.pascalCase()}}ErrorOccurred(BaseException.from(error)));
     super.onError(error, stackTrace);
   }
 

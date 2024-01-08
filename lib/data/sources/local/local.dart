@@ -56,7 +56,7 @@ class LocalDataSource {
     await _prefStorage.setString(_accountKey, json.encode(account.toJson()));
   }
 
-  FutureOr<Account?> getAccount() async {
+  Future<Account?> getAccount() async {
     var accountString = _prefStorage.getString(_accountKey);
     if (accountString != null) {
       return Account.fromJson(jsonDecode(accountString));

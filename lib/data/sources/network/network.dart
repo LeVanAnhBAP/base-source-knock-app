@@ -1,6 +1,7 @@
 import 'package:uq_system_app/core/bases/responses/base_response.dart';
 import 'package:uq_system_app/core/bases/responses/paginate_response.dart';
 import 'package:uq_system_app/data/models/request/login_params.dart';
+import 'package:uq_system_app/data/models/response/partner_response.dart';
 import 'package:uq_system_app/data/models/response/site_response.dart';
 import 'package:uq_system_app/data/models/response/login_response.dart';
 import 'package:uq_system_app/data/services/api/api.service.dart';
@@ -23,16 +24,21 @@ abstract class NetworkDataSource {
   );
   @POST(NetworkUrls.resetPassword)
   Future<HttpResponse> resetPassword(
-    @Query('email') String email,
-    @Query('type') String type
-  );
+      @Query('email') String email, @Query('type') String type);
   @POST(NetworkUrls.logout)
   Future<void> logout();
 
-  //Home
+  //Site
   @GET(NetworkUrls.factoryFloor)
   Future<BaseResponse<PaginateResponse<List<SiteResponse>>>> paginateSite(
     @Query('page') int page,
     @Query('start_day_request') String? startDayRequest,
+    @Query('name') String? name,
+  );
+  //Partner
+  @GET(NetworkUrls.searchPartner)
+  Future<BaseResponse<PaginateResponse<List<PartnerResponse>>>> paginatePartner(
+    @Query('page') int page,
+    @Query('per_page') int perPage,
   );
 }

@@ -16,8 +16,8 @@ class SiteResponse with _$SiteResponse {
     @JsonKey(name: 'company_name_kana') required String companyNameKana,
     @JsonKey(name: 'company_logo') required String companyLogo,
     @JsonKey(name: 'address') String? address,
-    @JsonKey(name: 'latitude') required String latitude,
-    @JsonKey(name: 'longitude') required String longitude,
+    @JsonKey(name: 'latitude')  String? latitude,
+    @JsonKey(name: 'longitude')  String? longitude,
   }) = _SiteResponse;
   factory SiteResponse.fromJson(Map<String, dynamic> json) =>
       _$SiteResponseFromJson(json);

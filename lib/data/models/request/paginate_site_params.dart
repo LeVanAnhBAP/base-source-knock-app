@@ -5,6 +5,7 @@ part 'paginate_site_params.freezed.dart';
 class PaginateSiteParams with _$PaginateSiteParams{
   const factory PaginateSiteParams({
     required int page,
-     String? startDayRequest
+     String? startDayRequest,
+     String? name,
   }) = _PaginateSiteParams;
 }

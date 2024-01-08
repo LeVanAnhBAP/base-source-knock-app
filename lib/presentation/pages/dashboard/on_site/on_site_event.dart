@@ -8,4 +8,5 @@ class OnSiteEvent with _$OnSiteEvent {
   const factory OnSiteEvent.errorOccurred([BaseException? error]) = OnSiteErrorOccurred;
   const factory OnSiteEvent.onLoad() = OnSiteLoad;
   const factory OnSiteEvent.onLoadMore() = OnSiteLoadMore;
+  const factory OnSiteEvent.onSearch(String name) = OnSiteSearch;
 }

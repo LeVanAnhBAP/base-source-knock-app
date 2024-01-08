@@ -1,10 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uq_system_app/assets.gen.dart';
-import 'package:uq_system_app/data/models/response/woker.dart';
+import 'package:uq_system_app/core/extensions/theme.dart';
+import 'package:uq_system_app/data/models/response/partner_response.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/search/search_bloc.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/search/search_event.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/search/search_selector.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/search/search_state.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/search/widgets/search_item.dart';
 import 'package:uq_system_app/presentation/widgets/dashboard_app_bar.dart';
 
@@ -16,6 +22,15 @@ class DashBoardSearchPage extends StatefulWidget {
 
 class _DashBoardSearchPageState extends State<DashBoardSearchPage> {
   final SearchBloc _bloc = getIt.get<SearchBloc>();
+  ScrollController controller = ScrollController();
+  List<PartnerResponse> partners = [];
+  @override
+  void initState() {
+    scheduleMicrotask(() {
+      _bloc.add(const SearchEvent.load());
+    });
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -33,43 +48,66 @@ class _DashBoardSearchPageState extends State<DashBoardSearchPage> {
           title: "探す",
           rightIcPath: Assets.icons.svg.icDashboardSearch.path,
         ),
-        body: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            _buildList(),
-          ],
-        ),
+        body: SearchStatusListener(
+            statuses: const [SearchStatus.loading, SearchStatus.success],
+            listener: (BuildContext context, SearchState state) {
+              setState(() {
+                if (state.status == SearchStatus.loading) {
+                  partners.clear();
+                } else {
+                  partners.addAll(state.partners);
+                }
+              });
+            },
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                Expanded(child: _buildList()),
+              ],
+            )),
       ),
     );
   }
 
   Widget _buildList() {
-    var wokers = <Worker>[
-      const Worker(
-          title: "内装職人Knock",
-          content: "はじめまして。内装工事を専門に行なっている職人インテリアと言います。よろしくお願いいたします。",
-          address: "東京都 / 埼玉県 / 神奈川県",
-          job: "インテリア工事 / 天井仕上げ工事",
-          amount: 3,
-          isDone: true),
-      const Worker(
-          title: "防水職人Knock",
-          content: "はじめまして。内装工事を専門に行なっているAPOリフォームと言います。よろしくお願いいたします。",
-          address: "東京都 / 埼玉県 / 神奈川県",
-          job: "インテリア工事 / 天井仕上げ工事",
-          amount: 3,
-          isDone: false)
-    ];
-    return ListView.builder(
-      itemCount: wokers.length,
-      physics: const NeverScrollableScrollPhysics(),
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemBuilder: (context, index) => SearchItem(
-        worker: wokers[index],
-      ),
-    );
+    return SearchStatusSelector(builder: (status) {
+      if (status == SearchStatus.success ||
+          status == SearchStatus.loadingMore) {
+        return ListView.builder(
+          itemCount: status == SearchStatus.loadingMore
+              ? partners.length
+              : partners.length + 1,
+          controller: controller
+            ..addListener(() {
+              if (controller.position.pixels ==
+                      controller.position.maxScrollExtent &&
+                  status != SearchStatus.loadingMore) {
+                scheduleMicrotask(() {
+                  _bloc.add(const SearchLoadMore());
+                });
+              }
+            }),
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            if (index < partners.length) {
+              return SearchItem(partner: partners[index]);
+            } else {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: context.colors.secondary,
+                  ),
+                ),
+              );
+            }
+          },
+        );
+      }
+      return Container();
+    });
   }
 }

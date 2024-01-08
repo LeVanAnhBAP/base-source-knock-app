@@ -77,4 +77,11 @@ class Utils {
     }
     return "";
   }
+
+ static String joinDataWithSeparator(List<String> data, [String separator = '/']) {
+  if (data.isEmpty) {
+    return '情報未入力';
+  }
+  return data.join(separator);
+}
 }
