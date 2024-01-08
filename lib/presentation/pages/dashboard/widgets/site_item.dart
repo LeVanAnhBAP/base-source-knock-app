@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uq_system_app/assets.gen.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
-import 'package:uq_system_app/data/models/response/schedule.dart';
+import 'package:uq_system_app/data/models/response/site_response.dart';
+import 'package:uq_system_app/utils/utils.dart';
 
-class ScheduleItem extends StatelessWidget {
-  final Schedule schedule;
-  const ScheduleItem({super.key, required this.schedule});
+class SiteItem extends StatelessWidget {
+  final SiteResponse site;
+  final int companyType;
+  const SiteItem({super.key, required this.site, required this.companyType});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class ScheduleItem extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       decoration: BoxDecoration(
           color: context.colors.tertiary,
           borderRadius: const BorderRadius.only(
@@ -35,13 +37,14 @@ class ScheduleItem extends StatelessWidget {
             child: Column(
               children: [
                 SvgPicture.asset(
-                  Assets.icons.svg.icUnderConstruction.path,
+                  Utils.siteStatusToIconPath(site.status),
                   width: 18,
                 ),
                 Text(
-                  "施工中",
-                  style:
-                      TextStyle(color: context.colors.secondary, fontSize: 6),
+                  Utils.siteStatusToString(site.status, companyType),
+                  style: TextStyle(
+                      color: Utils.siteStatusToColor(site.status, context),
+                      fontSize: 6),
                 )
               ],
             ),
@@ -51,7 +54,7 @@ class ScheduleItem extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(6)),
             child: Text(
-              "不動産　太郎",
+              "${site.firstName} ${site.lastName}",
               style: TextStyle(
                   color: context.colors.primary,
                   fontSize: 9,
@@ -72,7 +75,9 @@ class ScheduleItem extends StatelessWidget {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
-                schedule.title,
+                site.name ?? "",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     color: context.colors.primary,
                     fontSize: 17,
@@ -91,7 +96,7 @@ class ScheduleItem extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    schedule.address,
+                    site.address ?? "",
                     style: TextStyle(
                         color: context.colors.primary,
                         fontSize: 12,
@@ -110,7 +115,7 @@ class ScheduleItem extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    "${schedule.startTime} ~ ${schedule.endTime}",
+                    "${site.startDayRequest} ~ ${site.endDayRequest}",
                     style: TextStyle(
                         color: context.colors.primary,
                         fontSize: 12,
@@ -123,13 +128,15 @@ class ScheduleItem extends StatelessWidget {
           Row(
             children: [
               const SizedBox(width: 5),
-              AssetGenImage(Assets.images.imgBuildingLogo.path)
-                  .image(width: 25),
+              CircleAvatar(
+                radius: 12,
+                backgroundImage: Image.network(site.companyLogo).image,
+              ),
               const SizedBox(
                 width: 5,
               ),
               Text(
-                schedule.company,
+                site.companyNameKana,
                 style: TextStyle(
                     color: context.colors.primary,
                     fontSize: 13,

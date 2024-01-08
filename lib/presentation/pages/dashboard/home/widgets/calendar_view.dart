@@ -1,6 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
+import 'package:uq_system_app/di/injection.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/home/home_event.dart';
 
 class CalendarView extends StatefulWidget {
   const CalendarView({super.key});
@@ -26,6 +31,18 @@ class _CalendarViewState extends State<CalendarView> {
     _startingDayOfWeek = StartingDayOfWeek.values[currentDayOfWeek - 1];
   }
 
+  void updateShedule(DateTime selectedDay, DateTime focusDay) {
+    scheduleMicrotask(() {
+      
+      getIt.get<HomeBloc>().add(
+          HomeEvent.paginateSite(selectedDay));
+    });
+    setState(() {
+      _selectedDay = selectedDay;
+      _focusedDay = focusDay;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
@@ -33,20 +50,18 @@ class _CalendarViewState extends State<CalendarView> {
           return isSameDay(_selectedDay, day);
         },
         locale: 'ja',
-        headerVisible: false,
+        headerStyle: HeaderStyle(
+          leftChevronVisible: false,
+          rightChevronVisible: false,
+          formatButtonVisible: false,
+          titleTextStyle: context.typographies.bodyBold,
+        ),
         onPageChanged: (dateTime) {
-          setState(() {
-            _selectedDay = dateTime;
-            _focusedDay = dateTime;
-          });
+          updateShedule(dateTime, dateTime);
         },
-        
-        rowHeight: 70,
+        rowHeight: 60,
         onDaySelected: (selectedDay, focusedDay) {
-          setState(() {
-            _selectedDay = selectedDay;
-            _focusedDay = focusedDay;
-          });
+          updateShedule(selectedDay, focusedDay);
         },
         calendarStyle: CalendarStyle(
             todayTextStyle: TextStyle(color: context.colors.primary),

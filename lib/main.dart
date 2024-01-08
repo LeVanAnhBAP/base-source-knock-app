@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:injectable/injectable.dart';
+import 'package:skeletons/skeletons.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_state.dart';
 import 'package:uq_system_app/presentation/blocs/bloc_observer.dart';
@@ -61,27 +62,30 @@ class MyApp extends StatelessWidget {
           value: system.theme.themeData.brightness == Brightness.light
               ? SystemUiOverlayStyle.dark
               : SystemUiOverlayStyle.light,
-          child: SafeArea(
-            child: MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              title: AppEnv.appName,
-              theme: system.theme.themeData.copyWith(
-                pageTransitionsTheme: const PageTransitionsTheme(builders: {
-                  TargetPlatform.iOS: NoShadowCupertinoPageTransitionsBuilder(),
-                  TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-                }),
-              ),
-              // locale: system.locale,
-              //TODO: CONST LOCAL
-              locale: const Locale('ja'),
-              supportedLocales: context.supportedLocales,
-              localizationsDelegates: [
-                ...context.localizationDelegates,
-                // more delegates here
-              ],
-            
-              routerConfig: _appRouter.config(
-                navigatorObservers: () => [AutoRouteObserver()],
+          child: SkeletonTheme(
+            themeMode: ThemeMode.light,
+            child: SafeArea(
+              child: MaterialApp.router(
+                debugShowCheckedModeBanner: false,
+                title: AppEnv.appName,
+                theme: system.theme.themeData.copyWith(
+                  pageTransitionsTheme: const PageTransitionsTheme(builders: {
+                    TargetPlatform.iOS: NoShadowCupertinoPageTransitionsBuilder(),
+                    TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+                  }),
+                ),
+                // locale: system.locale,
+                //TODO: CONST LOCAL
+                locale: const Locale('ja'),
+                supportedLocales: context.supportedLocales,
+                localizationsDelegates: [
+                  ...context.localizationDelegates,
+                  // more delegates here
+                ],
+              
+                routerConfig: _appRouter.config(
+                  navigatorObservers: () => [AutoRouteObserver()],
+                ),
               ),
             ),
           ),

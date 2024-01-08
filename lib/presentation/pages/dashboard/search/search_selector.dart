@@ -14,12 +14,15 @@ class SearchStatusSelector
 }
 
 class SearchStatusListener extends BlocListener<SearchBloc, SearchState> {
-  SearchStatusListener({
-    required Iterable<SearchStatus> statuses,
-    super.key,
-    required super.listener,
-  }) : super(
+  SearchStatusListener(
+      {required Iterable<SearchStatus> statuses,
+      super.key,
+      required super.listener,
+      required Widget child})
+      : super(
           listenWhen: (previousState, currentState) =>
-              previousState.status != currentState.status && statuses.contains(currentState.status),
+              previousState.status != currentState.status &&
+              statuses.contains(currentState.status),
+          child: child,
         );
 }

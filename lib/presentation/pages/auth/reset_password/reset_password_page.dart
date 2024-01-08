@@ -4,7 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uq_system_app/assets.gen.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
-import 'package:uq_system_app/core/utils/utils.dart';
+import 'package:uq_system_app/utils/utils.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/pages/auth/reset_password/reset_password_bloc.dart';
