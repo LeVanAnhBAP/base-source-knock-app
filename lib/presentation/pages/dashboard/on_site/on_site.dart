@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:uq_system_app/assets.gen.dart';
 import 'package:uq_system_app/core/extensions/text_style.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
@@ -77,7 +78,7 @@ class _DashBoardOnSitePageState extends State<DashBoardOnSitePage> {
                 rightIcDescription: "新規登録",
               ),
               body: OnSiteStatusListener(
-                statuses: const [OnSiteStatus.loading, OnSiteStatus.success],
+                statuses: const [OnSiteStatus.success, OnSiteStatus.loading],
                 listener: (BuildContext context, OnSiteState state) {
                   setState(() {
                     if (state.status == OnSiteStatus.loading) {
@@ -145,60 +146,43 @@ class _DashBoardOnSitePageState extends State<DashBoardOnSitePage> {
     );
   }
 
+  void _onRefresh() async {
+    _bloc.add(const OnSiteEvent.onLoad(isRefresh: true));
+  }
+
+  void _onLoading() async {
+    Future.delayed(const Duration(milliseconds: 500), (){
+ _bloc.add(const OnSiteEvent.onLoadMore());
+    });
+  }
+
   Widget _buildList(Account? account) {
     return OnSiteStatusSelector(builder: (status) {
-      if (status == OnSiteStatus.success ||
-          status == OnSiteStatus.loadingMore) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: ListView.builder(
-            controller: controller
-              ..addListener(() {
-                if (controller.position.pixels ==
-                    controller.position.maxScrollExtent) {
-                  scheduleMicrotask(() {
-                    _bloc.add(const OnSiteEvent.onLoadMore());
-                  });
-                }
-              }),
-            itemCount: status == OnSiteStatus.loadingMore
-                ? sites.length
-                : sites.length + 1,
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              if (index < sites.length) {
-                return SiteItem(
-                  site: sites[index],
-                  companyType: account?.company.type ?? 1,
-                );
-              } else {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: context.colors.secondary,
-                    ),
-                  ),
-                );
-              }
-            },
-          ),
-        );
-      }
       if (status == OnSiteStatus.loading) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: ListView.builder(
-            itemCount: 4,
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) => const SiteSkeletion(),
-          ),
+        return ListView.builder(
+          itemCount: 4,
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) => const SiteSkeletion(),
         );
       }
-      return Container();
+      return SmartRefresher(
+        controller: _bloc.refreshController,
+        enablePullDown:  status != OnSiteStatus.loadingMore,
+        enablePullUp: status != OnSiteStatus.loadingMore,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        child: ListView.builder(
+          itemCount: sites.length,
+          itemBuilder: (context, index) {
+            return SiteItem(
+              site: sites[index],
+              companyType: account?.company.type ?? 1,
+            );
+          },
+        ),
+      );
     });
   }
 }

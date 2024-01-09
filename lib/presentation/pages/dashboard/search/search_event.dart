@@ -7,7 +7,6 @@ part 'search_event.freezed.dart';
 class SearchEvent with _$SearchEvent {
   const factory SearchEvent.errorOccurred([BaseException? error]) =
       SearchErrorOccurred;
-
   const factory SearchEvent.load() = SearchLoad;
   const factory SearchEvent.searchPartners() = SearchLoadMore;
 }

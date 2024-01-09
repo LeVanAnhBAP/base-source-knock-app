@@ -15,7 +15,7 @@ class SiteItem extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(15)),
-      margin: const EdgeInsets.symmetric(vertical: 15),
+      margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       child: Column(children: [_buildHeader(context), _buildBody(context)]),
     );
   }
@@ -95,12 +95,19 @@ class SiteItem extends StatelessWidget {
                   const SizedBox(
                     width: 5,
                   ),
-                  Text(
-                    site.address ?? "",
-                    style: TextStyle(
-                        color: context.colors.primary,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600),
+                  Expanded(
+                    child: Text(
+                      site.address ?? "",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: context.colors.primary,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 50,
                   )
                 ],
               ),
