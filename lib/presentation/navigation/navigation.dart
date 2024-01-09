@@ -8,7 +8,7 @@ import 'package:uq_system_app/presentation/pages/dashboard/home/home.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/profile/profile.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/search/search.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/site/site.dart';
-
+import 'package:uq_system_app/presentation/pages/dashboard/negotiationRoom/negotiation_room.dart';
 
 part 'navigation.gr.dart';
 
@@ -25,7 +25,8 @@ class AppRouter extends _$AppRouter {
       AutoRoute( page: DashboardProfileRoute.page),
     ]),
     AutoRoute(page: ResetPassRoute.page),
-    AutoRoute(page: NewPassRoute.page)
+    AutoRoute(page: NewPassRoute.page),
+    AutoRoute(page: NegotiationRoomRoute.page)
   ];
   @override
   RouteType get defaultRouteType => const RouteType.cupertino();

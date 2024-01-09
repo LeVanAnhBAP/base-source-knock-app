@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import '../../../../assets.gen.dart';
 import '../../../widgets/input_field.dart';
@@ -19,23 +20,45 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   Future<void> login({required String email, required String password}) async {
+    final BuildContext localContext = context;
     const api = 'https://dev-knock-api.oneknockapp.com/api/v1/user/auth/login';
     final data = {'email': email, 'password': password};
     final dio = Dio();
-
-    Response response = await dio.post(api, data: data);
-    if (response.statusCode == 200) {
-      final body = response.data;
-
-    } else {
-      print('abc');
+    dio.options.validateStatus = (status) => status! >= 200 && status < 300;
+    try {
+      Response response = await dio.post(api, data: data);
+      if (response.statusCode == 200) {
+        final body = response.data;
+        localContext.router.replace(const DashboardRoute());
+        print('Response Body: ${response.data}');
+      } else {
+        print('Response Body: ${response.data}');
+      }
+    } catch (e) {
+      print('error:$e');
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text('$e'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  Navigator.pop(context);
+                });
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.colors.background,
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.only(
@@ -54,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
               InputField(
                 textFieldHintText: 'パスワード',
                 controller: passwordController,
+                obscureText: true,
               ),
               const Gap(16),
               TextButton(
@@ -76,13 +100,12 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const Gap(16),
               LogButton(
-                color: Colors.orange,
+                color: context.colors.alert,
                 buttonName: 'ログイン',
                 onClick: () {
                   login(
                       email: emailController.text,
                       password: passwordController.text);
-                  context.router.replace(const DashboardRoute());
                 },
               )
             ],

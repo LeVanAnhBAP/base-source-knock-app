@@ -2,6 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:uq_system_app/core/extensions/theme.dart';
 import '../../../../assets.gen.dart';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/log_button.dart';
@@ -20,7 +21,7 @@ class _ResetPassState extends State<ResetPassPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.colors.background,
       body: SingleChildScrollView(
         child: Container(
           height: 560,

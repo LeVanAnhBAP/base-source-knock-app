@@ -10,6 +10,6 @@
 class FontFamily {
   FontFamily._();
 
-  /// Font family: hiraginoW6
-  static const String hiraginoW6 = 'hiraginoW6';
+  /// Font family: hiraginoW3
+  static const String hiraginoW3 = 'hiraginoW3';
 }

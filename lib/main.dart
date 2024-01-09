@@ -64,9 +64,9 @@ class MyApp extends StatelessWidget {
             title: AppEnv.appName,
             theme: system.theme.themeData.copyWith(
               textTheme: const TextTheme(
-                bodyLarge: TextStyle(color: Colors.orange, fontSize: 20),
+                bodyLarge: TextStyle(color: Colors.orange, fontSize: 20,fontFamily: 'hiraginoW3'),
                 bodyMedium: TextStyle(color: Colors.black, fontSize: 16),
-                titleMedium: TextStyle(color: Colors.black,fontSize: 20,fontFamily: 'hiraginoW6')
+                titleMedium: TextStyle(color: Colors.black,fontSize: 20,fontFamily: 'hiraginoW3')
               ),
               scaffoldBackgroundColor: const Color.fromRGBO(241, 241, 241, 1),
               pageTransitionsTheme: const PageTransitionsTheme(builders: {

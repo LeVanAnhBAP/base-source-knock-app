@@ -69,6 +69,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const DashboardSitePage(),
       );
     },
+    NegotiationRoomRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: NegotiationRoomPage(),
+      );
+    },
   };
 }
 
@@ -194,6 +200,20 @@ class DashboardSiteRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'DashboardSiteRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [NegotiationRoomPage]
+class NegotiationRoomRoute extends PageRouteInfo<void> {
+  const NegotiationRoomRoute({List<PageRouteInfo>? children})
+      : super(
+          NegotiationRoomRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'NegotiationRoomRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

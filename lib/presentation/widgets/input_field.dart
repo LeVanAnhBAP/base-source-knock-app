@@ -5,9 +5,11 @@ class InputField extends StatelessWidget {
     super.key,
     required this.textFieldHintText,
     required this.controller,
+    this.obscureText = false,
   });
   final String textFieldHintText;
   final TextEditingController controller;
+  final bool obscureText;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,6 +29,7 @@ class InputField extends StatelessWidget {
       ),
       child: Center(
         child: TextField(
+          obscureText: obscureText,
           controller: controller,
           decoration: InputDecoration(
             filled: true,

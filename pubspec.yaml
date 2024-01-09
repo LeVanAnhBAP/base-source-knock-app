@@ -115,9 +115,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: hiraginoW6
+    - family: hiraginoW3
       fonts:
-        - asset: assets/fonts/Hiragino Kaku Gothic ProN W6.otf
+        - asset: assets/fonts/Hiragino Kaku Gothic ProN W3.otf
   # fonts:
   #   - family: Schyler
   #     fonts:

@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
@@ -12,6 +12,7 @@ import 'package:uq_system_app/di/injector.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
 import 'package:uq_system_app/presentation/widgets/schedule_card.dart';
 import '../../../../assets.gen.dart';
+import '../../../widgets/app_bar.dart';
 import 'home_event.dart';
 import 'home_state.dart';
 
@@ -26,7 +27,6 @@ class DashboardHomePage extends StatefulWidget {
 class _DashboardHomePageState extends State<DashboardHomePage> {
   final HomeBloc _bloc = provider.get<HomeBloc>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   final DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
   final Map<DateTime, List<String>> _events = {
@@ -38,6 +38,21 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
     _bloc.add(const HomeRefreshData());
     return _bloc.stream
         .firstWhere((state) => state.status != HomeStatus.refreshing);
+  }
+  Future<void> loadSite() async {
+    String api =
+        "https://dev-knock-api.oneknockapp.com/api/v1/user/factory-floors?page=1&start_day_request=2024-01-06";
+    try {
+      Response response = await Dio().get(api);
+
+      if (response.statusCode == 200) {
+        print(response.data);
+      } else {
+        print('Failed to load data');
+      }
+    } catch (e) {
+      print('An error occurred: $e');
+    }
   }
 
   @override
@@ -54,50 +69,12 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
       value: _bloc,
       child: Scaffold(
           key: _scaffoldKey,
-          appBar: AppBar(
-            leadingWidth: 0,
-            toolbarHeight: 60,
-            backgroundColor: Colors.white,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  icon: SvgPicture.asset(
-                    Assets.icons.svg.icMenu.path,
-                    height: 20,
-                  ),
-                  onPressed: () {
-                    _scaffoldKey.currentState!.openDrawer();
-                  },
-                ),
-                Column(
-                  children: [
-                    const Text(
-                      'ホーム',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 28,
-                        fontFamily: 'hiraginoW6',
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: context.colors.warning,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(2))),
-                      height: 3,
-                      width: 100,
-                    )
-                  ],
-                ),
-                IconButton(
-                    onPressed: () {},
-                    icon: SvgPicture.asset(
-                      Assets.icons.svg.icFeatherBell.path,
-                      height: 28,
-                    ))
-              ],
-            ),
+          appBar: AppBars(
+            title: 'ホーム',
+            openDrawer: () {
+              _scaffoldKey.currentState!.openDrawer();
+            },
+            rightButtonIcon: Assets.icons.svg.icFeatherBell.path,
           ),
           drawer: Drawer(
             child: ListView(
@@ -134,21 +111,34 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
-        width: 200,
+        width: 180,
         margin: const EdgeInsets.symmetric(vertical: 24),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.only(
+          top: 8,
+          bottom: 8,
+          right: 8,
+        ),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(14)),
           color: context.colors.primary,
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              '大事なお知らせ',
-              style: TextStyle(fontSize: 18, color: context.colors.background),
+            Expanded(
+              child: Center(
+                child: Text(
+                  '大事なお知らせ',
+                  style:
+                      TextStyle(fontSize: 16, color: context.colors.background),
+                ),
+              ),
             ),
-            SvgPicture.asset(Assets.icons.svg.icArrowDroprightCircle.path)
+            InkWell(
+                onTap: () {
+                  loadSite();
+                },
+                child: SvgPicture.asset(
+                    Assets.icons.svg.icArrowDroprightCircle.path))
           ],
         ),
       ),
@@ -157,53 +147,49 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
 
   Widget calendar() {
     return Container(
-      height: 200,
+      height: 180,
       decoration: BoxDecoration(
           color: context.colors.background,
           borderRadius: BorderRadius.circular(16)),
-      child: SingleChildScrollView(
-        child: TableCalendar(
-          firstDay: DateTime.utc(2023, 1, 1),
-          lastDay: DateTime.utc(2024, 12, 31),
-          focusedDay: _focusedDay,
-          calendarFormat: CalendarFormat.week,
-          eventLoader: (date) => _events[date] ?? [],
-          startingDayOfWeek: StartingDayOfWeek.monday,
-          availableGestures: AvailableGestures.horizontalSwipe,
-          daysOfWeekHeight: 30,
-          daysOfWeekStyle: const DaysOfWeekStyle(
-              weekdayStyle: TextStyle(fontSize: 20),
-              weekendStyle: TextStyle(fontSize: 20)),
-          calendarStyle: CalendarStyle(
-            defaultTextStyle: const TextStyle(fontSize: 20),
-            weekendTextStyle: const TextStyle(fontSize: 20),
-            todayDecoration: BoxDecoration(
-              color: context.colors.secondary,
-              shape: BoxShape.circle,
-            ),
-            selectedDecoration: BoxDecoration(
-              border: Border.all(width: 2, color: Colors.black),
-              color: context.colors.secondary,
-              shape: BoxShape.circle,
-            ),
+      child: TableCalendar(
+        firstDay: DateTime.utc(2023, 1, 1),
+        lastDay: DateTime.utc(2024, 12, 31),
+        focusedDay: _focusedDay,
+        calendarFormat: CalendarFormat.week,
+        eventLoader: (date) => _events[date] ?? [],
+        startingDayOfWeek: StartingDayOfWeek.monday,
+        availableGestures: AvailableGestures.horizontalSwipe,
+        daysOfWeekHeight: 30,
+        daysOfWeekStyle: const DaysOfWeekStyle(
+            weekdayStyle: TextStyle(fontSize: 18),
+            weekendStyle: TextStyle(fontSize: 18)),
+        calendarStyle: CalendarStyle(
+          defaultTextStyle: const TextStyle(fontSize: 18),
+          weekendTextStyle: const TextStyle(fontSize: 18),
+          todayDecoration: BoxDecoration(
+            color: context.colors.secondary,
+            shape: BoxShape.circle,
           ),
-          rowHeight: 100,
-          headerStyle: const HeaderStyle(
-            titleTextStyle: TextStyle(fontSize: 22),
-            headerMargin: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            leftChevronVisible: false,
-            rightChevronVisible: false,
-            formatButtonVisible: false,
+          selectedDecoration: BoxDecoration(
+            border: Border.all(width: 2, color: Colors.black),
+            color: Colors.black,
+            shape: BoxShape.circle,
           ),
-          onDaySelected: (selectedDay, focusedDay) {
-            setState(() {
-              _selectedDay = selectedDay;
-              print(_selectedDay);
-              print(MediaQuery.of(context).size.width);
-              print(MediaQuery.of(context).size.height);
-            });
-          },
         ),
+        rowHeight: 80,
+        headerStyle: const HeaderStyle(
+          titleTextStyle: TextStyle(fontSize: 20),
+          headerMargin: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          leftChevronVisible: false,
+          rightChevronVisible: false,
+          formatButtonVisible: false,
+        ),
+        onDaySelected: (selectedDay, focusedDay) {
+          setState(() {
+            _selectedDay = selectedDay;
+            print(_selectedDay);
+          });
+        },
       ),
     );
   }
@@ -243,7 +229,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
               companyLogo: Assets.icons.png.icScheduleCardCompanyLogo.path,
               clickDropRight: () {},
             ),
-            SizedBox(height: index == 2 ? 0 : 16)
+            SizedBox(height: index == 1 ? 0 : 16),
           ],
         );
       }),

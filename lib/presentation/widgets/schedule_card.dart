@@ -57,7 +57,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
           ),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           height: 160,
           decoration: BoxDecoration(
               color: context.colors.background,
@@ -70,7 +70,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   widget.title,
-                  style: const TextStyle(fontSize: 22),
+                  style: const TextStyle(fontSize: 20),
                 ),
               ),
               const Gap(20),
@@ -87,7 +87,10 @@ class _ScheduleCardState extends State<ScheduleCard> {
                             SvgPicture.asset(
                                 Assets.icons.svg.icScheduleCardLocation.path),
                             const Gap(4),
-                            Text(widget.location),
+                            Text(
+                              widget.location,
+                              style: const TextStyle(fontSize: 13),
+                            ),
                           ],
                         ),
                         Row(
@@ -96,14 +99,19 @@ class _ScheduleCardState extends State<ScheduleCard> {
                                 Assets.icons.svg.icScheduleCardCalendar.path),
                             const Gap(4),
                             Text(
-                                '${DateFormat('yyyy/MM/dd(E)').format(widget.dayFrom)} ~ ${DateFormat('yyyy/MM/dd(E)').format(widget.dayTo)}')
+                              '${DateFormat('yyyy/MM/dd(E)').format(widget.dayFrom)} ~ ${DateFormat('yyyy/MM/dd(E)').format(widget.dayTo)}',
+                              style: const TextStyle(fontSize: 14),
+                            )
                           ],
                         ),
                         Row(
                           children: [
                             Image.asset(widget.companyLogo),
                             const Gap(8),
-                            Text(widget.company)
+                            Text(
+                              widget.company,
+                              style: const TextStyle(fontSize: 14),
+                            )
                           ],
                         )
                       ],

@@ -32,29 +32,36 @@ class SearchField extends StatefulWidget {
 class _SearchFieldState extends State<SearchField> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        hintText: widget.placeholder,
-        prefixIcon: Icon(
-          Icons.search_outlined,
-          color: context.colors.background,
+    return Container(
+      decoration: BoxDecoration(
+          color: (widget.backgroundColor ?? context.colors.background)
+              .withOpacity(widget.backgroundOpacity),
+          borderRadius: widget.borderRadius),
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: widget.placeholder,
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: Icon(
+              Icons.search_outlined,
+              color: context.colors.border,
+            ),
+          ),
+          border: OutlineInputBorder(
+              borderSide: BorderSide.none, borderRadius: widget.borderRadius),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide.none, borderRadius: widget.borderRadius),
+          hintStyle: context.typographies.body.copyWith(
+            color: (widget.placeholderColor ?? context.colors.background)
+                .withOpacity(widget.placeholderOpacity),
+            fontSize: widget.fontSize,
+          ),
+          contentPadding: widget.padding,
         ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: widget.borderRadius,
-        ),
-        hintStyle: context.typographies.body.copyWith(
-          color: (widget.placeholderColor ?? context.colors.background)
-              .withOpacity(widget.placeholderOpacity),
-          fontSize: widget.fontSize,
-        ),
-        contentPadding: widget.padding,
-        fillColor: (widget.backgroundColor ?? context.colors.background)
-            .withOpacity(widget.backgroundOpacity),
+        autocorrect: false,
+        style: context.typographies.body.copyWith(fontSize: widget.fontSize),
+        onChanged: widget.onSearchValue,
       ),
-      autocorrect: false,
-      style: context.typographies.body.copyWith(fontSize: widget.fontSize),
-      onChanged: widget.onSearchValue,
     );
   }
 }
