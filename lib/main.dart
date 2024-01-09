@@ -6,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:injectable/injectable.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletons/skeletons.dart';
+import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_state.dart';
 import 'package:uq_system_app/presentation/blocs/bloc_observer.dart';
@@ -53,7 +55,7 @@ class MyApp extends StatelessWidget {
           listenWhen: (previous, current) =>
               previous.account != current.account && current.account == null,
           listener: (context, state) {
-            _appRouter.replaceAll([const LoginRoute()]);        
+            _appRouter.replaceAll([const LoginRoute()]);
           },
         ),
       ],
@@ -62,29 +64,54 @@ class MyApp extends StatelessWidget {
           value: system.theme.themeData.brightness == Brightness.light
               ? SystemUiOverlayStyle.dark
               : SystemUiOverlayStyle.light,
-          child: SkeletonTheme(
-            themeMode: ThemeMode.light,
-            child: SafeArea(
-              child: MaterialApp.router(
-                debugShowCheckedModeBanner: false,
-                title: AppEnv.appName,
-                theme: system.theme.themeData.copyWith(
-                  pageTransitionsTheme: const PageTransitionsTheme(builders: {
-                    TargetPlatform.iOS: NoShadowCupertinoPageTransitionsBuilder(),
-                    TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-                  }),
+          child: RefreshConfiguration(
+            headerBuilder: () => MaterialClassicHeader(
+              color: context.colors.secondary,
+            ),
+            footerBuilder: () => ClassicFooter(
+              loadStyle: LoadStyle.ShowWhenLoading,
+              height: 40,
+              canLoadingIcon: Container(),
+              idleIcon: Container(),
+              textStyle: const TextStyle(fontSize: 0),
+              loadingText: '',
+              loadingIcon: Center(
+                child: SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3,
+                    color: context.colors.secondary,
+                  ),
                 ),
-                // locale: system.locale,
-                //TODO: CONST LOCAL
-                locale: const Locale('ja'),
-                supportedLocales: context.supportedLocales,
-                localizationsDelegates: [
-                  ...context.localizationDelegates,
-                  // more delegates here
-                ],
-              
-                routerConfig: _appRouter.config(
-                  navigatorObservers: () => [AutoRouteObserver()],
+              ),
+            ),
+            child: SkeletonTheme(
+              themeMode: ThemeMode.light,
+              child: SafeArea(
+                child: MaterialApp.router(
+                  debugShowCheckedModeBanner: false,
+                  title: AppEnv.appName,
+                  theme: system.theme.themeData.copyWith(
+                    pageTransitionsTheme: const PageTransitionsTheme(builders: {
+                      TargetPlatform.iOS:
+                          NoShadowCupertinoPageTransitionsBuilder(),
+                      TargetPlatform.android:
+                          FadeUpwardsPageTransitionsBuilder(),
+                    }),
+                  ),
+                  // locale: system.locale,
+                  //TODO: CONST LOCAL
+                  locale: const Locale('ja'),
+                  supportedLocales: context.supportedLocales,
+                  localizationsDelegates: [
+                    ...context.localizationDelegates,
+                    // more delegates here
+                  ],
+
+                  routerConfig: _appRouter.config(
+                    navigatorObservers: () => [AutoRouteObserver()],
+                  ),
                 ),
               ),
             ),

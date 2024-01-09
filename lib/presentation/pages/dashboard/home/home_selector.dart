@@ -10,7 +10,7 @@ class HomeStatusSelector extends BlocSelector<HomeBloc, HomeState, HomeStatus> {
     required Widget Function(HomeStatus data) builder,
   }) : super(
           selector: (state) => state.status,
-          builder: (_, status) => builder(status),
+          builder: (context, status) => builder(status),
         );
 }
 
@@ -24,4 +24,17 @@ class HomeStatusListener extends BlocListener<HomeBloc, HomeState> {
               previousState.status != currentState.status &&
               statuses.contains(currentState.status),
         );
+}
+
+class HomeStatusBuilder extends BlocBuilder<HomeBloc, HomeState> {
+  HomeStatusBuilder({
+    required Iterable<HomeStatus> statuses,
+    super.key,
+    required Widget Function(HomeStatus data) builder,
+  }) : super(
+    buildWhen: (previousState, currentState) =>
+    previousState.status != currentState.status &&
+        statuses.contains(currentState.status),
+    builder: (context, state) => builder(state.status),
+  );
 }

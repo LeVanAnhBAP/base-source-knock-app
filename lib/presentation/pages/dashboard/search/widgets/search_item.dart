@@ -15,17 +15,16 @@ class SearchItem extends StatefulWidget {
 }
 
 class _SearchItemState extends State<SearchItem> {
-   late DateTime _selectedDay;
+
   @override
   void initState() {
     super.initState();
-    _selectedDay = DateTime.now();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -71,7 +70,7 @@ class _SearchItemState extends State<SearchItem> {
               width: MediaQuery.of(context).size.width * 0.03,
             ),
             Image.network(
-              partner.logo?.path ?? "",
+              partner.logo?.url ?? "",
               width: 100,
               errorBuilder:
                   (BuildContext context, Object error, StackTrace? stackTrace) {
@@ -79,7 +78,7 @@ class _SearchItemState extends State<SearchItem> {
                   width: 100,
                   height: 100,
                   color: Colors
-                      .grey, 
+                      .grey,
                 );
               },
             ),
@@ -187,6 +186,7 @@ class _SearchItemState extends State<SearchItem> {
     return TableCalendar(
         locale: 'ja',
         headerVisible: false,
+
         selectedDayPredicate: (day) {
           return schedules.contains(day);
         },
