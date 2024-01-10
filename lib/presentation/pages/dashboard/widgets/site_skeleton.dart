@@ -10,7 +10,7 @@ class SiteSkeletion extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(15)),
-      margin: const EdgeInsets.symmetric(vertical: 15),
+      margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       child: Column(
         children: [
           Container(
@@ -30,7 +30,7 @@ class SiteSkeletion extends StatelessWidget {
             
                 SkeletonLine(
                   style: SkeletonLineStyle(
-                    
+                    borderRadius: BorderRadius.circular(15),
                     height: 20,
                     minLength: MediaQuery.of(context).size.width / 2,
                     maxLength: MediaQuery.of(context).size.width * 0.6,
@@ -40,8 +40,9 @@ class SiteSkeletion extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                const SkeletonLine(
+                 SkeletonLine(
                   style: SkeletonLineStyle(
+                    borderRadius: BorderRadius.circular(15),
                     height: 15,
                     width: 150,
                   ),
@@ -49,8 +50,9 @@ class SiteSkeletion extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                const SkeletonLine(
+                 SkeletonLine(
                   style: SkeletonLineStyle(
+                    borderRadius: BorderRadius.circular(15),
                     height: 15,
                     width: 200,
                   ),
@@ -58,8 +60,9 @@ class SiteSkeletion extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                const SkeletonLine(
+                 SkeletonLine(
                   style: SkeletonLineStyle(
+                    borderRadius: BorderRadius.circular(15),
                     height: 15,
                     width: 120,
                   ),

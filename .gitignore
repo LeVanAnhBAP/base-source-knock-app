@@ -51,6 +51,7 @@ app.*.map.json
 # auto gen
 *.freezed.dart
 *.g.dart
+*.gen.dart
 
 # mason
 .mason/

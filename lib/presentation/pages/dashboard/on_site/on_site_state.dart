@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
-import 'package:uq_system_app/data/models/response/account.dart';
 import 'package:uq_system_app/data/models/response/site_response.dart';
 
 part 'on_site_state.freezed.dart';
@@ -21,4 +20,5 @@ class OnSiteState with _$OnSiteState {
     @Default(OnSiteStatus.initial) OnSiteStatus status,
     BaseException? error,
   }) = _OnSiteState;
+  
 }

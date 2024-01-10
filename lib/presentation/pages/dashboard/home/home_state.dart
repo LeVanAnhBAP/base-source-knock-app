@@ -8,6 +8,7 @@ part 'home_state.freezed.dart';
 enum HomeStatus {
   initial,
   loading,
+  loadingSites,
   success,
   failure,
   refreshing,
