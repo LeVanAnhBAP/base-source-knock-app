@@ -9,7 +9,9 @@ import 'package:gap/gap.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/di/injector.dart';
+import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/notification/notification.dart';
 import 'package:uq_system_app/presentation/widgets/schedule_card.dart';
 import '../../../../assets.gen.dart';
 import '../../../widgets/app_bar.dart';
@@ -39,10 +41,12 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
     return _bloc.stream
         .firstWhere((state) => state.status != HomeStatus.refreshing);
   }
+
   Future<void> loadSite() async {
     String api =
         "https://dev-knock-api.oneknockapp.com/api/v1/user/factory-floors?page=1&start_day_request=2024-01-06";
     try {
+
       Response response = await Dio().get(api);
 
       if (response.statusCode == 200) {
@@ -136,6 +140,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
             InkWell(
                 onTap: () {
                   loadSite();
+                  context.router.push(const NotificationRoute());
                 },
                 child: SvgPicture.asset(
                     Assets.icons.svg.icArrowDroprightCircle.path))

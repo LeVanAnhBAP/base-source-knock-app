@@ -5,10 +5,12 @@ import 'package:uq_system_app/presentation/pages/auth/reset/reset_password_scree
 import 'package:uq_system_app/presentation/pages/dashboard/chat/chat.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/dashboard.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/notification/notification.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/profile/profile.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/search/search.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/site/site.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/negotiationRoom/negotiation_room.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/siteDetails/site_details.dart';
 
 part 'navigation.gr.dart';
 
@@ -26,7 +28,9 @@ class AppRouter extends _$AppRouter {
     ]),
     AutoRoute(page: ResetPassRoute.page),
     AutoRoute(page: NewPassRoute.page),
-    AutoRoute(page: NegotiationRoomRoute.page)
+    AutoRoute(page: NegotiationRoomRoute.page),
+    AutoRoute(page: NotificationRoute.page),
+    AutoRoute(page: SiteDetailsRoute.page)
   ];
   @override
   RouteType get defaultRouteType => const RouteType.cupertino();

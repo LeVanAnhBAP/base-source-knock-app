@@ -51,6 +51,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const DashboardHomePage(),
       );
     },
+    NegotiationRoomRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: NegotiationRoomPage(),
+      );
+    },
     DashboardProfileRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -69,10 +75,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const DashboardSitePage(),
       );
     },
-    NegotiationRoomRoute.name: (routeData) {
+    NotificationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: NegotiationRoomPage(),
+        child: NotificationPage(),
+      );
+    },
+    SiteDetailsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SiteDetailsPage(),
       );
     },
   };
@@ -163,6 +175,20 @@ class DashboardHomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [NegotiationRoomPage]
+class NegotiationRoomRoute extends PageRouteInfo<void> {
+  const NegotiationRoomRoute({List<PageRouteInfo>? children})
+      : super(
+          NegotiationRoomRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'NegotiationRoomRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [DashboardProfilePage]
 class DashboardProfileRoute extends PageRouteInfo<void> {
   const DashboardProfileRoute({List<PageRouteInfo>? children})
@@ -205,15 +231,29 @@ class DashboardSiteRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [NegotiationRoomPage]
-class NegotiationRoomRoute extends PageRouteInfo<void> {
-  const NegotiationRoomRoute({List<PageRouteInfo>? children})
+/// [NotificationPage]
+class NotificationRoute extends PageRouteInfo<void> {
+  const NotificationRoute({List<PageRouteInfo>? children})
       : super(
-          NegotiationRoomRoute.name,
+          NotificationRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'NegotiationRoomRoute';
+  static const String name = 'NotificationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SiteDetailsPage]
+class SiteDetailsRoute extends PageRouteInfo<void> {
+  const SiteDetailsRoute({List<PageRouteInfo>? children})
+      : super(
+          SiteDetailsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SiteDetailsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

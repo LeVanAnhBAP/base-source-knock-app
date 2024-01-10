@@ -1,7 +1,9 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
+import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/widgets/app_bar.dart';
 import 'package:uq_system_app/presentation/widgets/schedule_card.dart';
 import 'package:uq_system_app/presentation/widgets/search_field.dart';
@@ -67,7 +69,9 @@ class _DashboardSitePageState extends State<DashboardSitePage> {
                 dayTo: DateTime.now().add(const Duration(days: 2)),
                 company: '(株)職人インテリア',
                 companyLogo: Assets.icons.png.icScheduleCardCompanyLogo.path,
-                clickDropRight: () {},
+                clickDropRight: () {
+                  context.router.push(const SiteDetailsRoute());
+                },
               ),
               SizedBox(height: index == 2 ? 0 : 16)
             ],
