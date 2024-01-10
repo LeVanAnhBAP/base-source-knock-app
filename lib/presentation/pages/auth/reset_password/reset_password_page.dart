@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
@@ -12,6 +13,8 @@ import 'package:uq_system_app/presentation/pages/auth/reset_password/reset_passw
 import 'package:uq_system_app/presentation/pages/auth/reset_password/reset_password_selector.dart';
 import 'package:uq_system_app/presentation/pages/auth/reset_password/reset_password_state.dart';
 import 'package:uq_system_app/presentation/widgets/alert_dialog.dart';
+
+import '../../../../core/languages/translation_keys.g.dart';
 
 @RoutePage()
 class ResetPasswordPage extends StatefulWidget {
@@ -56,7 +59,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               case ResetPasswordStatus.success:
                 Navigator.pop(context);
                 showAlertDialog(
-                        context: context, message: 'パスワードをリセットしました。メールを確認してください。')
+                        context: context, message: context.tr(LocaleKeys.ResetPassword_YourPasswordHasBeenResetPleaseCheckYourEmail))
                     .then(
                         (value) => context.router.replace(const LoginRoute()));
                 break;
@@ -89,11 +92,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Column(
                     children: [
-                      const Align(
+                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          "パスワード再設定用メール送信",
-                          style: TextStyle(
+                          context.tr(LocaleKeys.ResetPassword_SendPasswordResetEmail),
+                          style: const TextStyle(
                             fontSize: 20,
                             fontFamily: 'Hiragino',
                             fontWeight: FontWeight.w600,
@@ -103,11 +106,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const Align(
+                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "パスワードをお忘れの方は\nご登録いただいているメールアドレスをご入力ください。",
-                          style: TextStyle(
+                          context.tr(LocaleKeys.ResetPassword_IfYouHaveForgottenYourPasswordPleaseEnterYourRegisteredEmailAddress),
+                          style: const TextStyle(
                             fontSize: 12,
                             fontFamily: 'Hiragino',
                             fontWeight: FontWeight.w300,
@@ -117,11 +120,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      const Align(
+                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "再設定手続き用のURLが記載されたメールを送信いたします。",
-                          style: TextStyle(
+                          context.tr(LocaleKeys.ResetPassword_WeWillSendYouAnEmailContainingTheURLForTheResettingProcedure),
+                          style: const TextStyle(
                             fontSize: 12,
                             fontFamily: 'Hiragino',
                             fontWeight: FontWeight.w300,
@@ -176,10 +179,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                             borderRadius: BorderRadius.circular(10),
                             color: const Color(0xff4C75AB),
                           ),
-                          child: const Center(
+                          child:  Center(
                             child: Text(
-                              "メールを送信する",
-                              style: TextStyle(
+                              context.tr(LocaleKeys.ResetPassword_SendAnEmail),
+                              style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 fontFamily: 'Hiragino',
@@ -219,7 +222,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         validator: (value) {
           var errorValue = EmailValidator.validate(value ?? "")
               ? null
-              : "正しいメールアドレスを入力してください";
+              : context.tr(LocaleKeys.ResetPassword_PleaseEnterAValidEmailAddress);
           setState(() {
             _errorEmail = errorValue;
           });
@@ -227,14 +230,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         },
         controller: _emailController,
         style: context.appTheme.styles.textStyle,
-        decoration: const InputDecoration(
-            errorStyle: TextStyle(
+        decoration:  InputDecoration(
+            errorStyle: const TextStyle(
               fontSize: 0,
             ),
-            fillColor: Color(0xffF7F8FA),
+            fillColor: const Color(0xffF7F8FA),
             enabledBorder: InputBorder.none,
-            hintStyle: TextStyle(color: Color(0xffA2A2A2)),
-            hintText: "ログインID(メールアドレス)",
+            hintStyle: const TextStyle(color: Color(0xffA2A2A2)),
+            hintText: context.tr(LocaleKeys.ResetPassword_LoginIDEmailAddress),
             border: InputBorder.none),
       ),
     );

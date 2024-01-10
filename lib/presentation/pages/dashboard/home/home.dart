@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:uq_system_app/assets.gen.dart';
 import 'package:uq_system_app/core/extensions/text_style.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/di/injection.dart';
+import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_selector.dart';
@@ -16,6 +18,8 @@ import 'package:uq_system_app/presentation/pages/dashboard/widgets/site_item.dar
 import 'package:uq_system_app/presentation/pages/dashboard/widgets/site_skeleton.dart';
 import 'package:uq_system_app/presentation/widgets/dashboard_app_bar.dart';
 
+import '../../../../core/languages/translation_keys.g.dart';
+import '../../../../data/models/response/account.dart';
 import 'home_event.dart';
 import 'home_state.dart';
 
@@ -29,7 +33,7 @@ class DashboardHomePage extends StatefulWidget {
 
 class _DashboardHomePageState extends State<DashboardHomePage> {
   final HomeBloc _bloc = getIt.get<HomeBloc>();
-
+  final Account? account = getIt.get<AuthBloc>().state.account;
   @override
   void initState() {
     scheduleMicrotask(() {
@@ -48,7 +52,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
       value: _bloc,
       child: Scaffold(
         appBar: DashBoardAppBar(
-            title: "ホーム",
+            title: context.tr(LocaleKeys.Dashboard_Home),
             leftIcPath: Assets.icons.svg.icMenu.path,
             rightIcPath: Assets.icons.svg.icNotification.path),
         body: SmartRefresher(
@@ -100,9 +104,9 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
                 const SizedBox(
                   width: 20,
                 ),
-                const Text(
-                  "大事なお知らせ",
-                  style: TextStyle(
+                 Text(
+                   context.tr(LocaleKeys.Home_ImportantNotice),
+                  style: const TextStyle(
                       color: Colors.white,
                       fontSize: 15,
                       fontWeight: FontWeight.w600),
@@ -169,7 +173,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
                 child: Row(
                   children: [
                     Text(
-                        "${_bloc.state.startDayRequest?.month}/${_bloc.state.startDayRequest?.day} の現場",
+                        "${_bloc.state.startDayRequest?.month}/${_bloc.state.startDayRequest?.day} ${context.tr(LocaleKeys.Home_TheSceneOf)}",
                         style: TextStyle(
                             color: context.colors.primary,
                             fontSize: 17,
@@ -193,7 +197,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
                       onTap: () {
                         context.router.push(const ScheduleDetailsRoute());
                       },
-                      child: Text("スケジュール管理",
+                      child: Text(context.tr(LocaleKeys.Home_ScheduleManagement),
                           style: TextStyle(
                               color: context.colors.tertiary,
                               fontSize: 15,
@@ -212,7 +216,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) => SiteItem(
                   site: sites[index],
-                  companyType: _bloc.state.account?.company.type ?? 1,
+                  companyType: account?.company.type ?? 1,
                 ),
               ),
             ],
@@ -224,7 +228,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
            scrollDirection: Axis.vertical,
            shrinkWrap: true,
            physics: const NeverScrollableScrollPhysics(),
-           itemBuilder: (context, index) => const SiteSkeletion(),
+           itemBuilder: (context, index) => const SiteSkeleton(),
          );
        }
        return Container();

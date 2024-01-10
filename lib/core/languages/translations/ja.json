@@ -4,9 +4,6 @@
       "HelloUsername": "Hello, {username}",
       "WelcomeToApp": "Welcome to {appName} !"
     },
-    "Search": {
-      "Hint_QuizCollectionAndEverything": "Quiz, collection and everything ..."
-    },
     "Title": {
       "ContinueQuiz": "Continue Quiz",
       "TopCategories": "Top Categories",
@@ -28,5 +25,52 @@
       "UnknownError": "不明なエラー",
       "NetworkError": "ネットワークエラー",
       "UnauthorizedError": "リクエストにはユーザー認証が必要です"
-    }
-  }
+    },
+
+  "Login" : {
+    "IfYouForgotYourPasswordClickHere" : "パスワードを忘れた方はこちら",
+    "Login" : "ログイン",
+    "PleaseEnterAValidEmailAddress" : "正しいメールアドレスを入力してください",
+    "LoginIDEmailAddress" : "ログインID(メールアドレス)",
+    "PleaseEnterYourPassword" : "パスワードを入力してください",
+    "Password" : "パスワード"
+  },
+  "ResetPassword" : {
+    "YourPasswordHasBeenResetPleaseCheckYourEmail" : "パスワードをリセットしました。メールを確認してください。",
+    "SendPasswordResetEmail" : "パスワード再設定用メール送信",
+    "IfYouHaveForgottenYourPasswordPleaseEnterYourRegisteredEmailAddress" : "パスワードをお忘れの方は\nご登録いただいているメールアドレスをご入力ください。",
+    "WeWillSendYouAnEmailContainingTheURLForTheResettingProcedure" : "再設定手続き用のURLが記載されたメールを送信いたします。",
+    "SendAnEmail" : "メールを送信する",
+    "PleaseEnterAValidEmailAddress" : "正しいメールアドレスを入力してください",
+    "LoginIDEmailAddress" : "ログインID(メールアドレス)"
+  },
+  "Home" : {
+    "ImportantNotice" : "大事なお知らせ",
+    "TheSceneOf" : "の現場",
+    "ScheduleManagement" : "スケジュール管理",
+    "" : ""
+  },
+  "OnSite" : {
+    "SignUp" : "新規登録",
+    "SiteNameSearch" : "現場名検索",
+    "NotOrdering" : "未発注",
+    "Ordered" : "発注済",
+    "HopingToReceiveOrders" : "受注希望中",
+    "OrderConfirmed1" : "発注確定",
+    "OrderConfirmed2" : "受注確定",
+    "UnderImplementation" : "施行中",
+    "AcceptanceInspectionRequest" : "検収依頼",
+    "EnforcementCompleted" : "施行完了"
+  },
+  "Chat" : {
+    "NegotiationRoom" : "交渉ルーム",
+    "OnSiteInformationRoom" : "現場情報ルーム"
+  },
+  "Search" : {
+    "EstimatedNumberOfAvailablePersonnel" : "稼働可能人員目安",
+    "Man" : "人",
+    "" : ""
+  },
+  "InformationNotEntered" : "情報未入力"
+
+}

@@ -20,30 +20,27 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<BaseException, void>> login(LoginParams loginParams) async {
-    try {
-      var result = await _networkDataSource.login(loginParams);
-      _localDataSource.saveAccount(result.data.account);
-      return const Right(null);
-    } on BaseException catch (e) {
-      return Left(e);
-    }
+  Future<Account> login(LoginParams loginParams) async {
+    var result = await _networkDataSource.login(loginParams);
+    await _localDataSource.saveAccount(result.data!.account);
+    return result.data!.account;
   }
+
   @override
-  Future<Either<BaseException, void>> resetPassword(
-      ResetPassParams resetPassParams) async {
-    try {
-      await _networkDataSource.resetPassword(
-          resetPassParams.email, resetPassParams.type);
-      return const Right(null);
-    } on BaseException catch (e) {
-      return Left(e);
-    }
+  Future<void> resetPassword(ResetPassParams resetPassParams) async {
+    await _networkDataSource.resetPassword(
+        resetPassParams.email, resetPassParams.type);
   }
-  
+
   @override
-  Future<Account?> getAccount() async{
-    var account = await _localDataSource.getAccount();
-    return account;
+  Future<Account?> getAccount() async {
+    try{
+      var result = await _networkDataSource.getUserInfo();
+      return result.data;
+    }
+    catch(e){
+      var account = await _localDataSource.getAccount();
+      return account;
+    }
   }
 }

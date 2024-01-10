@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:injectable/injectable.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
-import 'package:uq_system_app/data/models/request/reset_pass_params.dart';
 import 'package:uq_system_app/data/usecases/auth/login_usecase.dart';
 import 'package:uq_system_app/data/usecases/auth/logout.dart';
 import 'package:uq_system_app/data/usecases/auth/resetpassword_usecase.dart';
@@ -11,18 +10,30 @@ import 'package:uq_system_app/presentation/blocs/auth/auth_event.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../data/usecases/user/get_account_usecase.dart';
+
 @lazySingleton
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final Logout _logout;
   final LoginUseCase _loginUseCase;
-  final ResetPasswordUsecase _resetPasswordUsecase;
-  AuthBloc(this._logout, this._loginUseCase, this._resetPasswordUsecase)
+  final GetAccountUseCase _getAccountUseCase;
+  AuthBloc(this._logout, this._loginUseCase, this._getAccountUseCase)
       : super(const AuthState()) {
+    on<AuthEventErrorOccurred>(_onErrorOccurred);
     on<AuthLoggedOut>(_onLoggedOut);
-    on<AuthLogin>(_onLoggin);
-    on<AuthResetPassword>(_onResetPassword);
+    on<AuthLogin>(_onLogin);
+    on<AuthLoadAccount>(_onLoadAccount);
   }
-
+  FutureOr<void> _onErrorOccurred(
+      AuthEventErrorOccurred event,
+      Emitter<AuthState> emit,
+      ) {
+    emit(state.copyWith(authStatus: AuthStatus.failure, error: event.error));
+  }
+  FutureOr<void> _onLoadAccount(AuthLoadAccount event, Emitter<AuthState> emit) async{
+    var account = await _getAccountUseCase();
+    emit(state.copyWith(authStatus: AuthStatus.success, account: account));
+  }
   Future<void> _onLoggedOut(
       AuthLoggedOut event, Emitter<AuthState> emit) async {
     try {
@@ -42,20 +53,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _onLoggin(AuthLogin event, Emitter<AuthState> emit) async {
-    emit(state.copyWith(authStatus: AuthStatus.loading));
-    var either = await _loginUseCase(event.loginParams);
-    either.fold(
-        (l) => emit(state.copyWith(authStatus: AuthStatus.failure, error: l)),
-        (r) => emit(state.copyWith(authStatus: AuthStatus.success)));
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    add(AuthEvent.errorOccurred(BaseException.from(error)));
+    super.onError(error, stackTrace);
   }
 
-  Future<void> _onResetPassword(
-      AuthResetPassword event, Emitter<AuthState> emit) async {
+  Future<void> _onLogin(AuthLogin event, Emitter<AuthState> emit) async {
     emit(state.copyWith(authStatus: AuthStatus.loading));
-    var either = await _resetPasswordUsecase(ResetPassParams(email: event.email));
-     either.fold(
-        (l) => emit(state.copyWith(authStatus: AuthStatus.failure, error: l)),
-        (r) => emit(state.copyWith(authStatus: AuthStatus.success)));
+    var result = await _loginUseCase(event.loginParams);
+    emit(state.copyWith(authStatus: AuthStatus.success, account: result));
   }
+
 }

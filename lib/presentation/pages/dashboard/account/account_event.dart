@@ -7,4 +7,5 @@ part 'account_event.freezed.dart';
 class AccountEvent with _$AccountEvent {
   const factory AccountEvent.errorOccurred([BaseException? error]) =
       AccountErrorOccurred;
+  const factory AccountEvent.load() = AccountLoad;
 }

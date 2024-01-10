@@ -9,4 +9,5 @@ class SearchEvent with _$SearchEvent {
       SearchErrorOccurred;
   const factory SearchEvent.load() = SearchLoad;
   const factory SearchEvent.searchPartners() = SearchLoadMore;
+  const factory SearchEvent.changeFavoritePartnerState({required int id}) = SearchChangeFavoritePartnerState;
 }

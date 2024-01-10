@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 
-class SiteSkeletion extends StatelessWidget {
-  const SiteSkeletion({super.key});
+class SiteSkeleton extends StatelessWidget {
+  const SiteSkeleton({super.key});
 
   @override
   Widget build(BuildContext context) {

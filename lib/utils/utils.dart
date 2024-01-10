@@ -51,37 +51,42 @@ class Utils {
     }
   }
 
-  static String siteStatusToString(int status, int companyType) {
+  static String siteStatusToString(BuildContext context,int status, int companyType) {
     switch (status) {
       case 0:
       case 1:
-        return "未発注";
+        return context.tr(LocaleKeys.OnSite_NotOrdering);
       case 2:
-        return "発注済";
+        return context.tr(LocaleKeys.OnSite_Ordered);
       case 3:
-        return "受注希望中";
+        return context.tr(LocaleKeys.OnSite_HopingToReceiveOrders);
       case 4:
         {
           if (companyType == 1) {
-            return "発注確定";
+            return context.tr(LocaleKeys.OnSite_OrderConfirmed1);
           } else {
-            return "受注確定";
+            return context.tr(LocaleKeys.OnSite_OrderConfirmed2);
           }
         }
       case 5:
-        return "施行中";
+        return context.tr(LocaleKeys.OnSite_UnderImplementation);
       case 6:
-        return "検収依頼";
+        return context.tr(LocaleKeys.OnSite_AcceptanceInspectionRequest);
       case 7:
-        return "施行完了";
+        return context.tr(LocaleKeys.OnSite_EnforcementCompleted);
     }
     return "";
   }
 
- static String joinDataWithSeparator(List<String> data, [String separator = '/']) {
+ static String joinDataWithSeparator(BuildContext context,List<String> data, [String separator = '/']) {
   if (data.isEmpty) {
-    return '情報未入力';
+    return context.tr(LocaleKeys.InformationNotEntered);
   }
   return data.join(separator);
 }
+
+  static bool isDateExpired(String dateString){
+    DateTime dateTimeFromStr = DateTime.parse(dateString);
+    return dateTimeFromStr.isBefore(DateTime.now());
+  }
 }

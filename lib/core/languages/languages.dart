@@ -68,7 +68,7 @@ class AppLanguages extends StatelessWidget {
       supportedLocales: supportedLocales,
       fallbackLocale: fallbackLanguage.locale,
       saveLocale: true,
-      startLocale: locale,
+      startLocale: Locale('ja'),
       child: child,
     );
   }

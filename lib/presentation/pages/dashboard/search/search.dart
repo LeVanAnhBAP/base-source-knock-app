@@ -1,11 +1,11 @@
-import 'dart:async';
 
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:uq_system_app/assets.gen.dart';
-import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/data/models/response/partner_response.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/search/search_bloc.dart';
@@ -14,6 +14,8 @@ import 'package:uq_system_app/presentation/pages/dashboard/search/search_selecto
 import 'package:uq_system_app/presentation/pages/dashboard/search/search_state.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/search/widgets/search_item.dart';
 import 'package:uq_system_app/presentation/widgets/dashboard_app_bar.dart';
+
+import '../../../../core/languages/translation_keys.g.dart';
 
 @RoutePage()
 class DashBoardSearchPage extends StatefulWidget {
@@ -24,6 +26,7 @@ class DashBoardSearchPage extends StatefulWidget {
 class _DashBoardSearchPageState extends State<DashBoardSearchPage> {
   final SearchBloc _bloc = getIt.get<SearchBloc>();
   List<PartnerResponse> partners = [];
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -33,7 +36,6 @@ class _DashBoardSearchPageState extends State<DashBoardSearchPage> {
   @override
   void dispose() {
     _bloc.close();
-
     super.dispose();
   }
 
@@ -51,7 +53,7 @@ class _DashBoardSearchPageState extends State<DashBoardSearchPage> {
       value: _bloc,
       child: Scaffold(
         appBar: DashBoardAppBar(
-          title: "探す",
+          title: context.tr(LocaleKeys.Dashboard_Search),
           rightIcPath: Assets.icons.svg.icDashboardSearch.path,
         ),
         body: SearchStatusListener(
@@ -59,11 +61,12 @@ class _DashBoardSearchPageState extends State<DashBoardSearchPage> {
             listener: (BuildContext context, SearchState state) {
               setState(() {
                 if (state.status == SearchStatus.success) {
-                  partners.addAll(state.partners);
+                  partners = state.partners;
                 }
               });
             },
             child: Scrollbar(
+              controller: scrollController,
               child: SmartRefresher(
                 onRefresh: _onRefresh,
                 onLoading: _onLoadMore,
@@ -74,7 +77,7 @@ class _DashBoardSearchPageState extends State<DashBoardSearchPage> {
                   itemCount: partners.length,
                   itemBuilder: (context, index) => Padding(
                     padding: EdgeInsets.only(top: index == 0 ? 10 : 0),
-                    child: SearchItem(partner: partners[index]),
+                    child: SearchItem(partner:partners[index]),
                   ),
                 ),
               ),

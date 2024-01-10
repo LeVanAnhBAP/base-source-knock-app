@@ -41,7 +41,7 @@ class SiteItem extends StatelessWidget {
                   width: 18,
                 ),
                 Text(
-                  Utils.siteStatusToString(site.status, companyType),
+                  Utils.siteStatusToString(context,site.status, companyType),
                   style: TextStyle(
                       color: Utils.siteStatusToColor(site.status, context),
                       fontSize: 6),

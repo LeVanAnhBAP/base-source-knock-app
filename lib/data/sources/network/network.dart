@@ -1,6 +1,8 @@
 import 'package:uq_system_app/core/bases/responses/base_response.dart';
 import 'package:uq_system_app/core/bases/responses/paginate_response.dart';
+import 'package:uq_system_app/data/models/request/favorite_partner_params.dart';
 import 'package:uq_system_app/data/models/request/login_params.dart';
+import 'package:uq_system_app/data/models/response/account.dart';
 import 'package:uq_system_app/data/models/response/partner_response.dart';
 import 'package:uq_system_app/data/models/response/site_response.dart';
 import 'package:uq_system_app/data/models/response/login_response.dart';
@@ -41,4 +43,12 @@ abstract class NetworkDataSource {
     @Query('page') int page,
     @Query('per_page') int perPage,
   );
+
+  @PUT(NetworkUrls.favoritePartner)
+  Future<BaseResponse> changeFavoritePartnerState(@Body() FavoritePartnerParams request);
+
+
+  //Profile
+  @GET(NetworkUrls.info)
+  Future<BaseResponse<Account>> getUserInfo();
 }

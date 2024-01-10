@@ -15,13 +15,12 @@ import 'home_state.dart';
 @lazySingleton
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final PaginateSiteUseCase _paginateSiteUseCase;
-  final GetAccountUseCase _getAccountUseCase;
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
   int page = 1;
   String _startDayRequest = "";
 
-  HomeBloc(this._paginateSiteUseCase, this._getAccountUseCase)
+  HomeBloc(this._paginateSiteUseCase)
       : super(const HomeState()) {
     on<DashboardHomeGetDataStarted>(_onGetDataStated);
     on<HomeErrorOccurred>(_onErrorOccurred);
@@ -67,11 +66,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _startDayRequest = DateFormat("yyyy-MM-dd").format(DateTime.now());
     var result = await _paginateSiteUseCase(
         PaginateSiteParams(page: page, startDayRequest: _startDayRequest));
-    var account = await _getAccountUseCase();
     emit(state.copyWith(
         status: HomeStatus.success,
         sites: result,
-        account: account,
         startDayRequest: DateTime.now()));
   }
 
