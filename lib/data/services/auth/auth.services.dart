@@ -7,6 +7,8 @@ abstract class AuthServices {
   Future<String?> getAccessToken();
 
   Future<String?> getRefreshToken();
+  Future<void> saveTokenExpiresTime(String? expiresAt) ;
+  Future<String?> getTokenExpiresTime();
   Future<void> saveAccessToken(String? token);
 
   Future<void> saveRefreshToken(String? token);

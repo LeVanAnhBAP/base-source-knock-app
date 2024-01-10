@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:injectable/injectable.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/data/models/request/reset_pass_params.dart';
-import 'package:uq_system_app/data/usecases/login_usecase.dart';
-import 'package:uq_system_app/data/usecases/logout.dart';
-import 'package:uq_system_app/data/usecases/resetpassword_usecase.dart';
+import 'package:uq_system_app/data/usecases/auth/login_usecase.dart';
+import 'package:uq_system_app/data/usecases/auth/logout.dart';
+import 'package:uq_system_app/data/usecases/auth/resetpassword_usecase.dart';
+
 import 'package:uq_system_app/presentation/blocs/auth/auth_event.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

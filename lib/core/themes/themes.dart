@@ -15,7 +15,7 @@ final AppTheme darkTheme = AppTheme(
     tertiary: Color(0xFF4175B1),
     quaternary: Color(0xFF4BA77A),
     quinary: Color(0xFFD9D9D9),
-    accent: Color.fromARGB(255, 0, 0, 0),
+    accent: Color.fromARGB(255, 173, 173, 173),
     background: Color(0xFFF1F1F1),
     backgroundDark: Color(0xFF0E1118),
     disabled: Color(0xFF9CA4AF),
@@ -32,26 +32,31 @@ final AppTheme darkTheme = AppTheme(
   typographies: AppTypography(
     title1: GoogleFonts.zenKakuGothicAntique(
       fontSize: 32,
+       color: const Color(0xFF333333),
       fontWeight: FontWeight.w700,
       height: 1.3,
     ),
     title1SemiBold: GoogleFonts.zenKakuGothicAntique(
       fontSize: 32,
+       color: const Color(0xFF333333),
       fontWeight: FontWeight.w600,
       height: 1.3,
     ),
     title1Normal: GoogleFonts.zenKakuGothicAntique(
       fontSize: 32,
+       color: const Color(0xFF333333),
       fontWeight: FontWeight.w400,
       height: 1.3,
     ),
     title2: GoogleFonts.zenKakuGothicAntique(
       fontSize: 24,
+       color: const Color(0xFF333333),
       fontWeight: FontWeight.w600,
       height: 1.3,
     ),
     title2Bold: GoogleFonts.zenKakuGothicAntique(
       fontSize: 24,
+       color: const Color(0xFF333333),
       fontWeight: FontWeight.w700,
       height: 1.3,
     ),

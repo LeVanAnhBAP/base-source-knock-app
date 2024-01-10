@@ -14,12 +14,15 @@ class OnSiteStatusSelector
 }
 
 class OnSiteStatusListener extends BlocListener<OnSiteBloc, OnSiteState> {
-  OnSiteStatusListener({
-    required Iterable<OnSiteStatus> statuses,
-    super.key,
-    required super.listener,
-  }) : super(
+  OnSiteStatusListener(
+      {required Iterable<OnSiteStatus> statuses,
+      super.key,
+      required super.listener,
+      required Widget child})
+      : super(
           listenWhen: (previousState, currentState) =>
-              previousState.status != currentState.status && statuses.contains(currentState.status),
+              previousState.status != currentState.status &&
+              statuses.contains(currentState.status),
+          child: child,
         );
 }

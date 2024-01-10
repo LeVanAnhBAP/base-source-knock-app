@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="19.688" height="18.911" viewBox="0 0 19.688 18.911">
+  <g id="Group_20421" data-name="Group 20421" transform="translate(17479.688 3119.019)">
+    <text id="_15" data-name="15" transform="translate(-17469.328 -3105.852)" fill="#fff" font-size="10" font-family="SegoeUI, Segoe UI"><tspan x="-5.391" y="0">15</tspan></text>
+    <g id="Ellipse_23" data-name="Ellipse 23" transform="translate(-17479.688 -3119.019)" fill="#fff" stroke="#707070" stroke-width="0.5">
+      <ellipse cx="9.844" cy="9.456" rx="9.844" ry="9.456" stroke="none"/>
+      <ellipse cx="9.844" cy="9.456" rx="9.594" ry="9.206" fill="none"/>
+    </g>
+    <path id="Icon_awesome-bookmark" data-name="Icon awesome-bookmark" d="M0,9.342V.876A.894.894,0,0,1,.912,0H6.382a.894.894,0,0,1,.912.876V9.342L3.647,7.3Z" transform="translate(-17473.49 -3114.234)" fill="none" stroke="#707070" stroke-width="1"/>
+  </g>
+</svg>
