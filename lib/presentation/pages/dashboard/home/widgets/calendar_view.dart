@@ -31,7 +31,7 @@ class _CalendarViewState extends State<CalendarView> {
     _startingDayOfWeek = StartingDayOfWeek.values[currentDayOfWeek - 1];
   }
 
-  void updateShedule(DateTime selectedDay, DateTime focusDay) {
+  void updateSchedule(DateTime selectedDay, DateTime focusDay) {
     scheduleMicrotask(() {
       
       getIt.get<HomeBloc>().add(
@@ -57,11 +57,11 @@ class _CalendarViewState extends State<CalendarView> {
           titleTextStyle: context.typographies.bodyBold,
         ),
         onPageChanged: (dateTime) {
-          updateShedule(dateTime, dateTime);
+          updateSchedule(dateTime, dateTime);
         },
         rowHeight: 60,
         onDaySelected: (selectedDay, focusedDay) {
-          updateShedule(selectedDay, focusedDay);
+          updateSchedule(selectedDay, focusedDay);
         },
         calendarStyle: CalendarStyle(
             todayTextStyle: TextStyle(color: context.colors.primary),

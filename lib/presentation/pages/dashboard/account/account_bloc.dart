@@ -21,7 +21,9 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     super.onError(error, stackTrace);
   }
   FutureOr<void> _onLoad(AccountLoad event, Emitter<AccountState> emit) async{
-
+    emit(state.copyWith(status: AccountStatus.loading));
+    var result = await _getAccountUseCase();
+    emit(state.copyWith(status: AccountStatus.success, account: result));
   }
   FutureOr<void> _onErrorOccurred(
     AccountErrorOccurred event,

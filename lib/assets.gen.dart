@@ -81,6 +81,9 @@ class $AssetsIconsPngGen {
   /// File path: assets/icons/png/.gitkeep
   String get gitkeep => 'assets/icons/png/.gitkeep';
 
+  /// File path: assets/icons/png/ic_camera.png
+  AssetGenImage get icCamera => const AssetGenImage('assets/icons/png/ic_camera.png');
+
   /// File path: assets/icons/png/ic_dashboard_chat.png
   AssetGenImage get icDashboardChat =>
       const AssetGenImage('assets/icons/png/ic_dashboard_chat.png');
@@ -113,6 +116,7 @@ class $AssetsIconsPngGen {
   /// List of all assets
   List<dynamic> get values => [
         gitkeep,
+        icCamera,
         icDashboardChat,
         icDashboardHome,
         icDashboardOnsite,

@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:uq_system_app/core/entities/user.dart';
 import 'package:uq_system_app/data/models/request/login_params.dart';
 import 'package:uq_system_app/data/models/request/reset_pass_params.dart';
@@ -9,4 +11,5 @@ abstract class UserRepository {
    Future<Account> login(LoginParams loginParams);
    Future<void> resetPassword(ResetPassParams resetPassParams);
    Future<Account?> getAccount() ;
+   Future<void> updateAvatar(File avatar) ;
 }

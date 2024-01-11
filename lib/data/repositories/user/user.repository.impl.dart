@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uq_system_app/core/entities/user.dart';
@@ -42,5 +44,10 @@ class UserRepositoryImpl implements UserRepository {
       var account = await _localDataSource.getAccount();
       return account;
     }
+  }
+
+  @override
+  Future<void> updateAvatar(File avatar) async{
+    await _networkDataSource.updateAvatar(avatar, 'put');
   }
 }

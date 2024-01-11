@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/data/models/request/login_params.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -12,5 +14,5 @@ class AuthEvent with _$AuthEvent {
   const factory AuthEvent.loggedOut([BaseException? error]) = AuthLoggedOut;
 
   const factory AuthEvent.loadAccount() = AuthLoadAccount;
-
+  const factory AuthEvent.updateAvatar(File avatar) = AuthUpdateAvatar;
 }

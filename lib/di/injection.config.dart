@@ -48,12 +48,14 @@ import 'package:uq_system_app/data/usecases/site/paginate_site_usecase.dart'
     as _i20;
 import 'package:uq_system_app/data/usecases/user/get_account_usecase.dart'
     as _i26;
-import 'package:uq_system_app/di/register_module.dart' as _i36;
-import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart' as _i34;
-import 'package:uq_system_app/presentation/pages/auth/reset_password/reset_password_bloc.dart'
-    as _i35;
-import 'package:uq_system_app/presentation/pages/dashboard/account/account_bloc.dart'
+import 'package:uq_system_app/data/usecases/user/update_avatar_usecase.dart'
     as _i33;
+import 'package:uq_system_app/di/register_module.dart' as _i37;
+import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart' as _i35;
+import 'package:uq_system_app/presentation/pages/auth/reset_password/reset_password_bloc.dart'
+    as _i36;
+import 'package:uq_system_app/presentation/pages/dashboard/account/account_bloc.dart'
+    as _i34;
 import 'package:uq_system_app/presentation/pages/dashboard/chat/chat_bloc.dart'
     as _i4;
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart'
@@ -80,12 +82,12 @@ extension GetItInjectableX on _i1.GetIt {
     );
     final registerModule = _$RegisterModule();
     gh.lazySingleton<_i3.ApiServices>(
-        () => registerModule.registerApiservice());
+        () => registerModule.registerApiService());
     gh.factory<_i4.ChatBloc>(() => _i4.ChatBloc());
     gh.lazySingleton<_i5.FlutterSecureStorage>(
         () => registerModule.getFlutterSecureStorage);
     gh.lazySingleton<_i6.NetworkDataSource>(
-        () => registerModule.registerNetworkDataSourcer(gh<_i3.ApiServices>()));
+        () => registerModule.registerNetworkDataSource(gh<_i3.ApiServices>()));
     gh.factory<_i7.NotificationBloc>(() => _i7.NotificationBloc());
     gh.lazySingleton<_i8.PartnerRepository>(
         () => _i9.PartnerRepositoryImpl(gh<_i6.NetworkDataSource>()));
@@ -139,17 +141,20 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i31.ResetPasswordUseCase(gh<_i24.UserRepository>()));
     gh.lazySingleton<_i32.SaveLanguage>(
         () => _i32.SaveLanguage(gh<_i22.SystemRepository>()));
-    gh.factory<_i33.AccountBloc>(
-        () => _i33.AccountBloc(gh<_i26.GetAccountUseCase>()));
-    gh.lazySingleton<_i34.AuthBloc>(() => _i34.AuthBloc(
+    gh.factory<_i33.UpdateAvatarUseCase>(
+        () => _i33.UpdateAvatarUseCase(gh<_i24.UserRepository>()));
+    gh.factory<_i34.AccountBloc>(
+        () => _i34.AccountBloc(gh<_i26.GetAccountUseCase>()));
+    gh.lazySingleton<_i35.AuthBloc>(() => _i35.AuthBloc(
           gh<_i18.Logout>(),
           gh<_i29.LoginUseCase>(),
           gh<_i26.GetAccountUseCase>(),
+          gh<_i33.UpdateAvatarUseCase>(),
         ));
-    gh.factory<_i35.ResetPasswordBloc>(
-        () => _i35.ResetPasswordBloc(gh<_i31.ResetPasswordUseCase>()));
+    gh.factory<_i36.ResetPasswordBloc>(
+        () => _i36.ResetPasswordBloc(gh<_i31.ResetPasswordUseCase>()));
     return this;
   }
 }
 
-class _$RegisterModule extends _i36.RegisterModule {}
+class _$RegisterModule extends _i37.RegisterModule {}

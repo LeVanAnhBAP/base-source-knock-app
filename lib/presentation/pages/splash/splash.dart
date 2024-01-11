@@ -2,12 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uq_system_app/assets.gen.dart';
-import 'package:uq_system_app/core/extensions/date_time.dart';
 import 'package:uq_system_app/data/services/auth/auth.services.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_event.dart';
-import 'package:uq_system_app/presentation/blocs/auth/auth_selector.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_state.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/utils/utils.dart';
@@ -46,11 +44,8 @@ class _SplashPageState extends State<SplashPage> {
         BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state.authStatus == AuthStatus.success) {
-
-                AutoRouter.of(context).replace(const DashboardRoute());
-
+              AutoRouter.of(context).replace(const DashboardRoute());
             }
-
           },
         )
       ],

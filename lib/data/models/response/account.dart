@@ -21,7 +21,6 @@ class Account with _$Account {
     @JsonKey(name: 'password_readable')  String? passwordReadable,
     @JsonKey(name: 'company') required CompanyResponse company,
     @JsonKey(name : 'avatar')  ImageResponse? avatar,
-    @JsonKey(name : 'background')  ImageResponse? background,
   }) = _Account;
 
   factory Account.fromJson(Map<String, dynamic> json) =>
