@@ -96,7 +96,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
             margin: const EdgeInsets.only(top: 20, right: 10),
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 7),
             decoration: BoxDecoration(
-                color: context.colors.tertiary,
+                color: account?.company.type == 1 ? context.colors.tertiary : context.colors.secondary,
                 borderRadius: BorderRadius.circular(12)),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -124,7 +124,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
                     child: Icon(
                       Icons.keyboard_arrow_right,
                       size: 30,
-                      color: context.appTheme.colors.tertiary,
+                      color: account?.company.type == 1 ? context.colors.tertiary : context.colors.secondary,
                     ),
                   ),
                 ),
@@ -157,7 +157,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15), color: Colors.white),
-      child: const SizedBox(height: 124, child: CalendarView()),
+      child:  SizedBox(height: 124, child: CalendarView(companyType: account?.company.type ?? 1,)),
     );
   }
 
@@ -184,7 +184,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
                     Container(
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
-                          color: context.colors.secondary,
+                          color: account?.company.type == 1 ? context.colors.secondary : context.colors.tertiary,
                           shape: BoxShape.circle),
                       child: Text(
                         sites.length.toString(),

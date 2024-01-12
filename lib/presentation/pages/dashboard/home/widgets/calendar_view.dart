@@ -8,7 +8,8 @@ import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_event.dart';
 
 class CalendarView extends StatefulWidget {
-  const CalendarView({super.key});
+  final int companyType;
+  const CalendarView({super.key,required this.companyType});
 
   @override
   State<CalendarView> createState() => _CalendarViewState();
@@ -70,7 +71,7 @@ class _CalendarViewState extends State<CalendarView> {
             defaultTextStyle:
                 TextStyle(color: context.colors.primary, fontSize: 15),
             selectedDecoration: BoxDecoration(
-                color: context.colors.secondary, shape: BoxShape.circle)),
+                color: widget.companyType == 1 ? context.colors.secondary : context.colors.tertiary, shape: BoxShape.circle)),
         calendarFormat: CalendarFormat.week,
         startingDayOfWeek: _startingDayOfWeek,
         focusedDay: _focusedDay,
