@@ -10,6 +10,8 @@ import 'package:uq_system_app/presentation/pages/dashboard/profile/profile.dart'
 import 'package:uq_system_app/presentation/pages/dashboard/search/search.dart';
 import 'package:uq_system_app/presentation/pages/notification/notification.dart';
 import 'package:uq_system_app/presentation/pages/schedule_details/schedule_details.dart';
+import 'package:uq_system_app/presentation/pages/site_details/site_details.dart';
+
 import 'package:uq_system_app/presentation/pages/splash/splash.dart';
 
 part 'navigation.gr.dart';
@@ -32,6 +34,8 @@ class AppRouter extends _$AppRouter{
     ]),
     AutoRoute(path: '/notification', page: NotificationRoute.page),
     AutoRoute(path: '/schedule_details', page: ScheduleDetailsRoute.page),
+    AutoRoute(path: '/site_details', page: SiteDetailsRoute.page),
+
   ];
 @override
   RouteType get defaultRouteType => const RouteType.material();

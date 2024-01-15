@@ -113,5 +113,26 @@
     "AccountNumber" : "Account number",
     "AccountHolder" : "Account name"
   },
+  "SiteDetail" : {
+    "DetailedInformationOnSite": "Detailed information on site",
+    "OrderingSite" : "Ordering site",
+    "SiteDetails": "Site Details",
+    "Image" : "Image",
+    "OrderNo" : "Order No.",
+    "Manager" : "Person in charge",
+    "ConstructionCode" : "Construction code",
+    "ConstructionName": "Construction Name",
+    "ConstructionDetails" : "Construction details",
+    "Occupation": "Occupation",
+    "ConstructionSite": "Construction Site",
+    "Prefectures" : "Prefectures",
+    "Municipalities": "Municipalities",
+    "TownArea" : "Town area",
+    "AfterTheAddress": "After the address",
+    "BuildingNameEtc" : "Building name etc.",
+    "TotalOrderAmount" : "Total order amount",
+    "ActualExpensesWillBeSettledSeparately": "Actual Expenses Will Be Settled Separately",
+    "RemarksTheContentsDescribedWillBeReflectedInTheOrderForm" : "Remarks (The contents you describe will be reflected in the order form)"
+  },
   "InformationNotEntered" : "Information not entered"
 }

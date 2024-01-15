@@ -58,10 +58,15 @@ class DashBoardAppBar extends StatelessWidget implements PreferredSizeWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (rightIcPath != null) ...[
-                SvgPicture.asset(
-                  rightIcPath!,
+                SizedBox(
                   width: 25,
-                  height: 25,
+
+                  child: SvgPicture.asset(
+                    rightIcPath!,
+                    fit: BoxFit.scaleDown,
+                    width: 25,
+                    height: 25,
+                  ),
                 ),
               ],
               if (rightIcDescription != null) ...[
