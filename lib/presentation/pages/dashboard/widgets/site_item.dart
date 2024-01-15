@@ -25,7 +25,7 @@ class SiteItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       decoration: BoxDecoration(
-          color: context.colors.tertiary,
+          color: companyType == 1 ? context.colors.tertiary : context.colors.secondary,
           borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(15), topRight: Radius.circular(15))),
       child: Row(
@@ -50,18 +50,21 @@ class SiteItem extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(6)),
-            child: Text(
-              "${site.firstName} ${site.lastName}",
-              style: TextStyle(
-                  color: context.colors.primary,
-                  fontSize: 9,
-                  fontWeight: FontWeight.w600),
-            ),
-          )
+          if(companyType == 1)...[
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(6)),
+              child: Text(
+                "${site.firstName} ${site.lastName}",
+                style: TextStyle(
+                    color: context.colors.primary,
+                    fontSize: 9,
+                    fontWeight: FontWeight.w600),
+              ),
+            )
+          ]
+          else Container()
         ],
       ),
     );

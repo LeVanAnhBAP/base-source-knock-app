@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:autoscale_tabbarview/autoscale_tabbarview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
@@ -27,12 +28,14 @@ class DashboardAccountPage extends StatefulWidget {
 }
 
 class _DashboardAccountPageState extends State<DashboardAccountPage>
-with SingleTickerProviderStateMixin{
+    with SingleTickerProviderStateMixin {
   final AuthBloc _bloc = getIt.get<AuthBloc>();
   final ScrollController scrollController = ScrollController();
-  final RefreshController _refreshController = RefreshController(initialRefresh: true);
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: true);
   late Account account;
-  late TabController controller ;
+  late TabController controller;
+
   @override
   void initState() {
     super.initState();
@@ -45,18 +48,17 @@ with SingleTickerProviderStateMixin{
     _bloc.close();
     super.dispose();
   }
-  void _onRefresh(){
+
+  void _onRefresh() {
     _bloc.add(const AuthLoadAccount());
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: _bloc,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: DashBoardAppBar(
-          title: context.tr(LocaleKeys.Dashboard_Profile),
-        ),
         body: AuthListener(
           listener: (BuildContext context, AuthState state) {
             if (state.authStatus == AuthStatus.failure ||
@@ -70,65 +72,109 @@ with SingleTickerProviderStateMixin{
             }
           },
           child: SmartRefresher(
+            header: MaterialClassicHeader(
+              color: context.colors.secondary,
+              offset: 30,
+            ),
             enablePullUp: false,
             onRefresh: _onRefresh,
             controller: _refreshController,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildImage(),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.7,
-                        decoration: BoxDecoration(
-                            color: const Color(0xFFE4E4E4),
-                            borderRadius: BorderRadius.circular(20)),
-                        height: 35,
-                        child: TabBar(
-                          controller: controller,
-                          indicatorPadding: const EdgeInsets.all(5),
-                          indicatorSize: TabBarIndicatorSize.tab,
-                          indicator: BoxDecoration(
-                              color: const Color(0xFF4A4B4F),
-                              borderRadius: BorderRadius.circular(15)),
-                          dividerColor: Colors.transparent,
-                          labelStyle: context.typographies.subBodyBold1
-                              .withColor(Colors.white),
-                          unselectedLabelStyle: context
-                              .typographies.subBodyBold1
-                              .withColor(const Color(0xFF868686)),
-                          tabs: const [
-                            Tab(
-                              text: "本人情報",
+            child: CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  collapsedHeight: 66,
+                  backgroundColor: Colors.white,
+                  pinned: true,
+                  floating: false,
+                  expandedHeight: 370,
+                  flexibleSpace: FlexibleSpaceBar(
+                    expandedTitleScale: 1,
+                    titlePadding: EdgeInsets.zero,
+                    title: Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20))),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 15),
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            decoration: BoxDecoration(
+                                color: const Color(0xFFE4E4E4),
+                                borderRadius: BorderRadius.circular(20)),
+                            height: 35,
+                            child: TabBar(
+                              controller: controller,
+                              indicatorPadding: const EdgeInsets.all(5),
+                              indicatorSize: TabBarIndicatorSize.tab,
+                              indicator: BoxDecoration(
+                                  color: const Color(0xFF4A4B4F),
+                                  borderRadius: BorderRadius.circular(15)),
+                              dividerColor: Colors.transparent,
+                              labelStyle: context.typographies.subBodyBold1
+                                  .withColor(Colors.white),
+                              unselectedLabelStyle: context
+                                  .typographies.subBodyBold1
+                                  .withColor(const Color(0xFF868686)),
+                              tabs: [
+                                Tab(
+                                  text: context.tr(
+                                      LocaleKeys.Profile_PersonalInformation),
+                                ),
+                                Tab(
+                                  text: context.tr(LocaleKeys.Profile_AboutUs),
+                                )
+                              ],
                             ),
-                            Tab(
-                              text: "会社情報",
-                            )
-                          ],
-                        ),
+                          ),
+                          Divider(
+                            height: 1,
+                            color: context.colors.divider,
+                          )
+                        ],
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Divider(
-                        height: 1,
-                        color: context.colors.divider,
-                      ),
-                      Container(
-                        height: 1000,
-                        child: TabBarView(
-                          controller: controller,
+                    ),
+                    background: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          height: 60,
+                          color: Colors.white,
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                          _buildUserInfo(),
-                          _buildCompanyInfo()
-                        ]),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                              Text(
+                                context.tr(LocaleKeys.Dashboard_Profile),
+                                style: context.typographies.title2
+                                    .withWeight(FontWeight.w300),
+                              ),
+                              Container(
+                                width: 70,
+                                height: 3,
+                                decoration: BoxDecoration(
+                                    color: context.colors.secondary,
+                                    borderRadius: BorderRadius.circular(5)),
+                              )
+                            ],
+                          ),
+                        ),
+                        _buildImage(),
+                      ],
+                    ),
+                  ),
+                  // flexibleSpace: _buildImage(),
+                ),
+                SliverToBoxAdapter(
+                  child: AutoScaleTabBarView(
+                      controller: controller,
+                      children: [_buildUserInfo(), _buildCompanyInfo()]),
+                )
+              ],
             ),
           ),
         ),
@@ -138,17 +184,19 @@ with SingleTickerProviderStateMixin{
 
   Widget _buildImage() {
     return SizedBox(
-        height: 300,
+        height: 250,
         child: Stack(
           children: [
             Image.network(
+
               account.company.background?.url ?? "",
               fit: BoxFit.cover,
               width: MediaQuery.of(context).size.width,
+
               errorBuilder:
                   (BuildContext context, Object error, StackTrace? stackTrace) {
                 return Container(
-                  height: 300,
+                  height: 250,
                   color: Colors.grey,
                 );
               },
@@ -179,13 +227,13 @@ with SingleTickerProviderStateMixin{
                             bottom: 5,
                             right: 0,
                             child: InkWell(
-                              onTap: (){
+                              onTap: () {
                                 _onShowUpdateImageOptions();
                               },
-                              child: AssetGenImage(Assets.icons.png.icCamera.path)
-                                  .image(width: 35),
-                            )
-                        ),
+                              child:
+                                  AssetGenImage(Assets.icons.png.icCamera.path)
+                                      .image(width: 35),
+                            )),
                       ],
                     ),
                   ],
@@ -214,43 +262,82 @@ with SingleTickerProviderStateMixin{
   }
 
   Widget _buildUserInfo() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InfoItem(
-              title: '氏名', content: "${account.firstName} ${account.lastName}"),
-          InfoItem(
-              title: 'ふりがな',
-              content: "${account.firstNameKana} ${account.lastNameKana}"),
-          InfoItem(title: '生年月日', content: account.dateOfBirth ?? ""),
-          InfoItem(title: '年齢', content: account.dateOfBirth ?? ""),
-          InfoItem(title: 'TEL', content: account.telNumber ?? ''),
-          InfoItem(title: 'Email', content: account.email ?? ''),
-          InfoItem(title: 'ログインID', content: account.email ?? ''),
-          InfoItem(title: 'パスワード', content: account.passwordReadable ?? ''),
-        ],
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_FullName),
+                content: "${account.firstName} ${account.lastName}"),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_Furigana),
+                content: "${account.firstNameKana} ${account.lastNameKana}"),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_DateOfBirth),
+                content: account.dateOfBirth ?? ""),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_Age),
+                content: account.dateOfBirth ?? ""),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_tel),
+                content: account.telNumber ?? ''),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_Email),
+                content: account.email ?? ''),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_LoginID),
+                content: account.email ?? ''),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_Password),
+                content: account.passwordReadable ?? ''),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildCompanyInfo() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InfoItem(
-              title: '会社名称/屋号', content: account.company.name),
-          InfoItem(title: 'ふりがな', content: account.company.furigana),
-          InfoItem(title: 'インボイス番号', content: account.company.invoiceNumber),
-          InfoItem(title: '郵便番号', content: account.company.postalCode),
-          InfoItem(title: '代表Tel', content: account.company.telNumber),
-          InfoItem(title: 'HP URL', content: account.company.hpUrl),
-        ],
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_CompanyNameTradeName),
+                content: account.company.name),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_Furigana),
+                content: account.company.furigana),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_InvoiceNumber),
+                content: account.company.invoiceNumber),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_PostCode),
+                content: account.company.postalCode),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_Address),
+                content: account.company.locationMunicipality ?? ""),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_AddressBelow),
+                content: account.company.locationBelow ?? ""),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_BuildingNameEtc),
+                content: account.company.building ?? ""),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_RepresentativeTel),
+                content: account.company.telNumber),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_HPURL),
+                content: account.company.hpUrl),
+          ],
+        ),
       ),
     );
   }
@@ -265,7 +352,9 @@ with SingleTickerProviderStateMixin{
             children: [
               ListTile(
                 contentPadding: const EdgeInsets.all(0),
-                title:  Text("カメラ",style: context.typographies.subBody1.withColor(Colors.black)),
+                title: Text("カメラ",
+                    style:
+                        context.typographies.subBody1.withColor(Colors.black)),
                 onTap: () {
                   _handelImageSelection(ImageSource.camera);
                   Navigator.of(context).pop();
@@ -273,7 +362,10 @@ with SingleTickerProviderStateMixin{
               ),
               ListTile(
                 contentPadding: const EdgeInsets.all(0),
-                title:  Text("フォトライブラリー", style: context.typographies.subBody1.withColor(Colors.black),),
+                title: Text(
+                  "フォトライブラリー",
+                  style: context.typographies.subBody1.withColor(Colors.black),
+                ),
                 onTap: () {
                   _handelImageSelection(ImageSource.gallery);
                   Navigator.of(context).pop();
@@ -296,7 +388,7 @@ with SingleTickerProviderStateMixin{
     );
   }
 
-  void _handelImageSelection(ImageSource imageSource) async{
+  void _handelImageSelection(ImageSource imageSource) async {
     final returnedImage = await ImagePicker().pickImage(source: imageSource);
     if (returnedImage == null) return;
     _bloc.add(AuthUpdateAvatar(File(returnedImage.path)));
