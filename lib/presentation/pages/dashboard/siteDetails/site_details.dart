@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'dart:core';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,8 +28,14 @@ class _SiteDetailsState extends State<SiteDetailsPage>
   }
 
   int countWords(String text) {
+    int countEmpty = 0;
     List<String> words = text.split(' ');
-    return text == '' ? 0 : words.length;
+    for (String word in words) {
+      if (word == '') {
+        countEmpty++;
+      }
+    }
+    return words.length - countEmpty;
   }
 
   @override
@@ -158,11 +164,11 @@ class _SiteDetailsState extends State<SiteDetailsPage>
                                     controller: TextEditingController()),
                                 const Text('工事名'),
                                 InputField(
-                                  onChangedValue: (value){
-                                    setState(() {
-                                      constructionNameController.text=value;
-                                    });
-                                  },
+                                    onChangedValue: (value) {
+                                      setState(() {
+                                        constructionNameController.text = value;
+                                      });
+                                    },
                                     textFieldHintText: '0031',
                                     controller: constructionNameController),
                                 Align(
@@ -172,11 +178,11 @@ class _SiteDetailsState extends State<SiteDetailsPage>
                                 ),
                                 const Text('工事内容'),
                                 InputField(
-                                  maxLines: null,
-                                  height: 240,
-                                    onChangedValue: (value){
+                                    maxLines: null,
+                                    height: 240,
+                                    onChangedValue: (value) {
                                       setState(() {
-                                        constructionNameController.text=value;
+                                        constructionNameController.text = value;
                                       });
                                     },
                                     textFieldHintText: '0031',
