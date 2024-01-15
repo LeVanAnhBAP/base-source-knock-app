@@ -12,6 +12,8 @@ class CompanyResponse with _$CompanyResponse{
     @JsonKey(name: 'email')  String? email,
     @JsonKey(name: 'furigana') required String furigana,
     @JsonKey(name: 'name_kana') required String nameKana,
+    @JsonKey(name: 'intro') String? intro,
+    @JsonKey(name: 'self_intro') String? selfIntro,
     @JsonKey(name: 'invoice_number') required String invoiceNumber,
     @JsonKey(name: 'postal_code') required String postalCode,
     @JsonKey(name: 'buildings')  String? building,

@@ -28,9 +28,7 @@ class InfoItem extends StatelessWidget {
           padding: const EdgeInsets.only(left: 15),
           child: Text(
             content,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: context.typographies.body,
+            style: context.typographies.subBody1,
           ),
         ),
       ],

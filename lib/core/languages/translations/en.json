@@ -113,5 +113,8 @@
     "AccountNumber" : "Account number",
     "AccountHolder" : "Account name"
   },
-  "InformationNotEntered" : "Information not entered"
+  "InformationNotEntered" : "Information not entered",
+  "PhotoLibrary" : "Photo Library",
+  "TakeAPhoto" : "Take a photo",
+  "Cancel" : "Cancel"
 }

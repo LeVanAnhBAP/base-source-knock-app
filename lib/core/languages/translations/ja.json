@@ -115,6 +115,9 @@
     "AccountNumber" : "口座番号",
     "AccountHolder" : "口座名義"
   },
-  "InformationNotEntered" : "情報未入力"
+  "InformationNotEntered" : "情報未入力",
+  "PhotoLibrary" : "写真ライブラリ",
+  "TakeAPhoto" : "写真を撮る",
+  "Cancel" : "キャンセル"
 
 }
