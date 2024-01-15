@@ -13,7 +13,7 @@ class SiteRepositoryImpl extends SiteRepository {
   Future<List<SiteResponse>> paginateSite(PaginateSiteParams request) async {
     var result = await _networkDataSource.paginateSite(
         request.page, request.startDayRequest,request.name);
-    return result.data.data;
+    return result.data!.data;
   }
   
 }

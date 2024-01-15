@@ -18,12 +18,12 @@ abstract class RegisterModule {
       const FlutterSecureStorage();
 
   @lazySingleton
-  ApiServices registerApiservice() => ApiServices(
+  ApiServices registerApiService() => ApiServices(
         baseUrl: AppEnv.baseUrl,
         authRepository: getIt.get<AuthServices>(),
       );
   @lazySingleton
-  NetworkDataSource registerNetworkDataSourcer(ApiServices apiServices) => NetworkDataSource(apiServices);
+  NetworkDataSource registerNetworkDataSource(ApiServices apiServices) => NetworkDataSource(apiServices);
   @Named('key')
   @lazySingleton
   String registerKey() => 'default';

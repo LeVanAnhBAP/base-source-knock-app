@@ -12,7 +12,7 @@ class PaginatePartnerUseCase extends UseCase<List<PartnerResponse>, PaginatePart
   PaginatePartnerUseCase(this._repository);
   @override
   Future<List<PartnerResponse>> call(PaginatePartnerParams params) {
-    return _repository.panigatePartner(params);
+    return _repository.paginatePartner(params);
   }
 
 }

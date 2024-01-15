@@ -8,6 +8,7 @@ import 'package:uq_system_app/utils/utils.dart';
 class SiteItem extends StatelessWidget {
   final SiteResponse site;
   final int companyType;
+
   const SiteItem({super.key, required this.site, required this.companyType});
 
   @override
@@ -15,7 +16,7 @@ class SiteItem extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(15)),
-      margin: const EdgeInsets.symmetric(vertical: 15),
+      margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       child: Column(children: [_buildHeader(context), _buildBody(context)]),
     );
   }
@@ -41,7 +42,7 @@ class SiteItem extends StatelessWidget {
                   width: 18,
                 ),
                 Text(
-                  Utils.siteStatusToString(site.status, companyType),
+                  Utils.siteStatusToString(context, site.status, companyType),
                   style: TextStyle(
                       color: Utils.siteStatusToColor(site.status, context),
                       fontSize: 6),
@@ -78,10 +79,7 @@ class SiteItem extends StatelessWidget {
                 site.name ?? "",
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    color: context.colors.primary,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600),
+                style: context.typographies.bodyBold,
               ),
               const SizedBox(
                 height: 20,
@@ -95,12 +93,16 @@ class SiteItem extends StatelessWidget {
                   const SizedBox(
                     width: 5,
                   ),
-                  Text(
-                    site.address ?? "",
-                    style: TextStyle(
-                        color: context.colors.primary,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600),
+                  Expanded(
+                    child: Text(
+                      site.address ?? "",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.typographies.subBodyBold2,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 50,
                   )
                 ],
               ),
@@ -116,10 +118,7 @@ class SiteItem extends StatelessWidget {
                   ),
                   Text(
                     "${site.startDayRequest} ~ ${site.endDayRequest}",
-                    style: TextStyle(
-                        color: context.colors.primary,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600),
+                    style: context.typographies.subBodyBold2,
                   )
                 ],
               ),
@@ -137,10 +136,7 @@ class SiteItem extends StatelessWidget {
               ),
               Text(
                 site.companyNameKana,
-                style: TextStyle(
-                    color: context.colors.primary,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600),
+                style: context.typographies.caption1Bold,
               )
             ],
           ),

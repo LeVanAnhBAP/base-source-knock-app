@@ -8,6 +8,7 @@ part 'home_state.freezed.dart';
 enum HomeStatus {
   initial,
   loading,
+  loadingSites,
   success,
   failure,
   refreshing,
@@ -17,7 +18,6 @@ enum HomeStatus {
 class HomeState with _$HomeState {
   const factory HomeState({
     DateTime? startDayRequest,
-    Account? account,
     @Default(<SiteResponse>[])
     List<SiteResponse> sites,
     @Default(HomeStatus.initial) HomeStatus status,

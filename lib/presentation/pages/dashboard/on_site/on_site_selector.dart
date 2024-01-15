@@ -9,6 +9,7 @@ class OnSiteStatusSelector
     required Widget Function(OnSiteStatus data) builder,
   }) : super(
           selector: (state) => state.status,
+          
           builder: (_, status) => builder(status),
         );
 }

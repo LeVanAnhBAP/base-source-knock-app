@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/data/models/request/reset_pass_params.dart';
 import 'package:uq_system_app/data/usecases/auth/resetpassword_usecase.dart';
 import 'package:uq_system_app/presentation/pages/auth/reset_password/reset_password_event.dart';
@@ -9,8 +10,8 @@ import 'package:uq_system_app/presentation/pages/auth/reset_password/reset_passw
 
 @injectable
 class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
-  final ResetPasswordUsecase _resetPasswordUsecase;
-  ResetPasswordBloc(this._resetPasswordUsecase)
+  final ResetPasswordUseCase _resetPasswordUseCase;
+  ResetPasswordBloc(this._resetPasswordUseCase)
       : super(const ResetPasswordState()) {
     on<ResetPasswordErrorOccurred>(_onErrorOccurred);
 
@@ -19,6 +20,7 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
 
   @override
   void onError(Object error, StackTrace stackTrace) {
+    add(ResetPasswordEvent.errorOccurred(BaseException.from(error)));
     super.onError(error, stackTrace);
   }
 
@@ -34,11 +36,7 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
   Future<void> _onResetPassword(
       ResetPasswordLoad event, Emitter<ResetPasswordState> emit) async {
     emit(state.copyWith(status: ResetPasswordStatus.loading));
-    var either =
-        await _resetPasswordUsecase(ResetPassParams(email: event.email));
-    either.fold(
-        (l) =>
-            emit(state.copyWith(status: ResetPasswordStatus.failure, error: l)),
-        (r) => emit(state.copyWith(status: ResetPasswordStatus.success)));
+    await _resetPasswordUseCase(ResetPassParams(email: event.email));
+    emit(state.copyWith(status: ResetPasswordStatus.success));
   }
 }

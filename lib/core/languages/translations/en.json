@@ -4,9 +4,6 @@
     "HelloUsername": "Hello, {username}",
     "WelcomeToApp": "Welcome to {appName} !"
   },
-  "Search": {
-    "Hint_QuizCollectionAndEverything": "Quiz, collection and everything ..."
-  },
   "Title": {
     "ContinueQuiz": "Continue Quiz",
     "TopCategories": "Top Categories",
@@ -28,5 +25,49 @@
     "UnknownError": "Unknown error",
     "NetworkError": "Network error",
     "UnauthorizedError": "The request requires user authentication"
-  }
+  },
+  "Login" : {
+    "IfYouForgotYourPasswordClickHere" : "Click here if you forgot your password",
+    "Login" : "Login",
+    "PleaseEnterAValidEmailAddress" : "Please enter a valid email address",
+    "LoginIDEmailAddress": "Login ID (email address)",
+    "PleaseEnterYourPassword" : "Please enter your password",
+    "Password" : "Password"
+  },
+  "ResetPassword" : {
+    "YourPasswordHasBeenResetPleaseCheckYourEmail" : "Your password has been reset. Please check your email.",
+    "SendPasswordResetEmail" : "Send password reset email",
+    "IfYouHaveForgottenYourPasswordPleaseEnterYourRegisteredEmailAddress" : "If you have forgotten your password,\nPlease enter your registered email address.",
+    "WeWillSendYouAnEmailContainingTheURLForTheResettingProcedure" : "We will send you an email containing the URL for the resetting procedure.",
+    "SendAnEmail" : "Send email",
+    "PleaseEnterAValidEmailAddress" : "Please enter a valid email address",
+    "LoginIDEmailAddress": "Login ID (email address)"
+  },
+  "Home" : {
+    "ImportantNotice" : "Important Notice",
+    "TheSceneOf" : "The scene of",
+    "ScheduleManagement": "Schedule Management",
+    "" : ""
+  },
+  "OnSite" : {
+    "SignUp" : "New registration",
+    "SiteNameSearch" : "Site name search",
+    "NotOrdering" : "Not ordered",
+    "Ordered" : "Ordered",
+    "HopingToReceiveOrders": "Hoping to receive orders",
+    "OrderConfirmed1" : "Order confirmed",
+    "OrderConfirmed2" : "Order confirmed",
+    "UnderImplementation" : "Under Implementation",
+    "AcceptanceInspectionRequest": "Acceptance Inspection Request",
+    "EnforcementCompleted" : "Enforcement Completed"
+  },
+  "Chat" : {
+    "NegotiationRoom" : "Negotiation Room",
+    "OnSiteInformationRoom": "OnSiteInformationRoom"
+  },
+  "Search" : {
+    "EstimatedNumberOfAvailablePersonnel": "Estimated number of available personnel",
+    "Man" : "person"
+  },
+  "InformationNotEntered" : "Information not entered"
 }

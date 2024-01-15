@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +14,8 @@ import 'package:uq_system_app/presentation/blocs/auth/auth_selector.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_state.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/widgets/alert_dialog.dart';
+
+import '../../../../core/languages/translation_keys.g.dart';
 
 @RoutePage()
 class LoginPage extends StatefulWidget {
@@ -144,9 +147,9 @@ class _LoginPageState extends State<LoginPage> {
               onTap: () {
                 AutoRouter.of(context).push(const ResetPasswordRoute());
               },
-              child: const Text(
-                "パスワードを忘れた方はこちら",
-                style: TextStyle(
+              child:  Text(
+                context.tr(LocaleKeys.Login_IfYouForgotYourPasswordClickHere),
+                style: const TextStyle(
                   decoration: TextDecoration.underline,
                   decorationColor: Color(0xff4175B1),
                   fontSize: 16,
@@ -182,10 +185,10 @@ class _LoginPageState extends State<LoginPage> {
                 borderRadius: BorderRadius.circular(10),
                 color: const Color(0xffFFAD0E),
               ),
-              child: const Center(
+              child:  Center(
                 child: Text(
-                  "ログイン",
-                  style: TextStyle(
+                  context.tr(LocaleKeys.Login_Login),
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Hiragino',
@@ -219,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
         validator: (value) {
           var errorValue = EmailValidator.validate(value ?? "")
               ? null
-              : "正しいメールアドレスを入力してください";
+              : context.tr(LocaleKeys.Login_PleaseEnterAValidEmailAddress);
           setState(() {
             _errorEmail = errorValue;
           });
@@ -227,14 +230,14 @@ class _LoginPageState extends State<LoginPage> {
         },
         controller: _emailController,
         style: context.appTheme.styles.textStyle,
-        decoration: const InputDecoration(
-            errorStyle: TextStyle(
+        decoration:  InputDecoration(
+            errorStyle: const TextStyle(
               fontSize: 0,
             ),
-            fillColor: Color(0xffF7F8FA),
+            fillColor: const Color(0xffF7F8FA),
             enabledBorder: InputBorder.none,
-            hintStyle: TextStyle(color: Color(0xffA2A2A2)),
-            hintText: "ログインID(メールアドレス)",
+            hintStyle: const TextStyle(color: Color(0xffA2A2A2)),
+            hintText: context.tr(LocaleKeys.Login_LoginIDEmailAddress),
             border: InputBorder.none),
       ),
     );
@@ -258,7 +261,7 @@ class _LoginPageState extends State<LoginPage> {
       child: TextFormField(
         validator: (value) {
           var errorValue =
-              value == null || value.isEmpty ? "パスワードを入力してください" : null;
+              value == null || value.isEmpty ? context.tr(LocaleKeys.Login_PleaseEnterYourPassword) : null;
 
           setState(() {
             _errorPassword = errorValue;
@@ -285,7 +288,7 @@ class _LoginPageState extends State<LoginPage> {
             fillColor: const Color(0xffF7F8FA),
             enabledBorder: InputBorder.none,
             hintStyle: const TextStyle(color: Color(0xffA2A2A2)),
-            hintText: "パスワード",
+            hintText: context.tr(LocaleKeys.Login_Password),
             border: InputBorder.none),
       ),
     );
