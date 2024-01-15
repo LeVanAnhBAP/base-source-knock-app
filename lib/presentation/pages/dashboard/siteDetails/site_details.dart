@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,10 +19,17 @@ class SiteDetailsPage extends StatefulWidget {
 class _SiteDetailsState extends State<SiteDetailsPage>
     with TickerProviderStateMixin {
   late final TabController _tabController;
+  TextEditingController constructionNameController = TextEditingController();
+  TextEditingController constructionDetailsController = TextEditingController();
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+  }
+
+  int countWords(String text) {
+    List<String> words = text.split(' ');
+    return text == '' ? 0 : words.length;
   }
 
   @override
@@ -96,25 +105,87 @@ class _SiteDetailsState extends State<SiteDetailsPage>
                                     textFieldHintText: '0031',
                                     controller: TextEditingController()),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('担当者'),
-                                    Column(
-                                      children: [
-                                        Text('不動産　太郎'),
-                                        Row(
-                                          children: [
-                                            Text('不動産　二郎'),
-                                            IconButton(
-                                                onPressed: () {},
-                                                icon: SvgPicture.asset(Assets
-                                                    .icons.svg.icRemove.path))
-                                          ],
-                                        )
-                                      ],
+                                    const Text('担当者'),
+                                    SizedBox(
+                                      width: 152,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text('不動産　太郎'),
+                                          Row(
+                                            children: [
+                                              const Text('不動産　二郎'),
+                                              IconButton(
+                                                  onPressed: () {},
+                                                  icon: Image.asset(Assets.icons
+                                                      .png.icRemove.path)),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
-                                )
+                                ),
+                                Container(
+                                  color: context.colors.border,
+                                  height: 1,
+                                ),
+                                InkWell(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      SvgPicture.asset(
+                                        Assets.icons.svg.icAddBlue.path,
+                                        height: 16,
+                                      ),
+                                      Text(
+                                        '担当者を追加する',
+                                        style: TextStyle(
+                                            color: context.colors.primary),
+                                      ),
+                                      const SizedBox(width: 12)
+                                    ],
+                                  ),
+                                ),
+                                const Text('工事コード'),
+                                InputField(
+                                    textFieldHintText: '0031',
+                                    controller: TextEditingController()),
+                                const Text('工事名'),
+                                InputField(
+                                  onChangedValue: (value){
+                                    setState(() {
+                                      constructionNameController.text=value;
+                                    });
+                                  },
+                                    textFieldHintText: '0031',
+                                    controller: constructionNameController),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                      '${countWords(constructionNameController.text)}/15'),
+                                ),
+                                const Text('工事内容'),
+                                InputField(
+                                  maxLines: null,
+                                  height: 240,
+                                    onChangedValue: (value){
+                                      setState(() {
+                                        constructionNameController.text=value;
+                                      });
+                                    },
+                                    textFieldHintText: '0031',
+                                    controller: constructionDetailsController),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                      '${countWords(constructionDetailsController.text)}/500'),
+                                ),
                               ],
                             ),
                           ),

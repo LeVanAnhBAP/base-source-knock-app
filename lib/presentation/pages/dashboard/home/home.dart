@@ -144,7 +144,6 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
             ),
             InkWell(
                 onTap: () {
-                  loadSite();
                   context.router.push(const NotificationRoute());
                 },
                 child: SvgPicture.asset(
@@ -227,7 +226,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
 
   Widget listCard() {
     return Column(
-      children: List.generate(listData.length, (index) {
+      children: List.generate(listData.length ?? 0, (index) {
         return Column(
           children: [
             ScheduleCard(
@@ -238,9 +237,9 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
               company: listData[index]['company_name_kana'],
               companyLogo: Assets.icons.png.icScheduleCardCompanyLogo.path,
               clickDropRight: () {
-                if(listData[index]['status'].toString()=='0'){
+                if (listData[index]['status'].toString() == '0') {
                   context.router.push(const CreateSiteRoute());
-                }else{
+                } else {
                   context.router.push(const SiteDetailsRoute());
                 }
               },
@@ -255,11 +254,10 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
     );
   }
 
- Widget futureBuilding() {
+  Widget futureBuilding() {
     return FutureBuilder<String>(
         future: future(),
         builder: (context, snapshot) {
-          print(listData[0]['start_day_request']);
           Widget widget;
           if (snapshot.hasData) {
             widget = Column(

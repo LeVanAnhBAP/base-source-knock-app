@@ -65,6 +65,9 @@ class $AssetsIconsPngGen {
   AssetGenImage get icOnSiteInformationRoom =>
       const AssetGenImage('assets/icons/png/ic_onSite_information_room.png');
 
+  /// File path: assets/icons/png/ic_remove.png
+  AssetGenImage get icRemove => const AssetGenImage('assets/icons/png/ic_remove.png');
+
   /// File path: assets/icons/png/ic_schedule_card_company_logo.png
   AssetGenImage get icScheduleCardCompanyLogo =>
       const AssetGenImage('assets/icons/png/ic_schedule_card_company_logo.png');
@@ -81,6 +84,7 @@ class $AssetsIconsPngGen {
         icKnock,
         icNegotiationRoom,
         icOnSiteInformationRoom,
+        icRemove,
         icScheduleCardCompanyLogo,
         pinkTiger,
         yellowTiger
@@ -92,6 +96,9 @@ class $AssetsIconsSvgGen {
 
   /// File path: assets/icons/svg/.gitkeep
   String get gitkeep => 'assets/icons/svg/.gitkeep';
+
+  /// File path: assets/icons/svg/ic_add_blue.svg
+  SvgGenImage get icAddBlue => const SvgGenImage('assets/icons/svg/ic_add_blue.svg');
 
   /// File path: assets/icons/svg/ic_arrow_dropright_circle.svg
   SvgGenImage get icArrowDroprightCircle =>
@@ -188,6 +195,7 @@ class $AssetsIconsSvgGen {
   /// List of all assets
   List<dynamic> get values => [
         gitkeep,
+        icAddBlue,
         icArrowDroprightCircle,
         icBackAppBar,
         icDashboardAccount,
