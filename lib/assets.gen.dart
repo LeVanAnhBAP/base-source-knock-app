@@ -139,6 +139,9 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/ic_red_pin.svg
   SvgGenImage get icRedPin => const SvgGenImage('assets/icons/svg/ic_red_pin.svg');
 
+  /// File path: assets/icons/svg/ic_remove.svg
+  SvgGenImage get icRemove => const SvgGenImage('assets/icons/svg/ic_remove.svg');
+
   /// File path: assets/icons/svg/ic_schedule_arrow_dropright.svg
   SvgGenImage get icScheduleArrowDropright =>
       const SvgGenImage('assets/icons/svg/ic_schedule_arrow_dropright.svg');
@@ -161,6 +164,27 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/ic_search.svg
   SvgGenImage get icSearch => const SvgGenImage('assets/icons/svg/ic_search.svg');
 
+  /// File path: assets/icons/svg/schedule_status1.svg
+  SvgGenImage get scheduleStatus1 => const SvgGenImage('assets/icons/svg/schedule_status1.svg');
+
+  /// File path: assets/icons/svg/schedule_status2.svg
+  SvgGenImage get scheduleStatus2 => const SvgGenImage('assets/icons/svg/schedule_status2.svg');
+
+  /// File path: assets/icons/svg/schedule_status3.svg
+  SvgGenImage get scheduleStatus3 => const SvgGenImage('assets/icons/svg/schedule_status3.svg');
+
+  /// File path: assets/icons/svg/schedule_status4.svg
+  SvgGenImage get scheduleStatus4 => const SvgGenImage('assets/icons/svg/schedule_status4.svg');
+
+  /// File path: assets/icons/svg/schedule_status5.svg
+  SvgGenImage get scheduleStatus5 => const SvgGenImage('assets/icons/svg/schedule_status5.svg');
+
+  /// File path: assets/icons/svg/schedule_status6.svg
+  SvgGenImage get scheduleStatus6 => const SvgGenImage('assets/icons/svg/schedule_status6.svg');
+
+  /// File path: assets/icons/svg/schedule_status7.svg
+  SvgGenImage get scheduleStatus7 => const SvgGenImage('assets/icons/svg/schedule_status7.svg');
+
   /// List of all assets
   List<dynamic> get values => [
         gitkeep,
@@ -178,12 +202,20 @@ class $AssetsIconsSvgGen {
         icMark,
         icMenu,
         icRedPin,
+        icRemove,
         icScheduleArrowDropright,
         icScheduleCard,
         icScheduleCardCalendar,
         icScheduleCardLocation,
         icScheduleCardLogo,
-        icSearch
+        icSearch,
+        scheduleStatus1,
+        scheduleStatus2,
+        scheduleStatus3,
+        scheduleStatus4,
+        scheduleStatus5,
+        scheduleStatus6,
+        scheduleStatus7
       ];
 }
 

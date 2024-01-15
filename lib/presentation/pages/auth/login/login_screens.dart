@@ -29,8 +29,10 @@ class _LoginPageState extends State<LoginPage> {
       Response response = await dio.post(api, data: data);
       if (response.statusCode == 200) {
         final body = response.data;
-        localContext.router.replace(const DashboardRoute());
+        final String accessToken = body['data']['access_token'].toString();
+        localContext.router.replace( DashboardRoute(accessToken:accessToken));
         print('Response Body: ${response.data}');
+        print('accessToken:$accessToken');
       } else {
         print('Response Body: ${response.data}');
       }

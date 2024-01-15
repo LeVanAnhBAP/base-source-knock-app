@@ -14,13 +14,15 @@ import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/notification/notification.dart';
 import 'package:uq_system_app/presentation/widgets/schedule_card.dart';
 import '../../../../assets.gen.dart';
+import '../../../../core/themes/colors.dart';
 import '../../../widgets/app_bar.dart';
 import 'home_event.dart';
 import 'home_state.dart';
 
 @RoutePage()
 class DashboardHomePage extends StatefulWidget {
-  const DashboardHomePage({super.key});
+  final String accessToken;
+  const DashboardHomePage({super.key, required this.accessToken});
 
   @override
   State<DashboardHomePage> createState() => _DashboardHomePageState();
@@ -42,20 +44,27 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
         .firstWhere((state) => state.status != HomeStatus.refreshing);
   }
 
+  List listData = [];
   Future<void> loadSite() async {
-    String api =
-        "https://dev-knock-api.oneknockapp.com/api/v1/user/factory-floors?page=1&start_day_request=2024-01-06";
-    try {
+    if (widget.accessToken != null) {
+      print('Access Token: ${widget.accessToken}');
+      final dio = Dio();
+      dio.options.headers['Authorization'] = 'Bearer ${widget.accessToken}';
+      String api =
+          "https://dev-knock-api.oneknockapp.com/api/v1/user/factory-floors?page=1&start_day_request=2024-01-06";
+      try {
+        Response response = await dio.get(api);
 
-      Response response = await Dio().get(api);
-
-      if (response.statusCode == 200) {
-        print(response.data);
-      } else {
-        print('Failed to load data');
+        if (response.statusCode == 200) {
+          listData = response.data['data']['data'];
+        } else {
+          print('Failed to load data');
+        }
+      } catch (e) {
+        print('An error occurred: $e');
       }
-    } catch (e) {
-      print('An error occurred: $e');
+    } else {
+      print('Access token is null');
     }
   }
 
@@ -99,11 +108,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
               child: Column(
                 children: [
                   notificationButton(),
-                  calendar(),
-                  const Gap(24),
-                  title(),
-                  const Gap(8),
-                  listCard()
+                  futureBuilding(),
                 ],
               ),
             ),
@@ -222,22 +227,96 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
 
   Widget listCard() {
     return Column(
-      children: List.generate(2, (index) {
+      children: List.generate(listData.length, (index) {
         return Column(
           children: [
             ScheduleCard(
-              title: '千葉県稲毛市クロス貼り替え',
-              location: '東京都稲城市東長沼2111',
-              dayFrom: _selectedDay,
-              dayTo: _selectedDay.add(const Duration(days: 2)),
-              company: '(株)職人インテリア',
+              title: listData[index]['name'] ?? 'null',
+              location: listData[index]['address'] ?? 'null',
+              dayFrom: listData[index]['start_day_request'],
+              dayTo: listData[index]['end_day_request'],
+              company: listData[index]['company_name_kana'],
               companyLogo: Assets.icons.png.icScheduleCardCompanyLogo.path,
-              clickDropRight: () {},
+              clickDropRight: () {
+                if(listData[index]['status'].toString()=='0'){
+                  context.router.push(const CreateSiteRoute());
+                }else{
+                  context.router.push(const SiteDetailsRoute());
+                }
+              },
+              status: statusCheck(listData[index]['status'].toString()),
+              scheduleCreator:
+                  '${listData[index]['first_name']} ${listData[index]['last_name']}',
             ),
             SizedBox(height: index == 1 ? 0 : 16),
           ],
         );
       }),
     );
+  }
+
+ Widget futureBuilding() {
+    return FutureBuilder<String>(
+        future: future(),
+        builder: (context, snapshot) {
+          print(listData[0]['start_day_request']);
+          Widget widget;
+          if (snapshot.hasData) {
+            widget = Column(
+              children: [
+                calendar(),
+                const Gap(24),
+                title(),
+                const Gap(8),
+                listCard(),
+              ],
+            );
+          } else {
+            if (snapshot.hasError) {
+              widget = Text('Error: ${snapshot.error}');
+            } else {
+              widget = CircularProgressIndicator(
+                color: context.colors.primary,
+              );
+            }
+          }
+          return widget;
+        });
+  }
+
+  Future<String> future() async {
+    await loadSite();
+    return 'abc';
+  }
+
+  ScheduleCardStatus statusCheck(String statusData) {
+    ScheduleCardStatus statusCheck = ScheduleCardStatus.seven;
+    switch (statusData) {
+      case '0':
+        statusCheck = ScheduleCardStatus.one;
+        break;
+      case '1':
+        statusCheck = ScheduleCardStatus.one;
+        break;
+      case '2':
+        statusCheck = ScheduleCardStatus.two;
+        break;
+      case '3':
+        statusCheck = ScheduleCardStatus.three;
+        break;
+      case '4':
+        statusCheck = ScheduleCardStatus.four;
+        break;
+      case '5':
+        statusCheck = ScheduleCardStatus.five;
+        break;
+      case '6':
+        statusCheck = ScheduleCardStatus.six;
+        break;
+      case '7':
+        statusCheck = ScheduleCardStatus.seven;
+        break;
+    }
+    return statusCheck;
   }
 }

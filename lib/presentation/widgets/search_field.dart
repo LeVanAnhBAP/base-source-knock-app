@@ -11,6 +11,7 @@ class SearchField extends StatefulWidget {
   final Color? placeholderColor;
   final BorderRadius borderRadius;
   final Function(String value) onSearchValue;
+  final Function() clickSearch;
 
   const SearchField({
     super.key,
@@ -23,6 +24,7 @@ class SearchField extends StatefulWidget {
     this.placeholderColor,
     this.backgroundOpacity = 0.2,
     this.placeholderOpacity = 0.5,
+    required this.clickSearch,
   });
 
   @override
@@ -42,9 +44,15 @@ class _SearchFieldState extends State<SearchField> {
           hintText: widget.placeholder,
           prefixIcon: Padding(
             padding: const EdgeInsets.only(left: 12),
-            child: Icon(
-              Icons.search_outlined,
-              color: context.colors.border,
+            child: IconButton(
+              onPressed: () {
+                widget.clickSearch();
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              icon: Icon(
+                Icons.search_outlined,
+                color: context.colors.border,
+              ),
             ),
           ),
           border: OutlineInputBorder(

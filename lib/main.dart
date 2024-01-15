@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           listenWhen: (previous, current) =>
               previous.account != current.account && current.account == null,
           listener: (context, state) {
-            _appRouter.replaceAll([const DashboardRoute()]);
+            _appRouter.replaceAll([ DashboardRoute(accessToken: '')]);
           },
         ),
       ],

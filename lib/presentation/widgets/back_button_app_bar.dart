@@ -18,7 +18,7 @@ class BackAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: context.colors.background,
       leading: IconButton(
         onPressed: () {
-          context.router.pop();
+          Navigator.pop(context);
         },
         icon: SvgPicture.asset(Assets.icons.svg.icBackAppBar.path),
       ),

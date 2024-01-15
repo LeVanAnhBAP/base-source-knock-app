@@ -1,8 +1,12 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/presentation/widgets/back_button_app_bar.dart';
+import 'package:uq_system_app/presentation/widgets/input_field.dart';
+
+import '../../../../assets.gen.dart';
 
 @RoutePage()
 class SiteDetailsPage extends StatefulWidget {
@@ -82,13 +86,36 @@ class _SiteDetailsState extends State<SiteDetailsPage>
                         controller: _tabController,
                         children: [
                           Container(
-                            padding:
-                            const EdgeInsets.only(top: 20, left: 16, right: 16),
+                            padding: const EdgeInsets.only(
+                                top: 20, left: 16, right: 16),
                             color: context.colors.background,
                             child: ListView(
-                               children: [
-
-                               ],
+                              children: [
+                                const Text('注文No'),
+                                InputField(
+                                    textFieldHintText: '0031',
+                                    controller: TextEditingController()),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('担当者'),
+                                    Column(
+                                      children: [
+                                        Text('不動産　太郎'),
+                                        Row(
+                                          children: [
+                                            Text('不動産　二郎'),
+                                            IconButton(
+                                                onPressed: () {},
+                                                icon: SvgPicture.asset(Assets
+                                                    .icons.svg.icRemove.path))
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              ],
                             ),
                           ),
                           const Center(
@@ -148,7 +175,7 @@ class _SiteDetailsState extends State<SiteDetailsPage>
           style: ElevatedButton.styleFrom(
               backgroundColor: backgroundColor,
               textStyle: TextStyle(color: textColor, fontSize: 20),
-              side: BorderSide(color: borderColor, width: 2),
+              side: BorderSide(color: borderColor, width: 4),
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12))),
               padding: EdgeInsets.zero),
