@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/data/usecases/auth/login_usecase.dart';
@@ -33,8 +34,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(authStatus: AuthStatus.failure, error: event.error));
   }
   FutureOr<void> _onUpdateAvatar(AuthUpdateAvatar event,Emitter<AuthState> emit) async{
+    EasyLoading.show();
+    emit(state.copyWith(authStatus: AuthStatus.loading));
     await _updateAvatarUseCase(event.avatar);
-    add(const AuthLoadAccount());
+    var account = await _getAccountUseCase();
+    EasyLoading.dismiss();
+    emit(state.copyWith(authStatus: AuthStatus.success, account: account));
   }
   FutureOr<void> _onLoadAccount(AuthLoadAccount event, Emitter<AuthState> emit) async{
     emit(state.copyWith(authStatus: AuthStatus.loading));

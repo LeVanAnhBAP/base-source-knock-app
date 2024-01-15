@@ -19,8 +19,6 @@ class Account with _$Account {
     @JsonKey(name: 'date_of_birth') String? dateOfBirth,
     @JsonKey(name: 'tel_number') String? telNumber,
     @JsonKey(name: 'password_readable') String? passwordReadable,
-    @JsonKey(name: 'intro') String? intro,
-    @JsonKey(name: 'self_intro') String? selfIntro,
     @JsonKey(name: 'bank_name') String? bankName,
     @JsonKey(name: 'bank_account_type') int? bankAccountType,
     @JsonKey(name: 'bank_account_number') String? bankAccountNumber,
