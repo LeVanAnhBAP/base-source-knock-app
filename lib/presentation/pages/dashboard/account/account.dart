@@ -16,7 +16,7 @@ import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_event.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_selector.dart';
-import 'package:uq_system_app/presentation/pages/dashboard/account/widgets/info_item.dart';
+import 'package:uq_system_app/presentation/widgets/info_item.dart';
 import 'package:uq_system_app/presentation/widgets/dashboard_app_bar.dart';
 
 import '../../../blocs/auth/auth_state.dart';

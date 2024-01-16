@@ -115,6 +115,27 @@
     "AccountNumber" : "口座番号",
     "AccountHolder" : "口座名義"
   },
+  "SiteDetail" : {
+    "DetailedInformationOnSite" : "現場詳細情報",
+    "OrderingSite" : "発注現場",
+    "SiteDetails" : "現場詳細",
+    "Image" : "画像",
+    "OrderNo" : "注文No",
+    "Manager" : "担当者",
+    "ConstructionCode" : "工事コード",
+    "ConstructionName" : "工事名",
+    "ConstructionDetails" : "工事内容",
+    "Occupation" : "職種",
+    "ConstructionSite" : "工事場所",
+    "Prefectures" : "都道府県",
+    "Municipalities" : "市区町村",
+    "TownArea" : "町域",
+    "AfterTheAddress" : "番地以降",
+    "BuildingNameEtc" : "建物名称等",
+    "TotalOrderAmount" : "注文合計金額",
+    "ActualExpensesWillBeSettledSeparately" : "別途、実費精算あり",
+    "RemarksTheContentsDescribedWillBeReflectedInTheOrderForm" : "備考（記載した内容は注文書に反映されます）"
+  },
   "InformationNotEntered" : "情報未入力"
 
 }
