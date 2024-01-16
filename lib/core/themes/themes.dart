@@ -11,6 +11,7 @@ final AppTheme darkTheme = AppTheme(
   colors: const AppColors(
     primarySwatch: Colors.deepPurple,
     primary: Color(0xFF5F5F5F),
+    blurryTitle: Color(0xFF868686),
     secondary: Color(0xFFEE9B01),
     tertiary: Color(0xFF4175B1),
     quaternary: Color(0xFF4BA77A),
@@ -18,7 +19,7 @@ final AppTheme darkTheme = AppTheme(
     accent: Color.fromARGB(255, 173, 173, 173),
     background: Color(0xFFF1F1F1),
     backgroundDark: Color(0xFF0E1118),
-    disabled: Color(0xFF9CA4AF),
+    disabled: Color(0xFFE4E4E4),
     information: Color(0xFF5487F5),
     success: Color(0xFF19C18F),
     alert: Color(0xFFFBA707),

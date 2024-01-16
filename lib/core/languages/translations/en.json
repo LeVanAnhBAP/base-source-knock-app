@@ -136,7 +136,9 @@
     "RemarksTheContentsDescribedWillBeReflectedInTheOrderForm" : "Remarks (The contents you describe will be reflected in the order form)",
     "Drawing" : "Drawing",
     "OnSitePhoto" : "OnSitePhoto",
-    "MoveToCorrectionScreen": "Move to correction screen"
+    "MoveToCorrectionScreen": "Move to correction screen",
+    "Upload" : "Upload",
+    "AddDrawing": "Add drawing"
   },
   "InformationNotEntered" : "Information not entered",
   "PhotoLibrary" : "Photo Library",
