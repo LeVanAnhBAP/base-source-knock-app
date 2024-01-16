@@ -84,6 +84,9 @@ class $AssetsIconsPngGen {
   /// File path: assets/icons/png/ic_camera.png
   AssetGenImage get icCamera => const AssetGenImage('assets/icons/png/ic_camera.png');
 
+  /// File path: assets/icons/png/ic_camera_blue.png
+  AssetGenImage get icCameraBlue => const AssetGenImage('assets/icons/png/ic_camera_blue.png');
+
   /// File path: assets/icons/png/ic_dashboard_chat.png
   AssetGenImage get icDashboardChat =>
       const AssetGenImage('assets/icons/png/ic_dashboard_chat.png');
@@ -104,6 +107,9 @@ class $AssetsIconsPngGen {
   AssetGenImage get icDashboardSearch =>
       const AssetGenImage('assets/icons/png/ic_dashboard_search.png');
 
+  /// File path: assets/icons/png/ic_gallery.png
+  AssetGenImage get icGallery => const AssetGenImage('assets/icons/png/ic_gallery.png');
+
   /// File path: assets/icons/png/ic_invisible.png
   AssetGenImage get icInvisible => const AssetGenImage('assets/icons/png/ic_invisible.png');
 
@@ -117,11 +123,13 @@ class $AssetsIconsPngGen {
   List<dynamic> get values => [
         gitkeep,
         icCamera,
+        icCameraBlue,
         icDashboardChat,
         icDashboardHome,
         icDashboardOnsite,
         icDashboardProfile,
         icDashboardSearch,
+        icGallery,
         icInvisible,
         icNote,
         icVisible

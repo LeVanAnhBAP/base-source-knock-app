@@ -18,6 +18,7 @@ import 'package:uq_system_app/presentation/blocs/auth/auth_event.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_selector.dart';
 import 'package:uq_system_app/presentation/widgets/info_item.dart';
 import 'package:uq_system_app/presentation/widgets/dashboard_app_bar.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/account/widgets/info_item.dart';
 
 import '../../../blocs/auth/auth_state.dart';
 
@@ -86,7 +87,7 @@ class _DashboardAccountPageState extends State<DashboardAccountPage>
                   backgroundColor: Colors.white,
                   pinned: true,
                   floating: false,
-                  expandedHeight: 370,
+                  expandedHeight: 350,
                   flexibleSpace: FlexibleSpaceBar(
                     expandedTitleScale: 1,
                     titlePadding: EdgeInsets.zero,
@@ -183,7 +184,8 @@ class _DashboardAccountPageState extends State<DashboardAccountPage>
   }
 
   Widget _buildImage() {
-    return SizedBox(
+    return Container(
+        color: Colors.grey,
         height: 250,
         child: Stack(
           children: [
@@ -216,7 +218,7 @@ class _DashboardAccountPageState extends State<DashboardAccountPage>
                           padding: const EdgeInsets.all(5),
                           child: CircleAvatar(
                             radius: 40,
-                            backgroundColor: Colors.white,
+                            backgroundColor: Colors.blue,
                             backgroundImage: Image.network(
                               account.avatar?.url ?? "",
                               fit: BoxFit.cover,
@@ -265,7 +267,7 @@ class _DashboardAccountPageState extends State<DashboardAccountPage>
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -304,7 +306,7 @@ class _DashboardAccountPageState extends State<DashboardAccountPage>
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -336,6 +338,341 @@ class _DashboardAccountPageState extends State<DashboardAccountPage>
             InfoItem(
                 title: context.tr(LocaleKeys.Profile_HPURL),
                 content: account.company.hpUrl),
+            const SizedBox(
+              height: 25,
+            ),
+            Divider(
+              height: 1,
+              color: context.colors.divider,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  //Title
+                  Text(
+                    context.tr(LocaleKeys.Profile_QualificationsHeld),
+                    style: context.typographies.subBodyBold1,
+                  ),
+                  Container(
+                    alignment: Alignment.centerRight,
+                    width: MediaQuery.of(context).size.width * 0.54,
+                    child: Text(
+                      "AAA,BBB,CCC",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.typographies.subBody1,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              height: 1,
+              color: context.colors.divider,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  //Title
+                  Text(
+                    context.tr(LocaleKeys.Profile_CompatibleArea),
+                    style: context.typographies.subBodyBold1,
+                  ),
+                  Container(
+                    alignment: Alignment.centerRight,
+                    width: MediaQuery.of(context).size.width * 0.54,
+                    child: Text(
+                      "東京都,神奈川県,埼玉県,千葉県,群馬県…",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.typographies.subBody1,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              height: 1,
+              color: context.colors.divider,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  //Title
+                  Text(
+                    context.tr(LocaleKeys.Profile_Occupation),
+                    style: context.typographies.subBodyBold1,
+                  ),
+                  Container(
+                    alignment: Alignment.centerRight,
+                    width: MediaQuery.of(context).size.width * 0.54,
+                    child: Text(
+                      "インテリア工事,天井仕上げ工事,クロス工事…",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.typographies.subBody1,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              height: 1,
+              color: context.colors.divider,
+            ),
+            InfoItem(
+                title:
+                    context.tr(LocaleKeys.Profile_WorkerCompensationInsurance),
+                content: "加入している"),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_SocialInsurance),
+                content: "加入している"),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_OtherInsurance),
+                content: "PL保険"),
+            const SizedBox(
+              height: 20,
+            ),
+            Divider(
+              height: 1,
+              color: context.colors.divider,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  //Title
+                  Text(
+                    context.tr(LocaleKeys
+                        .Profile_ConstructionBusinessPermitCertificate),
+                    style: context.typographies.subBodyBold1,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Text(
+                      "なし",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.typographies.subBody1,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              height: 1,
+              color: context.colors.divider,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  //Title
+                  Text(
+                    context.tr(LocaleKeys.Profile_CertificateOfAllHistoryItems),
+                    style: context.typographies.subBodyBold1,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Text(
+                      "なし",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.typographies.subBody1,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              height: 1,
+              color: context.colors.divider,
+            ),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_AWordOfIntroduction),
+                content: account.company.intro ?? ""),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_SelfIntroduction),
+                content: account.company.selfIntro ?? ""),
+            const SizedBox(
+              height: 40,
+            ),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_NumberOfPeopleWhoCanWork),
+                content: "3人"),
+            const SizedBox(
+              height: 20,
+            ),
+            Divider(
+              height: 1,
+              color: context.colors.divider,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              context.tr(LocaleKeys.Profile_AccountingPeriod),
+              style: context.typographies.subBodyBold1,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      context.tr(LocaleKeys.Profile_StartDate),
+                      style: context.typographies.subBodyBold1,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      context.tr(LocaleKeys.Profile_EndDate),
+                      style: context.typographies.subBodyBold1,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  width: 25,
+                ),
+                Column(
+                  children: [
+                    Text(
+                      "8月1日",
+                      style: context.typographies.subBody1,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "7月30日",
+                      style: context.typographies.subBody1,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Divider(
+              height: 1,
+              color: context.colors.divider,
+            ),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_ClosingDate),
+                content: "月末日"),
+            InfoItem(
+                title: context.tr(LocaleKeys.Profile_DateOfPayment),
+                content: "1ヶ月後の月末日"),
+            const SizedBox(
+              height: 20,
+            ),
+            Divider(
+              height: 1,
+              color: context.colors.divider,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              context.tr(LocaleKeys.Profile_AccountInformation),
+              style: context.typographies.subBodyBold1,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      context.tr(LocaleKeys.Profile_FinancialInstitutionName),
+                      style: context.typographies.subBodyBold1,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      context.tr(LocaleKeys.Profile_BranchName),
+                      style: context.typographies.subBodyBold1,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      context.tr(LocaleKeys.Profile_AccountType),
+                      style: context.typographies.subBodyBold1,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      context.tr(LocaleKeys.Profile_AccountNumber),
+                      style: context.typographies.subBodyBold1,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      context.tr(LocaleKeys.Profile_AccountHolder),
+                      style: context.typographies.subBodyBold1,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  width: 25,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "みずほ銀行",
+                      style: context.typographies.subBody1,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "新宿支店",
+                      style: context.typographies.subBody1,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "普通",
+                      style: context.typographies.subBody1,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "1234567",
+                      style: context.typographies.subBody1,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "TAROU HATTYUU",
+                      style: context.typographies.subBody1,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -345,45 +682,107 @@ class _DashboardAccountPageState extends State<DashboardAccountPage>
   void _onShowUpdateImageOptions() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("写真を更新する"),
-        content: SingleChildScrollView(
-          child: ListBody(
+      builder: (context) => Dialog(
+        insetPadding: EdgeInsets.zero,
+        backgroundColor: Colors.transparent,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              ListTile(
-                contentPadding: const EdgeInsets.all(0),
-                title: Text("カメラ",
-                    style:
-                        context.typographies.subBody1.withColor(Colors.black)),
-                onTap: () {
-                  _handelImageSelection(ImageSource.camera);
-                  Navigator.of(context).pop();
-                },
-              ),
-              ListTile(
-                contentPadding: const EdgeInsets.all(0),
-                title: Text(
-                  "フォトライブラリー",
-                  style: context.typographies.subBody1.withColor(Colors.black),
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15)),
+                width: MediaQuery.of(context).size.width * 0.95,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    InkWell(
+                      onTap: (){
+                        Navigator.pop(context);
+                        _handelImageSelection(ImageSource.gallery);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 15),
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 30,
+                            ),
+                            Text(
+                              context.tr(LocaleKeys.PhotoLibrary),
+                              style: context.typographies.title3
+                                  .withColor(context.colors.tertiary),
+                            ),
+                            Expanded(child: Container()),
+                            AssetGenImage(Assets.icons.png.icGallery.path)
+                                .image(width: 30),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      height: 1,
+                      color: context.colors.divider,
+                    ),
+                    InkWell(
+                      onTap: (){
+                        Navigator.pop(context);
+                        _handelImageSelection(ImageSource.camera);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 15),
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 30,
+                            ),
+                            Text(
+                              context.tr(LocaleKeys.TakeAPhoto),
+                              style: context.typographies.title3
+                                  .withColor(context.colors.tertiary),
+                            ),
+                            Expanded(child: Container()),
+                            AssetGenImage(Assets.icons.png.icCameraBlue.path)
+                                .image(width: 30),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                onTap: () {
-                  _handelImageSelection(ImageSource.gallery);
-                  Navigator.of(context).pop();
-                },
-              )
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                alignment: Alignment.center,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15)),
+                width: MediaQuery.of(context).size.width * 0.95,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    context.tr(LocaleKeys.Cancel),
+                    style:
+                        context.typographies.title2Bold.withColor(Colors.red),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
             ],
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text(
-              "キャンセル",
-            ),
-          ),
-        ],
       ),
     );
   }

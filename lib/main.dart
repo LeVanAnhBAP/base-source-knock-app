@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
+import 'package:uq_system_app/di/injection.config.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_state.dart';
 import 'package:uq_system_app/presentation/blocs/bloc_observer.dart';
@@ -49,6 +51,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    EasyLoading.instance
+      ..backgroundColor = Colors.white
+      ..loadingStyle = EasyLoadingStyle.custom
+      ..indicatorColor = context.colors.secondary
+      ..textColor = Colors.white
+      ..maskColor = context.colors.secondary
+      ..userInteractions = true
+      ..progressColor = context.colors.secondary;
     return MultiBlocListener(
       listeners: [
         BlocListener<AuthBloc, AuthState>(
@@ -90,6 +100,7 @@ class MyApp extends StatelessWidget {
               themeMode: ThemeMode.light,
               child: SafeArea(
                 child: MaterialApp.router(
+                  builder: EasyLoading.init(),
                   debugShowCheckedModeBanner: false,
                   title: AppEnv.appName,
                   theme: system.theme.themeData.copyWith(
