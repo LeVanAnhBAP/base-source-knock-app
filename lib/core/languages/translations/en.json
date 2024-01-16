@@ -123,6 +123,7 @@
     "ConstructionCode" : "Construction code",
     "ConstructionName": "Construction Name",
     "ConstructionDetails" : "Construction details",
+    "ConstructionPeriod" : "Construction period",
     "Occupation": "Occupation",
     "ConstructionSite": "Construction Site",
     "Prefectures" : "Prefectures",
@@ -132,7 +133,10 @@
     "BuildingNameEtc" : "Building name etc.",
     "TotalOrderAmount" : "Total order amount",
     "ActualExpensesWillBeSettledSeparately": "Actual Expenses Will Be Settled Separately",
-    "RemarksTheContentsDescribedWillBeReflectedInTheOrderForm" : "Remarks (The contents you describe will be reflected in the order form)"
+    "RemarksTheContentsDescribedWillBeReflectedInTheOrderForm" : "Remarks (The contents you describe will be reflected in the order form)",
+    "Drawing" : "Drawing",
+    "OnSitePhoto" : "OnSitePhoto",
+    "MoveToCorrectionScreen": "Move to correction screen"
   },
   "InformationNotEntered" : "Information not entered"
 }
