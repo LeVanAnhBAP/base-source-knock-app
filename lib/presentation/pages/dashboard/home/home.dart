@@ -47,7 +47,6 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
   List listData = [];
   Future<void> loadSite() async {
     if (widget.accessToken != null) {
-      print('Access Token: ${widget.accessToken}');
       final dio = Dio();
       dio.options.headers['Authorization'] = 'Bearer ${widget.accessToken}';
       String api =
@@ -99,19 +98,14 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
               ],
             ),
           ),
-          body: SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.only(
-                left: 16,
-                right: 16,
-              ),
-              child: Column(
-                children: [
-                  notificationButton(),
-                  futureBuilding(),
-                ],
-              ),
+          body: Container(
+            margin: const EdgeInsets.only(
+              left: 16,
+              right: 16,
             ),
+            child: Center(
+              child: futureBuilding(),
+            )
           )),
     );
   }
@@ -225,32 +219,29 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
   }
 
   Widget listCard() {
-    return Column(
-      children: List.generate(listData.length ?? 0, (index) {
-        return Column(
-          children: [
-            ScheduleCard(
-              title: listData[index]['name'] ?? 'null',
-              location: listData[index]['address'] ?? 'null',
-              dayFrom: listData[index]['start_day_request'],
-              dayTo: listData[index]['end_day_request'],
-              company: listData[index]['company_name_kana'],
-              companyLogo: Assets.icons.png.icScheduleCardCompanyLogo.path,
-              clickDropRight: () {
-                if (listData[index]['status'].toString() == '0') {
-                  context.router.push(const CreateSiteRoute());
-                } else {
-                  context.router.push(const SiteDetailsRoute());
-                }
-              },
-              status: statusCheck(listData[index]['status'].toString()),
-              scheduleCreator:
-                  '${listData[index]['first_name']} ${listData[index]['last_name']}',
-            ),
-            SizedBox(height: index == 1 ? 0 : 16),
-          ],
-        );
-      }),
+    return Expanded(
+      child: ListView.builder(
+        itemCount: listData.length,
+          itemBuilder: (context,index){
+          return  ScheduleCard(
+            title: listData[index]['name'] ?? 'null',
+            location: listData[index]['address'] ?? 'null',
+            dayFrom: listData[index]['start_day_request'],
+            dayTo: listData[index]['end_day_request'],
+            company: listData[index]['company_name_kana'],
+            companyLogo: Assets.icons.png.icScheduleCardCompanyLogo.path,
+            clickDropRight: () {
+              if (listData[index]['status'].toString() == '0') {
+                context.router.push(const CreateSiteRoute());
+              } else {
+                context.router.push(const SiteDetailsRoute());
+              }
+            },
+            status: statusCheck(listData[index]['status'].toString()),
+            scheduleCreator:
+            '${listData[index]['first_name']} ${listData[index]['last_name']}',
+          );
+          }),
     );
   }
 
@@ -262,6 +253,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
           if (snapshot.hasData) {
             widget = Column(
               children: [
+                notificationButton(),
                 calendar(),
                 const Gap(24),
                 title(),

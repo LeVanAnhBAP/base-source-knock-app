@@ -44,8 +44,11 @@ class $AssetsImagesGen {
   /// File path: assets/images/.gitkeep
   String get gitkeep => 'assets/images/.gitkeep';
 
+  /// File path: assets/images/avatar.png
+  AssetGenImage get avatar => const AssetGenImage('assets/images/avatar.png');
+
   /// List of all assets
-  List<String> get values => [gitkeep];
+  List<dynamic> get values => [gitkeep, avatar];
 }
 
 class $AssetsIconsPngGen {
@@ -75,6 +78,10 @@ class $AssetsIconsPngGen {
   /// File path: assets/icons/png/pink_tiger.png
   AssetGenImage get pinkTiger => const AssetGenImage('assets/icons/png/pink_tiger.png');
 
+  /// File path: assets/icons/png/profile_background.png
+  AssetGenImage get profileBackground =>
+      const AssetGenImage('assets/icons/png/profile_background.png');
+
   /// File path: assets/icons/png/yellow_tiger.png
   AssetGenImage get yellowTiger => const AssetGenImage('assets/icons/png/yellow_tiger.png');
 
@@ -87,6 +94,7 @@ class $AssetsIconsPngGen {
         icRemove,
         icScheduleCardCompanyLogo,
         pinkTiger,
+        profileBackground,
         yellowTiger
       ];
 }
@@ -106,6 +114,9 @@ class $AssetsIconsSvgGen {
 
   /// File path: assets/icons/svg/ic_back_app_bar.svg
   SvgGenImage get icBackAppBar => const SvgGenImage('assets/icons/svg/ic_back_app_bar.svg');
+
+  /// File path: assets/icons/svg/ic_camera.svg
+  SvgGenImage get icCamera => const SvgGenImage('assets/icons/svg/ic_camera.svg');
 
   /// File path: assets/icons/svg/ic_dashboard_account.svg
   SvgGenImage get icDashboardAccount =>
@@ -171,6 +182,14 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/ic_search.svg
   SvgGenImage get icSearch => const SvgGenImage('assets/icons/svg/ic_search.svg');
 
+  /// File path: assets/icons/svg/ic_site_details_location.svg
+  SvgGenImage get icSiteDetailsLocation =>
+      const SvgGenImage('assets/icons/svg/ic_site_details_location.svg');
+
+  /// File path: assets/icons/svg/ic_site_details_order_detail.svg
+  SvgGenImage get icSiteDetailsOrderDetail =>
+      const SvgGenImage('assets/icons/svg/ic_site_details_order_detail.svg');
+
   /// File path: assets/icons/svg/schedule_status1.svg
   SvgGenImage get scheduleStatus1 => const SvgGenImage('assets/icons/svg/schedule_status1.svg');
 
@@ -198,6 +217,7 @@ class $AssetsIconsSvgGen {
         icAddBlue,
         icArrowDroprightCircle,
         icBackAppBar,
+        icCamera,
         icDashboardAccount,
         icDashboardChat,
         icDashboardHome,
@@ -217,6 +237,8 @@ class $AssetsIconsSvgGen {
         icScheduleCardLocation,
         icScheduleCardLogo,
         icSearch,
+        icSiteDetailsLocation,
+        icSiteDetailsOrderDetail,
         scheduleStatus1,
         scheduleStatus2,
         scheduleStatus3,

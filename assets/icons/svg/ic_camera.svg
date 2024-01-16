@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+  <g id="Group_20475" data-name="Group 20475" transform="translate(-8044.001 -4412.001)" opacity="0.898">
+    <g id="Group_20474" data-name="Group 20474" transform="translate(8044.001 4412.001)">
+      <rect id="Rectangle_2373" data-name="Rectangle 2373" width="30" height="30" rx="15" transform="translate(0 0)" opacity="0.799"/>
+      <g id="カメラのアイコン素材_6" data-name="カメラのアイコン素材 6" transform="translate(8.57 9.998)">
+        <path id="Path_6372" data-name="Path 6372" d="M195.388,224.828a1.558,1.558,0,1,0,1.544,1.558A1.551,1.551,0,0,0,195.388,224.828Z" transform="translate(-188.959 -220.59)" fill="#fff"/>
+        <path id="Path_6373" data-name="Path 6373" d="M12.023,58.87H10.55a.834.834,0,0,1-.761-.5l-.441-.987a.835.835,0,0,0-.761-.5H4.269a.836.836,0,0,0-.762.5l-.44.987a.834.834,0,0,1-.761.5H.835A.838.838,0,0,0,0,59.712v6.336a.838.838,0,0,0,.835.842H12.023a.838.838,0,0,0,.835-.842V59.712A.838.838,0,0,0,12.023,58.87ZM6.429,65.6a2.921,2.921,0,1,1,2.9-2.92A2.908,2.908,0,0,1,6.429,65.6Z" transform="translate(0 -56.89)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>
