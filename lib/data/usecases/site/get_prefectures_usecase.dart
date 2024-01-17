@@ -11,7 +11,7 @@ class GetPrefecturesUseCase extends UseCase<List<PrefectureResponse>, NoParams?>
   final PrefectureRepository _repository;
   GetPrefecturesUseCase(this._repository);
   @override
-  Future<List<PrefectureResponse>> call(NoParams? params) {
+  Future<List<PrefectureResponse>> call([NoParams? params]) {
     return _repository.getPrefectures();
   }
 

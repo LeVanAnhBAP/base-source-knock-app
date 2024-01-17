@@ -10,8 +10,8 @@ class NetworkUrls {
   static const String favoritePartner = '$user/companies/favorite/partners';
   static const String updateAvatar = '$user/update-avatar';
   static const String member = '$user/company/members';
-  static const String staticData = 'share/static-data';
-  static const String prefecture = 'share/address-info/prefectures';
+  static const String staticData = '/share/static-data';
+  static const String prefecture = '/share/address-info/prefectures';
 
   static bool requireAuthentication(String url) {
     return ![

@@ -11,6 +11,7 @@ import 'package:uq_system_app/presentation/pages/dashboard/profile/profile.dart'
 import 'package:uq_system_app/presentation/pages/dashboard/search/search.dart';
 import 'package:uq_system_app/presentation/pages/notification/notification.dart';
 import 'package:uq_system_app/presentation/pages/schedule_details/schedule_details.dart';
+import 'package:uq_system_app/presentation/pages/search_member/search_member.dart';
 import 'package:uq_system_app/presentation/pages/site_details/site_details.dart';
 
 import 'package:uq_system_app/presentation/pages/splash/splash.dart';
@@ -37,6 +38,7 @@ class AppRouter extends _$AppRouter{
     AutoRoute(path: '/schedule_details', page: ScheduleDetailsRoute.page),
     AutoRoute(path: '/site_details', page: SiteDetailsRoute.page),
     AutoRoute(path: '/site_details', page: CreateSiteRoute.page),
+    AutoRoute(path: '/search_member', page: SearchMemberRoute.page),
 
   ];
 @override

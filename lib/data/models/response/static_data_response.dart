@@ -8,10 +8,10 @@ part 'static_data_response.g.dart';
 @freezed
 class StaticDataResponse with _$StaticDataResponse{
   const factory StaticDataResponse({
-    @JsonKey(name: 'work_areas') required List<WorkAreaResponse> workAreas,
-    @JsonKey(name: 'occupations') required List<OccupationResponse> occupations,
-    @JsonKey(name: 'other_insurances') required List<CommonItemResponse> otherInsurances,
-    @JsonKey(name: 'unit') required List<CommonItemResponse> unit,
+    @JsonKey(name: 'work_areas')  List<WorkAreaResponse>? workAreas,
+    @JsonKey(name: 'occupations')  List<OccupationResponse>? occupations,
+    @JsonKey(name: 'other_insurances')  List<CommonItemResponse>? otherInsurances,
+    @JsonKey(name: 'units')  List<CommonItemResponse>? units,
 }) = _StaticDataResponse;
   factory StaticDataResponse.fromJson(Map<String, dynamic> json) =>
       _$StaticDataResponseFromJson(json);

@@ -4,6 +4,7 @@ import 'package:uq_system_app/core/bases/responses/base_response.dart';
 import 'package:uq_system_app/core/bases/responses/paginate_response.dart';
 import 'package:uq_system_app/data/models/request/favorite_partner_params.dart';
 import 'package:uq_system_app/data/models/request/login_params.dart';
+import 'package:uq_system_app/data/models/request/static_data_params.dart';
 import 'package:uq_system_app/data/models/response/account.dart';
 import 'package:uq_system_app/data/models/response/member_response.dart';
 import 'package:uq_system_app/data/models/response/partner_response.dart';
@@ -63,8 +64,10 @@ abstract class NetworkDataSource {
       @Part(name: '_method') String method
       );
   //StaticData
-  @GET(NetworkUrls.staticData)
-  Future<BaseResponse<StaticDataResponse>> getStaticData();
+  @POST(NetworkUrls.staticData)
+  Future<BaseResponse<StaticDataResponse>> getStaticData(
+      @Body() StaticDataParams request
+      );
   //Member
   @GET(NetworkUrls.member)
   Future<BaseResponse<List<MemberResponse>>> getMembers();

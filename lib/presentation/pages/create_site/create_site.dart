@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
@@ -6,7 +8,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uq_system_app/core/extensions/text_style.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/di/injection.dart';
+import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
+import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/pages/create_site/create_site_bloc.dart';
+import 'package:uq_system_app/presentation/pages/create_site/create_site_event.dart';
+import 'package:uq_system_app/presentation/pages/create_site/create_site_selector.dart';
+import 'package:uq_system_app/presentation/pages/create_site/widgets/member_item.dart';
+import 'package:uq_system_app/presentation/pages/search_member/search_member.dart';
 import 'package:uq_system_app/presentation/widgets/divider_line.dart';
 import 'package:uq_system_app/presentation/widgets/droplist_input_item.dart';
 import 'package:uq_system_app/presentation/widgets/input_container.dart';
@@ -25,12 +33,16 @@ class CreateSitePage extends StatefulWidget {
 class _CreateSitePageState extends State<CreateSitePage>
     with SingleTickerProviderStateMixin {
   final CreateSiteBloc _bloc = getIt.get<CreateSiteBloc>();
+  final int userId = getIt<AuthBloc>().state.account!.id;
   late TabController controller;
 
   @override
   void initState() {
     super.initState();
     controller = TabController(length: 2, vsync: this);
+    scheduleMicrotask(() {
+      _bloc.add(CreateSiteLoadInfo(userId: userId));
+    });
   }
 
   @override
@@ -79,9 +91,11 @@ class _CreateSitePageState extends State<CreateSitePage>
               color: Colors.white,
               child: Stack(
                 children: [
-                  TabBarView(
-                      controller: controller,
-                      children: [_buildDetail(), _buildImages()]),
+                  CreateSiteStatusSelector(builder: (status) {
+                    return TabBarView(
+                        controller: controller,
+                        children: [_buildDetail(), _buildImages()]);
+                  }),
                   Positioned(
                       bottom: 0,
                       left: 0,
@@ -177,13 +191,17 @@ class _CreateSitePageState extends State<CreateSitePage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 20, right: 20),
+              padding: const EdgeInsets.only(top: 20, bottom: 20),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     context.tr(LocaleKeys.SiteDetail_Manager),
                     style: context.typographies.subBodyBold1,
+                  ),
+                  const SizedBox(
+                    width: 20,
                   ),
                   Expanded(
                     child: Column(
@@ -191,18 +209,16 @@ class _CreateSitePageState extends State<CreateSitePage>
                       children: [
                         Flexible(
                           child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: 2,
-                            itemBuilder: (context, index) => Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              child: Text(
-                                textAlign: TextAlign.right,
-                                "不動産　太郎",
-                                style: context.typographies.subBody1,
-                              ),
-                            ),
-                          ),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: _bloc.state.selectedMembers.length,
+                              itemBuilder: (context, index) {
+                                var member = _bloc.state.selectedMembers[index];
+                                return MemberItem(
+                                    member: member,
+                                    isCanMove: member.roleId != 1 &&
+                                        member.id != userId);
+                              }),
                         )
                       ],
                     ),
@@ -218,22 +234,27 @@ class _CreateSitePageState extends State<CreateSitePage>
               alignment: Alignment.centerRight,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(
-                      Assets.icons.svg.icPlus.path,
-                      width: 15,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      "担当者を追加する",
-                      style: context.typographies.subBodyBold1
-                          .withColor(context.colors.tertiary),
-                    ),
-                  ],
+                child: InkWell(
+                  onTap: (){
+                    context.router.push(const SearchMemberRoute());
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SvgPicture.asset(
+                        Assets.icons.svg.icPlus.path,
+                        width: 15,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        "担当者を追加する",
+                        style: context.typographies.subBodyBold1
+                            .withColor(context.colors.tertiary),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -528,14 +549,15 @@ class _CreateSitePageState extends State<CreateSitePage>
               height: 5,
             ),
             InputContainer(
-              alignment: Alignment.center,
+                alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 width: MediaQuery.of(context).size.width,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     InputContainer(
-                      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 30),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 40, horizontal: 30),
                       backgroundColor: Colors.white,
                       child: Column(
                         children: [
@@ -595,7 +617,8 @@ class _CreateSitePageState extends State<CreateSitePage>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     InputContainer(
-                      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 30),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 40, horizontal: 30),
                       backgroundColor: Colors.white,
                       child: Column(
                         children: [

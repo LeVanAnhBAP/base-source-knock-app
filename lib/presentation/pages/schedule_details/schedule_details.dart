@@ -49,7 +49,7 @@ class _ScheduleDetailsPageState extends State<ScheduleDetailsPage> {
     return BlocProvider.value(
       value: _bloc,
       child: Scaffold(
-        appBar: CustomAppBar(appBarTitle: 'ホーム'),
+        appBar: CustomAppBar(context,appBarTitle: 'ホーム'),
         body: Column(children: [
           const SizedBox(
             height: 1,

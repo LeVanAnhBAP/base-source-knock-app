@@ -10,7 +10,7 @@ class GetStaticDataUseCase extends UseCase<StaticDataResponse, NoParams?>{
   final StaticDataRepository _staticDataRepository;
   const GetStaticDataUseCase(this._staticDataRepository);
   @override
-  Future<StaticDataResponse> call(NoParams? params) {
+  Future<StaticDataResponse> call([NoParams? params]) {
     return _staticDataRepository.getStaticData();
   }
 

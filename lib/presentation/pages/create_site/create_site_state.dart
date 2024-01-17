@@ -17,6 +17,7 @@ enum CreateSiteStatus {
 class CreateSiteState with _$CreateSiteState {
   const factory CreateSiteState({
     StaticDataResponse? staticData,
+    @Default(<MemberResponse>[]) List<MemberResponse> selectedMembers,
     @Default(<MemberResponse>[]) List<MemberResponse> members,
     @Default(<PrefectureResponse>[]) List<PrefectureResponse> prefecture,
     @Default(CreateSiteStatus.initial) CreateSiteStatus status,
