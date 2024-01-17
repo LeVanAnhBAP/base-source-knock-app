@@ -167,6 +167,9 @@ class $AssetsIconsSvgGen {
   SvgGenImage get icDashboardSearch =>
       const SvgGenImage('assets/icons/svg/ic_dashboard_search.svg');
 
+  /// File path: assets/icons/svg/ic_left_back.svg
+  SvgGenImage get icLeftBack => const SvgGenImage('assets/icons/svg/ic_left_back.svg');
+
   /// File path: assets/icons/svg/ic_location.svg
   SvgGenImage get icLocation => const SvgGenImage('assets/icons/svg/ic_location.svg');
 
@@ -178,6 +181,9 @@ class $AssetsIconsSvgGen {
 
   /// File path: assets/icons/svg/ic_menu.svg
   SvgGenImage get icMenu => const SvgGenImage('assets/icons/svg/ic_menu.svg');
+
+  /// File path: assets/icons/svg/ic_more_horizontal.svg
+  SvgGenImage get icMoreHorizontal => const SvgGenImage('assets/icons/svg/ic_more_horizontal.svg');
 
   /// File path: assets/icons/svg/ic_notification.svg
   SvgGenImage get icNotification => const SvgGenImage('assets/icons/svg/ic_notification.svg');
@@ -226,10 +232,12 @@ class $AssetsIconsSvgGen {
         icDashboardOnsite,
         icDashboardProfile,
         icDashboardSearch,
+        icLeftBack,
         icLocation,
         icMarker,
         icMarkerSelected,
         icMenu,
+        icMoreHorizontal,
         icNotification,
         icPersonal,
         icSearch,

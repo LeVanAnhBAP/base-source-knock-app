@@ -9,13 +9,17 @@ class DashBoardAppBar extends StatelessWidget implements PreferredSizeWidget {
   String? leftIcDes;
   String? rightIcPath;
   String? rightIcDescription;
+  void Function()? onLeftPressed;
+  void Function()? onRightPressed;
   DashBoardAppBar(
       {super.key,
       required this.title,
       this.leftIcPath,
       this.leftIcDes,
       this.rightIcPath,
-      this.rightIcDescription})
+      this.rightIcDescription,
+      this.onLeftPressed,
+      this.onRightPressed})
       : preferredSize = const Size.fromHeight(60);
 
   @override
@@ -29,10 +33,13 @@ class DashBoardAppBar extends StatelessWidget implements PreferredSizeWidget {
             width: 20,
           ),
           if (leftIcPath != null) ...[
-            SvgPicture.asset(
-              leftIcPath!,
-              width: 20,
-              height: 20,
+            InkWell(
+              onTap: onLeftPressed,
+              child: SvgPicture.asset(
+                leftIcPath!,
+                width: 20,
+                height: 20,
+              ),
             ),
           ],
           Expanded(
@@ -58,10 +65,18 @@ class DashBoardAppBar extends StatelessWidget implements PreferredSizeWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (rightIcPath != null) ...[
-                SvgPicture.asset(
-                  rightIcPath!,
+                SizedBox(
                   width: 25,
-                  height: 25,
+
+                  child: InkWell(
+                    onTap: onRightPressed,
+                    child: SvgPicture.asset(
+                      rightIcPath!,
+                      fit: BoxFit.scaleDown,
+                      width: 25,
+                      height: 25,
+                    ),
+                  ),
                 ),
               ],
               if (rightIcDescription != null) ...[

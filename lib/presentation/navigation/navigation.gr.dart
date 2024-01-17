@@ -81,6 +81,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: ScheduleDetailsPage(),
       );
     },
+    SiteDetailsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SiteDetailsPage(),
+      );
+    },
     SplashRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -240,6 +246,20 @@ class ScheduleDetailsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ScheduleDetailsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SiteDetailsPage]
+class SiteDetailsRoute extends PageRouteInfo<void> {
+  const SiteDetailsRoute({List<PageRouteInfo>? children})
+      : super(
+          SiteDetailsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SiteDetailsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

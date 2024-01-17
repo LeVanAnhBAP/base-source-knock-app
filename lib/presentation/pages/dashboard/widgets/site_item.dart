@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uq_system_app/assets.gen.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/data/models/response/site_response.dart';
+import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/utils/utils.dart';
 
 class SiteItem extends StatelessWidget {
@@ -151,13 +153,18 @@ class SiteItem extends StatelessWidget {
           right: 15,
           top: 0,
           bottom: 0,
-          child: Container(
-            decoration: BoxDecoration(
-                color: context.colors.tertiary, shape: BoxShape.circle),
-            child: const Icon(
-              Icons.keyboard_arrow_right_outlined,
-              color: Colors.white,
-              size: 32,
+          child: InkWell(
+            onTap: (){
+              context.router.push(const SiteDetailsRoute());
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: context.colors.tertiary, shape: BoxShape.circle),
+              child: const Icon(
+                Icons.keyboard_arrow_right_outlined,
+                color: Colors.white,
+                size: 32,
+              ),
             ),
           ),
         )
