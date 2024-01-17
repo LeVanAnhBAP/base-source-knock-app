@@ -138,7 +138,9 @@
     "RemarksTheContentsDescribedWillBeReflectedInTheOrderForm" : "備考（記載した内容は注文書に反映されます）",
     "Drawing" : "図面",
     "OnSitePhoto" : "現場写真",
-    "MoveToCorrectionScreen" : "修正画面へ移動"
+    "MoveToCorrectionScreen" : "修正画面へ移動",
+    "Upload" : "アップロード",
+    "AddDrawing" : "図面を追加"
   },
 
   "InformationNotEntered" : "情報未入力",

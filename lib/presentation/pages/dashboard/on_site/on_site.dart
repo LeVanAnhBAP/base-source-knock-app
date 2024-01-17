@@ -12,6 +12,8 @@ import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/data/models/response/account.dart';
 import 'package:uq_system_app/data/models/response/site_response.dart';
 import 'package:uq_system_app/di/injection.dart';
+import 'package:uq_system_app/presentation/navigation/navigation.dart';
+import 'package:uq_system_app/presentation/pages/create_site/create_site.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/widgets/site_item.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/on_site/on_site_bloc.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/on_site/on_site_event.dart';
@@ -74,6 +76,9 @@ class _DashBoardOnSitePageState extends State<DashBoardOnSitePage> {
               ? Assets.icons.svg.icDashboardOnsite.path
               : null,
           rightIcDescription: context.tr(LocaleKeys.OnSite_SignUp),
+          onRightPressed: (){
+            context.router.push(const CreateSiteRoute());
+          },
         ),
         body: OnSiteStatusListener(
           statuses: const [OnSiteStatus.success, OnSiteStatus.loading],

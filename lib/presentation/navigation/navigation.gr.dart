@@ -15,6 +15,12 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    CreateSiteRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CreateSitePage(),
+      );
+    },
     DashBoardChatRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -94,6 +100,20 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [CreateSitePage]
+class CreateSiteRoute extends PageRouteInfo<void> {
+  const CreateSiteRoute({List<PageRouteInfo>? children})
+      : super(
+          CreateSiteRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CreateSiteRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

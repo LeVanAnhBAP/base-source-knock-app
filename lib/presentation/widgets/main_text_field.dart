@@ -1,36 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:uq_system_app/core/extensions/text_style.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
-
+import 'package:uq_system_app/presentation/widgets/input_container.dart';
 
 class MainTextField extends StatelessWidget {
   final String? hintText;
-  const MainTextField({super.key, this.hintText});
+  final double? height;
+
+  const MainTextField({super.key, this.hintText, this.height});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 7),
-      decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 0.2,
-              blurRadius: 1,
-              offset: const Offset(0, 3),
-            ),
-          ],
-          color: const Color(0xffF7F8FA),
-          border: Border.all(color: Colors.white, width: 2),
-          borderRadius: BorderRadius.circular(15)),
-      child: TextField(
-        style: context.appTheme.styles.textStyle,
-        decoration: InputDecoration(
-            fillColor: const Color(0xffF7F8FA),
-            enabledBorder: InputBorder.none,
-            hintStyle: const TextStyle(color: Color(0xffA2A2A2)),
-            hintText: hintText ?? "",
-            border: InputBorder.none),
-      ),
-    );
+    return InputContainer(
+        height: height,
+        child: TextField(
+          style:
+              context.typographies.bodyBold.withColor(context.colors.primary),
+          decoration: InputDecoration(
+              fillColor: const Color(0xffF7F8FA),
+              enabledBorder: InputBorder.none,
+              hintStyle: const TextStyle(color: Color(0xffA2A2A2)),
+              hintText: hintText ?? "",
+              border: InputBorder.none),
+          maxLines: null,
+        ));
   }
 }
