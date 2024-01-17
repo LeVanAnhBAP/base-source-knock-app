@@ -10,7 +10,7 @@ import 'widgets/icon_item.dart';
 @RoutePage()
 class DashboardPage extends StatefulWidget {
   final String accessToken;
-  const DashboardPage({super.key,required this.accessToken});
+  const DashboardPage({super.key, required this.accessToken});
 
   @override
   State<StatefulWidget> createState() {
@@ -22,7 +22,7 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
-      routes:  [
+      routes: [
         DashboardHomeRoute(accessToken: widget.accessToken),
         DashboardSiteRoute(accessToken: widget.accessToken),
         const DashboardChatRoute(),
@@ -31,35 +31,36 @@ class _DashboardPageState extends State<DashboardPage> {
       ],
       bottomNavigationBuilder: (context, tabsRouter) => Container(
         height: 80,
-        decoration: const BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              offset: Offset(0, -2),
-              blurRadius: 6,
-              spreadRadius: 3,
-            ),
-          ]
-        ),
+        decoration: const BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            offset: Offset(0, -2),
+            blurRadius: 6,
+            spreadRadius: 3,
+          ),
+        ]),
         child: BottomNavigationBar(
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
           items: [
             BottomNavigationBarItem(
               activeIcon: IconItem(
-                  path: Assets.icons.svg.icDashboardHome.path, isSelected: true),
+                  path: Assets.icons.svg.icDashboardHome.path,
+                  isSelected: true),
               icon: IconItem(path: Assets.icons.svg.icDashboardHome.path),
               label: context.tr(LocaleKeys.Dashboard_Home),
             ),
             BottomNavigationBarItem(
               activeIcon: IconItem(
-                  path: Assets.icons.svg.icDashboardSite.path, isSelected: true),
+                  path: Assets.icons.svg.icDashboardSite.path,
+                  isSelected: true),
               icon: IconItem(path: Assets.icons.svg.icDashboardSite.path),
               label: 'Site',
             ),
             BottomNavigationBarItem(
               activeIcon: IconItem(
-                  path: Assets.icons.svg.icDashboardChat.path, isSelected: true),
+                  path: Assets.icons.svg.icDashboardChat.path,
+                  isSelected: true),
               icon: IconItem(path: Assets.icons.svg.icDashboardChat.path),
               label: 'Chat',
             ),

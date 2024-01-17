@@ -134,6 +134,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
 
   Widget bot() {
     return Container(
+      margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       height: 160,
       decoration: BoxDecoration(
@@ -141,21 +142,19 @@ class _ScheduleCardState extends State<ScheduleCard> {
           borderRadius: const BorderRadius.only(
               bottomRight: Radius.circular(16),
               bottomLeft: Radius.circular(16))),
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              widget.title,
-              style: const TextStyle(fontSize: 20),
-            ),
-          ),
-          const Gap(20),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.title,
+                style: const TextStyle(fontSize: 20),
+              ),
+              const Gap(20),
+              Expanded(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -167,6 +166,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
                         Text(
                           widget.location,
                           style: const TextStyle(fontSize: 13),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
@@ -193,18 +193,20 @@ class _ScheduleCardState extends State<ScheduleCard> {
                     )
                   ],
                 ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: InkWell(
-                    onTap: widget.clickDropRight,
-                    child: SvgPicture.asset(
-                      Assets.icons.svg.icScheduleArrowDropright.path,
-                      height: 32,
-                    ),
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center ,
+            children: [
+              InkWell(
+                onTap: widget.clickDropRight,
+                child: SvgPicture.asset(
+                  Assets.icons.svg.icScheduleArrowDropright.path,
+                  height: 32,
+                ),
+              )
+            ],
           )
         ],
       ),

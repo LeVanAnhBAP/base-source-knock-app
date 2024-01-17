@@ -88,7 +88,7 @@ class _DashboardSitePageState extends State<DashboardSitePage> {
   Widget listCard() {
     return Expanded(
       child: ListView(
-        children: List.generate(3, (index) {
+        children: List.generate(listData.length, (index) {
           return Column(
             children: [
               ScheduleCard(
@@ -109,7 +109,6 @@ class _DashboardSitePageState extends State<DashboardSitePage> {
                 scheduleCreator:
                     '${listData[index]['first_name']} ${listData[index]['last_name']}',
               ),
-              SizedBox(height: index == 2 ? 0 : 16)
             ],
           );
         }),
