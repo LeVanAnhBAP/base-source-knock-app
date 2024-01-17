@@ -43,7 +43,7 @@ class _SearchFieldState extends State<SearchField> {
         decoration: InputDecoration(
           hintText: widget.placeholder,
           prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 12),
+            padding: const EdgeInsets.only(left: 8),
             child: IconButton(
               onPressed: () {
                 widget.clickSearch();

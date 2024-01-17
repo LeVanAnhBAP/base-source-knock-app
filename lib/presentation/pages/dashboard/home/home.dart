@@ -115,7 +115,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
       alignment: Alignment.centerRight,
       child: Container(
         width: 180,
-        margin: const EdgeInsets.symmetric(vertical: 24),
+        margin: const EdgeInsets.symmetric(vertical: 20),
         padding: const EdgeInsets.only(
           top: 8,
           bottom: 8,
