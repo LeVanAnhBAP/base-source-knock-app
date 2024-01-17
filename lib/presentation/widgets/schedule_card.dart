@@ -163,10 +163,14 @@ class _ScheduleCardState extends State<ScheduleCard> {
                         SvgPicture.asset(
                             Assets.icons.svg.icScheduleCardLocation.path),
                         const Gap(4),
-                        Text(
-                          widget.location,
-                          style: const TextStyle(fontSize: 13),
-                          overflow: TextOverflow.ellipsis,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width-112,
+                          child: Text(
+                            widget.location,
+                            style: const TextStyle(fontSize: 13),
+                            overflow: TextOverflow.fade,
+                            maxLines: 1,
+                          ),
                         ),
                       ],
                     ),

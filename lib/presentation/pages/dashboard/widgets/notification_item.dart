@@ -24,7 +24,7 @@ class NotificationItem extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: const BoxDecoration(
           color: Color.fromRGBO(236, 245, 254, 1),
-          borderRadius: BorderRadius.all(Radius.circular(8))),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

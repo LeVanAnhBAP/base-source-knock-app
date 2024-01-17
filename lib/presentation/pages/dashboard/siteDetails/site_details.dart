@@ -6,7 +6,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/presentation/widgets/back_button_app_bar.dart';
+import 'package:uq_system_app/presentation/widgets/content_detail.dart';
 import 'package:uq_system_app/presentation/widgets/input_field.dart';
+import 'package:uq_system_app/presentation/widgets/title_detail.dart';
 
 import '../../../../assets.gen.dart';
 
@@ -87,8 +89,8 @@ class _SiteDetailsState extends State<SiteDetailsPage>
                           child: TabBarView(
                             controller: _tabController,
                             children: [
-                              tab1(),
-                              tab2(),
+                              detailSiteTab(),
+                              imageTab(),
                             ],
                           ),
                         ),
@@ -104,10 +106,18 @@ class _SiteDetailsState extends State<SiteDetailsPage>
                 children: [
                   const Expanded(child: SizedBox()),
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 32),
+                    margin: const EdgeInsets.symmetric(horizontal: 36),
                     height: 60,
                     width: double.maxFinite,
                     decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.4),
+                            spreadRadius: 1.5,
+                            blurRadius: 5,
+                            offset: const Offset(0, 0),
+                          ),
+                        ],
                         color: context.colors.primary,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(8))),
@@ -135,95 +145,99 @@ class _SiteDetailsState extends State<SiteDetailsPage>
     super.dispose();
   }
 
-  tab1() {
+  detailSiteTab() {
     return Container(
       padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
       color: context.colors.background,
       child: ListView(
         children: [
-          title(text: '注文No'),
-          content(text: '00274'),
+          const TitleDetail(text: '注文No'),
+          const ContentDetail(text: '00274'),
           line(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              title(text: '担当者'),
+              const TitleDetail(text: '担当者'),
               Column(
                 children: List.generate(4, (index) {
-                  return content(text: 'acb$index');
+                  return ContentDetail(text: 'acb$index');
                 }),
               )
             ],
           ),
           line(),
-          title(text: '工事コード'),
-          content(text: 'Site 16'),
-          title(text: '工事名'),
-          content(text: 'Site 16'),
-          title(text: '工事内容'),
-          content(text: 'Site 16'),
+          const TitleDetail(text: '工事コード'),
+          const ContentDetail(text: 'Site 16'),
+          const TitleDetail(text: '工事名'),
+          const ContentDetail(text: 'Site 16'),
+          const TitleDetail(text: '工事内容'),
+          const ContentDetail(text: 'Site 16'),
           line(),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [title(text: '職種'), content(text: 'インテリア工事')],
+            children: [TitleDetail(text: '職種'), ContentDetail(text: 'インテリア工事'),],
           ),
           line(),
-          title(text: '工期'),
-          content(text: '2023/10/10  ~  2023/10/15'),
+          const TitleDetail(text: '工期'),
+          const ContentDetail(text: '2023/10/10  ~  2023/10/15'),
           line(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              title(text: '工事場所'),
+              const TitleDetail(text: '工事場所'),
               button(
                   text: '地図',
                   icon: Assets.icons.svg.icSiteDetailsLocation.path,
                   width: 72)
             ],
           ),
-          content(text: '東京都新宿区〇〇〇〇町　1-1-1Knockハウス101号室'),
+          const ContentDetail(text: '東京都新宿区〇〇〇〇町　1-1-1Knockハウス101号室'),
           line(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              title(text: '注文合計金額'),
+              const TitleDetail(text: '注文合計金額'),
               button(
                   text: '注文明細',
                   icon: Assets.icons.svg.icSiteDetailsOrderDetail.path,
                   width: 100)
             ],
           ),
-          content(text: '¥33,000'),
-          title(text: '備考（記載した内容は注文書に反映されます）'),
-          content(text: '33,000円のうち、材料費として前払金3,000円払う')
+          const ContentDetail(text: '¥33,000'),
+          const TitleDetail(text: '備考（記載した内容は注文書に反映されます）'),
+          const ContentDetail(text: '33,000円のうち、材料費として前払金3,000円払う')
         ],
       ),
     );
   }
 
-  tab2() {
-    return  Container(
+  imageTab() {
+    return Container(
       padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
       color: context.colors.background,
       child: ListView(
         children: [
-          title(text: 'abcdef'),
+          const TitleDetail(text: 'abcdef'),
           SizedBox(
             height: 400,
             child: GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 4,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 4,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 32,
-              crossAxisSpacing: 32,
-              mainAxisExtent: 160,
-            ), itemBuilder: (context,index){
-              return Container(
-    color: context.colors.border,
-              );
-    }),
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 32,
+                  crossAxisSpacing: 32,
+                  mainAxisExtent: 160,
+                ),
+                itemBuilder: (context, index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        color: context.colors.border,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(32))),
+                  );
+                }),
           )
         ],
       ),
@@ -238,26 +252,7 @@ class _SiteDetailsState extends State<SiteDetailsPage>
     );
   }
 
-  Widget title({required String text}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: Text(
-        text,
-        style: const TextStyle(fontWeight: FontWeight.bold),
-      ),
-    );
-  }
 
-  Widget content({required String text}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Text(
-        text,
-        style: TextStyle(color: context.colors.border),
-        softWrap: true,
-      ),
-    );
-  }
 
   Widget button(
       {required String text, required String icon, required double width}) {
@@ -268,14 +263,14 @@ class _SiteDetailsState extends State<SiteDetailsPage>
         height: 28,
         width: width,
         decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              spreadRadius: 0.2,
-              blurRadius: 4,
-              offset: const Offset(0, 0),
-            ),
-          ],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 0.2,
+                blurRadius: 4,
+                offset: const Offset(0, 0),
+              ),
+            ],
             borderRadius: const BorderRadius.all(Radius.circular(16)),
             color: context.colors.secondary),
         child: Row(
