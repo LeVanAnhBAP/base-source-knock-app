@@ -5,9 +5,12 @@ import 'package:uq_system_app/core/bases/responses/paginate_response.dart';
 import 'package:uq_system_app/data/models/request/favorite_partner_params.dart';
 import 'package:uq_system_app/data/models/request/login_params.dart';
 import 'package:uq_system_app/data/models/response/account.dart';
+import 'package:uq_system_app/data/models/response/member_response.dart';
 import 'package:uq_system_app/data/models/response/partner_response.dart';
+import 'package:uq_system_app/data/models/response/prefecture_response.dart';
 import 'package:uq_system_app/data/models/response/site_response.dart';
 import 'package:uq_system_app/data/models/response/login_response.dart';
+import 'package:uq_system_app/data/models/response/static_data_response.dart';
 import 'package:uq_system_app/data/services/api/api.service.dart';
 import 'package:uq_system_app/data/sources/network/network_urls.dart';
 import 'package:retrofit/retrofit.dart';
@@ -21,6 +24,7 @@ abstract class NetworkDataSource {
     ApiServices apiServices, {
     String baseUrl,
   }) = _NetworkDataSource;
+  //Auth
   @POST(NetworkUrls.login)
   Future<BaseResponse<LoginResponse>> login(
     @Body() LoginParams params,
@@ -30,6 +34,7 @@ abstract class NetworkDataSource {
       @Query('email') String email, @Query('type') String type);
   @POST(NetworkUrls.logout)
   Future<void> logout();
+
   //Site
   @GET(NetworkUrls.factoryFloor)
   Future<BaseResponse<PaginateResponse<List<SiteResponse>>>> paginateSite(
@@ -37,6 +42,7 @@ abstract class NetworkDataSource {
     @Query('start_day_request') String? startDayRequest,
     @Query('name') String? name,
   );
+
   //Partner
   @GET(NetworkUrls.searchPartner)
   Future<BaseResponse<PaginateResponse<List<PartnerResponse>>>> paginatePartner(
@@ -45,6 +51,7 @@ abstract class NetworkDataSource {
   );
   @PUT(NetworkUrls.favoritePartner)
   Future<BaseResponse> changeFavoritePartnerState(@Body() FavoritePartnerParams request);
+
   //Profile
   @GET(NetworkUrls.info)
   Future<BaseResponse<Account>> getUserInfo();
@@ -55,4 +62,13 @@ abstract class NetworkDataSource {
   @Part(name: 'avatar') File avatar,
       @Part(name: '_method') String method
       );
+  //StaticData
+  @GET(NetworkUrls.staticData)
+  Future<BaseResponse<StaticDataResponse>> getStaticData();
+  //Member
+  @GET(NetworkUrls.member)
+  Future<BaseResponse<List<MemberResponse>>> getMembers();
+  //Prefecture
+  @GET(NetworkUrls.prefecture)
+  Future<BaseResponse<List<PrefectureResponse>>> getPrefectures();
 }
