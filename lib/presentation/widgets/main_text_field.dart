@@ -20,7 +20,7 @@ class MainTextField extends StatelessWidget {
               fillColor: const Color(0xffF7F8FA),
               enabledBorder: InputBorder.none,
               hintStyle: const TextStyle(color: Color(0xffA2A2A2)),
-              hintText: hintText ?? "",
+              hintText: hintText ,
               border: InputBorder.none),
           maxLines: null,
         ));

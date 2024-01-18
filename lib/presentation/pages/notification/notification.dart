@@ -29,6 +29,7 @@ class _NotificationPageState extends State<NotificationPage> {
       value: _bloc,
       child: Scaffold(
         appBar: CustomAppBar(
+          context,
           appBarTitle: '大事なお知らせ',
         ),
         body: _buildBody(),

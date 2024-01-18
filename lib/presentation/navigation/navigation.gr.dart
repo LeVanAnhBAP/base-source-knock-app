@@ -87,6 +87,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: ScheduleDetailsPage(),
       );
     },
+    SearchMemberRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SearchMemberPage(),
+      );
+    },
     SiteDetailsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -266,6 +272,20 @@ class ScheduleDetailsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ScheduleDetailsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SearchMemberPage]
+class SearchMemberRoute extends PageRouteInfo<void> {
+  const SearchMemberRoute({List<PageRouteInfo>? children})
+      : super(
+          SearchMemberRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SearchMemberRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
