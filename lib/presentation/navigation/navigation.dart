@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:uq_system_app/domain/entities/member.dart';
 import 'package:uq_system_app/presentation/pages/auth/reset_password/reset_password_page.dart';
 import 'package:uq_system_app/presentation/pages/auth/login/login_page.dart';
 import 'package:uq_system_app/presentation/pages/create_site/create_site.dart';
@@ -39,6 +40,7 @@ class AppRouter extends _$AppRouter{
     AutoRoute(path: '/site_details', page: SiteDetailsRoute.page),
     AutoRoute(path: '/site_details', page: CreateSiteRoute.page),
     AutoRoute(path: '/search_member', page: SearchMemberRoute.page),
+
 
   ];
 @override

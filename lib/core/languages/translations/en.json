@@ -140,6 +140,10 @@
     "Upload" : "Upload",
     "AddDrawing": "Add drawing"
   },
+  "SearchMember" : {
+    "PersonInChargeSearch" : "PersonInChargeSearch",
+    "PersonNameSearch" : "Person name search"
+  },
   "InformationNotEntered" : "Information not entered",
   "PhotoLibrary" : "Photo Library",
   "TakeAPhoto" : "Take a photo",

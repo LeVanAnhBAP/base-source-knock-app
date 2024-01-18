@@ -88,9 +88,10 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     SearchMemberRoute.name: (routeData) {
+      final args = routeData.argsAs<SearchMemberRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: SearchMemberPage(),
+        child: SearchMemberPage(args.members),
       );
     },
     SiteDetailsRoute.name: (routeData) {
@@ -278,16 +279,31 @@ class ScheduleDetailsRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [SearchMemberPage]
-class SearchMemberRoute extends PageRouteInfo<void> {
-  const SearchMemberRoute({List<PageRouteInfo>? children})
-      : super(
+class SearchMemberRoute extends PageRouteInfo<SearchMemberRouteArgs> {
+  SearchMemberRoute({
+    required List<Member> members,
+    List<PageRouteInfo>? children,
+  }) : super(
           SearchMemberRoute.name,
+          args: SearchMemberRouteArgs(members: members),
           initialChildren: children,
         );
 
   static const String name = 'SearchMemberRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<SearchMemberRouteArgs> page =
+      PageInfo<SearchMemberRouteArgs>(name);
+}
+
+class SearchMemberRouteArgs {
+  const SearchMemberRouteArgs({required this.members});
+
+  final List<Member> members;
+
+  @override
+  String toString() {
+    return 'SearchMemberRouteArgs{members: $members}';
+  }
 }
 
 /// generated route for
