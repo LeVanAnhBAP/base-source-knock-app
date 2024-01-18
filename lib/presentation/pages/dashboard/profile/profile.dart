@@ -5,6 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/di/injector.dart';
 import 'package:uq_system_app/presentation/widgets/app_bar.dart';
+import 'package:uq_system_app/presentation/widgets/content_detail.dart';
+import 'package:uq_system_app/presentation/widgets/title_detail.dart';
 
 import '../../../../assets.gen.dart';
 import 'profile_bloc.dart';
@@ -51,7 +53,7 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
             slivers: <Widget>[
               SliverAppBar(
                 backgroundColor: context.colors.background,
-                expandedHeight: 320.0,
+                expandedHeight: 300.0,
                 floating: true,
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
@@ -122,22 +124,8 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
               SliverFillRemaining(
                 child: TabBarView(
                   controller: _tabController,
-                  children: const <Widget>[
-                    SingleChildScrollView(
-                      physics: NeverScrollableScrollPhysics(),
-                      child: Column(
-                        children: [
-                          Text('dasd'),
-                          Text('dasd'),
-                          Text('dasd'),
-                          Text('dasd'),
-                          Text('dasd'),
-                          Text('dasd'),
-                          Text('dasd'),
-                          Text('dasd'),
-                        ],
-                      ),
-                    ),
+                  children: <Widget>[
+                    personalInformationTab(),
                     Center(
                       child: Text('Tab 2 Content'),
                     ),
@@ -190,6 +178,40 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
           child: SvgPicture.asset(Assets.icons.svg.icCamera.path),
         ),
       ],
+    );
+  }
+
+  personalInformationTab() {
+    return SingleChildScrollView(
+      physics: const NeverScrollableScrollPhysics(),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        child: const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TitleDetail(text: 'アカウント種別'),
+            ContentDetail(text: 'aaaaaaaa'),
+            TitleDetail(text: '氏名'),
+            ContentDetail(text: 'bbbbbbbb'),
+            TitleDetail(text: 'ふりがな'),
+            ContentDetail(text: 'cccccccc'),
+            TitleDetail(text: '生年月日'),
+            ContentDetail(text: '11111111'),
+            TitleDetail(text: '年齢'),
+            ContentDetail(text: '99'),
+            TitleDetail(text: 'TEL'),
+            ContentDetail(text: '2222222222'),
+            TitleDetail(text: 'Email'),
+            ContentDetail(text: 'abc@xyz'),
+            TitleDetail(text: 'ログインID'),
+            ContentDetail(text: 'abc@xyz'),
+            TitleDetail(text: 'パスワード'),
+            ContentDetail(text: '1234567')
+
+            
+          ],
+        ),
+      ),
     );
   }
 }

@@ -20,6 +20,9 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   Future<void> login({required String email, required String password}) async {
+    if (!mounted) {
+      return;
+    }
     final BuildContext localContext = context;
     const api = 'https://dev-knock-api.oneknockapp.com/api/v1/user/auth/login';
     final data = {'email': email, 'password': password};

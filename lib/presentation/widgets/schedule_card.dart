@@ -167,7 +167,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
                           width: MediaQuery.of(context).size.width-112,
                           child: Text(
                             widget.location,
-                            style: const TextStyle(fontSize: 13),
+                            style: context.typographies.caption1,
                             overflow: TextOverflow.fade,
                             maxLines: 1,
                           ),
@@ -181,7 +181,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
                         const Gap(4),
                         Text(
                           '${DateFormat('yyyy/MM/dd(E)').format(DateTime.parse(widget.dayFrom))} ~ ${DateFormat('yyyy/MM/dd(E)').format(DateTime.parse(widget.dayTo))}',
-                          style: const TextStyle(fontSize: 14),
+                          style: context.typographies.caption1,
                         )
                       ],
                     ),
@@ -191,7 +191,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
                         const Gap(8),
                         Text(
                           widget.company,
-                          style: const TextStyle(fontSize: 14),
+                          style: context.typographies.caption1,
                         )
                       ],
                     )

@@ -7,7 +7,6 @@ import 'package:gap/gap.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/presentation/widgets/back_button_app_bar.dart';
 import 'package:uq_system_app/presentation/widgets/content_detail.dart';
-import 'package:uq_system_app/presentation/widgets/input_field.dart';
 import 'package:uq_system_app/presentation/widgets/title_detail.dart';
 
 import '../../../../assets.gen.dart';

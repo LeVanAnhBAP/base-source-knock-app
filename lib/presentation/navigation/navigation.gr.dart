@@ -39,6 +39,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const DashboardChatPage(),
       );
     },
+    CreateSiteRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CreateSitePage(),
+      );
+    },
     DashboardRoute.name: (routeData) {
       final args = routeData.argsAs<DashboardRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -65,6 +71,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: NegotiationRoomPage(),
       );
     },
+    NotificationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: NotificationPage(),
+      );
+    },
     DashboardProfileRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -87,22 +99,10 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    NotificationRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: NotificationPage(),
-      );
-    },
     SiteDetailsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: SiteDetailsPage(),
-      );
-    },
-    CreateSiteRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: CreateSitePage(),
       );
     },
   };
@@ -160,6 +160,20 @@ class DashboardChatRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'DashboardChatRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CreateSitePage]
+class CreateSiteRoute extends PageRouteInfo<void> {
+  const CreateSiteRoute({List<PageRouteInfo>? children})
+      : super(
+          CreateSiteRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CreateSiteRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -255,6 +269,20 @@ class NegotiationRoomRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [NotificationPage]
+class NotificationRoute extends PageRouteInfo<void> {
+  const NotificationRoute({List<PageRouteInfo>? children})
+      : super(
+          NotificationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'NotificationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [DashboardProfilePage]
 class DashboardProfileRoute extends PageRouteInfo<void> {
   const DashboardProfileRoute({List<PageRouteInfo>? children})
@@ -321,20 +349,6 @@ class DashboardSiteRouteArgs {
 }
 
 /// generated route for
-/// [NotificationPage]
-class NotificationRoute extends PageRouteInfo<void> {
-  const NotificationRoute({List<PageRouteInfo>? children})
-      : super(
-          NotificationRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'NotificationRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [SiteDetailsPage]
 class SiteDetailsRoute extends PageRouteInfo<void> {
   const SiteDetailsRoute({List<PageRouteInfo>? children})
@@ -344,20 +358,6 @@ class SiteDetailsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SiteDetailsRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [CreateSitePage]
-class CreateSiteRoute extends PageRouteInfo<void> {
-  const CreateSiteRoute({List<PageRouteInfo>? children})
-      : super(
-          CreateSiteRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'CreateSiteRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

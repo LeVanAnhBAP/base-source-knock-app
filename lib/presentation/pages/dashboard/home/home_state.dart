@@ -10,11 +10,14 @@ enum HomeStatus {
   failure,
   refreshing,
 }
-
+@JsonSerializable()
 @freezed
 class HomeState with _$HomeState {
   const factory HomeState({
     @Default(HomeStatus.initial) HomeStatus status,
     BaseException? error,
+    List<dynamic>? listData,
   }) = _HomeState;
+
+
 }

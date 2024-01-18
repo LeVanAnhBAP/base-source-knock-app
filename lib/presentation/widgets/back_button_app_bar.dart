@@ -28,8 +28,7 @@ class BackAppBar extends StatelessWidget implements PreferredSizeWidget {
             title,
             style: const TextStyle(
               color: Colors.black,
-              fontSize: 25,
-              fontFamily: 'hiraginoW3'
+              fontSize: 24,
             ),
           ),
           Container(
