@@ -14,7 +14,6 @@ import 'package:uq_system_app/presentation/pages/create_site/create_site_bloc.da
 import 'package:uq_system_app/presentation/pages/create_site/create_site_event.dart';
 import 'package:uq_system_app/presentation/pages/create_site/create_site_selector.dart';
 import 'package:uq_system_app/presentation/pages/create_site/widgets/member_item.dart';
-import 'package:uq_system_app/presentation/pages/search_member/search_member.dart';
 import 'package:uq_system_app/presentation/widgets/divider_line.dart';
 import 'package:uq_system_app/presentation/widgets/droplist_input_item.dart';
 import 'package:uq_system_app/presentation/widgets/input_container.dart';
@@ -22,6 +21,7 @@ import 'package:uq_system_app/presentation/widgets/main_text_field.dart';
 
 import '../../../assets.gen.dart';
 import '../../../core/languages/translation_keys.g.dart';
+import '../../../domain/entities/member.dart';
 import '../../widgets/dashboard_app_bar.dart';
 
 @RoutePage()
@@ -93,6 +93,7 @@ class _CreateSitePageState extends State<CreateSitePage>
                 children: [
                   CreateSiteStatusSelector(builder: (status) {
                     return TabBarView(
+                        physics: const NeverScrollableScrollPhysics(),
                         controller: controller,
                         children: [_buildDetail(), _buildImages()]);
                   }),
@@ -190,42 +191,7 @@ class _CreateSitePageState extends State<CreateSitePage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    context.tr(LocaleKeys.SiteDetail_Manager),
-                    style: context.typographies.subBodyBold1,
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Flexible(
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: _bloc.state.selectedMembers.length,
-                              itemBuilder: (context, index) {
-                                var member = _bloc.state.selectedMembers[index];
-                                return MemberItem(
-                                    member: member,
-                                    isCanMove: member.roleId != 1 &&
-                                        member.id != userId);
-                              }),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            _buildManager(),
             Divider(
               height: 1,
               color: context.colors.divider,
@@ -235,8 +201,14 @@ class _CreateSitePageState extends State<CreateSitePage>
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: InkWell(
-                  onTap: (){
-                    context.router.push(const SearchMemberRoute());
+                  onTap: () async {
+                    await context.router
+                        .push(SearchMemberRoute(members: _bloc.state.members))
+                        .then((value) {
+                      var newMembers = value as List<Member>;
+                      _bloc.add(CreateSiteEvent.updateMembers(
+                          newMembers: newMembers));
+                    });
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -279,7 +251,10 @@ class _CreateSitePageState extends State<CreateSitePage>
             const SizedBox(
               height: 5,
             ),
-            const MainTextField(),
+            const MainTextField(
+              maxLength: 15,
+              maxLines: 1,
+            ),
             const SizedBox(
               height: 3,
             ),
@@ -527,6 +502,53 @@ class _CreateSitePageState extends State<CreateSitePage>
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildManager() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20, bottom: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.tr(LocaleKeys.SiteDetail_Manager),
+            style: context.typographies.subBodyBold1,
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: ListMemberSelector(builder: (data) {
+                    var selectedMembers =
+                        data.where((element) => element.isSelected).toList();
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: selectedMembers.length,
+                        itemBuilder: (context, index) {
+                          var member = selectedMembers[index];
+                          return MemberItem(
+                            member: member,
+                            isCanMove:
+                                member.roleId != 1 && member.id != userId,
+                            onRemove: (id) {
+                              _bloc.add(CreateSiteEvent.removeMember(id: id));
+                            },
+                          );
+                        });
+                  }),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

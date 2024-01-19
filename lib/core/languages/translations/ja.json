@@ -142,7 +142,10 @@
     "Upload" : "アップロード",
     "AddDrawing" : "図面を追加"
   },
-
+  "SearchMember" : {
+    "PersonInChargeSearch" : "担当者検索",
+    "PersonNameSearch" : "担当者氏名検索"
+  },
   "InformationNotEntered" : "情報未入力",
   "PhotoLibrary" : "写真ライブラリ",
   "TakeAPhoto" : "写真を撮る",

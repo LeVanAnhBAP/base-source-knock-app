@@ -27,23 +27,22 @@ class CustomAppBar extends AppBar {
   final Function()? onLeftPress;
   final BuildContext context;
 
-  CustomAppBar(
-    this.context, {
-    required this.appBarTitle,
-    this.leftIcPath,
-    this.leftIcDescription,
-    this.rightIcPath,
-    this.rightIcDescription,
-    this.onLeftPress,
-    this.titleMargin,
-    this.onRightPress,
-    this.titleAlign = TextAlign.center,
-    super.title,
-    super.toolbarHeight,
-    super.elevation,
-    super.backgroundColor = Colors.white,
-    super.titleSpacing = 0,
-  });
+  CustomAppBar(this.context,
+      {required this.appBarTitle,
+      this.leftIcPath,
+      this.leftIcDescription,
+      this.rightIcPath,
+      this.rightIcDescription,
+      this.onLeftPress,
+      this.titleMargin,
+      this.onRightPress,
+      this.titleAlign = TextAlign.center,
+      super.title,
+      super.toolbarHeight,
+      super.elevation,
+      super.backgroundColor = Colors.white,
+      super.titleSpacing = 0,
+      super.surfaceTintColor = Colors.transparent});
 
   @override
   Widget? get title => Container(
@@ -80,18 +79,14 @@ class CustomAppBar extends AppBar {
         children: [
           SizedBox(
             width: 25,
-            child: InkWell(
-              onTap: onRightPress,
-              child: SvgPicture.asset(
-                icPath,
-                fit: BoxFit.scaleDown,
-                width: 25,
-                height: 25,
-              ),
+            child: SvgPicture.asset(
+              icPath,
+              fit: BoxFit.scaleDown,
+              width: 25,
+              height: 25,
             ),
           ),
           if (icDescription != null) ...[
-
             Text(
               icDescription,
               style: context.typographies.subBody3,
@@ -117,7 +112,7 @@ class CustomAppBar extends AppBar {
   @override
   Widget? get leading => leftIcPath != null
       ? InkWell(
-          onTap: () => onLeftPress,
+          onTap: onLeftPress,
           child: _buildIcon(leftIcPath!, leftIcDescription),
         )
       : null;

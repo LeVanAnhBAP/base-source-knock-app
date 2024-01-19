@@ -1,6 +1,7 @@
 
-import '../../models/response/member_response.dart';
+import 'package:uq_system_app/domain/entities/member.dart';
+
 
 abstract class MemberRepository{
-  Future<List<MemberResponse>> getMembers();
+  Future<List<Member>> getMembers();
 }
