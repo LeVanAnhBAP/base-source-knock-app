@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uq_system_app/core/extensions/text_style.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
+import 'package:uq_system_app/data/models/response/occupation_response.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
@@ -35,6 +36,7 @@ class _CreateSitePageState extends State<CreateSitePage>
   final CreateSiteBloc _bloc = getIt.get<CreateSiteBloc>();
   final int userId = getIt<AuthBloc>().state.account!.id;
   late TabController controller;
+
 
   @override
   void initState() {
@@ -254,17 +256,7 @@ class _CreateSitePageState extends State<CreateSitePage>
             const MainTextField(
               maxLength: 15,
               maxLines: 1,
-            ),
-            const SizedBox(
-              height: 3,
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                "13/15",
-                style: context.typographies.subBody1
-                    .withColor(context.colors.primary),
-              ),
+              isCounter: true,
             ),
             Text(
               context.tr(LocaleKeys.SiteDetail_ConstructionDetails),
@@ -274,18 +266,9 @@ class _CreateSitePageState extends State<CreateSitePage>
               height: 5,
             ),
             const MainTextField(
-              height: 250,
-            ),
-            const SizedBox(
-              height: 3,
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                "13/500",
-                style: context.typographies.subBody1
-                    .withColor(context.colors.primary),
-              ),
+              maxLength: 500,
+              maxLines: 10,
+              isCounter: true,
             ),
             const SizedBox(
               height: 10,
@@ -294,20 +277,46 @@ class _CreateSitePageState extends State<CreateSitePage>
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     context.tr(LocaleKeys.SiteDetail_Occupation),
                     style: context.typographies.subBodyBold1,
                   ),
-                  const Expanded(child: SizedBox()),
-                  Text(
-                    "インテリア工事",
-                    style: context.typographies.subBodyBold1,
-                  ),
                   const SizedBox(
-                    width: 20,
+                    width: 10,
                   ),
-                  SvgPicture.asset(Assets.icons.svg.icRightBack.path),
+                  Expanded(
+                    child: OccupationSelector(builder: (data) {
+                      return Align(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          data?.name ?? "",
+                          style: context.typographies.subBodyBold1,
+                        ),
+                      );
+                    }),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      await context.router
+                          .push(OccupationRoute(
+                              occupations:
+                                  _bloc.state.staticData?.occupations ?? [],
+                              selectedOccupation: _bloc.state.occupation))
+                          .then((value) {
+                        if (value != null) {
+                          _bloc.add(CreateSiteEvent.updateOccupation(
+                              occupation: value as OccupationResponse));
+                        }
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child:
+                          SvgPicture.asset(Assets.icons.svg.icRightBack.path),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -325,21 +334,36 @@ class _CreateSitePageState extends State<CreateSitePage>
             Row(
               children: [
                 Expanded(
-                  child: InputContainer(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 10),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(Assets.icons.svg.icCalendar2.path),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "2023/10/10",
-                            style: context.typographies.subBodyBold1,
-                          ),
-                        ],
-                      )),
+                  child: InkWell(
+                    onTap: () async {
+                      await _selectDate().then((value) {
+                        if(value != null){
+                          _bloc.add(CreateSiteEvent.update(dateTime: value));
+                        }
+                      });
+                    },
+                    child: InputContainer(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 10),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(Assets.icons.svg.icCalendar2.path),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            CreateSiteSelector(
+                              builder: (data) {
+                                return Text(
+                                  DateFormat("yyyy/MM/dd")
+                                      .format(data ?? DateTime.now()),
+                                  style: context.typographies.subBodyBold1,
+                                );
+                              },
+                              observeValue: _bloc.state.startDayRequest,
+                            ),
+                          ],
+                        )),
+                  ),
                 ),
                 Container(
                   alignment: Alignment.center,
@@ -349,21 +373,26 @@ class _CreateSitePageState extends State<CreateSitePage>
                           .withColor(context.colors.primary)),
                 ),
                 Expanded(
-                  child: InputContainer(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 10),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(Assets.icons.svg.icCalendar2.path),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "2023/10/10",
-                            style: context.typographies.subBodyBold1,
-                          ),
-                        ],
-                      )),
+                  child: InkWell(
+                    onTap: () {
+                      _selectDate();
+                    },
+                    child: InputContainer(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 10),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(Assets.icons.svg.icCalendar2.path),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "2023/10/10",
+                              style: context.typographies.subBodyBold1,
+                            ),
+                          ],
+                        )),
+                  ),
                 ),
               ],
             ),
@@ -686,5 +715,14 @@ class _CreateSitePageState extends State<CreateSitePage>
         ),
       ),
     );
+  }
+
+  Future<DateTime?> _selectDate() async {
+    DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2050));
+    return picked;
   }
 }

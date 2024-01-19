@@ -9,7 +9,7 @@ final AppTheme darkTheme = AppTheme(
   name: 'dark',
   brightness: Brightness.dark,
   colors: const AppColors(
-    primarySwatch: Colors.deepPurple,
+    primarySwatch: Colors.deepOrange,
     primary: Color(0xFF5F5F5F),
     blurryTitle: Color(0xFF868686),
     secondary: Color(0xFFEE9B01),
@@ -237,20 +237,56 @@ class AppTheme extends ThemeExtension<AppTheme> {
         extensions: [this],
         primarySwatch: colors.primarySwatch,
         primaryColor: colors.primary,
+        dialogBackgroundColor: Colors.white,
         unselectedWidgetColor: colors.hint,
         disabledColor: colors.disabled,
         scaffoldBackgroundColor: colors.background,
         hintColor: colors.hint,
-        dividerColor: colors.border,
+        dividerColor: colors.divider,
+        datePickerTheme: DatePickerThemeData(
+            todayForegroundColor: MaterialStateProperty.resolveWith<Color?>(
+              (Set<MaterialState> states) {
+                if (states.contains(MaterialState.selected)) {
+                  return Colors.white;
+                } else {
+                  return Colors.blue;
+                }
+              },
+            ),
+            todayBackgroundColor: MaterialStateProperty.resolveWith<Color?>(
+              (Set<MaterialState> states) {
+                if (states.contains(MaterialState.selected)) {
+                  return Colors.blue;
+                } else {
+                  return Colors.white;
+                }
+              },
+            ),
+            dayBackgroundColor: MaterialStateProperty.resolveWith<Color?>(
+              (Set<MaterialState> states) {
+                if (states.contains(MaterialState.selected)) {
+                  return Colors.blue;
+                } else {
+                  return Colors.white;
+                }
+              },
+            ),
+            rangeSelectionBackgroundColor: Colors.blue,
+            dividerColor: colors.divider,
+            surfaceTintColor: Colors.white,
+            headerBackgroundColor: colors.tertiary,
+            headerForegroundColor: Colors.white),
         colorScheme: _baseColorScheme.copyWith(
           primary: colors.primary,
-          onPrimary: colors.text,
+          onPrimary: Colors.white,
           secondary: colors.secondary,
           onSecondary: colors.text,
           error: colors.error,
           shadow: colors.border,
           background: colors.background,
-          onBackground: colors.text,
+          surface: Colors.white,
+          onSurface: colors.primary,
+          onBackground: Colors.white,
         ),
         textTheme: TextTheme(
           bodyMedium: typographies.body.withColor(darkTheme.colors.text),
@@ -259,11 +295,10 @@ class AppTheme extends ThemeExtension<AppTheme> {
             titleTextStyle: typographies.title3,
             contentTextStyle:
                 typographies.subBodyBold1.withColor(colors.primary),
-
+            backgroundColor: Colors.white,
             surfaceTintColor: Colors.white,
-            shape:  RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15)
-            )),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15))),
         appBarTheme: AppBarTheme(
             elevation: 0,
             backgroundColor: colors.background,
@@ -377,7 +412,7 @@ class AppTheme extends ThemeExtension<AppTheme> {
           type: BottomNavigationBarType.fixed,
         ),
         dividerTheme: DividerThemeData(
-          color: colors.border,
+          color: colors.divider,
           thickness: 1,
           space: 1,
         ),

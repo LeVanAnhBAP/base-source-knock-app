@@ -14,25 +14,47 @@ class SearchMemberBloc extends Bloc<SearchMemberEvent, SearchMemberState> {
     on<SearchMemberSearch>(_onSearch);
     on<SearchMemberChangeSelection>(_onChangeSelection);
   }
-  FutureOr<void> _onChangeSelection(SearchMemberChangeSelection event,Emitter<SearchMemberState> emit) async{
+
+  FutureOr<void> _onChangeSelection(SearchMemberChangeSelection event,
+      Emitter<SearchMemberState> emit) async {
     emit(state.copyWith(status: SearchMemberStatus.loading));
-    var newMembers = state.members
-        .map((e) => e.id == event.memberId ? e.copyWith(isSelected: !e.isSelected) : e)
+    //TODO: Optimize
+    var newSearchedMembers = state.searchedMembers
+        .map((e) =>
+            e.id == event.memberId ? e.copyWith(isSelected: !e.isSelected) : e)
         .toList();
-    emit(state.copyWith(status: SearchMemberStatus.success, members:  newMembers));
+    var newMembers = state.members
+        .map((e) =>
+            e.id == event.memberId ? e.copyWith(isSelected: !e.isSelected) : e)
+        .toList();
+    emit(state.copyWith(
+        status: SearchMemberStatus.success,
+        searchedMembers: newSearchedMembers,
+        members: newMembers));
   }
-  FutureOr<void> _onSearch(SearchMemberSearch event,Emitter<SearchMemberState> emit) async{
+
+  FutureOr<void> _onSearch(
+      SearchMemberSearch event, Emitter<SearchMemberState> emit) async {
     emit(state.copyWith(status: SearchMemberStatus.loading));
     var result = state.members
         .where((element) =>
-    (element.firstName ?? '').toLowerCase().contains(event.searchText) ||
-        (element.lastName ?? '').toLowerCase().contains(event.searchText))
+            (element.firstName ?? '')
+                .toLowerCase()
+                .contains(event.searchText) ||
+            (element.lastName ?? '').toLowerCase().contains(event.searchText))
         .toList();
-    emit(state.copyWith(status: SearchMemberStatus.success, members: result));
+    emit(state.copyWith(
+        status: SearchMemberStatus.success, searchedMembers: result));
   }
-  FutureOr<void> _onReceiveData(SearchMemberReceiveData event,Emitter<SearchMemberState> emit) async{
-    emit(state.copyWith(status: SearchMemberStatus.success, members: event.members));
+
+  FutureOr<void> _onReceiveData(
+      SearchMemberReceiveData event, Emitter<SearchMemberState> emit) async {
+    emit(state.copyWith(
+        status: SearchMemberStatus.success,
+        members: event.members,
+        searchedMembers: event.members));
   }
+
   @override
   void onError(Object error, StackTrace stackTrace) {
     add(SearchMemberErrorOccurred(BaseException.from(error)));

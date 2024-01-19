@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uq_system_app/core/extensions/text_style.dart';
@@ -112,7 +113,11 @@ class CustomAppBar extends AppBar {
   @override
   Widget? get leading => leftIcPath != null
       ? InkWell(
-          onTap: onLeftPress,
+          borderRadius: const BorderRadius.all(Radius.circular(24)),
+          onTap: onLeftPress ??
+              () {
+                context.router.pop();
+              },
           child: _buildIcon(leftIcPath!, leftIcDescription),
         )
       : null;

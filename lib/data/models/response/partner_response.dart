@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uq_system_app/data/models/response/image_response.dart';
-import 'package:uq_system_app/data/models/response/occupation_sub_item_response.dart';
+import 'package:uq_system_app/data/models/response/occupation_response.dart';
 import 'package:uq_system_app/data/models/response/room_chat_deal_response.dart';
 import 'package:uq_system_app/data/models/response/schedule.dart';
 import 'package:uq_system_app/data/models/response/work_area_reponse.dart';
@@ -22,7 +22,7 @@ class PartnerResponse with _$PartnerResponse {
       @JsonKey(name: 'is_favorite') required bool isFavorite,
       @JsonKey(name: 'work_areas') required List<WorkAreaResponse> workAreas,
       @JsonKey(name: 'occupation_sub_item')
-      required List<OccupationSubItemResponse> occSubItem,
+      required List<OccupationResponse> occSubItem,
       @JsonKey(name: 'schedules') required List<Schedule> schedules,
       @JsonKey(name: 'room_chat_deal')
       RoomChatDealResponse? roomChatDeal}) = _PartnerResposne;

@@ -75,6 +75,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: NotificationPage(),
       );
     },
+    OccupationRoute.name: (routeData) {
+      final args = routeData.argsAs<OccupationRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: OccupationPage(
+          args.occupations,
+          args.selectedOccupation,
+        ),
+      );
+    },
     ResetPasswordRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -247,6 +257,44 @@ class NotificationRoute extends PageRouteInfo<void> {
   static const String name = 'NotificationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [OccupationPage]
+class OccupationRoute extends PageRouteInfo<OccupationRouteArgs> {
+  OccupationRoute({
+    required List<OccupationMajorResponse> occupations,
+    required OccupationResponse? selectedOccupation,
+    List<PageRouteInfo>? children,
+  }) : super(
+          OccupationRoute.name,
+          args: OccupationRouteArgs(
+            occupations: occupations,
+            selectedOccupation: selectedOccupation,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'OccupationRoute';
+
+  static const PageInfo<OccupationRouteArgs> page =
+      PageInfo<OccupationRouteArgs>(name);
+}
+
+class OccupationRouteArgs {
+  const OccupationRouteArgs({
+    required this.occupations,
+    required this.selectedOccupation,
+  });
+
+  final List<OccupationMajorResponse> occupations;
+
+  final OccupationResponse? selectedOccupation;
+
+  @override
+  String toString() {
+    return 'OccupationRouteArgs{occupations: $occupations, selectedOccupation: $selectedOccupation}';
+  }
 }
 
 /// generated route for
