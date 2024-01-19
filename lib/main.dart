@@ -11,6 +11,7 @@ import 'package:uq_system_app/presentation/blocs/bloc_observer.dart';
 import 'package:uq_system_app/presentation/blocs/system/system_bloc.dart';
 import 'package:uq_system_app/presentation/blocs/system/system_state.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
 import 'env.dart';
 import 'core/languages/languages.dart';
 import 'di/injector.dart';
@@ -54,38 +55,45 @@ class MyApp extends StatelessWidget {
           },
         ),
       ],
-      child: BlocBuilder<SystemBloc, SystemState>(builder: (context, system) {
-        return AnnotatedRegion<SystemUiOverlayStyle>(
-          value: system.theme.themeData.brightness == Brightness.light
-              ? SystemUiOverlayStyle.dark
-              : SystemUiOverlayStyle.light,
-          child: MaterialApp.router(
-            debugShowCheckedModeBanner: false,
-            title: AppEnv.appName,
-            theme: system.theme.themeData.copyWith(
-              textTheme: const TextTheme(
-                bodyLarge: TextStyle(color: Colors.orange, fontSize: 20,fontFamily: 'hiraginoW3'),
-                bodyMedium: TextStyle(color: Colors.black, fontSize: 16),
-                titleMedium: TextStyle(color: Colors.black,fontSize: 20,fontFamily: 'hiraginoW3')
-              ),
-              scaffoldBackgroundColor: const Color.fromRGBO(241, 241, 241, 1),
-              pageTransitionsTheme: const PageTransitionsTheme(builders: {
-                TargetPlatform.iOS: NoShadowCupertinoPageTransitionsBuilder(),
-                TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-              }),
-            ),
-            locale: system.locale,
-            supportedLocales: context.supportedLocales,
-            localizationsDelegates: [
-              ...context.localizationDelegates,
-              // more delegates here
-            ],
-            routerConfig: _appRouter.config(
-              navigatorObservers: () => [AutoRouteObserver()],
-            ),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<HomeBloc>(
+            create: (_) => HomeBloc(),
           ),
-        );
-      }),
+        ],
+        child: BlocBuilder<SystemBloc, SystemState>(builder: (context, system) {
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: system.theme.themeData.brightness == Brightness.light
+                ? SystemUiOverlayStyle.dark
+                : SystemUiOverlayStyle.light,
+            child: MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              title: AppEnv.appName,
+              theme: system.theme.themeData.copyWith(
+                textTheme: const TextTheme(
+                  bodyLarge: TextStyle(color: Colors.orange, fontSize: 20,fontFamily: 'hiraginoW3'),
+                  bodyMedium: TextStyle(color: Colors.black, fontSize: 16),
+                  titleMedium: TextStyle(color: Colors.black,fontSize: 20,fontFamily: 'hiraginoW3')
+                ),
+                scaffoldBackgroundColor: const Color.fromRGBO(241, 241, 241, 1),
+                pageTransitionsTheme: const PageTransitionsTheme(builders: {
+                  TargetPlatform.iOS: NoShadowCupertinoPageTransitionsBuilder(),
+                  TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+                }),
+              ),
+              locale: system.locale,
+              supportedLocales: context.supportedLocales,
+              localizationsDelegates: [
+                ...context.localizationDelegates,
+                // more delegates here
+              ],
+              routerConfig: _appRouter.config(
+                navigatorObservers: () => [AutoRouteObserver()],
+              ),
+            ),
+          );
+        }),
+      ),
     );
   }
 }

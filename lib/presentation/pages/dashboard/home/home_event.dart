@@ -8,7 +8,7 @@ class HomeEvent with _$HomeEvent {
   const factory HomeEvent.errorOccurred([BaseException? error]) =
       HomeErrorOccurred;
 
-  const factory HomeEvent.getDataStarted() = DashboardHomeGetDataStarted;
+  const factory HomeEvent.getDataStarted({String? accessToken}) = DashboardHomeGetDataStarted;
 
   const factory HomeEvent.getRefreshData() = HomeRefreshData;
 }

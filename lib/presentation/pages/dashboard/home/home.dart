@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
@@ -11,7 +10,6 @@ import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/di/injector.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
-import 'package:uq_system_app/presentation/pages/dashboard/notification/notification.dart';
 import 'package:uq_system_app/presentation/widgets/schedule_card.dart';
 import '../../../../assets.gen.dart';
 import '../../../../core/themes/colors.dart';
@@ -29,7 +27,6 @@ class DashboardHomePage extends StatefulWidget {
 }
 
 class _DashboardHomePageState extends State<DashboardHomePage> {
-  final HomeBloc _bloc = provider.get<HomeBloc>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
@@ -39,46 +36,27 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
     DateTime(2023, 1, 10): ['Event 4', 'Event 5'],
   };
   Future _onRefresh() async {
-    _bloc.add(const HomeRefreshData());
-    return _bloc.stream
+    homeBloc.add(const HomeRefreshData());
+    return homeBloc.stream
         .firstWhere((state) => state.status != HomeStatus.refreshing);
   }
 
-  List listData = [];
-  Future<void> loadSite() async {
-    if (widget.accessToken != null) {
-      final dio = Dio();
-      dio.options.headers['Authorization'] = 'Bearer ${widget.accessToken}';
-      String api =
-          "https://dev-knock-api.oneknockapp.com/api/v1/user/factory-floors?page=1&start_day_request=2024-01-06";
-      try {
-        Response response = await dio.get(api);
-
-        if (response.statusCode == 200) {
-          listData = response.data['data']['data'];
-        } else {
-          print('Failed to load data');
-        }
-      } catch (e) {
-        print('An error occurred: $e');
-      }
-    } else {
-      print('Access token is null');
-    }
-  }
+  late HomeBloc homeBloc;
 
   @override
   void initState() {
-    scheduleMicrotask(() {
-      _bloc.add(const DashboardHomeGetDataStarted());
-    });
     super.initState();
+    homeBloc = context.read<HomeBloc>();
+    scheduleMicrotask(() {
+      homeBloc
+          .add(DashboardHomeGetDataStarted(accessToken: widget.accessToken));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: _bloc,
+    return BlocProvider(
+      create: (context) => homeBloc,
       child: Scaffold(
           key: _scaffoldKey,
           appBar: AppBars(
@@ -99,14 +77,13 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
             ),
           ),
           body: Container(
-            margin: const EdgeInsets.only(
-              left: 16,
-              right: 16,
-            ),
-            child: Center(
-              child: futureBuilding(),
-            )
-          )),
+              margin: const EdgeInsets.only(
+                left: 16,
+                right: 16,
+              ),
+              child: Center(
+                child: blocBuilding(),
+              ))),
     );
   }
 
@@ -115,7 +92,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
       alignment: Alignment.centerRight,
       child: Container(
         width: 180,
-        margin: const EdgeInsets.symmetric(vertical: 24),
+        margin: const EdgeInsets.symmetric(vertical: 20),
         padding: const EdgeInsets.only(
           top: 8,
           bottom: 8,
@@ -123,7 +100,9 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
         ),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(14)),
-          color: context.colors.primary,
+          color: context.read<HomeBloc>().state.status == HomeStatus.success
+              ? context.colors.primary
+              : Colors.grey,
         ),
         child: Row(
           children: [
@@ -163,12 +142,13 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
         startingDayOfWeek: StartingDayOfWeek.monday,
         availableGestures: AvailableGestures.horizontalSwipe,
         daysOfWeekHeight: 30,
-        daysOfWeekStyle: const DaysOfWeekStyle(
-            weekdayStyle: TextStyle(fontSize: 18),
-            weekendStyle: TextStyle(fontSize: 18)),
+        daysOfWeekStyle: DaysOfWeekStyle(
+          weekdayStyle: context.typographies.body,
+          weekendStyle: context.typographies.body,
+        ),
         calendarStyle: CalendarStyle(
-          defaultTextStyle: const TextStyle(fontSize: 18),
-          weekendTextStyle: const TextStyle(fontSize: 18),
+          defaultTextStyle: context.typographies.body,
+          weekendTextStyle: context.typographies.body,
           todayDecoration: BoxDecoration(
             color: context.colors.secondary,
             shape: BoxShape.circle,
@@ -203,7 +183,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
       children: [
         Text(
           '${DateFormat('M/dd', 'ja_JP').format(_selectedDay)} の現場',
-          style: const TextStyle(fontSize: 20),
+          style: context.typographies.body,
         ),
         Row(
           children: [
@@ -218,65 +198,56 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
     );
   }
 
-  Widget listCard() {
+  Widget listCard({required List<dynamic> listData}) {
     return Expanded(
       child: ListView.builder(
-        itemCount: listData.length,
-          itemBuilder: (context,index){
-          return  ScheduleCard(
-            title: listData[index]['name'] ?? 'null',
-            location: listData[index]['address'] ?? 'null',
-            dayFrom: listData[index]['start_day_request'],
-            dayTo: listData[index]['end_day_request'],
-            company: listData[index]['company_name_kana'],
-            companyLogo: Assets.icons.png.icScheduleCardCompanyLogo.path,
-            clickDropRight: () {
-              if (listData[index]['status'].toString() == '0') {
-                context.router.push(const CreateSiteRoute());
-              } else {
-                context.router.push(const SiteDetailsRoute());
-              }
-            },
-            status: statusCheck(listData[index]['status'].toString()),
-            scheduleCreator:
-            '${listData[index]['first_name']} ${listData[index]['last_name']}',
-          );
+          itemCount: listData.length,
+          itemBuilder: (context, index) {
+            return ScheduleCard(
+              title: listData[index]['name'] ?? 'null',
+              location: listData[index]['address'] ?? 'null',
+              dayFrom: listData[index]['start_day_request'],
+              dayTo: listData[index]['end_day_request'],
+              company: listData[index]['company_name_kana'],
+              companyLogo: Assets.icons.png.icScheduleCardCompanyLogo.path,
+              clickDropRight: () {
+                if (listData[index]['status'].toString() == '0') {
+                  context.router.push(const CreateSiteRoute());
+                } else {
+                  context.router.push(const SiteDetailsRoute());
+                }
+              },
+              status: statusCheck(listData[index]['status'].toString()),
+              scheduleCreator:
+                  '${listData[index]['first_name']} ${listData[index]['last_name']}',
+            );
           }),
     );
   }
 
-  Widget futureBuilding() {
-    return FutureBuilder<String>(
-        future: future(),
-        builder: (context, snapshot) {
-          Widget widget;
-          if (snapshot.hasData) {
-            widget = Column(
+  Widget blocBuilding() {
+    return Builder(
+      builder: (context) => BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          if (state.status == HomeStatus.loading) {
+            return CircularProgressIndicator(
+              color: context.colors.primary,
+            );
+          } else {
+            return Column(
               children: [
                 notificationButton(),
                 calendar(),
-                const Gap(24),
+                const SizedBox(height: 24),
                 title(),
-                const Gap(8),
-                listCard(),
+                const SizedBox(height: 8),
+                listCard(listData: state.listData ?? []),
               ],
             );
-          } else {
-            if (snapshot.hasError) {
-              widget = Text('Error: ${snapshot.error}');
-            } else {
-              widget = CircularProgressIndicator(
-                color: context.colors.primary,
-              );
-            }
           }
-          return widget;
-        });
-  }
-
-  Future<String> future() async {
-    await loadSite();
-    return 'abc';
+        },
+      ),
+    );
   }
 
   ScheduleCardStatus statusCheck(String statusData) {

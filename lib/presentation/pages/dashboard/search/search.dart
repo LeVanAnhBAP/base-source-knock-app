@@ -34,31 +34,31 @@ class _DashboardSearchPageState extends State<DashboardSearchPage> {
         left: 20,
         right: 20,
       ),
-      child: const Column(
+      child: Column(
         children: [
           SearchScreenItem(
-            isDone: SearchScreenItemIsDone.done,
             title: '内装職人Knock',
             introduction: 'はじめまして。内装工事を専門に行なっている職人インテリアと言います。よろしくお願いいたします。',
             location: '東京都 / 埼玉県 / 神奈川県',
             job: 'インテリア工事 / 天井仕上げ工事',
             employees: '稼働可能人員目安　3人',
+            icon: Assets.icons.png.pinkTiger.path,
           ),
           SearchScreenItem(
-            isDone: SearchScreenItemIsDone.notDone,
             title: '防水職人Knock',
             introduction: 'はじめまして。内装工事を専門に行なっているAPOリフォームと言います。よろしくお願いいたします。',
             location: '東京都 / 埼玉県 / 神奈川県',
             job: 'インテリア工事 / 天井仕上げ工事',
             employees: '稼働可能人員目安　3人',
+            icon: Assets.icons.png.pinkTiger.path,
           ),
           SearchScreenItem(
-            isDone: SearchScreenItemIsDone.notDone,
             title: '防水職人Knock',
             introduction: 'はじめまして。内装工事を専門に行なっているAPOリフォームと言います。よろしくお願いいたします。',
             location: '東京都 / 埼玉県 / 神奈川県',
             job: 'インテリア工事 / 天井仕上げ工事',
             employees: '稼働可能人員目安　3人',
+            icon: Assets.icons.png.pinkTiger.path,
           ),
         ],
       ),
