@@ -7,12 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
-import 'package:uq_system_app/di/injector.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
 import 'package:uq_system_app/presentation/widgets/schedule_card.dart';
 import '../../../../assets.gen.dart';
-import '../../../../core/themes/colors.dart';
 import '../../../widgets/app_bar.dart';
 import 'home_event.dart';
 import 'home_state.dart';
@@ -214,7 +212,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
                 if (listData[index]['status'].toString() == '0') {
                   context.router.push(const CreateSiteRoute());
                 } else {
-                  context.router.push(const SiteDetailsRoute());
+                  context.router.push(SiteDetailsRoute(id: listData[index]['id'].toString(),accessToken: widget.accessToken));
                 }
               },
               status: statusCheck(listData[index]['status'].toString()),

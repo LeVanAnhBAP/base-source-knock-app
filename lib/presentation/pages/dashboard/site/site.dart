@@ -102,7 +102,7 @@ class _DashboardSitePageState extends State<DashboardSitePage> {
                   if (listData[index]['status'].toString() == '0') {
                     context.router.push(const CreateSiteRoute());
                   } else {
-                    context.router.push(const SiteDetailsRoute());
+                    context.router.push( SiteDetailsRoute(id: listData[index]['id'].toString(),accessToken: widget.accessToken));
                   }
                 },
                 status: statusCheck(listData[index]['status'].toString()),

@@ -15,5 +15,6 @@ class AccountState with _$AccountState {
   const factory AccountState({
     @Default(AccountStatus.initial) AccountStatus status,
     BaseException? error,
+    Map<String,dynamic>? userInfo,
   }) = _AccountState;
 }
