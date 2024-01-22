@@ -80,7 +80,7 @@ class _SearchMemberPageState extends State<SearchMemberPage> {
                   placeholder: context.tr(LocaleKeys.SearchMember_PersonNameSearch),
                 ),
               ),
-              if (_bloc.state.members.isNotEmpty) ...[
+              if (_bloc.state.searchedMembers.isNotEmpty) ...[
                 Divider(
                   height: 1,
                   color: context.colors.divider,
@@ -89,9 +89,9 @@ class _SearchMemberPageState extends State<SearchMemberPage> {
               SearchMemberStatusSelector(
                 builder: (status) => Expanded(
                     child: ListView.builder(
-                  itemCount: _bloc.state.members.length,
+                  itemCount: _bloc.state.searchedMembers.length,
                   itemBuilder: (context, index) =>
-                      _buildSearchItem(_bloc.state.members[index]),
+                      _buildSearchItem(_bloc.state.searchedMembers[index]),
                 )),
               )
             ],

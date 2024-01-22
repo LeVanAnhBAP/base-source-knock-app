@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
       ..indicatorColor = context.colors.secondary
       ..textColor = Colors.white
       ..maskColor = context.colors.secondary
-      ..userInteractions = true
+      ..userInteractions = false
       ..progressColor = context.colors.secondary;
     return MultiBlocListener(
       listeners: [

@@ -28,24 +28,38 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
     on<CreateSiteLoadInfo>(_onLoadInfo);
     on<CreateSiteUpdateMembers>(_onUpdateMembers);
     on<CreateSiteRemoveMemeber>(_onRemoveMember);
+    on<CreateSiteUpdateOccupation>(_onUpdateOccupation);
+    on<CreateSiteUpdate>(_onUpdate);
   }
 
-  @override
-  void onError(Object error, StackTrace stackTrace) {
-    if (EasyLoading.isShow) EasyLoading.dismiss();
-    add(CreateSiteErrorOccurred(BaseException.from(error)));
-    super.onError(error, stackTrace);
+  FutureOr<void> _onUpdateOccupation(
+      CreateSiteUpdateOccupation event, Emitter<CreateSiteState> emit) {
+    emit(state.copyWith(
+        status: CreateSiteStatus.updateSuccess, occupation: event.occupation));
   }
-  FutureOr<void> _onUpdateMembers(CreateSiteUpdateMembers event,Emitter<CreateSiteState> emit) async{
-    emit(state.copyWith(status: CreateSiteStatus.success, members: event.newMembers));
+
+  FutureOr<void> _onUpdateMembers(
+      CreateSiteUpdateMembers event, Emitter<CreateSiteState> emit) async {
+    emit(state.copyWith(
+        status: CreateSiteStatus.success, members: event.newMembers));
   }
-  FutureOr<void> _onRemoveMember(CreateSiteRemoveMemeber event,Emitter<CreateSiteState> emit) async{
+  FutureOr<void> _onUpdate(
+      CreateSiteUpdate event, Emitter<CreateSiteState> emit) async {
+    emit(state.copyWith(
+        status: CreateSiteStatus.loading));
+    emit(state.copyWith(
+        status: CreateSiteStatus.updateSuccess, startDayRequest: event.dateTime));
+  }
+
+  FutureOr<void> _onRemoveMember(
+      CreateSiteRemoveMemeber event, Emitter<CreateSiteState> emit) async {
     emit(state.copyWith(status: CreateSiteStatus.loading));
     var newMembers = state.members
         .map((e) => e.id == event.id ? e.copyWith(isSelected: false) : e)
         .toList();
     emit(state.copyWith(status: CreateSiteStatus.success, members: newMembers));
   }
+
   FutureOr<void> _onErrorOccurred(
     CreateSiteErrorOccurred event,
     Emitter<CreateSiteState> emit,
@@ -64,12 +78,12 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
       _getMembersUseCase()
     ]).then((results) {
       EasyLoading.dismiss();
-      var members = (results[2] as List<Member>)
-          .map((element) {
-            if(element.role == 1 || element.id == event.userId) return element.copyWith(isSelected: true);
-            return element;
-      })
-          .toList();
+      var members = (results[2] as List<Member>).map((element) {
+        if (element.role == 1 || element.id == event.userId) {
+          return element.copyWith(isSelected: true);
+        }
+        return element;
+      }).toList();
       emit(state.copyWith(
           status: CreateSiteStatus.success,
           staticData: (results[0] as StaticDataResponse),
@@ -78,7 +92,10 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
     });
   }
 
-
-
-
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    if (EasyLoading.isShow) EasyLoading.dismiss();
+    add(CreateSiteErrorOccurred(BaseException.from(error)));
+    super.onError(error, stackTrace);
+  }
 }

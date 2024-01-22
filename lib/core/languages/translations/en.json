@@ -144,6 +144,10 @@
     "PersonInChargeSearch" : "PersonInChargeSearch",
     "PersonNameSearch" : "Person name search"
   },
+  "Occupation" : {
+    "Occupation": "Occupation",
+    "JobTitleSearch" : "Job title search"
+  },
   "InformationNotEntered" : "Information not entered",
   "PhotoLibrary" : "Photo Library",
   "TakeAPhoto" : "Take a photo",
