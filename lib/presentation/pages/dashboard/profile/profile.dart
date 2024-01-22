@@ -22,13 +22,15 @@ class DashboardProfilePage extends StatefulWidget {
   State<DashboardProfilePage> createState() => _DashboardProfilePageState();
 }
 
-class _DashboardProfilePageState extends State<DashboardProfilePage> with TickerProviderStateMixin {
+class _DashboardProfilePageState extends State<DashboardProfilePage>
+    with TickerProviderStateMixin {
   late final AccountBloc _bloc;
   late final TabController _tabController;
 
   @override
   void initState() {
-    _bloc = AccountBloc()..add(AccountGetDataStarted(accessToken: widget.accessToken));
+    _bloc = AccountBloc()
+      ..add(AccountGetDataStarted(accessToken: widget.accessToken));
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
@@ -43,7 +45,8 @@ class _DashboardProfilePageState extends State<DashboardProfilePage> with Ticker
     DateTime birthDateTime = DateTime.parse(birth);
     int ageInt = DateTime.now().year - birthDateTime.year;
     if (DateTime.now().month < birthDateTime.month ||
-        (DateTime.now().month == birthDateTime.month && DateTime.now().day < birthDateTime.day)) {
+        (DateTime.now().month == birthDateTime.month &&
+            DateTime.now().day < birthDateTime.day)) {
       ageInt--;
     }
     return ageInt.toString();
@@ -241,7 +244,8 @@ class _DashboardProfilePageState extends State<DashboardProfilePage> with Ticker
             ),
             const TitleDetail(text: 'ふりがな'),
             ContentDetail(
-              text: '${userInfo['first_name_kana']} ${userInfo['last_name_kana']}',
+              text:
+                  '${userInfo['first_name_kana']} ${userInfo['last_name_kana']}',
             ),
             const TitleDetail(text: '生年月日'),
             ContentDetail(text: userInfo['date_of_birth'].toString()),
