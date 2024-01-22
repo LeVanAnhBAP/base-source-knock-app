@@ -11,7 +11,10 @@ class NetworkUrls {
   static const String updateAvatar = '$user/update-avatar';
   static const String member = '$user/company/members';
   static const String staticData = '/share/static-data';
-  static const String prefecture = '/share/address-info/prefectures';
+  static const String addressInfo = "/share/address-info";
+  static const String prefecture = '$addressInfo/prefectures';
+  static const String city = '$addressInfo/cities';
+  static const String town = '$addressInfo/towns';
 
   static bool requireAuthentication(String url) {
     return ![

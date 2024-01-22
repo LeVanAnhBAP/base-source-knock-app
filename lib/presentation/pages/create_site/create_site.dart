@@ -22,8 +22,10 @@ import 'package:uq_system_app/presentation/widgets/main_text_field.dart';
 
 import '../../../assets.gen.dart';
 import '../../../core/languages/translation_keys.g.dart';
+import '../../../data/models/response/common_item_response.dart';
 import '../../../domain/entities/member.dart';
 import '../../widgets/dashboard_app_bar.dart';
+import 'create_site_state.dart';
 
 @RoutePage()
 class CreateSitePage extends StatefulWidget {
@@ -36,7 +38,6 @@ class _CreateSitePageState extends State<CreateSitePage>
   final CreateSiteBloc _bloc = getIt.get<CreateSiteBloc>();
   final int userId = getIt<AuthBloc>().state.account!.id;
   late TabController controller;
-
 
   @override
   void initState() {
@@ -337,8 +338,10 @@ class _CreateSitePageState extends State<CreateSitePage>
                   child: InkWell(
                     onTap: () async {
                       await _selectDate().then((value) {
-                        if(value != null){
-                          _bloc.add(CreateSiteEvent.update(dateTime: value));
+                        if (value != null) {
+                          _bloc.add(CreateSiteEvent.updateParams(
+                              siteParams: _bloc.state.siteParams
+                                  .copyWith(startDayRequest: value)));
                         }
                       });
                     },
@@ -351,7 +354,7 @@ class _CreateSitePageState extends State<CreateSitePage>
                             const SizedBox(
                               width: 10,
                             ),
-                            CreateSiteSelector(
+                            CreateSiteSelector<DateTime?>(
                               builder: (data) {
                                 return Text(
                                   DateFormat("yyyy/MM/dd")
@@ -359,7 +362,8 @@ class _CreateSitePageState extends State<CreateSitePage>
                                   style: context.typographies.subBodyBold1,
                                 );
                               },
-                              observeValue: _bloc.state.startDayRequest,
+                              selector: (state) =>
+                                  state.siteParams.startDayRequest,
                             ),
                           ],
                         )),
@@ -374,8 +378,14 @@ class _CreateSitePageState extends State<CreateSitePage>
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: () {
-                      _selectDate();
+                    onTap: () async {
+                      await _selectDate().then((value) {
+                        if (value != null) {
+                          _bloc.add(CreateSiteEvent.updateParams(
+                              siteParams: _bloc.state.siteParams
+                                  .copyWith(endDayRequest: value)));
+                        }
+                      });
                     },
                     child: InputContainer(
                         padding: const EdgeInsets.symmetric(
@@ -386,9 +396,16 @@ class _CreateSitePageState extends State<CreateSitePage>
                             const SizedBox(
                               width: 10,
                             ),
-                            Text(
-                              "2023/10/10",
-                              style: context.typographies.subBodyBold1,
+                            CreateSiteSelector<DateTime?>(
+                              builder: (data) {
+                                return Text(
+                                  DateFormat("yyyy/MM/dd")
+                                      .format(data ?? DateTime.now()),
+                                  style: context.typographies.subBodyBold1,
+                                );
+                              },
+                              selector: (state) =>
+                                  state.siteParams.endDayRequest,
                             ),
                           ],
                         )),
@@ -399,20 +416,163 @@ class _CreateSitePageState extends State<CreateSitePage>
             const SizedBox(
               height: 20,
             ),
-            Text(
-              context.tr(LocaleKeys.SiteDetail_ConstructionSite),
-              style: context.typographies.subBody1
-                  .withColor(context.colors.blurryTitle),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  context.tr(LocaleKeys.SiteDetail_ConstructionSite),
+                  style: context.typographies.subBody1
+                      .withColor(context.colors.blurryTitle),
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                      color: context.colors.secondary,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Text(
+                    "地図",
+                    style:
+                        context.typographies.subBody1.withColor(Colors.white),
+                  ),
+                )
+              ],
             ),
-            DropListInputItem(
-                title: context.tr(LocaleKeys.SiteDetail_Prefectures),
-                content: "東京都"),
-            DropListInputItem(
-                title: context.tr(LocaleKeys.SiteDetail_Municipalities),
-                content: "新宿区"),
-            DropListInputItem(
-                title: context.tr(LocaleKeys.SiteDetail_TownArea),
-                content: "歌舞伎町"),
+            PopupMenuButton(
+              padding: EdgeInsets.zero,
+              surfaceTintColor: Colors.white,
+              constraints:
+                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+              itemBuilder: (BuildContext context) {
+                return _bloc.state.prefecture
+                    .map((e) => PopupMenuItem(
+                        padding: EdgeInsets.zero,
+                        onTap: () {
+                          _bloc.add(CreateSiteEvent.selectPrefecture(
+                              prefectureId: e.id));
+                        },
+                        height: 30,
+                        value: e,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 20),
+                          child: Text(
+                            e.name,
+                            style: context.typographies.bodyBold,
+                          ),
+                        )))
+                    .toList();
+              },
+              child: CreateSiteSelector<int?>(
+                builder: (data) {
+                  return DropListInputItem(
+                      title: context.tr(LocaleKeys.SiteDetail_Prefectures),
+                      content: data != null
+                          ? _bloc.state.prefecture
+                              .firstWhere((element) => element.id == data)
+                              .name
+                          : "");
+                },
+                selector: (CreateSiteState state) =>
+                    state.siteParams.factoryFloorAddress?.id,
+              ),
+            ),
+            CreateSiteSelector(
+              builder: (data) {
+                return PopupMenuButton(
+                  enabled:
+                      _bloc.state.siteParams.factoryFloorAddress?.id != null,
+                  padding: EdgeInsets.zero,
+                  surfaceTintColor: Colors.white,
+                  constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width),
+                  itemBuilder: (BuildContext context) {
+                    return data
+                        .map((e) => PopupMenuItem(
+                            padding: EdgeInsets.zero,
+                            onTap: () {
+                              _bloc.add(
+                                  CreateSiteEvent.selectCity(cityId: e.id));
+                            },
+                            height: 30,
+                            value: e,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              child: Text(
+                                e.name,
+                                style: context.typographies.bodyBold,
+                              ),
+                            )))
+                        .toList();
+                  },
+                  child: CreateSiteSelector<int?>(
+                    builder: (data) {
+                      return DropListInputItem(
+                          title:
+                              context.tr(LocaleKeys.SiteDetail_Municipalities),
+                          content: data != null
+                              ? _bloc.state.cities
+                                  .firstWhere((element) => element.id == data)
+                                  .name
+                              : "");
+                    },
+                    selector: (CreateSiteState state) =>
+                        state.siteParams.factoryFloorAddress?.cityId,
+                  ),
+                );
+              },
+              selector: (state) => state.cities,
+            ),
+            CreateSiteSelector(
+              builder: (data) {
+                return PopupMenuButton(
+                  enabled: _bloc.state.siteParams.factoryFloorAddress?.cityId !=
+                      null,
+                  padding: EdgeInsets.zero,
+                  surfaceTintColor: Colors.white,
+                  constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width),
+                  itemBuilder: (BuildContext context) {
+                    return data
+                        .map((e) => PopupMenuItem(
+                            padding: EdgeInsets.zero,
+                            onTap: () {
+                              _bloc.add(
+                                  CreateSiteEvent.selectTown(townId: e.id));
+                            },
+                            height: 30,
+                            value: e,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              child: Text(
+                                e.name,
+                                style: context.typographies.bodyBold,
+                              ),
+                            )))
+                        .toList();
+                  },
+                  child: CreateSiteSelector<int?>(
+                    builder: (data) {
+                      return DropListInputItem(
+                          title: context.tr(LocaleKeys.SiteDetail_TownArea),
+                          content: data != null
+                              ? _bloc.state.towns
+                                  .firstWhere((element) => element.id == data)
+                                  .name
+                              : "");
+                    },
+                    selector: (CreateSiteState state) =>
+                        state.siteParams.factoryFloorAddress?.townId,
+                  ),
+                );
+              },
+              selector: (state) => state.towns,
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -445,35 +605,42 @@ class _CreateSitePageState extends State<CreateSitePage>
                   context.tr(LocaleKeys.SiteDetail_TotalOrderAmount),
                   style: context.typographies.subBodyBold1,
                 ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                      color: context.colors.secondary,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset(
-                        Assets.icons.svg.icTotalCent.path,
-                        colorFilter: const ColorFilter.mode(
-                          Colors.white,
-                          BlendMode.srcIn,
+                InkWell(
+                  onTap: () {
+                    context.router.push(OrderDetailsRoute(
+                        units: _bloc.state.staticData?.units ??
+                            <CommonItemResponse>[]));
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                        color: context.colors.secondary,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(
+                          Assets.icons.svg.icTotalCent.path,
+                          colorFilter: const ColorFilter.mode(
+                            Colors.white,
+                            BlendMode.srcIn,
+                          ),
+                          width: 15,
                         ),
-                        width: 15,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        "注文明細",
-                        style: context.typographies.bodyBold
-                            .withColor(Colors.white),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                    ],
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "注文明細",
+                          style: context.typographies.subBody1
+                              .withColor(Colors.white),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],

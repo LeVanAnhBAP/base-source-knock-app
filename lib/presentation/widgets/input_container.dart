@@ -9,7 +9,12 @@ class InputContainer extends StatelessWidget {
   final AlignmentGeometry? alignment;
 
   const InputContainer(
-      {required this.child, this.width, this.height, this.padding, this.backgroundColor, this.alignment});
+      {required this.child,
+      this.width,
+      this.height,
+      this.padding,
+      this.backgroundColor,
+      this.alignment});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +22,7 @@ class InputContainer extends StatelessWidget {
       alignment: alignment,
       width: width,
       height: height,
-      padding: padding ,
+      padding: padding ?? const EdgeInsets.only(top: 6),
       decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -33,5 +38,4 @@ class InputContainer extends StatelessWidget {
       child: child,
     );
   }
-
 }

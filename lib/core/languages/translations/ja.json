@@ -150,6 +150,27 @@
     "Occupation" : "職種",
     "JobTitleSearch" : "職種名検索"
   },
+  "OrderDetails" : {
+    "OrderDetails" : "注文明細",
+    "ConstructionName" : "工事名",
+    "TotalOrderAmountTaxIncluded" : "注文合計金額（税込）",
+    "ConstructionCostExcludingTax" : "工事金額（税抜）",
+    "ConsumptionTax" : "消費税",
+    "Name" : "名称",
+    "AmountOfMoney" : "金額",
+    "AddRow" : "行の追加"
+  },
+  "OrderLine" : {
+    "OrderLine" : "注文明細行",
+    "Name" : "名称",
+    "SpecificationsSummary" : "仕様・摘要",
+    "Quantity" : "数量",
+    "Unit" : "単位",
+    "UnitPriceExcludingTax" : "単価（税抜）",
+    "AmountExcludingTax" : "金額（税抜）",
+    "Registration" : "登録",
+    "Delete" : "削除"
+  },
   "InformationNotEntered" : "情報未入力",
   "PhotoLibrary" : "写真ライブラリ",
   "TakeAPhoto" : "写真を撮る",
