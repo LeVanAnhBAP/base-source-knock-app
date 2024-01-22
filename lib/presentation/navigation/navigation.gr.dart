@@ -78,9 +78,10 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     DashboardProfileRoute.name: (routeData) {
+      final args = routeData.argsAs<DashboardProfileRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: DashboardProfilePage(),
+        child: DashboardProfilePage(accessToken: args.accessToken),
       );
     },
     DashboardSearchRoute.name: (routeData) {
@@ -100,9 +101,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     SiteDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<SiteDetailsRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: SiteDetailsPage(),
+        child: SiteDetailsPage(
+          id: args.id,
+          accessToken: args.accessToken,
+        ),
       );
     },
   };
@@ -284,16 +289,31 @@ class NotificationRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [DashboardProfilePage]
-class DashboardProfileRoute extends PageRouteInfo<void> {
-  const DashboardProfileRoute({List<PageRouteInfo>? children})
-      : super(
+class DashboardProfileRoute extends PageRouteInfo<DashboardProfileRouteArgs> {
+  DashboardProfileRoute({
+    required String accessToken,
+    List<PageRouteInfo>? children,
+  }) : super(
           DashboardProfileRoute.name,
+          args: DashboardProfileRouteArgs(accessToken: accessToken),
           initialChildren: children,
         );
 
   static const String name = 'DashboardProfileRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<DashboardProfileRouteArgs> page =
+      PageInfo<DashboardProfileRouteArgs>(name);
+}
+
+class DashboardProfileRouteArgs {
+  const DashboardProfileRouteArgs({required this.accessToken});
+
+  final String accessToken;
+
+  @override
+  String toString() {
+    return 'DashboardProfileRouteArgs{accessToken: $accessToken}';
+  }
 }
 
 /// generated route for
@@ -350,14 +370,38 @@ class DashboardSiteRouteArgs {
 
 /// generated route for
 /// [SiteDetailsPage]
-class SiteDetailsRoute extends PageRouteInfo<void> {
-  const SiteDetailsRoute({List<PageRouteInfo>? children})
-      : super(
+class SiteDetailsRoute extends PageRouteInfo<SiteDetailsRouteArgs> {
+  SiteDetailsRoute({
+    required String id,
+    required String accessToken,
+    List<PageRouteInfo>? children,
+  }) : super(
           SiteDetailsRoute.name,
+          args: SiteDetailsRouteArgs(
+            id: id,
+            accessToken: accessToken,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'SiteDetailsRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<SiteDetailsRouteArgs> page =
+      PageInfo<SiteDetailsRouteArgs>(name);
+}
+
+class SiteDetailsRouteArgs {
+  const SiteDetailsRouteArgs({
+    required this.id,
+    required this.accessToken,
+  });
+
+  final String id;
+
+  final String accessToken;
+
+  @override
+  String toString() {
+    return 'SiteDetailsRouteArgs{id: $id, accessToken: $accessToken}';
+  }
 }

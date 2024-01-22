@@ -27,7 +27,7 @@ class _DashboardPageState extends State<DashboardPage> {
         DashboardSiteRoute(accessToken: widget.accessToken),
         const DashboardChatRoute(),
         const DashboardSearchRoute(),
-        const DashboardProfileRoute()
+        DashboardProfileRoute(accessToken: widget.accessToken)
       ],
       bottomNavigationBuilder: (context, tabsRouter) => Container(
         height: 80,
