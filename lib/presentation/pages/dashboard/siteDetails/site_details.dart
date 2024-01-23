@@ -150,9 +150,9 @@ class _SiteDetailsState extends State<SiteDetailsPage>
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.4),
-                      spreadRadius: 1.5,
-                      blurRadius: 5,
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius:2,
+                      blurRadius: 3,
                       offset: const Offset(0, 0),
                     ),
                   ],

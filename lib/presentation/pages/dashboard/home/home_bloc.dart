@@ -12,6 +12,7 @@ import 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(const HomeState()) {
     on<DashboardHomeGetDataStarted>(_onGetDataStated);
+    on<DashboardHomeGetDataByDate>(_onGetDataByDate);
     on<HomeErrorOccurred>(_onErrorOccurred);
     on<HomeRefreshData>(_onRefreshData);
   }
@@ -32,13 +33,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     ));
   }
 
-  FutureOr<void> _onGetDataStated(
-    DashboardHomeGetDataStarted event,
+  FutureOr<void> _onGetDataByDate(
+    DashboardHomeGetDataByDate event,
     Emitter<HomeState> emit,
   ) async {
-    emit(state.copyWith(status: HomeStatus.loading));
     try {
-      List<dynamic>? data = await loadSite(event.accessToken!);
+      List<dynamic>? data = await loadSite(event.accessToken!,event.date!);
       if (data != null) {
         emit(state.copyWith(
           status: HomeStatus.success,
@@ -57,17 +57,41 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ));
     }
   }
-
+  FutureOr<void> _onGetDataStated(
+      DashboardHomeGetDataStarted event,
+      Emitter<HomeState> emit,
+      ) async {
+    emit(state.copyWith(status: HomeStatus.loading));
+    try {
+      List<dynamic>? data = await loadSite(event.accessToken!,event.date!);
+      if (data != null) {
+        emit(state.copyWith(
+          status: HomeStatus.success,
+          listData: data,
+        ));
+      } else {
+        emit(state.copyWith(
+          status: HomeStatus.failure,
+          error: UnknownException('Failed to load data'),
+        ));
+      }
+    } catch (error) {
+      emit(state.copyWith(
+        status: HomeStatus.failure,
+        error: BaseException.from(error),
+      ));
+    }
+  }
   FutureOr<void> _onRefreshData(
       HomeRefreshData event, Emitter<HomeState> emit) async {
     emit(state.copyWith(status: HomeStatus.refreshing));
   }
 
-  Future<List<dynamic>?> loadSite(String accessToken) async {
+  Future<List<dynamic>?> loadSite(String accessToken,String date) async {
     final dio = Dio();
     dio.options.headers['Authorization'] = 'Bearer $accessToken';
     String api =
-        "https://dev-knock-api.oneknockapp.com/api/v1/user/factory-floors?page=1&start_day_request=2024-01-06";
+        "https://dev-knock-api.oneknockapp.com/api/v1/user/factory-floors?page=1&start_day_request=$date";
 
     try {
       Response response = await dio.get(api);
