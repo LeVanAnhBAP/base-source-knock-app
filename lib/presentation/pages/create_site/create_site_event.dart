@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
+import 'package:uq_system_app/data/models/request/price_order_detail_params.dart';
 import 'package:uq_system_app/data/models/request/site_params.dart';
 import 'package:uq_system_app/data/models/response/occupation_response.dart';
 
@@ -18,4 +19,5 @@ class CreateSiteEvent with _$CreateSiteEvent {
   const factory CreateSiteEvent.selectPrefecture({required int prefectureId}) = CreateSiteSelectPrefecture;
   const factory CreateSiteEvent.selectCity({required int cityId}) = CreateSiteSelectCity;
   const factory CreateSiteEvent.selectTown({required int townId}) = CreateSiteSelectTown;
+  const factory CreateSiteEvent.updateOrders({required List<PriceOrderDetailParams> priceOrders, required int totalAmount}) = CreateSiteUpdateOrders;
 }

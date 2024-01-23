@@ -89,14 +89,21 @@ abstract class _$AppRouter extends RootStackRouter {
       final args = routeData.argsAs<OrderDetailsRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: OrderDetailsPage(args.units),
+        child: OrderDetailsPage(
+          args.taxRate,
+          args.orders,
+          args.units,
+        ),
       );
     },
     OrderLineRoute.name: (routeData) {
       final args = routeData.argsAs<OrderLineRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: OrderLinePage(args.units),
+        child: OrderLinePage(
+          args.params,
+          args.units,
+        ),
       );
     },
     ResetPasswordRoute.name: (routeData) {
@@ -315,11 +322,17 @@ class OccupationRouteArgs {
 /// [OrderDetailsPage]
 class OrderDetailsRoute extends PageRouteInfo<OrderDetailsRouteArgs> {
   OrderDetailsRoute({
+    required double taxRate,
+    required List<PriceOrderDetailParams> orders,
     required List<CommonItemResponse> units,
     List<PageRouteInfo>? children,
   }) : super(
           OrderDetailsRoute.name,
-          args: OrderDetailsRouteArgs(units: units),
+          args: OrderDetailsRouteArgs(
+            taxRate: taxRate,
+            orders: orders,
+            units: units,
+          ),
           initialChildren: children,
         );
 
@@ -330,13 +343,21 @@ class OrderDetailsRoute extends PageRouteInfo<OrderDetailsRouteArgs> {
 }
 
 class OrderDetailsRouteArgs {
-  const OrderDetailsRouteArgs({required this.units});
+  const OrderDetailsRouteArgs({
+    required this.taxRate,
+    required this.orders,
+    required this.units,
+  });
+
+  final double taxRate;
+
+  final List<PriceOrderDetailParams> orders;
 
   final List<CommonItemResponse> units;
 
   @override
   String toString() {
-    return 'OrderDetailsRouteArgs{units: $units}';
+    return 'OrderDetailsRouteArgs{taxRate: $taxRate, orders: $orders, units: $units}';
   }
 }
 
@@ -344,11 +365,15 @@ class OrderDetailsRouteArgs {
 /// [OrderLinePage]
 class OrderLineRoute extends PageRouteInfo<OrderLineRouteArgs> {
   OrderLineRoute({
+    required PriceOrderDetailParams? params,
     required List<CommonItemResponse> units,
     List<PageRouteInfo>? children,
   }) : super(
           OrderLineRoute.name,
-          args: OrderLineRouteArgs(units: units),
+          args: OrderLineRouteArgs(
+            params: params,
+            units: units,
+          ),
           initialChildren: children,
         );
 
@@ -359,13 +384,18 @@ class OrderLineRoute extends PageRouteInfo<OrderLineRouteArgs> {
 }
 
 class OrderLineRouteArgs {
-  const OrderLineRouteArgs({required this.units});
+  const OrderLineRouteArgs({
+    required this.params,
+    required this.units,
+  });
+
+  final PriceOrderDetailParams? params;
 
   final List<CommonItemResponse> units;
 
   @override
   String toString() {
-    return 'OrderLineRouteArgs{units: $units}';
+    return 'OrderLineRouteArgs{params: $params, units: $units}';
   }
 }
 

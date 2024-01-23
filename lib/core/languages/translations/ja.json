@@ -158,7 +158,8 @@
     "ConsumptionTax" : "消費税",
     "Name" : "名称",
     "AmountOfMoney" : "金額",
-    "AddRow" : "行の追加"
+    "AddRow" : "行の追加",
+    "UpTo100DetailLinesCanBeRegistered." : "明細行は、100行までの登録となります。"
   },
   "OrderLine" : {
     "OrderLine" : "注文明細行",
