@@ -1,18 +1,16 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:uq_system_app/core/extensions/theme.dart';
-import 'package:uq_system_app/di/injector.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/profile/profile_bloc.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/profile/profile_event.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/profile/profile_state.dart';
 import 'package:uq_system_app/presentation/widgets/app_bar.dart';
+import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/presentation/widgets/content_detail.dart';
 import 'package:uq_system_app/presentation/widgets/title_detail.dart';
-
-import '../../../../assets.gen.dart';
+import 'package:uq_system_app/assets.gen.dart';
 
 @RoutePage()
 class DashboardProfilePage extends StatefulWidget {
@@ -26,15 +24,15 @@ class DashboardProfilePage extends StatefulWidget {
 
 class _DashboardProfilePageState extends State<DashboardProfilePage>
     with TickerProviderStateMixin {
-  final AccountBloc _bloc = AccountBloc();
-
+  late final AccountBloc _bloc;
   late final TabController _tabController;
 
   @override
   void initState() {
-    _bloc.add(AccountGetDataStarted(accessToken: widget.accessToken));
-    super.initState();
+    _bloc = AccountBloc()
+      ..add(AccountGetDataStarted(accessToken: widget.accessToken));
     _tabController = TabController(length: 2, vsync: this);
+    super.initState();
   }
 
   @override
@@ -44,11 +42,11 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
   }
 
   String age(String birth) {
-    DateTime birthDateTimme = DateTime.parse(birth);
-    int ageInt = DateTime.now().year - birthDateTimme.year;
-    if (DateTime.now().month < birthDateTimme.month ||
-        DateTime.now().month == birthDateTimme.month &&
-            DateTime.now().day < birthDateTimme.day) {
+    DateTime birthDateTime = DateTime.parse(birth);
+    int ageInt = DateTime.now().year - birthDateTime.year;
+    if (DateTime.now().month < birthDateTime.month ||
+        (DateTime.now().month == birthDateTime.month &&
+            DateTime.now().day < birthDateTime.day)) {
       ageInt--;
     }
     return ageInt.toString();
@@ -115,11 +113,13 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
                                   ),
                                 ),
                                 labelStyle: TextStyle(
-                                    color: context.colors.background,
-                                    fontWeight: FontWeight.bold),
+                                  color: context.colors.background,
+                                  fontWeight: FontWeight.bold,
+                                ),
                                 unselectedLabelStyle: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
                                 controller: _tabController,
                                 onTap: (index) {
                                   setState(() {
@@ -147,7 +147,7 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
                     child: TabBarView(
                       controller: _tabController,
                       children: <Widget>[
-                        _buildPersonalInformation(state),
+                        _buildPersonalInformationTab(state),
                         const Center(
                           child: Text('Tab 2 Content'),
                         ),
@@ -205,6 +205,28 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
     );
   }
 
+  Widget _buildPersonalInformationTab(AccountState state) {
+    if (state.status == AccountStatus.loading) {
+      return const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 32,
+            height: 32,
+            child: CircularProgressIndicator(),
+          ),
+        ],
+      );
+    } else if (state.status == AccountStatus.success) {
+      return personalInformationTab(state);
+    } else {
+      // Handle error state
+      return Center(
+        child: Text('Error: ${state.error?.message ?? "Unknown error"}'),
+      );
+    }
+  }
+
   Widget personalInformationTab(AccountState state) {
     final userInfo = state.userInfo ?? {};
     return SingleChildScrollView(
@@ -218,11 +240,13 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
             const ContentDetail(text: 'aaaaaaaa'),
             const TitleDetail(text: '氏名'),
             ContentDetail(
-                text: '${userInfo['first_name']} ${userInfo['last_name']}'),
+              text: '${userInfo['first_name']} ${userInfo['last_name']}',
+            ),
             const TitleDetail(text: 'ふりがな'),
             ContentDetail(
-                text:
-                    '${userInfo['first_name_kana']} ${userInfo['last_name_kana']}'),
+              text:
+                  '${userInfo['first_name_kana']} ${userInfo['last_name_kana']}',
+            ),
             const TitleDetail(text: '生年月日'),
             ContentDetail(text: userInfo['date_of_birth'].toString()),
             const TitleDetail(text: '年齢'),
@@ -239,48 +263,5 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
         ),
       ),
     );
-  }
-
-  Widget _buildPersonalInformation(AccountState state) {
-    return FutureBuilder<String>(
-      future: future(state),
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-        Widget widget;
-        if (snapshot.hasData) {
-          widget = personalInformationTab(state);
-        } else {
-          if (snapshot.hasError) {
-            widget = Text('Error: ${snapshot.error}');
-          } else {
-            widget = Column(
-              children: [
-                Gap((MediaQuery.of(context).size.height / 2) - 80),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Loading...', style: TextStyle(fontSize: 22)),
-                    Gap(20),
-                    SizedBox(
-                      width: 32,
-                      height: 32,
-                      child: CircularProgressIndicator(),
-                    ),
-                  ],
-                ),
-              ],
-            );
-          }
-        }
-        return widget;
-      },
-    );
-  }
-
-  Future<String> future(AccountState state) async {
-    if (state.status == AccountStatus.success) {
-      return 'abc';
-    } else {
-      throw Exception('Failed to load data');
-    }
   }
 }

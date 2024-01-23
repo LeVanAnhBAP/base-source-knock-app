@@ -13,40 +13,68 @@ import '../../../../assets.gen.dart';
 @RoutePage()
 class DashboardSitePage extends StatefulWidget {
   final String accessToken;
+
   const DashboardSitePage({super.key, required this.accessToken});
+
   @override
   State<DashboardSitePage> createState() => _DashboardSitePageState();
 }
 
 class _DashboardSitePageState extends State<DashboardSitePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final ScrollController _scrollController = ScrollController();
   List listData = [];
-  Future<void> loadSite() async {
-    if (widget.accessToken != null) {
-      final dio = Dio();
-      dio.options.headers['Authorization'] = 'Bearer ${widget.accessToken}';
-      String api =
-          "https://dev-knock-api.oneknockapp.com/api/v1/user/factory-floors?page=1&name=a";
-      try {
-        Response response = await dio.get(api);
+  String searchText = '';
+  int page = 1;
+  @override
+  void initState() {
+    _scrollController.addListener(_scrollListener);
+    loadData();
+    super.initState();
+  }
 
-        if (response.statusCode == 200) {
-          listData = response.data['data']['data'];
-        } else {
-          print('Failed to load data');
-        }
-      } catch (e) {
-        print('An error occurred: $e');
-      }
-    } else {
-      print('Access token is null');
+  void _scrollListener() {
+    if (_scrollController.offset >=
+        _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      _loadMoreData();
     }
   }
 
-  Widget widgetBody = const Expanded(
-      child: Center(
-    child: Text('adjdsdjkfnjkdfnjs'),
-  ));
+  Future<void> loadData() async {
+    List<dynamic> searchData = await searchSite(searchText: searchText, page: page);
+    setState(() {
+      listData.addAll(searchData);
+    });
+  }
+  Future<void> loadSearchData() async {
+    List<dynamic> searchData = await searchSite(searchText: searchText, page: page);
+    setState(() {
+      listData=searchData;
+    });
+  }
+  Future<List<dynamic>> searchSite(
+      {required String searchText, required int page}) async {
+    final dio = Dio();
+    dio.options.headers['Authorization'] = 'Bearer ${widget.accessToken}';
+    String api =
+        "https://dev-knock-api.oneknockapp.com/api/v1/user/factory-floors?page=$page&name=$searchText";
+    try {
+      Response response = await dio.get(api);
+
+      if (response.statusCode == 200) {
+        return response.data['data']['data'];
+      } else {
+        print('Failed to load data');
+        return [];
+      }
+    } catch (e) {
+      print('An error occurred: $e');
+      return [];
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +106,7 @@ class _DashboardSitePageState extends State<DashboardSitePage> {
           children: [
             searchBox(),
             const Gap(28),
-            widgetBody,
+            listCard(),
           ],
         ),
       ),
@@ -86,34 +114,51 @@ class _DashboardSitePageState extends State<DashboardSitePage> {
   }
 
   Widget listCard() {
-    return Expanded(
-      child: ListView(
-        children: List.generate(listData.length, (index) {
-          return Column(
-            children: [
-              ScheduleCard(
-                title: listData[index]['name'] ?? 'null',
-                location: listData[index]['address'] ?? 'null',
-                dayFrom: listData[index]['start_day_request'],
-                dayTo: listData[index]['end_day_request'],
-                company: listData[index]['company_name_kana'],
-                companyLogo: Assets.icons.png.icScheduleCardCompanyLogo.path,
-                clickDropRight: () {
-                  if (listData[index]['status'].toString() == '0') {
-                    context.router.push(const CreateSiteRoute());
-                  } else {
-                    context.router.push( SiteDetailsRoute(id: listData[index]['id'].toString(),accessToken: widget.accessToken));
-                  }
-                },
-                status: statusCheck(listData[index]['status'].toString()),
-                scheduleCreator:
+    print(listData.length);
+    print(listData);
+    if (listData.isNotEmpty && listData != null) {
+      return Expanded(
+        child: Scrollbar(
+          thickness: 8,
+          isAlwaysShown: true,
+          controller: _scrollController,
+          child: ListView.builder(
+            controller: _scrollController,
+            itemCount: listData.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Column(
+                children: [
+                  ScheduleCard(
+                    title: listData[index]['name'] ?? 'null',
+                    location: listData[index]['address'] ?? 'null',
+                    dayFrom: listData[index]['start_day_request'],
+                    dayTo: listData[index]['end_day_request'],
+                    company: listData[index]['company_name_kana'],
+                    companyLogo: Assets.icons.png.icScheduleCardCompanyLogo.path,
+                    clickDropRight: () {
+                      if (listData[index]['status'].toString() == '0') {
+                        context.router.push(const CreateSiteRoute());
+                      } else {
+                        context.router.push(SiteDetailsRoute(
+                          id: listData[index]['id'].toString(),
+                          accessToken: widget.accessToken,
+                        ));
+                      }
+                    },
+                    status: statusCheck(listData[index]['status'].toString()),
+                    scheduleCreator:
                     '${listData[index]['first_name']} ${listData[index]['last_name']}',
-              ),
-            ],
-          );
-        }),
-      ),
-    );
+                  ),
+                  const SizedBox(height: 16),
+                ],
+              );
+            },
+          ),
+        ),
+      );
+    } else {
+      return const CircularProgressIndicator();
+    }
   }
 
   ScheduleCardStatus statusCheck(String statusData) {
@@ -148,45 +193,40 @@ class _DashboardSitePageState extends State<DashboardSitePage> {
   }
 
   Widget searchBox() {
+    bool isLoading = false;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: SearchField(
-        onSearchValue: (value) {
-          print(value);
+      child:SearchField(
+        onSearchValue: (value) async {
+          if (isLoading) {
+            return;
+          }
+          setState(() {
+            isLoading = true;
+            searchText = value;
+            page = 1;
+          });
+          try {
+            await loadSearchData();
+          } finally {
+            setState(() {
+              isLoading = false;
+            });
+          }
         },
         backgroundColor: context.colors.background,
         borderRadius: const BorderRadius.all(Radius.circular(32)),
         placeholder: '現場名検索',
-        clickSearch: () {
-          setState(() {
-            widgetBody = futureBuilder();
-          });
-        },
+        clickSearch: () {},
       ),
     );
   }
 
-  Widget futureBuilder() {
-    return FutureBuilder<String>(
-        future: future(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            widgetBody = listCard();
-          } else {
-            if (snapshot.hasError) {
-              widgetBody = Text('Error: ${snapshot.error}');
-            } else {
-              widgetBody = CircularProgressIndicator(
-                color: context.colors.primary,
-              );
-            }
-          }
-          return widgetBody;
-        });
-  }
 
-  Future<String> future() async {
-    await loadSite();
-    return 'abc';
+  void _loadMoreData() {
+    setState(() {
+      page++;
+      loadData();
+    });
   }
 }
