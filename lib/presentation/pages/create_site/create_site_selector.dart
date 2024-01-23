@@ -15,13 +15,12 @@ class CreateSiteStatusSelector
           builder: (_, status) => builder(status),
         );
 }
-class CreateSiteSelector
-    extends BlocSelector<CreateSiteBloc, CreateSiteState, DateTime?> {
+class CreateSiteSelector<T>
+    extends BlocSelector<CreateSiteBloc, CreateSiteState, T> {
   CreateSiteSelector({
-    required DateTime? observeValue,
-    required Widget Function(DateTime? data) builder,
+    required Widget Function(T data) builder,
+    required super.selector
   }) : super(
-    selector: (state) => state.startDayRequest,
     builder: (_, data) => builder(data),
   );
 }

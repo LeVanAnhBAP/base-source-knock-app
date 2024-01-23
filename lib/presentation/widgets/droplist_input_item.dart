@@ -33,20 +33,25 @@ class _DropListInputItemState extends State<DropListInputItem> {
           style: context.typographies.subBodyBold1,
         ),
         const SizedBox(
-          height: 6,
+          height: 5,
         ),
         InputContainer(
             padding:
-            const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            const EdgeInsets.symmetric(vertical: 22, horizontal: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  widget.content,
-                  style: context.typographies.subBody1
-                      .withColor(context.colors.primary),
+                Expanded(
+                  child: Text(
+                    widget.content,
+                    style: context.typographies.subBody1
+                        .withColor(context.colors.primary),
+                  ),
                 ),
-                SvgPicture.asset(Assets.icons.svg.icArrowDown.path, )
+                const SizedBox(
+                  width: 5,
+                ),
+                SvgPicture.asset(Assets.icons.svg.icArrowDown.path, width: 15, )
               ],
             )),
       ],

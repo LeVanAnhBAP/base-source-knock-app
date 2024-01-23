@@ -148,6 +148,27 @@
     "Occupation": "Occupation",
     "JobTitleSearch" : "Job title search"
   },
+  "OrderDetails" : {
+    "OrderDetails" : "Order details",
+    "ConstructionName": "Construction Name",
+    "TotalOrderAmountTaxIncluded" : "Total order amount (tax included)",
+    "ConstructionCostExcludingTax": "Construction cost (excluding tax)",
+    "ConsumptionTax" : "Consumption tax",
+    "Name" : "Name",
+    "AmountOfMoney" : "Amount",
+    "AddRow" : "Add row"
+  },
+  "OrderLine" : {
+    "OrderLine" : "Order line",
+    "Name" : "Name",
+    "SpecificationsSummary": "Specifications/Summary",
+    "Quantity" : "Quantity",
+    "Unit" : "Unit",
+    "UnitPriceExcludingTax" : "Unit price (excluding tax)",
+    "AmountExcludingTax" : "Amount (excluding tax)",
+    "Registration" : "Registration",
+    "Delete" : "Delete"
+  },
   "InformationNotEntered" : "Information not entered",
   "PhotoLibrary" : "Photo Library",
   "TakeAPhoto" : "Take a photo",

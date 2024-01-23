@@ -85,6 +85,20 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    OrderDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<OrderDetailsRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: OrderDetailsPage(args.units),
+      );
+    },
+    OrderLineRoute.name: (routeData) {
+      final args = routeData.argsAs<OrderLineRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: OrderLinePage(args.units),
+      );
+    },
     ResetPasswordRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -294,6 +308,64 @@ class OccupationRouteArgs {
   @override
   String toString() {
     return 'OccupationRouteArgs{occupations: $occupations, selectedOccupation: $selectedOccupation}';
+  }
+}
+
+/// generated route for
+/// [OrderDetailsPage]
+class OrderDetailsRoute extends PageRouteInfo<OrderDetailsRouteArgs> {
+  OrderDetailsRoute({
+    required List<CommonItemResponse> units,
+    List<PageRouteInfo>? children,
+  }) : super(
+          OrderDetailsRoute.name,
+          args: OrderDetailsRouteArgs(units: units),
+          initialChildren: children,
+        );
+
+  static const String name = 'OrderDetailsRoute';
+
+  static const PageInfo<OrderDetailsRouteArgs> page =
+      PageInfo<OrderDetailsRouteArgs>(name);
+}
+
+class OrderDetailsRouteArgs {
+  const OrderDetailsRouteArgs({required this.units});
+
+  final List<CommonItemResponse> units;
+
+  @override
+  String toString() {
+    return 'OrderDetailsRouteArgs{units: $units}';
+  }
+}
+
+/// generated route for
+/// [OrderLinePage]
+class OrderLineRoute extends PageRouteInfo<OrderLineRouteArgs> {
+  OrderLineRoute({
+    required List<CommonItemResponse> units,
+    List<PageRouteInfo>? children,
+  }) : super(
+          OrderLineRoute.name,
+          args: OrderLineRouteArgs(units: units),
+          initialChildren: children,
+        );
+
+  static const String name = 'OrderLineRoute';
+
+  static const PageInfo<OrderLineRouteArgs> page =
+      PageInfo<OrderLineRouteArgs>(name);
+}
+
+class OrderLineRouteArgs {
+  const OrderLineRouteArgs({required this.units});
+
+  final List<CommonItemResponse> units;
+
+  @override
+  String toString() {
+    return 'OrderLineRouteArgs{units: $units}';
   }
 }
 

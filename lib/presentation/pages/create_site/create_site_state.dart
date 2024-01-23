@@ -1,7 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
+import 'package:uq_system_app/data/models/request/site_params.dart';
 import 'package:uq_system_app/data/models/response/occupation_response.dart';
-import 'package:uq_system_app/data/models/response/prefecture_response.dart';
+import 'package:uq_system_app/data/models/response/address_info_response.dart';
 import 'package:uq_system_app/data/models/response/static_data_response.dart';
 import 'package:uq_system_app/domain/entities/member.dart';
 
@@ -18,11 +19,13 @@ enum CreateSiteStatus {
 @freezed
 class CreateSiteState with _$CreateSiteState {
   const factory CreateSiteState({
-    DateTime? startDayRequest,
+    @Default(SiteParams()) SiteParams siteParams,
     OccupationResponse? occupation,
     StaticDataResponse? staticData,
     @Default(<Member>[]) List<Member> members,
-    @Default(<PrefectureResponse>[]) List<PrefectureResponse> prefecture,
+    @Default(<AddressInfoResponse>[]) List<AddressInfoResponse> prefecture,
+    @Default(<AddressInfoResponse>[]) List<AddressInfoResponse> cities,
+    @Default(<AddressInfoResponse>[]) List<AddressInfoResponse> towns,
     @Default(CreateSiteStatus.initial) CreateSiteStatus status,
     BaseException? error,
   }) = _CreateSiteState;

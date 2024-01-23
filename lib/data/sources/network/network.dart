@@ -8,7 +8,7 @@ import 'package:uq_system_app/data/models/request/static_data_params.dart';
 import 'package:uq_system_app/data/models/response/account.dart';
 import 'package:uq_system_app/data/models/response/member_response.dart';
 import 'package:uq_system_app/data/models/response/partner_response.dart';
-import 'package:uq_system_app/data/models/response/prefecture_response.dart';
+import 'package:uq_system_app/data/models/response/address_info_response.dart';
 import 'package:uq_system_app/data/models/response/site_response.dart';
 import 'package:uq_system_app/data/models/response/login_response.dart';
 import 'package:uq_system_app/data/models/response/static_data_response.dart';
@@ -71,7 +71,11 @@ abstract class NetworkDataSource {
   //Member
   @GET(NetworkUrls.member)
   Future<BaseResponse<List<MemberResponse>>> getMembers();
-  //Prefecture
+  //Address
   @GET(NetworkUrls.prefecture)
-  Future<BaseResponse<List<PrefectureResponse>>> getPrefectures();
+  Future<BaseResponse<List<AddressInfoResponse>>> getPrefectures();
+  @GET('${NetworkUrls.city}/{id}')
+  Future<BaseResponse<List<AddressInfoResponse>>> getCities(@Path('id') int id);
+  @GET('${NetworkUrls.town}/{id}')
+  Future<BaseResponse<List<AddressInfoResponse>>> getTowns(@Path('id') int id);
 }

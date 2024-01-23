@@ -1,15 +1,17 @@
 import 'dart:async';
-import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
-import 'package:uq_system_app/data/models/response/prefecture_response.dart';
+import 'package:uq_system_app/data/models/request/factory_floor_address_params.dart';
+import 'package:uq_system_app/data/models/response/address_info_response.dart';
 import 'package:uq_system_app/data/models/response/static_data_response.dart';
+import 'package:uq_system_app/data/usecases/site/get_cities_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_members_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_prefectures_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_static_data_usecase.dart';
+import 'package:uq_system_app/data/usecases/site/get_towns_usecase.dart';
 import 'package:uq_system_app/presentation/pages/create_site/create_site_event.dart';
 import 'package:uq_system_app/presentation/pages/create_site/create_site_state.dart';
 
@@ -20,16 +22,56 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
   final GetStaticDataUseCase _getStaticDataUseCase;
   final GetPrefecturesUseCase _getPrefecturesUseCase;
   final GetMembersUseCase _getMembersUseCase;
+  final GetCitiesUseCase _getCitiesUseCase;
+  final GetTownsUseCase _getTownsUseCase;
 
-  CreateSiteBloc(this._getMembersUseCase, this._getStaticDataUseCase,
-      this._getPrefecturesUseCase)
+  CreateSiteBloc(
+      this._getMembersUseCase,
+      this._getStaticDataUseCase,
+      this._getPrefecturesUseCase,
+      this._getCitiesUseCase,
+      this._getTownsUseCase)
       : super(const CreateSiteState()) {
     on<CreateSiteErrorOccurred>(_onErrorOccurred);
     on<CreateSiteLoadInfo>(_onLoadInfo);
     on<CreateSiteUpdateMembers>(_onUpdateMembers);
     on<CreateSiteRemoveMemeber>(_onRemoveMember);
     on<CreateSiteUpdateOccupation>(_onUpdateOccupation);
-    on<CreateSiteUpdate>(_onUpdate);
+    on<CreateSiteUpdateParams>(_onUpdateParams);
+    on<CreateSiteSelectPrefecture>(_onSelectPrefecture);
+    on<CreateSiteSelectCity>(_onSelectCity);
+    on<CreateSiteSelectTown>(_onSelectTown);
+  }
+  FutureOr<void> _onSelectTown(
+      CreateSiteSelectTown event, Emitter<CreateSiteState> emit) async {
+    emit(state.copyWith(
+        status: CreateSiteStatus.updateSuccess,
+        siteParams: state.siteParams.copyWith(
+            factoryFloorAddress:
+            state.siteParams.factoryFloorAddress?.copyWith(townId: event.townId))));
+  }
+  FutureOr<void> _onSelectCity(
+      CreateSiteSelectCity event, Emitter<CreateSiteState> emit) async {
+    emit(state.copyWith(
+        status: CreateSiteStatus.updateSuccess,
+        siteParams: state.siteParams.copyWith(
+            factoryFloorAddress:
+            state.siteParams.factoryFloorAddress?.copyWith(cityId: event.cityId, townId: null))));
+    var result = await _getTownsUseCase(event.cityId);
+    emit(state.copyWith(status: CreateSiteStatus.updateSuccess, towns: result));
+  }
+
+  FutureOr<void> _onSelectPrefecture(
+      CreateSiteSelectPrefecture event, Emitter<CreateSiteState> emit) async {
+    var factoryFloorAddress = state.siteParams.factoryFloorAddress ??
+        const FactoryFloorAddressParams();
+    emit(state.copyWith(
+        status: CreateSiteStatus.updateSuccess,
+        siteParams: state.siteParams.copyWith(
+            factoryFloorAddress:
+                factoryFloorAddress.copyWith(id: event.prefectureId, cityId: null, townId: null))));
+    var result = await _getCitiesUseCase(event.prefectureId);
+    emit(state.copyWith(status: CreateSiteStatus.updateSuccess, cities: result));
   }
 
   FutureOr<void> _onUpdateOccupation(
@@ -43,12 +85,11 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
     emit(state.copyWith(
         status: CreateSiteStatus.success, members: event.newMembers));
   }
-  FutureOr<void> _onUpdate(
-      CreateSiteUpdate event, Emitter<CreateSiteState> emit) async {
+
+  FutureOr<void> _onUpdateParams(
+      CreateSiteUpdateParams event, Emitter<CreateSiteState> emit) async {
     emit(state.copyWith(
-        status: CreateSiteStatus.loading));
-    emit(state.copyWith(
-        status: CreateSiteStatus.updateSuccess, startDayRequest: event.dateTime));
+        status: CreateSiteStatus.updateSuccess, siteParams: event.siteParams));
   }
 
   FutureOr<void> _onRemoveMember(
@@ -87,7 +128,7 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
       emit(state.copyWith(
           status: CreateSiteStatus.success,
           staticData: (results[0] as StaticDataResponse),
-          prefecture: (results[1] as List<PrefectureResponse>),
+          prefecture: (results[1] as List<AddressInfoResponse>),
           members: members));
     });
   }

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:uq_system_app/data/models/response/common_item_response.dart';
 import 'package:uq_system_app/data/models/response/occupation_major_response.dart';
 import 'package:uq_system_app/data/models/response/occupation_response.dart';
 import 'package:uq_system_app/domain/entities/member.dart';
@@ -14,6 +15,8 @@ import 'package:uq_system_app/presentation/pages/dashboard/profile/profile.dart'
 import 'package:uq_system_app/presentation/pages/dashboard/search/search.dart';
 import 'package:uq_system_app/presentation/pages/notification/notification.dart';
 import 'package:uq_system_app/presentation/pages/occupation/occupation.dart';
+import 'package:uq_system_app/presentation/pages/order_details/order_details.dart';
+import 'package:uq_system_app/presentation/pages/order_line/order_line.dart';
 import 'package:uq_system_app/presentation/pages/schedule_details/schedule_details.dart';
 import 'package:uq_system_app/presentation/pages/search_member/search_member.dart';
 import 'package:uq_system_app/presentation/pages/site_details/site_details.dart';
@@ -41,9 +44,12 @@ class AppRouter extends _$AppRouter{
     AutoRoute(path: '/notification', page: NotificationRoute.page),
     AutoRoute(path: '/schedule_details', page: ScheduleDetailsRoute.page),
     AutoRoute(path: '/site_details', page: SiteDetailsRoute.page),
-    AutoRoute(path: '/site_details', page: CreateSiteRoute.page),
+    AutoRoute(path: '/create_site', page: CreateSiteRoute.page),
     AutoRoute(path: '/search_member', page: SearchMemberRoute.page),
     AutoRoute(path: '/occupation', page: OccupationRoute.page),
+    AutoRoute(path: '/order_details', page: OrderDetailsRoute.page),
+    AutoRoute(path: '/order_line', page: OrderLineRoute.page),
+
   ];
 @override
   RouteType get defaultRouteType => const RouteType.material();
