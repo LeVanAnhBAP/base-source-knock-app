@@ -7,14 +7,15 @@ import 'package:uq_system_app/core/extensions/theme.dart';
 import '../../../../assets.gen.dart';
 import '../../../widgets/back_button_app_bar.dart';
 import '../../../widgets/input_field.dart';
+
 @RoutePage()
-class CreateSitePage extends StatefulWidget{
+class CreateSitePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _CreateSiteState();
-
 }
 
-class _CreateSiteState extends State<CreateSitePage>    with TickerProviderStateMixin {
+class _CreateSiteState extends State<CreateSitePage>
+    with TickerProviderStateMixin {
   late final TabController _tabController;
   TextEditingController constructionNameController = TextEditingController();
   TextEditingController constructionDetailsController = TextEditingController();
@@ -43,6 +44,7 @@ class _CreateSiteState extends State<CreateSitePage>    with TickerProviderState
     return Scaffold(
       appBar: const BackAppBar(
         title: '現場詳細情報',
+        rightButton: SizedBox(),
       ),
       body: Container(
         margin: const EdgeInsets.only(top: 20),
@@ -76,15 +78,15 @@ class _CreateSiteState extends State<CreateSitePage>    with TickerProviderState
                       decoration: BoxDecoration(
                           color: context.colors.background,
                           borderRadius:
-                          const BorderRadius.all(Radius.circular(24))),
+                              const BorderRadius.all(Radius.circular(24))),
                       child: TabBar(
                         indicator: BoxDecoration(
                             color: context.colors.backgroundDark,
                             borderRadius:
-                            const BorderRadius.all(Radius.circular(24))),
+                                const BorderRadius.all(Radius.circular(24))),
                         labelStyle: TextStyle(color: context.colors.background),
                         unselectedLabelStyle:
-                        TextStyle(color: context.colors.backgroundDark),
+                            TextStyle(color: context.colors.backgroundDark),
                         controller: _tabController,
                         tabs: const [
                           Tab(text: '現場詳細'),
@@ -110,14 +112,14 @@ class _CreateSiteState extends State<CreateSitePage>    with TickerProviderState
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     const Text('担当者'),
                                     SizedBox(
                                       width: 152,
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           const Text('不動産　太郎'),
                                           Row(
@@ -240,9 +242,9 @@ class _CreateSiteState extends State<CreateSitePage>    with TickerProviderState
 
   button(
       {required Color backgroundColor,
-        required Color borderColor,
-        required Color textColor,
-        required String text}) {
+      required Color borderColor,
+      required Color textColor,
+      required String text}) {
     return SizedBox(
       height: MediaQuery.of(context).size.height / 14,
       child: ElevatedButton(

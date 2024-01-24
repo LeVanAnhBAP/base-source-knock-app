@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/widgets/app_bar.dart';
+import 'package:uq_system_app/presentation/widgets/dashboard_drawer.dart';
 import 'package:uq_system_app/presentation/widgets/schedule_card.dart';
 import 'package:uq_system_app/presentation/widgets/search_field.dart';
 import '../../../../assets.gen.dart';
@@ -88,16 +89,7 @@ class _DashboardSitePageState extends State<DashboardSitePage> {
         },
         rightButtonIcon: Assets.icons.svg.icFeatherBell.path,
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: const [
-            Text('avdvfvd'),
-            Text('fvd'),
-            Text('avdvfvd'),
-            Text('avdvfvd'),
-          ],
-        ),
-      ),
+      drawer: DashboardDrawer(context: context,),
       body: Container(
         margin: const EdgeInsets.only(
           top: 16,
@@ -114,10 +106,36 @@ class _DashboardSitePageState extends State<DashboardSitePage> {
       ),
     );
   }
-
+  Widget searchBox() {
+    bool isLoading = false;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child:SearchField(
+        onSearchValue: (value) async {
+          if (isLoading) {
+            return;
+          }
+          setState(() {
+            isLoading = true;
+            searchText = value;
+            page = 1;
+          });
+          try {
+            await loadSearchData();
+          } finally {
+            setState(() {
+              isLoading = false;
+            });
+          }
+        },
+        backgroundColor: context.colors.background,
+        borderRadius: const BorderRadius.all(Radius.circular(32)),
+        placeholder: '現場名検索',
+        clickSearch: () {},
+      ),
+    );
+  }
   Widget listCard() {
-    print(listData.length);
-    print(listData);
     if (listData.isNotEmpty && listData != null) {
       return Expanded(
         child: Scrollbar(
@@ -192,36 +210,6 @@ class _DashboardSitePageState extends State<DashboardSitePage> {
         break;
     }
     return statusCheck;
-  }
-
-  Widget searchBox() {
-    bool isLoading = false;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child:SearchField(
-        onSearchValue: (value) async {
-          if (isLoading) {
-            return;
-          }
-          setState(() {
-            isLoading = true;
-            searchText = value;
-            page = 1;
-          });
-          try {
-            await loadSearchData();
-          } finally {
-            setState(() {
-              isLoading = false;
-            });
-          }
-        },
-        backgroundColor: context.colors.background,
-        borderRadius: const BorderRadius.all(Radius.circular(32)),
-        placeholder: '現場名検索',
-        clickSearch: () {},
-      ),
-    );
   }
 
   void _loadMoreData() {

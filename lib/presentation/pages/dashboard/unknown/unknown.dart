@@ -45,7 +45,7 @@ class _SiteDetailsState extends State<UnknownPage>
     }
     return Scaffold(
       appBar: const BackAppBar(
-        title: '現場詳細情報',
+        title: '現場詳細情報', rightButton: SizedBox(),
       ),
       body: Container(
         margin: const EdgeInsets.only(top: 20),

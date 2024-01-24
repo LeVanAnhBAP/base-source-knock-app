@@ -9,6 +9,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
+import 'package:uq_system_app/presentation/widgets/dashboard_drawer.dart';
 import 'package:uq_system_app/presentation/widgets/schedule_card.dart';
 import '../../../../assets.gen.dart';
 import '../../../widgets/app_bar.dart';
@@ -76,16 +77,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
             },
             rightButtonIcon: Assets.icons.svg.icFeatherBell.path,
           ),
-          drawer: Drawer(
-            child: ListView(
-              children: const [
-                Text('avdvfvd'),
-                Text('avdvfvd'),
-                Text('avdvfvd'),
-                Text('avdvfvd'),
-              ],
-            ),
-          ),
+          drawer:DashboardDrawer(context: context,),
           body: Container(
               margin: const EdgeInsets.only(
                 left: 16,

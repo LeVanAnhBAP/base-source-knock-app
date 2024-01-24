@@ -8,7 +8,6 @@ import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/siteDetails/site_details_bloc.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/siteDetails/site_details_event.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/siteDetails/site_details_state.dart';
-
 import '../../../../assets.gen.dart';
 import '../../../widgets/back_button_app_bar.dart';
 import '../../../widgets/content_detail.dart';
@@ -29,7 +28,7 @@ class _SiteDetailsState extends State<SiteDetailsPage>
     with TickerProviderStateMixin {
   late final TabController _tabController;
   late final SiteDetailsBloc _siteDetailsBloc;
-
+  Map<String, dynamic>? _currentSiteDetail;
   @override
   void initState() {
     _siteDetailsBloc = SiteDetailsBloc();
@@ -44,7 +43,28 @@ class _SiteDetailsState extends State<SiteDetailsPage>
     if (dayFrom == 'null' || dayTo == 'null') {
       return 'null';
     } else {
-      return '${DateFormat('yyyy/MM/dd(E)').format(DateTime.parse(dayFrom!))} ~ ${DateFormat('yyyy/MM/dd(E)').format(DateTime.parse(dayTo!))}';
+      return '${DateFormat('yyyy/MM/dd(E)').format(DateTime.parse(dayFrom!))} ~'
+          ' ${DateFormat('yyyy/MM/dd(E)').format(DateTime.parse(dayTo!))}';
+    }
+  }
+
+  String convertOrderNumber(String? orderNumber) {
+    if (orderNumber == null) {
+      return 'null';
+    } else {
+      String numString = orderNumber.toString();
+      return numString.length >= 5
+          ? numString
+          : '0' * (5 - numString.length) + numString;
+    }
+  }
+
+  String convertPrice(int? price) {
+    if (price == null) {
+      return 'null';
+    } else {
+      final format = NumberFormat("#,###");
+      return '¥${format.format(price).toString()}';
     }
   }
 
@@ -53,8 +73,13 @@ class _SiteDetailsState extends State<SiteDetailsPage>
     return BlocProvider(
       create: (context) => _siteDetailsBloc,
       child: Scaffold(
-        appBar: const BackAppBar(
+        appBar: BackAppBar(
           title: '現場詳細情報',
+          rightButton: IconButton(
+              onPressed: () {
+                _showBottomSheet();
+              },
+              icon: SvgPicture.asset(Assets.icons.svg.icSiteDetailMenu.path)),
         ),
         body: BlocBuilder<SiteDetailsBloc, SiteDetailsState>(
           builder: (context, state) {
@@ -68,12 +93,13 @@ class _SiteDetailsState extends State<SiteDetailsPage>
   line() {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
-      height: 0.5,
+      height: 0.3,
       color: context.colors.border,
     );
   }
 
   Widget _buildBody(SiteDetailsState state) {
+    _currentSiteDetail = state.siteDetail;
     return Container(
       margin: const EdgeInsets.only(top: 20),
       child: Stack(
@@ -140,35 +166,7 @@ class _SiteDetailsState extends State<SiteDetailsPage>
               ),
             ],
           ),
-          Positioned(
-            bottom: 16,
-            left: 36,
-            right: 36,
-            child: Container(
-              height: 60,
-              width: double.maxFinite,
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius:2,
-                      blurRadius: 3,
-                      offset: const Offset(0, 0),
-                    ),
-                  ],
-                  color: context.colors.primary,
-                  borderRadius: const BorderRadius.all(Radius.circular(8))),
-              child: const Center(
-                child: Text(
-                  '修正画面へ移動',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          editButton(),
         ],
       ),
     );
@@ -244,13 +242,15 @@ class _SiteDetailsState extends State<SiteDetailsPage>
   }
 
   Widget _buildDetailSiteContent(Map<String, dynamic>? siteDetail) {
+    print(siteDetail?['id']);
     return Container(
       padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
       color: Colors.white,
       child: ListView(
         children: [
           const TitleDetail(text: '注文No'),
-          ContentDetail(text: (siteDetail?['id'] ?? 'null').toString()),
+          ContentDetail(
+              text: convertOrderNumber(siteDetail?['order_number'].toString())),
           line(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -258,9 +258,23 @@ class _SiteDetailsState extends State<SiteDetailsPage>
             children: [
               const TitleDetail(text: '担当者'),
               Column(
-                children: List.generate(4, (index) {
-                  return ContentDetail(text: 'acb$index');
-                }),
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: (siteDetail?['factory_floor_members']
+                                as List<dynamic>?)==[]
+                            ?
+                    [const Text('null')]
+                    : List.generate(
+                        (siteDetail?['factory_floor_members'] as List<dynamic>?)
+                                ?.length ??
+                            0,
+                        (index) {
+                          return Text(
+                            '${siteDetail?['factory_floor_members'][index]['first_name']}'
+                            ' ${siteDetail?['factory_floor_members'][index]['last_name']}',
+                            style: TextStyle(color: context.colors.border),
+                          );
+                        },
+                      ),
               )
             ],
           ),
@@ -278,8 +292,11 @@ class _SiteDetailsState extends State<SiteDetailsPage>
             children: [
               const TitleDetail(text: '職種'),
               ContentDetail(
-                  text: (siteDetail?['factory_floor_occupation'][0]['name'] ??
-                          'null')
+                  text: (siteDetail?['factory_floor_occupation'] == []
+                          ? null
+                          : siteDetail?['factory_floor_occupation'][0]
+                                  ['name'] ??
+                              'null')
                       .toString()),
             ],
           ),
@@ -318,7 +335,7 @@ class _SiteDetailsState extends State<SiteDetailsPage>
                   width: 100)
             ],
           ),
-          const ContentDetail(text: '¥33,000'),
+          ContentDetail(text: convertPrice(siteDetail?['total_amount'])),
           const TitleDetail(text: '備考（記載した内容は注文書に反映されます）'),
           ContentDetail(text: (siteDetail?['remarks'] ?? 'null').toString()),
           const Gap(100)
@@ -357,6 +374,133 @@ class _SiteDetailsState extends State<SiteDetailsPage>
             )
           ],
         ),
+      ),
+    );
+  }
+
+  editButton() {
+    return Positioned(
+      bottom: 16,
+      left: 36,
+      right: 36,
+      child: Container(
+        height: 60,
+        width: double.maxFinite,
+        decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 3,
+                offset: const Offset(0, 0),
+              ),
+            ],
+            color: context.colors.information,
+            borderRadius: const BorderRadius.all(Radius.circular(8))),
+        child: const Center(
+          child: Text(
+            '修正画面へ移動',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showBottomSheet() {
+    showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(16),
+            topLeft: Radius.circular(16),
+          ),
+        ),
+        context: context,
+        builder: (context) {
+          return Container(
+            padding: const EdgeInsets.only(top: 8),
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(16),
+                topLeft: Radius.circular(16),
+              ),
+              color: context.colors.background,
+            ),
+            height: 260,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 60,
+                  child: Center(
+                    child: Text(
+                      _currentSiteDetail?['name']?.toString() ?? 'null',
+                      style: const TextStyle(fontSize: 26, height: 0.8),
+                    ),
+                  ),
+                ),
+                line(),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          bottomSheetButton(
+                            icon: Assets.icons.svg.icScheduleCardLocation.path,
+                            text: '現場から探す',
+                            textColor: context.colors.border,
+                          ),
+                          bottomSheetButton(
+                            icon: Assets.icons.svg.icDashboardChat.path,
+                            text: 'チャットへ移動',
+                            textColor: context.colors.border,
+                          ),
+                          bottomSheetButton(
+                              icon: Assets.icons.svg.icSiteDetailRemove.path,
+                              text: '削除',
+                              textColor: context.colors.error),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          bottomSheetButton(
+                            icon: Assets.icons.svg.icCopy.path,
+                            text: '現場を複製',
+                            textColor: context.colors.border,
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+  Widget bottomSheetButton(
+      {required String icon, required String text, required Color textColor}) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width / 3,
+      height: 60,
+      child: Column(
+        children: [
+          SvgPicture.asset(
+            icon,
+            height: 28,
+            width: 28,
+          ),
+          Text(
+            text,
+            style: TextStyle(color: textColor),
+          )
+        ],
       ),
     );
   }

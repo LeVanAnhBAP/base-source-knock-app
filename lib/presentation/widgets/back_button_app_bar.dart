@@ -7,39 +7,53 @@ import 'package:uq_system_app/core/extensions/theme.dart';
 import '../../assets.gen.dart';
 
 class BackAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final Widget rightButton;
   final String title;
   const BackAppBar({
     required this.title,
+    required  this.rightButton
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: context.colors.background,
-      leading: IconButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        icon: SvgPicture.asset(Assets.icons.svg.icBackAppBar.path),
-      ),
-      title: Column(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 24,
-            ),
+          IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: SvgPicture.asset(Assets.icons.svg.icBackAppBar.path),
           ),
-          Container(
-            decoration: BoxDecoration(
-                color: context.colors.warning,
-                borderRadius: const BorderRadius.all(Radius.circular(2))),
-            height: 3,
-            width: 100,
+          Column(
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 24,
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    color: context.colors.warning,
+                    borderRadius: const BorderRadius.all(Radius.circular(2))),
+                height: 3,
+                width: 100,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 44,
+            width: 44,
+            child:rightButton
           )
         ],
       ),
+      leadingWidth: 0,
+      centerTitle: true,
     );
   }
 

@@ -16,6 +16,7 @@ class _NotificationPageState extends State<NotificationPage> {
     return Scaffold(
       appBar: const BackAppBar(
         title: '大事なお知らせ',
+        rightButton: SizedBox(),
       ),
       body: SingleChildScrollView(
         child: Container(
