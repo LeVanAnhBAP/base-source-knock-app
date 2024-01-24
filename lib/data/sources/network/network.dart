@@ -12,6 +12,7 @@ import 'package:uq_system_app/data/models/response/address_info_response.dart';
 import 'package:uq_system_app/data/models/response/site_response.dart';
 import 'package:uq_system_app/data/models/response/login_response.dart';
 import 'package:uq_system_app/data/models/response/static_data_response.dart';
+import 'package:uq_system_app/data/models/response/tax_rate_response.dart';
 import 'package:uq_system_app/data/services/api/api.service.dart';
 import 'package:uq_system_app/data/sources/network/network_urls.dart';
 import 'package:retrofit/retrofit.dart';
@@ -25,14 +26,17 @@ abstract class NetworkDataSource {
     ApiServices apiServices, {
     String baseUrl,
   }) = _NetworkDataSource;
+
   //Auth
   @POST(NetworkUrls.login)
   Future<BaseResponse<LoginResponse>> login(
     @Body() LoginParams params,
   );
+
   @POST(NetworkUrls.resetPassword)
   Future<HttpResponse> resetPassword(
       @Query('email') String email, @Query('type') String type);
+
   @POST(NetworkUrls.logout)
   Future<void> logout();
 
@@ -50,8 +54,10 @@ abstract class NetworkDataSource {
     @Query('page') int page,
     @Query('per_page') int perPage,
   );
+
   @PUT(NetworkUrls.favoritePartner)
-  Future<BaseResponse> changeFavoritePartnerState(@Body() FavoritePartnerParams request);
+  Future<BaseResponse> changeFavoritePartnerState(
+      @Body() FavoritePartnerParams request);
 
   //Profile
   @GET(NetworkUrls.info)
@@ -60,22 +66,29 @@ abstract class NetworkDataSource {
   @POST(NetworkUrls.updateAvatar)
   @MultiPart()
   Future<BaseResponse> updateAvatar(
-  @Part(name: 'avatar') File avatar,
-      @Part(name: '_method') String method
-      );
+      @Part(name: 'avatar') File avatar, @Part(name: '_method') String method);
+
   //StaticData
   @POST(NetworkUrls.staticData)
   Future<BaseResponse<StaticDataResponse>> getStaticData(
-      @Body() StaticDataParams request
-      );
+      @Body() StaticDataParams request);
+
   //Member
   @GET(NetworkUrls.member)
   Future<BaseResponse<List<MemberResponse>>> getMembers();
+
   //Address
   @GET(NetworkUrls.prefecture)
   Future<BaseResponse<List<AddressInfoResponse>>> getPrefectures();
+
   @GET('${NetworkUrls.city}/{id}')
   Future<BaseResponse<List<AddressInfoResponse>>> getCities(@Path('id') int id);
+
   @GET('${NetworkUrls.town}/{id}')
   Future<BaseResponse<List<AddressInfoResponse>>> getTowns(@Path('id') int id);
+
+  //TaxRate
+  @GET(NetworkUrls.taxRate)
+  Future<BaseResponse<List<TaxRateResponse>>> getTaxRate(
+      @Query('name') String name);
 }

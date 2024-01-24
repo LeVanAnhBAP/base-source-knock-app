@@ -22,7 +22,7 @@ class InputContainer extends StatelessWidget {
       alignment: alignment,
       width: width,
       height: height,
-      padding: padding ?? const EdgeInsets.only(top: 6),
+      padding: padding ,
       decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(

@@ -4,6 +4,7 @@ import 'package:uq_system_app/data/models/request/site_params.dart';
 import 'package:uq_system_app/data/models/response/occupation_response.dart';
 import 'package:uq_system_app/data/models/response/address_info_response.dart';
 import 'package:uq_system_app/data/models/response/static_data_response.dart';
+import 'package:uq_system_app/data/models/response/tax_rate_response.dart';
 import 'package:uq_system_app/domain/entities/member.dart';
 
 part 'create_site_state.freezed.dart';
@@ -20,9 +21,11 @@ enum CreateSiteStatus {
 class CreateSiteState with _$CreateSiteState {
   const factory CreateSiteState({
     @Default(SiteParams()) SiteParams siteParams,
+    @Default(0) int totalAmount,
     OccupationResponse? occupation,
     StaticDataResponse? staticData,
     @Default(<Member>[]) List<Member> members,
+    TaxRateResponse? taxRate,
     @Default(<AddressInfoResponse>[]) List<AddressInfoResponse> prefecture,
     @Default(<AddressInfoResponse>[]) List<AddressInfoResponse> cities,
     @Default(<AddressInfoResponse>[]) List<AddressInfoResponse> towns,

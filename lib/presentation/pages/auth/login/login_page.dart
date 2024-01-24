@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uq_system_app/assets.gen.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
+import 'package:uq_system_app/presentation/widgets/input_container.dart';
 import 'package:uq_system_app/utils/utils.dart';
 import 'package:uq_system_app/data/models/request/login_params.dart';
 import 'package:uq_system_app/di/injection.dart';
@@ -41,25 +42,11 @@ class _LoginPageState extends State<LoginPage> {
       child: AuthListener(
         listener: (context, state) {
           switch (state.authStatus) {
-            case AuthStatus.loading:
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: context.colors.secondary,
-                      ),
-                    );
-                  },
-                  barrierDismissible: false);
-              break;
             case AuthStatus.success:
-              Navigator.pop(context);
               context.router.replace(const DashboardRoute());
               break;
             case AuthStatus.failure:
               {
-                Navigator.pop(context);
                 showAlertDialog(
                     context: context,
                     message: Utils.baseExceptionToString(context, state.error));
@@ -204,20 +191,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildEmailFiled() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 7),
-      decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 0.2,
-              blurRadius: 1,
-              offset: const Offset(0, 3),
-            ),
-          ],
-          color: const Color(0xffF7F8FA),
-          border: Border.all(color: Colors.white, width: 2),
-          borderRadius: BorderRadius.circular(15)),
+    return InputContainer(
+      padding: const  EdgeInsets.symmetric(vertical: 4),
       child: TextFormField(
         validator: (value) {
           var errorValue = EmailValidator.validate(value ?? "")
@@ -244,20 +219,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildPassword() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 7),
-      decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 0.2,
-              blurRadius: 1,
-              offset: const Offset(0, 3),
-            ),
-          ],
-          color: const Color(0xffF7F8FA),
-          border: Border.all(color: Colors.white, width: 2),
-          borderRadius: BorderRadius.circular(15)),
+    return InputContainer(
+      padding: const EdgeInsets.only(right: 10, top: 4, bottom: 4),
       child: TextFormField(
         validator: (value) {
           var errorValue =
@@ -281,6 +244,11 @@ class _LoginPageState extends State<LoginPage> {
                 child: Icon(!isVisiblePassword
                     ? Icons.visibility
                     : Icons.visibility_off)),
+            suffixIconConstraints: const BoxConstraints(
+              minWidth: 24,
+              minHeight: 24,
+            ),
+
             suffixIconColor: context.colors.primary,
             errorStyle: const TextStyle(
               fontSize: 0,

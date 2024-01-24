@@ -7,10 +7,12 @@ import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/data/models/request/factory_floor_address_params.dart';
 import 'package:uq_system_app/data/models/response/address_info_response.dart';
 import 'package:uq_system_app/data/models/response/static_data_response.dart';
+import 'package:uq_system_app/data/models/response/tax_rate_response.dart';
 import 'package:uq_system_app/data/usecases/site/get_cities_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_members_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_prefectures_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_static_data_usecase.dart';
+import 'package:uq_system_app/data/usecases/site/get_tax_rate_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_towns_usecase.dart';
 import 'package:uq_system_app/presentation/pages/create_site/create_site_event.dart';
 import 'package:uq_system_app/presentation/pages/create_site/create_site_state.dart';
@@ -24,13 +26,15 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
   final GetMembersUseCase _getMembersUseCase;
   final GetCitiesUseCase _getCitiesUseCase;
   final GetTownsUseCase _getTownsUseCase;
+  final GetTaxRateUseCase _getTaxRateUseCase;
 
   CreateSiteBloc(
       this._getMembersUseCase,
       this._getStaticDataUseCase,
       this._getPrefecturesUseCase,
       this._getCitiesUseCase,
-      this._getTownsUseCase)
+      this._getTownsUseCase,
+      this._getTaxRateUseCase)
       : super(const CreateSiteState()) {
     on<CreateSiteErrorOccurred>(_onErrorOccurred);
     on<CreateSiteLoadInfo>(_onLoadInfo);
@@ -41,22 +45,34 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
     on<CreateSiteSelectPrefecture>(_onSelectPrefecture);
     on<CreateSiteSelectCity>(_onSelectCity);
     on<CreateSiteSelectTown>(_onSelectTown);
+    on<CreateSiteUpdateOrders>(_onUpdateOrders);
   }
+
+  FutureOr<void> _onUpdateOrders(
+      CreateSiteUpdateOrders event, Emitter<CreateSiteState> emit) async {
+    emit(state.copyWith(
+        status: CreateSiteStatus.updateSuccess,
+        siteParams:
+            state.siteParams.copyWith(priceOrderDetails: event.priceOrders),
+        totalAmount: event.totalAmount));
+  }
+
   FutureOr<void> _onSelectTown(
       CreateSiteSelectTown event, Emitter<CreateSiteState> emit) async {
     emit(state.copyWith(
         status: CreateSiteStatus.updateSuccess,
         siteParams: state.siteParams.copyWith(
-            factoryFloorAddress:
-            state.siteParams.factoryFloorAddress?.copyWith(townId: event.townId))));
+            factoryFloorAddress: state.siteParams.factoryFloorAddress
+                ?.copyWith(townId: event.townId))));
   }
+
   FutureOr<void> _onSelectCity(
       CreateSiteSelectCity event, Emitter<CreateSiteState> emit) async {
     emit(state.copyWith(
         status: CreateSiteStatus.updateSuccess,
         siteParams: state.siteParams.copyWith(
-            factoryFloorAddress:
-            state.siteParams.factoryFloorAddress?.copyWith(cityId: event.cityId, townId: null))));
+            factoryFloorAddress: state.siteParams.factoryFloorAddress
+                ?.copyWith(cityId: event.cityId, townId: null))));
     var result = await _getTownsUseCase(event.cityId);
     emit(state.copyWith(status: CreateSiteStatus.updateSuccess, towns: result));
   }
@@ -68,10 +84,11 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
     emit(state.copyWith(
         status: CreateSiteStatus.updateSuccess,
         siteParams: state.siteParams.copyWith(
-            factoryFloorAddress:
-                factoryFloorAddress.copyWith(id: event.prefectureId, cityId: null, townId: null))));
+            factoryFloorAddress: factoryFloorAddress.copyWith(
+                id: event.prefectureId, cityId: null, townId: null))));
     var result = await _getCitiesUseCase(event.prefectureId);
-    emit(state.copyWith(status: CreateSiteStatus.updateSuccess, cities: result));
+    emit(
+        state.copyWith(status: CreateSiteStatus.updateSuccess, cities: result));
   }
 
   FutureOr<void> _onUpdateOccupation(
@@ -116,7 +133,8 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
     await Future.wait([
       _getStaticDataUseCase(),
       _getPrefecturesUseCase(),
-      _getMembersUseCase()
+      _getMembersUseCase(),
+      _getTaxRateUseCase('consumption'),
     ]).then((results) {
       EasyLoading.dismiss();
       var members = (results[2] as List<Member>).map((element) {
@@ -129,7 +147,8 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
           status: CreateSiteStatus.success,
           staticData: (results[0] as StaticDataResponse),
           prefecture: (results[1] as List<AddressInfoResponse>),
-          members: members));
+          members: members,
+          taxRate: (results[3] as TaxRateResponse)));
     });
   }
 

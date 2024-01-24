@@ -27,7 +27,7 @@ final AppTheme darkTheme = AppTheme(
     error: Color(0xFFFF0000),
     text: Color(0xFF333333),
     border: Color(0xFF454F60),
-    hint: Color(0xFF888B8E),
+    hint: Color(0xffA2A2A2),
     divider: Color(0xFFD9D9D9),
   ),
   typographies: AppTypography(
@@ -370,7 +370,7 @@ class AppTheme extends ThemeExtension<AppTheme> {
                 MaterialStateProperty.resolveWith((Set<MaterialState> states) {
               return states.contains(MaterialState.disabled)
                   ? colors.disabled
-                  : null; // Defer to the widget's default.
+                  : null;
             }),
           ),
         ),
@@ -379,21 +379,28 @@ class AppTheme extends ThemeExtension<AppTheme> {
         ),
         inputDecorationTheme: InputDecorationTheme(
           contentPadding:
-              const EdgeInsets.symmetric(vertical: 17, horizontal: 16),
-          hintStyle: typographies.body.withColor(colors.hint),
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+          hintStyle: typographies.body.withColor(colors.primary),
           labelStyle: typographies.body.withColor(colors.accent),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
-          enabledBorder:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
-          filled: true,
-          fillColor: colors.background,
-          errorStyle: typographies.caption2,
-          errorMaxLines: 3,
+          errorMaxLines: 0,
+          border: InputBorder.none,
+          fillColor: const Color(0xffF7F8FA),
         ),
         checkboxTheme: CheckboxThemeData(
           visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-          side: BorderSide(color: colors.border),
+          side: MaterialStateBorderSide.resolveWith((states) => BorderSide(
+            color: colors.primary,
+            width: 1
+          )),
+          fillColor: MaterialStateProperty.resolveWith((states) {
+            return Colors.white;
+          }),
+          checkColor: MaterialStateProperty.resolveWith((states) {
+            return states.contains(MaterialState.selected)
+                ? colors.primary
+                : states.contains(MaterialState.pressed) ? colors.primary : Colors.white;
+          }),
         ),
         radioTheme: const RadioThemeData(
           visualDensity: VisualDensity(horizontal: -4, vertical: -4),

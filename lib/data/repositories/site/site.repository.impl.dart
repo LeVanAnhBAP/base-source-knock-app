@@ -2,6 +2,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:uq_system_app/data/models/request/paginate_site_params.dart';
 import 'package:uq_system_app/data/models/response/site_response.dart';
+import 'package:uq_system_app/data/models/response/tax_rate_response.dart';
 import 'package:uq_system_app/data/repositories/site/site.repository.dart';
 import 'package:uq_system_app/data/sources/network/network.dart';
 
@@ -14,6 +15,12 @@ class SiteRepositoryImpl extends SiteRepository {
     var result = await _networkDataSource.paginateSite(
         request.page, request.startDayRequest,request.name);
     return result.data!.data;
+  }
+
+  @override
+  Future<TaxRateResponse> getTaxRate(String name) async {
+    var result = await _networkDataSource.getTaxRate(name);
+    return result.data!.first;
   }
   
 }

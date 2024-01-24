@@ -13,7 +13,7 @@ import 'package:uq_system_app/presentation/pages/order_line/order_line_bloc.dart
 import 'package:uq_system_app/presentation/pages/order_line/order_line_event.dart';
 import 'package:uq_system_app/presentation/pages/order_line/order_line_selector.dart';
 import 'package:uq_system_app/presentation/widgets/divider_line.dart';
-import 'package:uq_system_app/presentation/widgets/main_text_field.dart';
+import 'package:uq_system_app/utils/utils.dart';
 
 import '../../../core/languages/translation_keys.g.dart';
 import '../../../data/models/response/common_item_response.dart';
@@ -23,9 +23,10 @@ import '../../widgets/input_container.dart';
 
 @RoutePage()
 class OrderLinePage extends StatefulWidget {
+  final PriceOrderDetailParams? params;
   final List<CommonItemResponse> units;
 
-  const OrderLinePage(this.units);
+  const OrderLinePage(this.params, this.units);
 
   @override
   State<OrderLinePage> createState() => _OrderLinePageState();
@@ -33,17 +34,27 @@ class OrderLinePage extends StatefulWidget {
 
 class _OrderLinePageState extends State<OrderLinePage> {
   final OrderLineBloc _bloc = getIt.get<OrderLineBloc>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _specificationsController =
+      TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _priceUnitController = TextEditingController();
-  String _formatNumber(String s) =>
-      NumberFormat.decimalPattern('en').format(int.parse(s));
 
   @override
   void initState() {
     super.initState();
-    scheduleMicrotask(() {
+
+    if (widget.params != null) {
+      _bloc.add(OrderLineUpdateParams(
+          prams: widget.params!.copyWith(unit: widget.units[0].id)));
+      _nameController.text = widget.params!.name!;
+      _specificationsController.text = widget.params!.specifications!;
+      _quantityController.text = widget.params!.quantity!.toString();
+      _priceUnitController.text = "¥${Utils.formatCurrency(widget.params!.priceUnit!.toString())}";
+    } else {
       _bloc.add(OrderLineUpdateParams(
           prams: PriceOrderDetailParams(unit: widget.units[0].id)));
-    });
+    }
   }
 
   @override
@@ -67,12 +78,56 @@ class _OrderLinePageState extends State<OrderLinePage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildTextFieldBlock(
-                    title: context.tr(LocaleKeys.OrderLine_Name),
+                  const SizedBox(
+                    height: 20,
                   ),
-                  _buildTextFieldBlock(
-                    title:
-                        context.tr(LocaleKeys.OrderLine_SpecificationsSummary),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Text(
+                      context.tr(LocaleKeys.OrderLine_Name),
+                      style: context.typographies.subBodyBold1,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: InputContainer(
+                        child: TextField(
+                      controller: _nameController,
+                      onChanged: (value) {
+                        _bloc.add(OrderLineUpdateParams(
+                            prams: _bloc.state.params.copyWith(
+                                name: value.isNotEmpty ? value : null)));
+                      },
+                    )),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Text(
+                      context.tr(LocaleKeys.OrderLine_SpecificationsSummary),
+                      style: context.typographies.subBodyBold1,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: InputContainer(
+                        child: TextField(
+                      controller: _specificationsController,
+                      onChanged: (value) {
+                        _bloc.add(OrderLineUpdateParams(
+                            prams: _bloc.state.params.copyWith(
+                                specifications:
+                                    value.isNotEmpty ? value : null)));
+                      },
+                    )),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
@@ -83,17 +138,40 @@ class _OrderLinePageState extends State<OrderLinePage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _buildTextFieldBlock(
-                                  title:
-                                      context.tr(LocaleKeys.OrderLine_Quantity),
-                                  padding: EdgeInsets.zero,
-                                  hint: "0",
-                                  textInputType: TextInputType.number,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]')),
-                                  ],
-                              maxLength: 14),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                context.tr(LocaleKeys.OrderLine_Quantity),
+                                style: context.typographies.subBodyBold1,
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              InputContainer(
+                                  child: TextField(
+                                controller: _quantityController,
+                                maxLength: 3,
+                                onChanged: (value) {
+                                  try {
+                                    var quantity = int.parse(value);
+                                    _bloc.add(OrderLineUpdateQuantity(
+                                        quantity: quantity));
+                                  } catch (_) {
+                                    _bloc.add(const OrderLineUpdateQuantity(
+                                        quantity: null));
+                                  }
+                                },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9]')),
+                                ],
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  counter: Container(),
+                                  hintText: "0",
+                                ),
+                              ))
                             ],
                           ),
                         ),
@@ -152,15 +230,6 @@ class _OrderLinePageState extends State<OrderLinePage> {
                       ],
                     ),
                   ),
-                  _buildTextFieldBlock(
-                      controller: _priceUnitController,
-                      title: context
-                          .tr(LocaleKeys.OrderLine_UnitPriceExcludingTax),
-                      hint: "¥0",
-                      textInputType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                      ]),
                   const SizedBox(
                     height: 20,
                   ),
@@ -177,14 +246,62 @@ class _OrderLinePageState extends State<OrderLinePage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: InputContainer(
+                        child: TextField(
+                            maxLength: 14,
+                            controller: _priceUnitController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              counter: Container(),
+                              hintText: "¥0",
+                            ),
+                            onChanged: (value) {
+                              try {
+                                var price = int.parse(value);
+                                _bloc.add(
+                                    OrderLineUpdateUnitPrice(unitPrice: price));
+                              } catch (_) {
+                                _bloc.add(const OrderLineUpdateUnitPrice(
+                                    unitPrice: null));
+                              }
+                            },
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9]')),
+                            ],
+                            onTapOutside: (PointerDownEvent e) {
+                              var string =
+                                  '¥${Utils.formatCurrency(_priceUnitController.value.text)}';
+                              _priceUnitController.value = TextEditingValue(
+                                text: string,
+                              );
+                            })),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Text(
+                      context.tr(LocaleKeys.OrderLine_AmountExcludingTax),
+                      style: context.typographies.subBodyBold1,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: InputContainer(
                         padding: const EdgeInsets.symmetric(
                             vertical: 20, horizontal: 10),
                         width: MediaQuery.of(context).size.width,
                         backgroundColor: context.colors.disabled,
-                        child: Text(
-                          "¥0",
-                          style: context.typographies.bodyBold
-                              .withColor(context.colors.primary),
+                        child: OrderLineSelector(
+                          builder: (data) {
+                            return Text(
+                              "¥${Utils.formatCurrency(data.toString())}",
+                              style: context.typographies.bodyBold
+                                  .withColor(context.colors.primary),
+                            );
+                          },
+                          selector: (state) => state.total,
                         )),
                   ),
                   _buildBottomActions(),
@@ -197,47 +314,6 @@ class _OrderLinePageState extends State<OrderLinePage> {
     );
   }
 
-  Widget _buildTextFieldBlock(
-      {TextEditingController? controller,
-      required String title,
-      String? hint,
-      padding = const EdgeInsets.symmetric(horizontal: 15),
-      TextInputType? textInputType,
-      List<TextInputFormatter>? inputFormatters,
-      int? maxLength}) {
-    return Padding(
-      padding: padding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            title,
-            style: context.typographies.subBodyBold1,
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          MainTextField(
-            controller: controller,
-            onTapOutside: (PointerDownEvent e) {
-              var string = '¥${_formatNumber(controller?.value.text ?? "0")}';
-              controller?.value = TextEditingValue(
-                text: string,
-              );
-            },
-            hintText: hint,
-            textInputType: textInputType,
-            inputFormatters: inputFormatters,
-            maxLength: maxLength,
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildBottomActions() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
@@ -246,7 +322,9 @@ class _OrderLinePageState extends State<OrderLinePage> {
         children: [
           Expanded(
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                context.router.pop();
+              },
               style: ElevatedButton.styleFrom(
                   surfaceTintColor: Colors.white,
                   shape: RoundedRectangleBorder(
@@ -264,16 +342,29 @@ class _OrderLinePageState extends State<OrderLinePage> {
             width: 15,
           ),
           Expanded(
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: context.colors.secondary,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              child: Text(
-                context.tr(LocaleKeys.OrderLine_Registration),
-                style: context.typographies.bodyBold.withColor(Colors.white),
-              ),
+            child: OrderLineSelector(
+              builder: (data) {
+                return ElevatedButton(
+                  onPressed: data
+                      ? () {
+                          if (_bloc.state.isValidate) {
+                            context.router.pop(_bloc.state.params);
+                          }
+                        }
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: context.colors.secondary,
+                      disabledBackgroundColor: context.colors.border,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  child: Text(
+                    context.tr(LocaleKeys.OrderLine_Registration),
+                    style:
+                        context.typographies.bodyBold.withColor(Colors.white),
+                  ),
+                );
+              },
+              selector: (state) => state.isValidate,
             ),
           )
         ],

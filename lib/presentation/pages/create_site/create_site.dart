@@ -15,10 +15,12 @@ import 'package:uq_system_app/presentation/pages/create_site/create_site_bloc.da
 import 'package:uq_system_app/presentation/pages/create_site/create_site_event.dart';
 import 'package:uq_system_app/presentation/pages/create_site/create_site_selector.dart';
 import 'package:uq_system_app/presentation/pages/create_site/widgets/member_item.dart';
+import 'package:uq_system_app/presentation/pages/order_details/order_details.dart';
 import 'package:uq_system_app/presentation/widgets/divider_line.dart';
 import 'package:uq_system_app/presentation/widgets/droplist_input_item.dart';
 import 'package:uq_system_app/presentation/widgets/input_container.dart';
 import 'package:uq_system_app/presentation/widgets/main_text_field.dart';
+import 'package:uq_system_app/utils/utils.dart';
 
 import '../../../assets.gen.dart';
 import '../../../core/languages/translation_keys.g.dart';
@@ -606,10 +608,23 @@ class _CreateSitePageState extends State<CreateSitePage>
                   style: context.typographies.subBodyBold1,
                 ),
                 InkWell(
-                  onTap: () {
-                    context.router.push(OrderDetailsRoute(
-                        units: _bloc.state.staticData?.units ??
-                            <CommonItemResponse>[]));
+                  onTap: () async {
+                    await context.router
+                        .push(OrderDetailsRoute(
+                            taxRate: double.parse(
+                                _bloc.state.taxRate?.percentage ?? "0"),
+                            units: _bloc.state.staticData?.units ??
+                                <CommonItemResponse>[],
+                            orders:
+                                _bloc.state.siteParams.priceOrderDetails ?? []))
+                        .then((value) {
+                      var returnedValues = value as Map<String, dynamic>;
+                      _bloc.add(CreateSiteEvent.updateOrders(
+                          priceOrders: returnedValues[
+                              OrderDetailsArguments.selectedOccupation],
+                          totalAmount: returnedValues[
+                              OrderDetailsArguments.totalAmount]));
+                    });
                   },
                   child: Container(
                     padding:
@@ -653,10 +668,15 @@ class _CreateSitePageState extends State<CreateSitePage>
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                 width: MediaQuery.of(context).size.width,
                 backgroundColor: context.colors.disabled,
-                child: Text(
-                  "¥33,000",
-                  style: context.typographies.subBodyBold1
-                      .withColor(context.colors.primary),
+                child: CreateSiteSelector(
+                  selector: (state) => state.totalAmount,
+                  builder: (data) {
+                    return Text(
+                      "¥${Utils.formatCurrency(data.toString())}",
+                      style: context.typographies.subBodyBold1
+                          .withColor(context.colors.primary),
+                    );
+                  },
                 )),
             const SizedBox(
               height: 10,
@@ -667,7 +687,17 @@ class _CreateSitePageState extends State<CreateSitePage>
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Checkbox(value: false, onChanged: (value) {}),
+                  CreateSiteSelector(
+                      selector: (state) => state.siteParams.expenses,
+                      builder: (data) {
+                        return Checkbox(
+                            value: data == 1 ? true : false,
+                            onChanged: (value) {
+                              _bloc.add(CreateSiteEvent.updateParams(
+                                  siteParams: _bloc.state.siteParams
+                                      .copyWith(expenses: value! ? 1 : 0)));
+                            });
+                      }),
                   const SizedBox(
                     width: 5,
                   ),
@@ -892,4 +922,5 @@ class _CreateSitePageState extends State<CreateSitePage>
         lastDate: DateTime(2050));
     return picked;
   }
+
 }

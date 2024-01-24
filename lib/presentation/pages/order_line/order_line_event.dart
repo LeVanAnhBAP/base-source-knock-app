@@ -8,4 +8,7 @@ part 'order_line_event.freezed.dart';
 class OrderLineEvent with _$OrderLineEvent {
   const factory OrderLineEvent.errorOccurred([BaseException? error]) = OrderLineErrorOccurred;
   const factory OrderLineEvent.updateParams({required PriceOrderDetailParams prams}) = OrderLineUpdateParams;
+  const factory OrderLineEvent.updateQuantity({required int? quantity}) = OrderLineUpdateQuantity;
+  const factory OrderLineEvent.updateUnitPrice({required int? unitPrice}) = OrderLineUpdateUnitPrice;
 }
+

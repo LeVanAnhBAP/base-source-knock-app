@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uq_system_app/presentation/pages/order_details/order_details_bloc.dart';
 import 'package:uq_system_app/presentation/pages/order_details/order_details_state.dart';
 
-class OrderDetailsStatusSelector
-    extends BlocSelector<OrderDetailsBloc, OrderDetailsState, OrderDetailsStatus> {
-  OrderDetailsStatusSelector({
-    required Widget Function(OrderDetailsStatus data) builder,
+class OrderDetailsSelector<T>
+    extends BlocSelector<OrderDetailsBloc, OrderDetailsState, T> {
+  OrderDetailsSelector({
+    required Widget Function(T data) builder,
+    required super.selector
   }) : super(
-          selector: (state) => state.status,
-          builder: (_, status) => builder(status),
+          builder: (_, data) => builder(data),
         );
 }
 

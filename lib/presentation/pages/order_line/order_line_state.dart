@@ -15,7 +15,9 @@ enum OrderLineStatus {
 @freezed
 class OrderLineState with _$OrderLineState {
   const factory OrderLineState({
+    @Default(false) bool isValidate,
     @Default(PriceOrderDetailParams()) PriceOrderDetailParams params,
+    @Default(0) int total,
     @Default(OrderLineStatus.initial) OrderLineStatus status,
     BaseException? error,
   }) = _OrderLineState;

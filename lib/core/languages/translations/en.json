@@ -167,7 +167,8 @@
     "UnitPriceExcludingTax" : "Unit price (excluding tax)",
     "AmountExcludingTax" : "Amount (excluding tax)",
     "Registration" : "Registration",
-    "Delete" : "Delete"
+    "Delete" : "Delete",
+    "UpTo100DetailLinesCanBeRegistered" : "Up to 100 detail lines can be registered."
   },
   "InformationNotEntered" : "Information not entered",
   "PhotoLibrary" : "Photo Library",

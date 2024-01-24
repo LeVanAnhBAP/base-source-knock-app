@@ -56,9 +56,11 @@ class _MainTextFieldState extends State<MainTextField> {
               controller: widget.controller,
               maxLength: widget.maxLength,
               onChanged: (value) {
-                setState(() {
-                  counterText = value.length;
-                });
+                if (widget.isCounter) {
+                  setState(() {
+                    counterText = value.length;
+                  });
+                }
               },
               onTap: widget.onTap,
               onTapOutside: widget.onTapOutside,
