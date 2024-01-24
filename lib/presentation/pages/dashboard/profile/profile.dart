@@ -259,6 +259,7 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
             ContentDetail(text: userInfo['id'].toString()),
             const TitleDetail(text: 'パスワード'),
             ContentDetail(text: userInfo['password_readable'].toString()),
+            const Gap(20),
           ],
         ),
       ),

@@ -13,8 +13,8 @@ class ScheduleCard extends StatefulWidget {
   final String scheduleCreator;
   final String title;
   final String location;
-  final String dayFrom;
-  final String dayTo;
+  final String? dayFrom;
+  final String? dayTo;
   final String company;
   final String companyLogo;
   final Function() clickDropRight;
@@ -120,12 +120,16 @@ class _ScheduleCardState extends State<ScheduleCard> {
             ],
           ),
           Container(
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
             height: 28,
-            width: 120,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6),
                 color: context.colors.background),
-            child: Center(child: Text(widget.scheduleCreator)),
+            child: Center(
+                child: Text(
+              widget.scheduleCreator,
+              maxLines: 1,
+            )),
           )
         ],
       ),
@@ -164,7 +168,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
                             Assets.icons.svg.icScheduleCardLocation.path),
                         const Gap(4),
                         SizedBox(
-                          width: MediaQuery.of(context).size.width-112,
+                          width: MediaQuery.of(context).size.width - 112,
                           child: Text(
                             widget.location,
                             style: context.typographies.caption1,
@@ -180,7 +184,10 @@ class _ScheduleCardState extends State<ScheduleCard> {
                             Assets.icons.svg.icScheduleCardCalendar.path),
                         const Gap(4),
                         Text(
-                          '${DateFormat('yyyy/MM/dd(E)').format(DateTime.parse(widget.dayFrom))} ~ ${DateFormat('yyyy/MM/dd(E)').format(DateTime.parse(widget.dayTo))}',
+                          widget.dayTo == null || widget.dayFrom == null
+                              ? 'null'
+                              : '${DateFormat('yyyy/MM/dd(E)').format(DateTime.parse(widget.dayFrom!))} ~ '
+                              '${DateFormat('yyyy/MM/dd(E)').format(DateTime.parse(widget.dayTo!))}',
                           style: context.typographies.caption1,
                         )
                       ],
@@ -201,7 +208,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
             ],
           ),
           Column(
-            mainAxisAlignment: MainAxisAlignment.center ,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
                 onTap: widget.clickDropRight,

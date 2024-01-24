@@ -40,15 +40,27 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
   }
 
   late HomeBloc homeBloc;
+  String changeDateFormat(DateTime date) {
+    return DateFormat('yyyy-MM-dd').format(date);
+  }
 
   @override
   void initState() {
     super.initState();
     homeBloc = context.read<HomeBloc>();
     scheduleMicrotask(() {
-      homeBloc
-          .add(DashboardHomeGetDataStarted(accessToken: widget.accessToken));
+      homeBloc.add(DashboardHomeGetDataStarted(
+          accessToken: widget.accessToken,
+          date: changeDateFormat(
+            DateTime.now(),
+          )));
     });
+  }
+
+  @override
+  void dispose() {
+    context.read<HomeBloc>().close();
+    super.dispose();
   }
 
   @override
@@ -98,9 +110,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
         ),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(14)),
-          color: context.read<HomeBloc>().state.status == HomeStatus.success
-              ? context.colors.primary
-              : Colors.grey,
+          color: context.colors.primary,
         ),
         child: Row(
           children: [
@@ -132,9 +142,12 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
           color: context.colors.background,
           borderRadius: BorderRadius.circular(16)),
       child: TableCalendar(
+        selectedDayPredicate: (DateTime date) {
+          return isSameDay(date, _selectedDay);
+        },
         firstDay: DateTime.utc(2023, 1, 1),
         lastDay: DateTime.utc(2024, 12, 31),
-        focusedDay: _focusedDay,
+        focusedDay: _selectedDay,
         calendarFormat: CalendarFormat.week,
         eventLoader: (date) => _events[date] ?? [],
         startingDayOfWeek: StartingDayOfWeek.monday,
@@ -148,12 +161,11 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
           defaultTextStyle: context.typographies.body,
           weekendTextStyle: context.typographies.body,
           todayDecoration: BoxDecoration(
-            color: context.colors.secondary,
-            shape: BoxShape.circle,
+            color: context.colors.background
           ),
-          selectedDecoration: BoxDecoration(
-            border: Border.all(width: 2, color: Colors.black),
-            color: Colors.black,
+          todayTextStyle: context.typographies.body,
+          selectedDecoration:  BoxDecoration(
+            color: context.colors.secondary,
             shape: BoxShape.circle,
           ),
         ),
@@ -170,6 +182,10 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
             _selectedDay = selectedDay;
             print(_selectedDay);
           });
+          homeBloc.add(DashboardHomeGetDataByDate(
+            accessToken: widget.accessToken,
+            date: changeDateFormat(selectedDay),
+          ));
         },
       ),
     );
@@ -212,7 +228,9 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
                 if (listData[index]['status'].toString() == '0') {
                   context.router.push(const CreateSiteRoute());
                 } else {
-                  context.router.push(SiteDetailsRoute(id: listData[index]['id'].toString(),accessToken: widget.accessToken));
+                  context.router.push(SiteDetailsRoute(
+                      id: listData[index]['id'].toString(),
+                      accessToken: widget.accessToken));
                 }
               },
               status: statusCheck(listData[index]['status'].toString()),

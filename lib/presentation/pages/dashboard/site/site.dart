@@ -33,6 +33,8 @@ class _DashboardSitePageState extends State<DashboardSitePage> {
     super.initState();
   }
 
+
+
   void _scrollListener() {
     if (_scrollController.offset >=
         _scrollController.position.maxScrollExtent &&
@@ -133,7 +135,7 @@ class _DashboardSitePageState extends State<DashboardSitePage> {
                     location: listData[index]['address'] ?? 'null',
                     dayFrom: listData[index]['start_day_request'],
                     dayTo: listData[index]['end_day_request'],
-                    company: listData[index]['company_name_kana'],
+                    company: listData[index]['company_name_kana']??'null',
                     companyLogo: Assets.icons.png.icScheduleCardCompanyLogo.path,
                     clickDropRight: () {
                       if (listData[index]['status'].toString() == '0') {
@@ -221,7 +223,6 @@ class _DashboardSitePageState extends State<DashboardSitePage> {
       ),
     );
   }
-
 
   void _loadMoreData() {
     setState(() {
