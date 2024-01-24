@@ -78,6 +78,7 @@ dependencies:
   autoscale_tabbarview: ^1.0.2
   flutter_easyloading: ^3.0.5
   pair: ^0.1.2
+  file_picker: ^6.1.1
 
 dev_dependencies:
   flutter_test:

@@ -14,6 +14,7 @@ enum CreateSiteStatus {
   loading,
   success,
   updateSuccess,
+  submitSuccess,
   failure,
 }
 

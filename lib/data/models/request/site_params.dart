@@ -1,5 +1,8 @@
+
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uq_system_app/data/models/request/factory_floor_address_params.dart';
+import 'package:uq_system_app/data/models/request/image_params.dart';
 import 'package:uq_system_app/data/models/request/price_order_detail_params.dart';
 
 part 'site_params.freezed.dart';
@@ -25,6 +28,12 @@ class SiteParams with _$SiteParams {
     @JsonKey(name: 'price_order_details')
     List<PriceOrderDetailParams>? priceOrderDetails,
     @JsonKey(name: 'total_amount') int? totalAmount,
+    @JsonKey(name: 'image_type_1')
+    @Default(<ImageParams>[])
+    List<ImageParams> imageType1,
+    @JsonKey(name: 'image_type_2')
+    @Default(<ImageParams>[])
+    List<ImageParams> imageType2,
     @JsonKey(name: 'remarks') String? remarks,
     @JsonKey(name: 'expenses') int? expenses,
   }) = _SiteParams;

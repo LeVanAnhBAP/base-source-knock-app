@@ -4,11 +4,14 @@ import 'package:uq_system_app/core/bases/responses/base_response.dart';
 import 'package:uq_system_app/core/bases/responses/paginate_response.dart';
 import 'package:uq_system_app/data/models/request/favorite_partner_params.dart';
 import 'package:uq_system_app/data/models/request/login_params.dart';
+import 'package:uq_system_app/data/models/request/site_params.dart';
 import 'package:uq_system_app/data/models/request/static_data_params.dart';
 import 'package:uq_system_app/data/models/response/account.dart';
+import 'package:uq_system_app/data/models/response/image_response.dart';
 import 'package:uq_system_app/data/models/response/member_response.dart';
 import 'package:uq_system_app/data/models/response/partner_response.dart';
 import 'package:uq_system_app/data/models/response/address_info_response.dart';
+import 'package:uq_system_app/data/models/response/site_details_response.dart';
 import 'package:uq_system_app/data/models/response/site_response.dart';
 import 'package:uq_system_app/data/models/response/login_response.dart';
 import 'package:uq_system_app/data/models/response/static_data_response.dart';
@@ -47,7 +50,10 @@ abstract class NetworkDataSource {
     @Query('start_day_request') String? startDayRequest,
     @Query('name') String? name,
   );
-
+  @POST(NetworkUrls.factoryFloor)
+  Future<BaseResponse<SiteDetailsResponse>> createSite(
+      @Body() SiteParams request,
+      );
   //Partner
   @GET(NetworkUrls.searchPartner)
   Future<BaseResponse<PaginateResponse<List<PartnerResponse>>>> paginatePartner(
@@ -67,6 +73,13 @@ abstract class NetworkDataSource {
   @MultiPart()
   Future<BaseResponse> updateAvatar(
       @Part(name: 'avatar') File avatar, @Part(name: '_method') String method);
+
+  //Image,file
+  @POST(NetworkUrls.uploadFiles)
+  @MultiPart()
+  Future<BaseResponse<List<ImageResponse>>> uploadImages(
+      @Part(name: 'with_s3_url') String? withUrl,
+      @Part(name : 'files[0]') File file);
 
   //StaticData
   @POST(NetworkUrls.staticData)

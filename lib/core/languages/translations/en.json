@@ -138,7 +138,8 @@
     "OnSitePhoto" : "OnSitePhoto",
     "MoveToCorrectionScreen": "Move to correction screen",
     "Upload" : "Upload",
-    "AddDrawing": "Add drawing"
+    "AddDrawing": "Add drawing",
+    "AddOnSitePhoto" : "Add site photo"
   },
   "SearchMember" : {
     "PersonInChargeSearch" : "PersonInChargeSearch",
@@ -173,5 +174,6 @@
   "InformationNotEntered" : "Information not entered",
   "PhotoLibrary" : "Photo Library",
   "TakeAPhoto" : "Take a photo",
+  "FileSelection" : "File selection",
   "Cancel" : "Cancel"
 }

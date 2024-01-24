@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
               {
                 showAlertDialog(
                     context: context,
-                    message: Utils.baseExceptionToString(context, state.error));
+                    messages: [Utils.baseExceptionToString(context, state.error)]);
               }
               break;
             default:

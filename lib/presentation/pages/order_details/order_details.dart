@@ -282,8 +282,8 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                             if (_bloc.state.priceOrders.length >= 99) {
                               showAlertDialog(
                                   context: context,
-                                  message: context.tr(LocaleKeys
-                                      .OrderLine_UpTo100DetailLinesCanBeRegistered));
+                                  messages: [context.tr(LocaleKeys
+                                      .OrderLine_UpTo100DetailLinesCanBeRegistered)]);
                             } else {
                               await context.router
                                   .push(OrderLineRoute(
