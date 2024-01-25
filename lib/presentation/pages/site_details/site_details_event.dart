@@ -6,4 +6,5 @@ part 'site_details_event.freezed.dart';
 @freezed
 class SiteDetailsEvent with _$SiteDetailsEvent {
   const factory SiteDetailsEvent.errorOccurred([BaseException? error]) = SiteDetailsErrorOccurred;
+  const factory SiteDetailsEvent.loadData({required int siteId}) = SiteDetailsLoadData;
 }

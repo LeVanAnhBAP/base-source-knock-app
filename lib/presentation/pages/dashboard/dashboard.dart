@@ -44,9 +44,8 @@ class _DashboardPageState extends State<DashboardPage> {
         if (state.error is UnknownException) {
           var error =
               (state.error as UnknownException).error as BaseErrorResponse;
-          Future.delayed(Duration.zero, () {
-            showAlertDialog(context: context, messages: error.messages, title: error.title);
-          });
+          showAlertDialog(
+              context: context, messages: error.messages, title: error.title);
         }
       },
       child: AutoTabsScaffold(

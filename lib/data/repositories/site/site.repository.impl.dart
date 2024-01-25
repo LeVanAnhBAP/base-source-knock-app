@@ -43,6 +43,12 @@ class SiteRepositoryImpl extends SiteRepository {
     return result.data!;
   }
 
+  @override
+  Future<SiteDetailsResponse> getSiteDetails(int siteId) async{
+    var result = await _networkDataSource.getSiteDetails(siteId);
+    return result.data!;
+  }
+
 
   
 }

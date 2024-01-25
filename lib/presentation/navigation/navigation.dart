@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:uq_system_app/data/models/request/price_order_detail_params.dart';
+import 'package:uq_system_app/data/models/price_order_detail_model.dart';
 import 'package:uq_system_app/data/models/response/common_item_response.dart';
 import 'package:uq_system_app/data/models/response/occupation_major_response.dart';
 import 'package:uq_system_app/data/models/response/occupation_response.dart';

@@ -49,7 +49,6 @@ class CustomAppBar extends AppBar {
   Widget? get title => Container(
         margin: titleMargin ??
             const EdgeInsets.only(
-              right: 34,
               top: 0,
               bottom: 0,
             ),
@@ -101,10 +100,11 @@ class CustomAppBar extends AppBar {
   @override
   List<Widget>? get actions => [
         if (rightIcPath != null)
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: InkWell(
-              onTap: onRightPress,
+          InkWell(
+            borderRadius: const BorderRadius.all(Radius.circular(50)),
+            onTap: onRightPress,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal : 15),
               child: _buildIcon(rightIcPath!, rightIcDescription),
             ),
           ),

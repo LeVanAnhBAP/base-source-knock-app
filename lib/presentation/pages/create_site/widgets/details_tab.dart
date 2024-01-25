@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uq_system_app/core/extensions/text_style.dart';
@@ -36,10 +36,27 @@ class DetailsTab extends StatefulWidget {
 
 class _DetailsTabState extends State<DetailsTab> {
   late CreateSiteBloc _bloc;
+  final TextEditingController _codeController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _contentRequestController =
+      TextEditingController();
+  final TextEditingController _wardsController = TextEditingController();
+  final TextEditingController _buildingController = TextEditingController();
+  final TextEditingController _remarksController = TextEditingController();
 
   @override
   void initState() {
     _bloc = BlocProvider.of<CreateSiteBloc>(context);
+    if (_bloc.state.status == CreateSiteStatus.success) {
+      var siteParams = _bloc.state.siteParams;
+      _codeController.text = siteParams.code ?? "";
+      _nameController.text = siteParams.name ?? "";
+      _contentRequestController.text = siteParams.contentRequest ?? "";
+      _wardsController.text = siteParams.factoryFloorAddress.wards ?? "";
+      _buildingController.text =
+          siteParams.factoryFloorAddress.buildingNumber ?? "";
+      _remarksController.text = siteParams.remarks ?? "";
+    }
     super.initState();
   }
 
@@ -103,7 +120,14 @@ class _DetailsTabState extends State<DetailsTab> {
                 const SizedBox(
                   height: 5,
                 ),
-                const MainTextField(),
+                MainTextField(
+                  controller: _codeController,
+                  onChanged: (value) {
+                    _bloc.add(CreateSiteEvent.updateParams(
+                        siteParams:
+                            _bloc.state.siteParams.copyWith(code: value)));
+                  },
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -114,7 +138,16 @@ class _DetailsTabState extends State<DetailsTab> {
                 const SizedBox(
                   height: 5,
                 ),
-                const MainTextField(
+                MainTextField(
+                  controller: _nameController,
+                  onChanged: (value) {
+                    _bloc.add(CreateSiteEvent.updateParams(
+                        siteParams:
+                            _bloc.state.siteParams.copyWith(name: value)));
+                  },
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(15),
+                  ],
                   maxLength: 15,
                   maxLines: 1,
                   isCounter: true,
@@ -126,7 +159,16 @@ class _DetailsTabState extends State<DetailsTab> {
                 const SizedBox(
                   height: 5,
                 ),
-                const MainTextField(
+                MainTextField(
+                  controller: _contentRequestController,
+                  onChanged: (value) {
+                    _bloc.add(CreateSiteEvent.updateParams(
+                        siteParams: _bloc.state.siteParams
+                            .copyWith(contentRequest: value)));
+                  },
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(500),
+                  ],
                   maxLength: 500,
                   maxLines: 10,
                   isCounter: true,
@@ -337,14 +379,14 @@ class _DetailsTabState extends State<DetailsTab> {
                               : "");
                     },
                     selector: (CreateSiteState state) =>
-                        state.siteParams.factoryFloorAddress?.id,
+                        state.siteParams.factoryFloorAddress.id,
                   ),
                 ),
                 CreateSiteSelector(
                   builder: (data) {
                     return PopupMenuButton(
-                      enabled: _bloc.state.siteParams.factoryFloorAddress?.id !=
-                          null,
+                      enabled:
+                          _bloc.state.siteParams.factoryFloorAddress.id != null,
                       padding: EdgeInsets.zero,
                       surfaceTintColor: Colors.white,
                       constraints: BoxConstraints(
@@ -383,7 +425,7 @@ class _DetailsTabState extends State<DetailsTab> {
                                   : "");
                         },
                         selector: (CreateSiteState state) =>
-                            state.siteParams.factoryFloorAddress?.cityId,
+                            state.siteParams.factoryFloorAddress.cityId,
                       ),
                     );
                   },
@@ -393,7 +435,7 @@ class _DetailsTabState extends State<DetailsTab> {
                   builder: (data) {
                     return PopupMenuButton(
                       enabled:
-                          _bloc.state.siteParams.factoryFloorAddress?.cityId !=
+                          _bloc.state.siteParams.factoryFloorAddress.cityId !=
                               null,
                       padding: EdgeInsets.zero,
                       surfaceTintColor: Colors.white,
@@ -432,7 +474,7 @@ class _DetailsTabState extends State<DetailsTab> {
                                   : "");
                         },
                         selector: (CreateSiteState state) =>
-                            state.siteParams.factoryFloorAddress?.townId,
+                            state.siteParams.factoryFloorAddress.townId,
                       ),
                     );
                   },
@@ -448,7 +490,16 @@ class _DetailsTabState extends State<DetailsTab> {
                 const SizedBox(
                   height: 5,
                 ),
-                const MainTextField(),
+                MainTextField(
+                  controller: _wardsController,
+                  onChanged: (value) {
+                    var siteParams = _bloc.state.siteParams;
+                    _bloc.add(CreateSiteEvent.updateParams(
+                        siteParams: siteParams.copyWith(
+                            factoryFloorAddress: siteParams.factoryFloorAddress
+                                .copyWith(wards: value))));
+                  },
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -459,7 +510,16 @@ class _DetailsTabState extends State<DetailsTab> {
                 const SizedBox(
                   height: 5,
                 ),
-                const MainTextField(),
+                MainTextField(
+                  controller: _buildingController,
+                  onChanged: (value) {
+                    var siteParams = _bloc.state.siteParams;
+                    _bloc.add(CreateSiteEvent.updateParams(
+                        siteParams: siteParams.copyWith(
+                            factoryFloorAddress: siteParams.factoryFloorAddress
+                                .copyWith(buildingNumber: value))));
+                  },
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -533,10 +593,10 @@ class _DetailsTabState extends State<DetailsTab> {
                     width: MediaQuery.of(context).size.width,
                     backgroundColor: context.colors.disabled,
                     child: CreateSiteSelector(
-                      selector: (state) => state.totalAmount,
+                      selector: (state) => state.siteParams.totalAmount,
                       builder: (data) {
                         return Text(
-                          "¥${Utils.formatCurrency(data.toString())}",
+                          "¥${Utils.formatCurrency(data?.toString() ?? "0")}",
                           style: context.typographies.subBodyBold1
                               .withColor(context.colors.primary),
                         );
@@ -584,8 +644,14 @@ class _DetailsTabState extends State<DetailsTab> {
                 const SizedBox(
                   height: 5,
                 ),
-                const MainTextField(
+                MainTextField(
+                  controller: _remarksController,
                   height: 250,
+                  onChanged: (value) {
+                    var siteParams = _bloc.state.siteParams;
+                    _bloc.add(CreateSiteEvent.updateParams(
+                        siteParams: siteParams.copyWith(remarks: value)));
+                  },
                 ),
                 const SizedBox(
                   height: 100,

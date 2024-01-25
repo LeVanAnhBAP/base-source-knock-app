@@ -155,7 +155,7 @@ class SiteItem extends StatelessWidget {
           bottom: 0,
           child: InkWell(
             onTap: (){
-              context.router.push(const SiteDetailsRoute());
+              context.router.push( SiteDetailsRoute(siteId: site.id));
             },
             child: Container(
               decoration: BoxDecoration(

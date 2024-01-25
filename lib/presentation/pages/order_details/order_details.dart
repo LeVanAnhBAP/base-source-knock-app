@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uq_system_app/assets.gen.dart';
 import 'package:uq_system_app/core/extensions/text_style.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
-import 'package:uq_system_app/data/models/request/price_order_detail_params.dart';
+import 'package:uq_system_app/data/models/price_order_detail_model.dart';
 import 'package:uq_system_app/data/models/response/common_item_response.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
@@ -27,7 +27,7 @@ import '../../widgets/input_container.dart';
 class OrderDetailsPage extends StatefulWidget {
   final double taxRate;
   final List<CommonItemResponse> units;
-  final List<PriceOrderDetailParams> orders;
+  final List<PriceOrderDetailModel> orders;
 
   const OrderDetailsPage(this.taxRate, this.orders,this.units);
 
@@ -146,7 +146,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
     );
   }
 
-  Widget _buildOrderDetailsTable(List<PriceOrderDetailParams> priceOrders) {
+  Widget _buildOrderDetailsTable(List<PriceOrderDetailModel> priceOrders) {
     return Column(
       children: [
         Row(
@@ -217,7 +217,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                           .then((value) {
                         if (value != null) {
                           _bloc.add(OrderDetailsUpdate(
-                              params: value as PriceOrderDetailParams,
+                              params: value as PriceOrderDetailModel,
                               index: index));
                         }
                       });
@@ -291,7 +291,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                   .then((value) {
                                 if (value != null) {
                                   _bloc.add(OrderDetailsAdd(
-                                      params: value as PriceOrderDetailParams));
+                                      params: value as PriceOrderDetailModel));
                                 }
                               });
                             }
