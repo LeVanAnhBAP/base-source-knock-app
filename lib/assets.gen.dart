@@ -105,6 +105,24 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/.gitkeep
   String get gitkeep => 'assets/icons/svg/.gitkeep';
 
+  /// File path: assets/icons/svg/drawer_button.svg
+  SvgGenImage get drawerButton => const SvgGenImage('assets/icons/svg/drawer_button.svg');
+
+  /// File path: assets/icons/svg/drawer_form.svg
+  SvgGenImage get drawerForm => const SvgGenImage('assets/icons/svg/drawer_form.svg');
+
+  /// File path: assets/icons/svg/drawer_how_to_use.svg
+  SvgGenImage get drawerHowToUse => const SvgGenImage('assets/icons/svg/drawer_how_to_use.svg');
+
+  /// File path: assets/icons/svg/drawer_knock_logo.svg
+  SvgGenImage get drawerKnockLogo => const SvgGenImage('assets/icons/svg/drawer_knock_logo.svg');
+
+  /// File path: assets/icons/svg/drawer_logout.svg
+  SvgGenImage get drawerLogout => const SvgGenImage('assets/icons/svg/drawer_logout.svg');
+
+  /// File path: assets/icons/svg/drawer_setting.svg
+  SvgGenImage get drawerSetting => const SvgGenImage('assets/icons/svg/drawer_setting.svg');
+
   /// File path: assets/icons/svg/ic_add_blue.svg
   SvgGenImage get icAddBlue => const SvgGenImage('assets/icons/svg/ic_add_blue.svg');
 
@@ -117,6 +135,9 @@ class $AssetsIconsSvgGen {
 
   /// File path: assets/icons/svg/ic_camera.svg
   SvgGenImage get icCamera => const SvgGenImage('assets/icons/svg/ic_camera.svg');
+
+  /// File path: assets/icons/svg/ic_copy.svg
+  SvgGenImage get icCopy => const SvgGenImage('assets/icons/svg/ic_copy.svg');
 
   /// File path: assets/icons/svg/ic_dashboard_account.svg
   SvgGenImage get icDashboardAccount =>
@@ -182,6 +203,13 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/ic_search.svg
   SvgGenImage get icSearch => const SvgGenImage('assets/icons/svg/ic_search.svg');
 
+  /// File path: assets/icons/svg/ic_site_detail_menu.svg
+  SvgGenImage get icSiteDetailMenu => const SvgGenImage('assets/icons/svg/ic_site_detail_menu.svg');
+
+  /// File path: assets/icons/svg/ic_site_detail_remove.svg
+  SvgGenImage get icSiteDetailRemove =>
+      const SvgGenImage('assets/icons/svg/ic_site_detail_remove.svg');
+
   /// File path: assets/icons/svg/ic_site_details_location.svg
   SvgGenImage get icSiteDetailsLocation =>
       const SvgGenImage('assets/icons/svg/ic_site_details_location.svg');
@@ -214,10 +242,17 @@ class $AssetsIconsSvgGen {
   /// List of all assets
   List<dynamic> get values => [
         gitkeep,
+        drawerButton,
+        drawerForm,
+        drawerHowToUse,
+        drawerKnockLogo,
+        drawerLogout,
+        drawerSetting,
         icAddBlue,
         icArrowDroprightCircle,
         icBackAppBar,
         icCamera,
+        icCopy,
         icDashboardAccount,
         icDashboardChat,
         icDashboardHome,
@@ -237,6 +272,8 @@ class $AssetsIconsSvgGen {
         icScheduleCardLocation,
         icScheduleCardLogo,
         icSearch,
+        icSiteDetailMenu,
+        icSiteDetailRemove,
         icSiteDetailsLocation,
         icSiteDetailsOrderDetail,
         scheduleStatus1,

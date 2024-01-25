@@ -32,44 +32,75 @@ class SearchField extends StatefulWidget {
 }
 
 class _SearchFieldState extends State<SearchField> {
+  late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
+    return GestureDetector(
+      onTap: () {
+        _focusNode?.unfocus(); // Check if _focusNode is not null before unfocusing
+      },
+      child: Container(
+        decoration: BoxDecoration(
           color: (widget.backgroundColor ?? context.colors.background)
               .withOpacity(widget.backgroundOpacity),
-          borderRadius: widget.borderRadius),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: widget.placeholder,
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: IconButton(
-              onPressed: () {
-                widget.clickSearch();
-                FocusScope.of(context).requestFocus(FocusNode());
-              },
-              icon: Icon(
-                Icons.search_outlined,
-                color: context.colors.border,
+          borderRadius: widget.borderRadius,
+        ),
+        child: TextField(
+          focusNode: _focusNode,
+          onTap: () {
+            // You can handle the case when _focusNode is null here if needed
+          },
+          decoration: InputDecoration(
+            hintText: widget.placeholder,
+            prefixIcon: Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: IconButton(
+                onPressed: () {
+                  widget.clickSearch();
+                  _focusNode?.unfocus(); // Check if _focusNode is not null before unfocusing
+                },
+                icon: Icon(
+                  Icons.search_outlined,
+                  color: context.colors.border,
+                ),
               ),
             ),
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: widget.borderRadius,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: widget.borderRadius,
+            ),
+            hintStyle: context.typographies.body.copyWith(
+              color: (widget.placeholderColor ?? context.colors.background)
+                  .withOpacity(widget.placeholderOpacity),
+              fontSize: widget.fontSize,
+            ),
+            contentPadding: widget.padding,
           ),
-          border: OutlineInputBorder(
-              borderSide: BorderSide.none, borderRadius: widget.borderRadius),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide.none, borderRadius: widget.borderRadius),
-          hintStyle: context.typographies.body.copyWith(
-            color: (widget.placeholderColor ?? context.colors.background)
-                .withOpacity(widget.placeholderOpacity),
-            fontSize: widget.fontSize,
-          ),
-          contentPadding: widget.padding,
+          autocorrect: false,
+          style: context.typographies.body.copyWith(fontSize: widget.fontSize),
+          onChanged: widget.onSearchValue,
         ),
-        autocorrect: false,
-        style: context.typographies.body.copyWith(fontSize: widget.fontSize),
-        onChanged: widget.onSearchValue,
       ),
     );
   }
 }
+
+
+

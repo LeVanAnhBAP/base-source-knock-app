@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/widgets/app_bar.dart';
+import 'package:uq_system_app/presentation/widgets/dashboard_drawer.dart';
 import '../../../../assets.gen.dart';
 
 @RoutePage()
@@ -27,16 +28,7 @@ class _DashboardChatPageState extends State<DashboardChatPage> {
         isVisibleRightButton: false,
         rightButtonIcon: Assets.icons.svg.icFeatherBell.path,
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: const [
-            Text('avdvfvd'),
-            Text('avd'),
-            Text('vd'),
-            Text('avdvfvd'),
-          ],
-        ),
-      ),
+      drawer:DashboardDrawer(context: context,),
       body: Container(
         margin: EdgeInsets.only(
           top: MediaQuery.of(context).size.height / 14,

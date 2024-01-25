@@ -12,7 +12,7 @@ class _NegotiationRoomState extends State<NegotiationRoomPage>{
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      appBar:BackAppBar(title: '交渉ルーム',),
+      appBar:BackAppBar(title: '交渉ルーム', rightButton: SizedBox(),),
     );
   }
 
