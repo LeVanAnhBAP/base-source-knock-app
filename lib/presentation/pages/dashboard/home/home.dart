@@ -27,7 +27,6 @@ class DashboardHomePage extends StatefulWidget {
 
 class _DashboardHomePageState extends State<DashboardHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
   final Map<DateTime, List<String>> _events = {
     DateTime(2023, 1, 2): ['Event 1', 'Event 2'],

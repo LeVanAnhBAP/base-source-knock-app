@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uq_system_app/core/extensions/theme.dart';
 
 class InputField extends StatelessWidget {
   const InputField({
@@ -23,7 +24,7 @@ class InputField extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
         color: const Color.fromRGBO(247, 248, 250, 1),
-        border: Border.all(color: Colors.white, width: 2),
+        border: Border.all(color: context.colors.background, width: 2),
         boxShadow: const [
           BoxShadow(
             color: Colors.black12,

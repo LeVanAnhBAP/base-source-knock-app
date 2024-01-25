@@ -85,9 +85,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     DashboardSearchRoute.name: (routeData) {
+      final args = routeData.argsAs<DashboardSearchRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const DashboardSearchPage(),
+        child: DashboardSearchPage(
+          key: args.key,
+          accessToken: args.accessToken,
+        ),
       );
     },
     DashboardSiteRoute.name: (routeData) {
@@ -318,16 +322,40 @@ class DashboardProfileRouteArgs {
 
 /// generated route for
 /// [DashboardSearchPage]
-class DashboardSearchRoute extends PageRouteInfo<void> {
-  const DashboardSearchRoute({List<PageRouteInfo>? children})
-      : super(
+class DashboardSearchRoute extends PageRouteInfo<DashboardSearchRouteArgs> {
+  DashboardSearchRoute({
+    Key? key,
+    required String accessToken,
+    List<PageRouteInfo>? children,
+  }) : super(
           DashboardSearchRoute.name,
+          args: DashboardSearchRouteArgs(
+            key: key,
+            accessToken: accessToken,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'DashboardSearchRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<DashboardSearchRouteArgs> page =
+      PageInfo<DashboardSearchRouteArgs>(name);
+}
+
+class DashboardSearchRouteArgs {
+  const DashboardSearchRouteArgs({
+    this.key,
+    required this.accessToken,
+  });
+
+  final Key? key;
+
+  final String accessToken;
+
+  @override
+  String toString() {
+    return 'DashboardSearchRouteArgs{key: $key, accessToken: $accessToken}';
+  }
 }
 
 /// generated route for

@@ -1,17 +1,63 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/search/search_bloc.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/search/search_event.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/search/search_state.dart';
 import 'package:uq_system_app/presentation/widgets/app_bar.dart';
 import 'package:uq_system_app/presentation/widgets/search_screen_item.dart';
 import '../../../../assets.gen.dart';
 
 @RoutePage()
-class DashboardSearchPage extends StatefulWidget {
-  const DashboardSearchPage({super.key});
+class DashboardSearchPage extends StatelessWidget {
+  final String accessToken;
+
+  const DashboardSearchPage({Key? key, required this.accessToken})
+      : super(key: key);
+
   @override
-  State<DashboardSearchPage> createState() => _DashboardSearchPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => SearchBloc(),
+      child: _DashboardSearchPageContent(accessToken: accessToken),
+    );
+  }
 }
 
-class _DashboardSearchPageState extends State<DashboardSearchPage> {
+class _DashboardSearchPageContent extends StatefulWidget {
+  final String accessToken;
+
+  const _DashboardSearchPageContent({Key? key, required this.accessToken})
+      : super(key: key);
+
+  @override
+  State<_DashboardSearchPageContent> createState() =>
+      _DashboardSearchPageContentState();
+}
+
+class _DashboardSearchPageContentState
+    extends State<_DashboardSearchPageContent> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    _scrollController.addListener(_scrollListener);
+    context
+        .read<SearchBloc>()
+        .add(DashboardSearchGetDataStarted(accessToken: widget.accessToken));
+    super.initState();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      context
+          .read<SearchBloc>()
+          .add(DashboardSearchLoadMoreData(accessToken: widget.accessToken));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,47 +67,51 @@ class _DashboardSearchPageState extends State<DashboardSearchPage> {
         rightButtonIcon: Assets.icons.svg.icDashboardSearch.path,
         isVisibleDrawer: false,
       ),
-      body: SingleChildScrollView(
-        child: buildContent(),
-      ),
+      body: _buildContent(),
     );
   }
 
-  Widget buildContent() {
+  Widget _buildContent() {
     return Container(
-      margin: const EdgeInsets.only(
-        top: 40,
-        left: 20,
-        right: 20,
-      ),
-      child: Column(
-        children: [
-          SearchScreenItem(
-            title: '内装職人Knock',
-            introduction: 'はじめまして。内装工事を専門に行なっている職人インテリアと言います。よろしくお願いいたします。',
-            location: '東京都 / 埼玉県 / 神奈川県',
-            job: 'インテリア工事 / 天井仕上げ工事',
-            employees: '稼働可能人員目安　3人',
-            icon: Assets.icons.png.pinkTiger.path,
-          ),
-          SearchScreenItem(
-            title: '防水職人Knock',
-            introduction: 'はじめまして。内装工事を専門に行なっているAPOリフォームと言います。よろしくお願いいたします。',
-            location: '東京都 / 埼玉県 / 神奈川県',
-            job: 'インテリア工事 / 天井仕上げ工事',
-            employees: '稼働可能人員目安　3人',
-            icon: Assets.icons.png.pinkTiger.path,
-          ),
-          SearchScreenItem(
-            title: '防水職人Knock',
-            introduction: 'はじめまして。内装工事を専門に行なっているAPOリフォームと言います。よろしくお願いいたします。',
-            location: '東京都 / 埼玉県 / 神奈川県',
-            job: 'インテリア工事 / 天井仕上げ工事',
-            employees: '稼働可能人員目安　3人',
-            icon: Assets.icons.png.pinkTiger.path,
-          ),
-        ],
-      ),
-    );
+        margin: const EdgeInsets.only(
+          top: 20,
+          left: 20,
+          right: 20,
+          bottom: 20
+        ),
+        child: BlocBuilder<SearchBloc, SearchState>(
+          builder: (context, state) {
+            if (state.status == SearchStatus.loading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state.status == SearchStatus.success) {
+              List<dynamic>? listPartner = state.listPartner;
+              if (listPartner != null && listPartner.isNotEmpty) {
+                return Scrollbar(
+                  thickness: 8,
+                  thumbVisibility: true,
+                  controller: _scrollController,
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: listPartner.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return  SearchScreenItem(
+                        title: '内装職人Knock',
+                        introduction: 'はじめまして。内装工事を専門に行なっている職人インテリアと言います。よろしくお願いいたします。',
+                        location: '東京都 / 埼玉県 / 神奈川県',
+                        job: 'インテリア工事 / 天井仕上げ工事',
+                        employees: '稼働可能人員目安　3人',
+                        icon: Assets.icons.png.pinkTiger.path,
+                      );
+                    },
+                  ),
+                );
+              } else {
+                return const Center(child: Text('No data available.'));
+              }
+            } else {
+              return const Center(child: Text('Failed to load data.'));
+            }
+          },
+        ));
   }
 }
