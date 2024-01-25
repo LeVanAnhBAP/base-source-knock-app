@@ -18,8 +18,11 @@ class SystemBloc extends Bloc<SystemEvent, SystemState> {
         )) {
     on<SystemThemeChanged>(_onThemeChanged);
     on<SystemLanguageChanged>(_onLanguageChanged);
+    on<SystemErrorOccurred>(_onErrorOccurred);
   }
-
+  Future<void> _onErrorOccurred(SystemErrorOccurred event,Emitter<SystemState> emit) async{
+    emit(state.copyWith(error: event.exception));
+  }
   Future<void> _onThemeChanged(
       SystemThemeChanged event, Emitter<SystemState> emit) async {
     emit(state.copyWith(theme: event.theme));

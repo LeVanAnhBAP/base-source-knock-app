@@ -1,3 +1,7 @@
+
+
+import 'dart:io';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/data/models/request/price_order_detail_params.dart';
@@ -20,4 +24,7 @@ class CreateSiteEvent with _$CreateSiteEvent {
   const factory CreateSiteEvent.selectCity({required int cityId}) = CreateSiteSelectCity;
   const factory CreateSiteEvent.selectTown({required int townId}) = CreateSiteSelectTown;
   const factory CreateSiteEvent.updateOrders({required List<PriceOrderDetailParams> priceOrders, required int totalAmount}) = CreateSiteUpdateOrders;
+  const factory CreateSiteEvent.addImages({required List<File> images, required int imageType}) = CreateSiteAddImages;
+  const factory CreateSiteEvent.removeImage({required int index, required int imageType}) = CreateSiteRemoveImage;
+  const factory CreateSiteEvent.submit() = CreateSiteSubmit;
 }

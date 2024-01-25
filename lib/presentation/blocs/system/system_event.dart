@@ -1,3 +1,4 @@
+import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/core/themes/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -10,4 +11,6 @@ class SystemEvent with _$SystemEvent {
 
   const factory SystemEvent.languageChanged(Locale locale) =
       SystemLanguageChanged;
+
+  const factory SystemEvent.errorOccurred({BaseException? exception}) = SystemErrorOccurred;
 }

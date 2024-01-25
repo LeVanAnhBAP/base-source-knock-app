@@ -140,7 +140,8 @@
     "OnSitePhoto" : "現場写真",
     "MoveToCorrectionScreen" : "修正画面へ移動",
     "Upload" : "アップロード",
-    "AddDrawing" : "図面を追加"
+    "AddDrawing" : "図面を追加",
+    "AddOnSitePhoto" : "現場写真を追加"
   },
   "SearchMember" : {
     "PersonInChargeSearch" : "担当者検索",
@@ -175,6 +176,7 @@
   "InformationNotEntered" : "情報未入力",
   "PhotoLibrary" : "写真ライブラリ",
   "TakeAPhoto" : "写真を撮る",
+  "FileSelection" : "ファイル選択",
   "Cancel" : "キャンセル"
 
 }

@@ -10,14 +10,16 @@ import 'package:injectable/injectable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
-import 'package:uq_system_app/di/injection.config.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_state.dart';
 import 'package:uq_system_app/presentation/blocs/bloc_observer.dart';
 import 'package:uq_system_app/presentation/blocs/system/system_bloc.dart';
 import 'package:uq_system_app/presentation/blocs/system/system_state.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
+import 'package:uq_system_app/presentation/widgets/alert_dialog.dart';
 
+import 'core/bases/responses/base_error_response.dart';
+import 'core/exceptions/unknown_exception.dart';
 import 'env.dart';
 import 'core/languages/languages.dart';
 import 'di/injection.dart';
@@ -69,66 +71,70 @@ class MyApp extends StatelessWidget {
           },
         ),
       ],
-      child: BlocBuilder<SystemBloc, SystemState>(builder: (context, system) {
-        return AnnotatedRegion<SystemUiOverlayStyle>(
-          value: system.theme.themeData.brightness == Brightness.light
-              ? SystemUiOverlayStyle.dark
-              : SystemUiOverlayStyle.light,
-          child: RefreshConfiguration(
-            headerBuilder: () => MaterialClassicHeader(
-              color: context.colors.secondary,
-            ),
-            footerBuilder: () => ClassicFooter(
-              loadStyle: LoadStyle.ShowWhenLoading,
-              height: 40,
-              canLoadingIcon: Container(),
-              idleIcon: Container(),
-              textStyle: const TextStyle(fontSize: 0),
-              loadingText: '',
-              loadingIcon: Center(
-                child: SizedBox(
-                  height: 30,
-                  width: 30,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 3,
-                    color: context.colors.secondary,
+      child: BlocBuilder<SystemBloc, SystemState>(
+        builder: (context, system) {
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: system.theme.themeData.brightness == Brightness.light
+                ? SystemUiOverlayStyle.dark
+                : SystemUiOverlayStyle.light,
+            child: RefreshConfiguration(
+              headerBuilder: () => MaterialClassicHeader(
+                color: context.colors.secondary,
+              ),
+              footerBuilder: () => ClassicFooter(
+                loadStyle: LoadStyle.ShowWhenLoading,
+                height: 40,
+                canLoadingIcon: Container(),
+                idleIcon: Container(),
+                textStyle: const TextStyle(fontSize: 0),
+                loadingText: '',
+                loadingIcon: Center(
+                  child: SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3,
+                      color: context.colors.secondary,
+                    ),
                   ),
                 ),
               ),
-            ),
-            child: SkeletonTheme(
-              themeMode: ThemeMode.light,
-              child: SafeArea(
-                child: MaterialApp.router(
-                  builder: EasyLoading.init(),
-                  debugShowCheckedModeBanner: false,
-                  title: AppEnv.appName,
-                  theme: system.theme.themeData.copyWith(
-                    pageTransitionsTheme: const PageTransitionsTheme(builders: {
-                      TargetPlatform.iOS:
-                          NoShadowCupertinoPageTransitionsBuilder(),
-                      TargetPlatform.android:
-                          FadeUpwardsPageTransitionsBuilder(),
-                    }),
-                  ),
-                  // locale: system.locale,
-                  //TODO: CONST LOCAL
-                  locale: const Locale('ja'),
-                  supportedLocales: context.supportedLocales,
-                  localizationsDelegates: [
-                    ...context.localizationDelegates,
-                    // more delegates here
-                  ],
+              child: SkeletonTheme(
+                themeMode: ThemeMode.light,
+                child: SafeArea(
+                  child: MaterialApp.router(
+                    builder: EasyLoading.init(),
+                    debugShowCheckedModeBanner: false,
+                    title: AppEnv.appName,
+                    theme: system.theme.themeData.copyWith(
+                      pageTransitionsTheme:
+                          const PageTransitionsTheme(builders: {
+                        TargetPlatform.iOS:
+                            NoShadowCupertinoPageTransitionsBuilder(),
+                        TargetPlatform.android:
+                            FadeUpwardsPageTransitionsBuilder(),
+                      }),
+                    ),
 
-                  routerConfig: _appRouter.config(
-                    navigatorObservers: () => [AutoRouteObserver()],
+                    // locale: system.locale,
+                    //TODO: CONST LOCAL
+                    locale: const Locale('ja'),
+                    supportedLocales: context.supportedLocales,
+                    localizationsDelegates: [
+                      ...context.localizationDelegates,
+                      // more delegates here
+                    ],
+
+                    routerConfig: _appRouter.config(
+                      navigatorObservers: () => [AutoRouteObserver()],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 }

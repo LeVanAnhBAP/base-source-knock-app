@@ -5,15 +5,18 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/data/models/request/factory_floor_address_params.dart';
+import 'package:uq_system_app/data/models/request/image_params.dart';
 import 'package:uq_system_app/data/models/response/address_info_response.dart';
 import 'package:uq_system_app/data/models/response/static_data_response.dart';
 import 'package:uq_system_app/data/models/response/tax_rate_response.dart';
+import 'package:uq_system_app/data/usecases/site/create_site_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_cities_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_members_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_prefectures_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_static_data_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_tax_rate_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_towns_usecase.dart';
+import 'package:uq_system_app/data/usecases/site/upload_images_usecase.dart';
 import 'package:uq_system_app/presentation/pages/create_site/create_site_event.dart';
 import 'package:uq_system_app/presentation/pages/create_site/create_site_state.dart';
 
@@ -27,6 +30,8 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
   final GetCitiesUseCase _getCitiesUseCase;
   final GetTownsUseCase _getTownsUseCase;
   final GetTaxRateUseCase _getTaxRateUseCase;
+  final UploadImagesUseCase _uploadImagesUseCase;
+  final CreateSiteUseCase _createSiteUseCase;
 
   CreateSiteBloc(
       this._getMembersUseCase,
@@ -34,7 +39,9 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
       this._getPrefecturesUseCase,
       this._getCitiesUseCase,
       this._getTownsUseCase,
-      this._getTaxRateUseCase)
+      this._getTaxRateUseCase,
+      this._uploadImagesUseCase,
+      this._createSiteUseCase)
       : super(const CreateSiteState()) {
     on<CreateSiteErrorOccurred>(_onErrorOccurred);
     on<CreateSiteLoadInfo>(_onLoadInfo);
@@ -46,6 +53,41 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
     on<CreateSiteSelectCity>(_onSelectCity);
     on<CreateSiteSelectTown>(_onSelectTown);
     on<CreateSiteUpdateOrders>(_onUpdateOrders);
+    on<CreateSiteAddImages>(_onAddImages);
+    on<CreateSiteRemoveImage>(_onRemoveImages);
+    on<CreateSiteSubmit>(_onSubmit);
+  }
+  FutureOr<void> _onSubmit(
+      CreateSiteSubmit event, Emitter<CreateSiteState> emit) async {
+    EasyLoading.show();
+    var result = await _createSiteUseCase(state.siteParams);
+    EasyLoading.dismiss();
+    emit(state.copyWith(status: CreateSiteStatus.submitSuccess));
+  }
+  FutureOr<void> _onRemoveImages(
+      CreateSiteRemoveImage event, Emitter<CreateSiteState> emit) async {
+    var updatedSiteParams = event.imageType == 1
+        ? state.siteParams.copyWith(imageType1: List.from(state.siteParams.imageType1)..removeAt(event.index))
+        : state.siteParams.copyWith(imageType2: List.from(state.siteParams.imageType2)..removeAt(event.index));
+    emit(state.copyWith(
+      status: CreateSiteStatus.updateSuccess,
+      siteParams: updatedSiteParams,
+    ));
+  }
+
+  FutureOr<void> _onAddImages(
+      CreateSiteAddImages event, Emitter<CreateSiteState> emit) async {
+    EasyLoading.show();
+    var result = await _uploadImagesUseCase(event.images);
+    var imagesParams = result.map((e) => ImageParams(url: e.url)).toList();
+    var updatedSiteParams = event.imageType == 1
+        ? state.siteParams.copyWith(imageType1: List.from(state.siteParams.imageType1)..addAll(imagesParams))
+        : state.siteParams.copyWith(imageType2: List.from(state.siteParams.imageType2)..addAll(imagesParams));
+    EasyLoading.dismiss();
+    emit(state.copyWith(
+      status: CreateSiteStatus.updateSuccess,
+      siteParams: updatedSiteParams,
+    ));
   }
 
   FutureOr<void> _onUpdateOrders(
