@@ -172,7 +172,7 @@ class _ScheduleCardState extends State<ScheduleCard> {
                           child: Text(
                             widget.location,
                             style: context.typographies.caption1,
-                            overflow: TextOverflow.fade,
+                            overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
                         ),

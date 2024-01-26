@@ -72,13 +72,13 @@ class _DashboardSearchPageContentState
   }
 
   Widget _buildContent() {
-    return Container(
-        margin: const EdgeInsets.only(
-          top: 20,
-          left: 20,
-          right: 20,
-          bottom: 20
-        ),
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<SearchBloc>().add(
+            DashboardSearchGetDataStarted(accessToken: widget.accessToken));
+      },
+      child: Container(
+        margin: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
         child: BlocBuilder<SearchBloc, SearchState>(
           builder: (context, state) {
             if (state.status == SearchStatus.loading) {
@@ -94,13 +94,20 @@ class _DashboardSearchPageContentState
                     controller: _scrollController,
                     itemCount: listPartner.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return  SearchScreenItem(
-                        title: '内装職人Knock',
-                        introduction: 'はじめまして。内装工事を専門に行なっている職人インテリアと言います。よろしくお願いいたします。',
-                        location: '東京都 / 埼玉県 / 神奈川県',
-                        job: 'インテリア工事 / 天井仕上げ工事',
-                        employees: '稼働可能人員目安　3人',
-                        icon: Assets.icons.png.pinkTiger.path,
+                      return SearchScreenItem(
+                        companyName: listPartner[index]['name'] ?? 'null',
+                        introduction: listPartner[index]['intro'] ?? '情報未入力',
+                        location: (listPartner[index]['work_areas'] ?? [])
+                                .isEmpty
+                            ? '情報未入力'
+                            : '${listPartner[index]['work_areas'][0]['name']}',
+                        occupation: (listPartner[index]['occupation_sub_item'] ?? [])
+                                .isEmpty
+                            ? '情報未入力'
+                            : '${listPartner[index]['occupation_sub_item'][0]['name']}',
+                        manNumber:
+                            '稼働可能人員目安 ${listPartner[index]['man_number'] ?? '0'}人',
+                        logo: (listPartner[index]['logo']['url']).toString(),
                       );
                     },
                   ),
@@ -112,6 +119,8 @@ class _DashboardSearchPageContentState
               return const Center(child: Text('Failed to load data.'));
             }
           },
-        ));
+        ),
+      ),
+    );
   }
 }

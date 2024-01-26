@@ -17,6 +17,7 @@ class HomeState with _$HomeState {
     @Default(HomeStatus.initial) HomeStatus status,
     BaseException? error,
     List<dynamic>? listData,
+    int? totalPage
   }) = _HomeState;
 
 

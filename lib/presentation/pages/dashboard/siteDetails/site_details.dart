@@ -181,12 +181,12 @@ class _SiteDetailsState extends State<SiteDetailsPage>
   }
 
   Widget _buildImageTab() {
-    List<dynamic>? listImage1 = _currentSiteDetail?['image_type_1']??[];
+    List<dynamic>? listImage1 = _currentSiteDetail?['image_type_1'] ?? [];
     int listImage1length =
         listImage1 != null || listImage1!.isNotEmpty ? listImage1.length : 0;
-    List<dynamic>? listImage2 = _currentSiteDetail?['image_type_2']??[];
+    List<dynamic>? listImage2 = _currentSiteDetail?['image_type_2'] ?? [];
     int listImage2length =
-    listImage2 != null || listImage2!.isNotEmpty ? listImage2.length : 0;
+        listImage2 != null || listImage2!.isNotEmpty ? listImage2.length : 0;
     return Container(
       padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
       color: context.colors.background,
@@ -194,7 +194,7 @@ class _SiteDetailsState extends State<SiteDetailsPage>
         children: [
           const TitleDetail(text: 'Image type 1'),
           SizedBox(
-            height: (200 * ((listImage1length/ 2).round())).toDouble(),
+            height: (200 * ((listImage1length / 2).round())).toDouble(),
             child: GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -206,6 +206,7 @@ class _SiteDetailsState extends State<SiteDetailsPage>
                 ),
                 itemBuilder: (context, index) {
                   return Container(
+                    padding: const EdgeInsets.all(8),
                     margin: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                         color: const Color.fromRGBO(247, 248, 250, 1),
@@ -221,13 +222,16 @@ class _SiteDetailsState extends State<SiteDetailsPage>
                         ],
                         borderRadius:
                             const BorderRadius.all(Radius.circular(32))),
-                    child: Image.network(listImage1[index]['url']),
+                    child: Image.network(
+                      listImage1[index]['url'],
+                      fit: BoxFit.contain,
+                    ),
                   );
                 }),
           ),
           const TitleDetail(text: 'Image type 2'),
           SizedBox(
-            height: (200 * ((listImage2length/ 2).round())).toDouble(),
+            height: (200 * ((listImage2length / 2).round())).toDouble(),
             child: GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -239,8 +243,8 @@ class _SiteDetailsState extends State<SiteDetailsPage>
                 ),
                 itemBuilder: (context, index) {
                   return Container(
+                    padding: const EdgeInsets.all(8),
                     margin: const EdgeInsets.all(12),
-                    padding: const EdgeInsets.all(40),
                     decoration: BoxDecoration(
                         color: const Color.fromRGBO(247, 248, 250, 1),
                         border: Border.all(
@@ -254,8 +258,11 @@ class _SiteDetailsState extends State<SiteDetailsPage>
                           ),
                         ],
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(32))),
-                    child: Image.network(listImage2[index]['url']),
+                            const BorderRadius.all(Radius.circular(32))),
+                    child: Image.network(
+                      listImage2[index]['url'],
+                      fit: BoxFit.contain,
+                    ),
                   );
                 }),
           )
@@ -558,5 +565,4 @@ class _SiteDetailsState extends State<SiteDetailsPage>
       ),
     );
   }
-
 }

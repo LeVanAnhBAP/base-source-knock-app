@@ -57,7 +57,7 @@ int currentPage = 1;
       Emitter<SearchState> emit,) async {
     emit(state.copyWith(status: SearchStatus.loading));
     try {
-      List<dynamic>? data = await loadPartner(event.accessToken!,currentPage);
+      List<dynamic>? data = await loadPartner(event.accessToken!,1);
       if (data != null) {
         emit(state.copyWith(
           status: SearchStatus.success,

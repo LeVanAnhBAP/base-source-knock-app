@@ -10,6 +10,7 @@ import 'home_event.dart';
 import 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  int totalPage=0;
   HomeBloc() : super(const HomeState()) {
     on<DashboardHomeGetDataStarted>(_onGetDataStated);
     on<DashboardHomeGetDataByDate>(_onGetDataByDate);
@@ -43,6 +44,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(state.copyWith(
           status: HomeStatus.success,
           listData: data,
+          totalPage: totalPage
         ));
       } else {
         emit(state.copyWith(
@@ -68,6 +70,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(state.copyWith(
           status: HomeStatus.success,
           listData: data,
+          totalPage: totalPage
         ));
       } else {
         emit(state.copyWith(
@@ -97,6 +100,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       Response response = await dio.get(api);
 
       if (response.statusCode == 200 ) {
+        totalPage = response.data['data']['total'];
         return response.data['data']['data'];
       } else {
         print('Failed to load data');

@@ -5,32 +5,29 @@ import 'package:uq_system_app/core/extensions/theme.dart';
 
 import '../../assets.gen.dart';
 
-
 class SearchScreenItem extends StatefulWidget {
-  final String icon;
+  final String? logo;
   final String introduction;
-  final String title;
+  final String companyName;
   final String location;
-  final String job;
-  final String employees;
+  final String occupation;
+  final String manNumber;
 
   const SearchScreenItem({
-    required this.icon,
-    required this.title,
+    required this.logo,
+    required this.companyName,
     required this.introduction,
     required this.location,
-    required this.job,
-    required this.employees,
+    required this.occupation,
+    required this.manNumber,
   });
   @override
   State<StatefulWidget> createState() => _SearchScreenItemState();
 }
 
 class _SearchScreenItemState extends State<SearchScreenItem> {
-
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         item(),
@@ -38,7 +35,6 @@ class _SearchScreenItemState extends State<SearchScreenItem> {
         calendar(),
       ],
     );
-
   }
 
   calendar() {
@@ -54,6 +50,7 @@ class _SearchScreenItemState extends State<SearchScreenItem> {
       ),
     );
   }
+
   item() {
     return Container(
       padding: const EdgeInsets.all(10),
@@ -65,10 +62,16 @@ class _SearchScreenItemState extends State<SearchScreenItem> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Container(
+                height: 160,
+                width: 160,
                 margin: const EdgeInsets.symmetric(horizontal: 8),
-                child: Image.asset(widget.icon),
+                child: widget.logo == null
+                    ? const Center(child: Text('null'))
+                    : Image.network(
+                        widget.logo!,
+                        fit: BoxFit.scaleDown,
+                      ),
               ),
             ],
           ),
@@ -80,13 +83,25 @@ class _SearchScreenItemState extends State<SearchScreenItem> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(widget.title),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 260,
+                      child: Text(
+                        widget.companyName,
+                        style: context.typographies.body,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
                     SvgPicture.asset(Assets.icons.svg.icMark.path)
                   ],
                 ),
-                Text(
-                  widget.introduction,
-                  style: const TextStyle(fontSize: 11),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 260,
+                  child: Text(
+                    widget.introduction,
+                    style: context.typographies.caption2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 Column(
                   children: [
@@ -94,9 +109,14 @@ class _SearchScreenItemState extends State<SearchScreenItem> {
                       children: [
                         SvgPicture.asset(Assets.icons.svg.icRedPin.path),
                         const Gap(4),
-                        Text(
-                          widget.location,
-                          style: const TextStyle(fontSize: 11),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 260,
+                          child: Text(
+                            widget.location,
+                            style: context.typographies.caption2,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         )
                       ],
                     ),
@@ -105,9 +125,14 @@ class _SearchScreenItemState extends State<SearchScreenItem> {
                       children: [
                         SvgPicture.asset(Assets.icons.svg.icJob.path),
                         const Gap(4),
-                        Text(
-                          widget.job,
-                          style: const TextStyle(fontSize: 11),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 260,
+                          child: Text(
+                            widget.occupation,
+                            style: context.typographies.caption2,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         )
                       ],
                     ),
@@ -116,9 +141,14 @@ class _SearchScreenItemState extends State<SearchScreenItem> {
                       children: [
                         SvgPicture.asset(Assets.icons.svg.icEmployees.path),
                         const Gap(4),
-                        Text(
-                          widget.employees,
-                          style: const TextStyle(fontSize: 11),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 260,
+                          child: Text(
+                            widget.manNumber,
+                            style: context.typographies.caption2,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         )
                       ],
                     ),
@@ -131,5 +161,4 @@ class _SearchScreenItemState extends State<SearchScreenItem> {
       ),
     );
   }
-
 }
