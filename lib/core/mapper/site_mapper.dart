@@ -19,6 +19,7 @@ class SiteMapper{
       occupations: response.occupations.map((e) => e.id).toList(),
       address: response.address,
       isDraft: response.status == 0,
+      status: response.status,
       factoryFloorAddress: FactoryFloorAddressParams(
         id: response.prefectureId,
         cityId: response.cityId,
@@ -28,8 +29,8 @@ class SiteMapper{
       ),
       priceOrderDetails: response.priceOrderDetails,
       totalAmount: response.totalAmount,
-      imageType1: response.imageType1.map((e) => ImageParams(url: e.url)).toList(),
-      imageType2: response.imageType2.map((e) => ImageParams(url: e.url)).toList(),
+      imageType1: response.imageType1.map((e) => ImageParams(url: e.url, path: e.path)).toList(),
+      imageType2: response.imageType2.map((e) => ImageParams(url: e.url, path: e.path)).toList(),
       remarks: response.remarks,
       expenses: response.expenses
     );

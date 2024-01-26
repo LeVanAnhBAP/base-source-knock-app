@@ -14,6 +14,7 @@ import 'package:uq_system_app/presentation/pages/site_details/site_details_bloc.
 import 'package:uq_system_app/presentation/pages/site_details/site_details_event.dart';
 import 'package:uq_system_app/presentation/pages/site_details/site_details_selector.dart';
 import 'package:uq_system_app/presentation/pages/site_details/site_details_state.dart';
+import 'package:uq_system_app/presentation/pages/site_details/widgets/menu_popup.dart';
 import 'package:uq_system_app/presentation/widgets/base_app_bar.dart';
 import 'package:uq_system_app/presentation/widgets/info_item.dart';
 import 'package:uq_system_app/utils/utils.dart';
@@ -66,8 +67,8 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
           appBarTitle:
               context.tr(LocaleKeys.SiteDetail_DetailedInformationOnSite),
           rightIcPath: Assets.icons.svg.icMoreHorizontal.path,
-          onRightPress: (){
-
+          onRightPress: () {
+            _displayMenuPopup();
           },
         ),
         body: SiteDetailsStatusSelector(
@@ -97,8 +98,16 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 15),
                               child: ElevatedButton(
-                                onPressed: () {
-                                  context.router.push(CreateSiteRoute(siteId: widget.siteId));
+                                onPressed: () async {
+                                  await context.router
+                                      .push(CreateSiteRoute(
+                                          siteId: widget.siteId))
+                                      .then((value) {
+                                    if (value != null) {
+                                      _bloc.add(SiteDetailsEvent.loadData(
+                                          siteId: widget.siteId));
+                                    }
+                                  });
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: context.colors.tertiary,
@@ -173,16 +182,16 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SvgPicture.asset(
-                          Assets.icons.svg.icSiteStatus1.path,
+                          Utils.siteStatusToIconPath(_bloc.state.siteDetails!.status),
                           width: 20,
                         ),
                         const SizedBox(
                           height: 3,
                         ),
                         Text(
-                          context.tr(LocaleKeys.OnSite_NotOrdering),
+                          Utils.siteStatusToString(context,_bloc.state.siteDetails!.status,1),
                           style: TextStyle(
-                              color: context.colors.secondary, fontSize: 10),
+                              color: Utils.siteStatusToColor(_bloc.state.siteDetails!.status, context), fontSize: 10),
                         )
                       ],
                     ),
@@ -305,7 +314,9 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Text(
-                      data.occupations[0].name,
+                      data.occupations.isNotEmpty
+                          ? data.occupations[0].name
+                          : "",
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: context.typographies.body,
@@ -437,7 +448,7 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
             Padding(
               padding: const EdgeInsets.only(left: 15),
               child: Text(
-                "¥${Utils.formatCurrency(data.totalAmount.toString())}",
+                "¥${Utils.formatCurrency(data.totalAmount?.toString() ?? "0")}",
                 style: context.typographies.subBody1,
               ),
             ),
@@ -524,4 +535,13 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
     );
   }
 
+  Future _displayMenuPopup() {
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(15))
+      ),
+      context: context,
+      builder: (context) => MenuPopup(_bloc),
+    );
+  }
 }

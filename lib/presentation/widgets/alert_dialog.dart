@@ -16,7 +16,7 @@ Future showAlertDialog({
         backgroundColor: Colors.white,
         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         actionsPadding: const EdgeInsets.only(top: 5),
-        titlePadding: const EdgeInsets.only(bottom: 5),
+        titlePadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         title: title != null
             ? Text(
                 title,

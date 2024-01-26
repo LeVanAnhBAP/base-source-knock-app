@@ -17,6 +17,7 @@ class SiteParams with _$SiteParams {
     @JsonKey(name: 'members') List<int>? members,
     @JsonKey(name: 'code') String? code,
     @JsonKey(name: 'name') String? name,
+    @JsonKey(name: 'status') int? status,
     @JsonKey(name: 'content_request') String? contentRequest,
     @JsonKey(name: 'occupations') List<int>? occupations,
     @JsonKey(name: 'start_day_request')
@@ -34,7 +35,8 @@ class SiteParams with _$SiteParams {
     FactoryFloorAddressParams factoryFloorAddress,
     @JsonKey(name: 'delivery_destination') String? deliveryDes,
     @JsonKey(name: 'price_order_details')
-    List<PriceOrderDetailModel>? priceOrderDetails,
+    @Default([])
+    List<PriceOrderDetailModel> priceOrderDetails,
     @JsonKey(name: 'total_amount') int? totalAmount,
     @JsonKey(name: 'image_type_1')
     @Default(<ImageParams>[])

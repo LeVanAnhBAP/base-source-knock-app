@@ -19,6 +19,7 @@ import 'package:uq_system_app/data/usecases/site/get_site_details_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_static_data_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_tax_rate_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/get_towns_usecase.dart';
+import 'package:uq_system_app/data/usecases/site/update_site_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/upload_images_usecase.dart';
 import 'package:uq_system_app/presentation/pages/create_site/create_site_event.dart';
 import 'package:uq_system_app/presentation/pages/create_site/create_site_state.dart';
@@ -36,6 +37,7 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
   final GetTaxRateUseCase _getTaxRateUseCase;
   final UploadImagesUseCase _uploadImagesUseCase;
   final CreateSiteUseCase _createSiteUseCase;
+  final UpdateSiteUseCase _updateSiteUseCase;
 
   CreateSiteBloc(
       this._getSiteDetailsUseCase,
@@ -46,7 +48,8 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
       this._getTownsUseCase,
       this._getTaxRateUseCase,
       this._uploadImagesUseCase,
-      this._createSiteUseCase)
+      this._createSiteUseCase,
+      this._updateSiteUseCase)
       : super(const CreateSiteState()) {
     on<CreateSiteErrorOccurred>(_onErrorOccurred);
     on<CreateSiteLoadInfo>(_onLoadInfo);
@@ -84,12 +87,21 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
     address += getAddressPart(state.cities, factoryFloorAddress.cityId);
     address += getAddressPart(state.towns, factoryFloorAddress.townId);
     address +=
-        "${factoryFloorAddress.wards}${factoryFloorAddress.buildingNumber}";
-    await _createSiteUseCase(state.siteParams.copyWith(
+        "${factoryFloorAddress.wards ?? ''}${factoryFloorAddress.buildingNumber ?? ''}";
+    var siteParams = state.siteParams.copyWith(
         members: memberIds,
         address: address.isNotEmpty ? address : null,
         isDraft: event.isDaft,
-        occupations: state.occupation != null ? [state.occupation!.id] : null));
+        occupations: state.occupation != null ? [state.occupation!.id] : null,
+      imageType1: state.siteParams.imageType1.map((e) => ImageParams(url: e.path ?? "")).toList(),
+      imageType2: state.siteParams.imageType2.map((e) => ImageParams(url: e.path ?? "")).toList(),
+    );
+    if (siteParams.id != null) {
+      await _updateSiteUseCase(siteParams.copyWith(
+          status: siteParams.status == 0 && !event.isDaft ? 1 : siteParams.status, isDraft: event.isDaft));
+    } else {
+      await _createSiteUseCase(siteParams);
+    }
     EasyLoading.dismiss();
     emit(state.copyWith(status: CreateSiteStatus.submitSuccess));
   }
@@ -113,7 +125,7 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
       CreateSiteAddImages event, Emitter<CreateSiteState> emit) async {
     EasyLoading.show();
     var result = await _uploadImagesUseCase(event.images);
-    var imagesParams = result.map((e) => ImageParams(url: e.url)).toList();
+    var imagesParams = result.map((e) => ImageParams(url: e.url, path: e.path)).toList();
     var updatedSiteParams = event.imageType == 1
         ? state.siteParams.copyWith(
             imageType1: List.from(state.siteParams.imageType1)
@@ -227,17 +239,18 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
       _getMembersUseCase(),
       _getTaxRateUseCase('consumption'),
       if (event.siteId != null) ...[
-        _getSiteDetailsUseCase(event.siteId!).then((value) {
+        _getSiteDetailsUseCase(event.siteId!).then((value) async {
           siteDetailsResult = value;
-          if(siteDetailsResult?.cityId != null) {
-            _getCitiesUseCase(siteDetailsResult!.cityId!).then((value){
-            cities = value;
-          });
+          if (siteDetailsResult?.prefectureId != null) {
+            await _getCitiesUseCase(siteDetailsResult!.prefectureId!)
+                .then((value) {
+              cities = value;
+            });
           }
-          if(siteDetailsResult?.townId != null) {
-            _getTownsUseCase(siteDetailsResult!.townId!).then((value){
+          if (siteDetailsResult?.cityId != null) {
+            await _getTownsUseCase(siteDetailsResult!.cityId!).then((value) {
               towns = value;
-          });
+            });
           }
         })
       ],
@@ -256,7 +269,8 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
       emit(state.copyWith(
           status: CreateSiteStatus.success,
           cities: cities ?? [],
-          towns : towns ?? [],
+          towns: towns ?? [],
+          occupation: siteDetailsResult?.occupations.firstOrNull,
           siteParams: siteDetailsResult != null
               ? SiteMapper.responseToRequest(siteDetailsResult!)
               : SiteParams(

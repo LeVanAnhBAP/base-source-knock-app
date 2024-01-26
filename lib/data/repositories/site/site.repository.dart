@@ -13,6 +13,7 @@ abstract class SiteRepository{
   Future<List<SiteResponse>> paginateSite(PaginateSiteParams request);
   Future<SiteDetailsResponse> getSiteDetails(int siteId);
   Future<void> createSite(SiteParams siteParams);
+  Future<void> updateSite(SiteParams siteParams);
   Future<TaxRateResponse> getTaxRate(String name);
   Future<List<ImageResponse>> upLoadImages(List<File> images);
 }

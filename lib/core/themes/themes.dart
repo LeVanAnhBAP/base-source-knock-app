@@ -243,6 +243,10 @@ class AppTheme extends ThemeExtension<AppTheme> {
         scaffoldBackgroundColor: colors.background,
         hintColor: colors.hint,
         dividerColor: colors.divider,
+        bottomSheetTheme: const BottomSheetThemeData(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white
+        ),
         datePickerTheme: DatePickerThemeData(
             todayForegroundColor: MaterialStateProperty.resolveWith<Color?>(
               (Set<MaterialState> states) {

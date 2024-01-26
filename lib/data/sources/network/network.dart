@@ -59,6 +59,12 @@ abstract class NetworkDataSource {
   Future<BaseResponse<SiteDetailsResponse>> getSiteDetails(
       @Path('id') int siteId,
       );
+
+  @PUT('${NetworkUrls.factoryFloor}/{id}')
+  Future<BaseResponse> updateSite(
+      @Path('id') int siteId,
+      @Body() SiteParams request
+      );
   //Partner
   @GET(NetworkUrls.searchPartner)
   Future<BaseResponse<PaginateResponse<List<PartnerResponse>>>> paginatePartner(

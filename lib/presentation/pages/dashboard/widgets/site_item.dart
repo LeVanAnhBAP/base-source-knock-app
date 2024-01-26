@@ -27,7 +27,9 @@ class SiteItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       decoration: BoxDecoration(
-          color: companyType == 1 ? context.colors.tertiary : context.colors.secondary,
+          color: companyType == 1
+              ? context.colors.tertiary
+              : context.colors.secondary,
           borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(15), topRight: Radius.circular(15))),
       child: Row(
@@ -52,7 +54,7 @@ class SiteItem extends StatelessWidget {
               ],
             ),
           ),
-          if(companyType == 1)...[
+          if (companyType == 1) ...[
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
@@ -65,8 +67,8 @@ class SiteItem extends StatelessWidget {
                     fontWeight: FontWeight.w600),
               ),
             )
-          ]
-          else Container()
+          ] else
+            Container()
         ],
       ),
     );
@@ -154,8 +156,12 @@ class SiteItem extends StatelessWidget {
           top: 0,
           bottom: 0,
           child: InkWell(
-            onTap: (){
-              context.router.push( SiteDetailsRoute(siteId: site.id));
+            onTap: () {
+              if (site.status == 0) {
+                context.router.push(CreateSiteRoute(siteId: site.id, isDraft: true));
+              } else {
+                context.router.push(SiteDetailsRoute(siteId: site.id));
+              }
             },
             child: Container(
               decoration: BoxDecoration(

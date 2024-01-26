@@ -6,7 +6,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uq_system_app/core/extensions/text_style.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
-import 'package:uq_system_app/data/models/response/site_response.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:uq_system_app/presentation/pages/create_site/create_site_bloc.dart';
@@ -24,7 +23,8 @@ import 'create_site_state.dart';
 @RoutePage()
 class CreateSitePage extends StatefulWidget {
   final int? siteId;
-  const CreateSitePage(this.siteId);
+  final bool isDraft;
+  const CreateSitePage({this.siteId, this.isDraft = false});
   @override
   State<CreateSitePage> createState() => _CreateSitePageState();
 }
@@ -151,57 +151,79 @@ class _CreateSitePageState extends State<CreateSitePage>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    showAlertDialog(
-                                        context: context,
-                                        messages: [
-                                          context.tr(LocaleKeys
-                                              .AreYouSureYouWantToSaveTheScene)
-                                        ],
-                                        onTap: () {
-                                          _bloc.add(
-                                              const CreateSiteEvent.submit(
-                                                  isDaft: true));
-                                        });
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                          side: BorderSide(
-                                              width: 3,
-                                              color: context.colors.quaternary),
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
-                                  child: Text(
-                                    "保存",
-                                    style: context.typographies.bodyBold
-                                        .withColor(context.colors.quaternary),
+                              if(widget.siteId != null && !widget.isDraft ) ...[
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      _bloc.add(const CreateSiteEvent.submit(
+                                          isDaft: false));
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: context.colors.tertiary,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(10))),
+                                    child: Text(
+                                      "修正",
+                                      style: context.typographies.bodyBold
+                                          .withColor(Colors.white),
+                                    ),
+                                  ),
+                                )
+                              ]
+                              else ...[
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      showAlertDialog(
+                                          context: context,
+                                          messages: [
+                                            context.tr(LocaleKeys
+                                                .AreYouSureYouWantToSaveTheScene)
+                                          ],
+                                          onTap: () {
+                                            _bloc.add(
+                                                const CreateSiteEvent.submit(
+                                                    isDaft: true));
+                                          });
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                width: 3,
+                                                color: context.colors.quaternary),
+                                            borderRadius:
+                                            BorderRadius.circular(10))),
+                                    child: Text(
+                                      "保存",
+                                      style: context.typographies.bodyBold
+                                          .withColor(context.colors.quaternary),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    _bloc.add(const CreateSiteEvent.submit(
-                                        isDaft: false));
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: context.colors.secondary,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
-                                  child: Text(
-                                    "登録",
-                                    style: context.typographies.bodyBold
-                                        .withColor(Colors.white),
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      _bloc.add(const CreateSiteEvent.submit(
+                                          isDaft: false));
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: context.colors.secondary,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(10))),
+                                    child: Text(
+                                      "登録",
+                                      style: context.typographies.bodyBold
+                                          .withColor(Colors.white),
+                                    ),
                                   ),
                                 ),
-                              )
+                              ]
                             ],
                           ),
                         ))

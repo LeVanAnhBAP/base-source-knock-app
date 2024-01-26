@@ -16,10 +16,14 @@ abstract class _$AppRouter extends RootStackRouter {
   @override
   final Map<String, PageFactory> pagesMap = {
     CreateSiteRoute.name: (routeData) {
-      final args = routeData.argsAs<CreateSiteRouteArgs>();
+      final args = routeData.argsAs<CreateSiteRouteArgs>(
+          orElse: () => const CreateSiteRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: CreateSitePage(args.siteId),
+        child: CreateSitePage(
+          siteId: args.siteId,
+          isDraft: args.isDraft,
+        ),
       );
     },
     DashBoardChatRoute.name: (routeData) {
@@ -139,6 +143,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SplashPage(),
       );
     },
+    WorkerMapRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WorkerMapPage(),
+      );
+    },
   };
 }
 
@@ -146,11 +156,15 @@ abstract class _$AppRouter extends RootStackRouter {
 /// [CreateSitePage]
 class CreateSiteRoute extends PageRouteInfo<CreateSiteRouteArgs> {
   CreateSiteRoute({
-    required int? siteId,
+    int? siteId,
+    bool isDraft = false,
     List<PageRouteInfo>? children,
   }) : super(
           CreateSiteRoute.name,
-          args: CreateSiteRouteArgs(siteId: siteId),
+          args: CreateSiteRouteArgs(
+            siteId: siteId,
+            isDraft: isDraft,
+          ),
           initialChildren: children,
         );
 
@@ -161,13 +175,18 @@ class CreateSiteRoute extends PageRouteInfo<CreateSiteRouteArgs> {
 }
 
 class CreateSiteRouteArgs {
-  const CreateSiteRouteArgs({required this.siteId});
+  const CreateSiteRouteArgs({
+    this.siteId,
+    this.isDraft = false,
+  });
 
   final int? siteId;
 
+  final bool isDraft;
+
   @override
   String toString() {
-    return 'CreateSiteRouteArgs{siteId: $siteId}';
+    return 'CreateSiteRouteArgs{siteId: $siteId, isDraft: $isDraft}';
   }
 }
 
@@ -512,6 +531,20 @@ class SplashRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SplashRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [WorkerMapPage]
+class WorkerMapRoute extends PageRouteInfo<void> {
+  const WorkerMapRoute({List<PageRouteInfo>? children})
+      : super(
+          WorkerMapRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'WorkerMapRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -19,6 +19,7 @@ import 'package:uq_system_app/presentation/pages/dashboard/on_site/on_site_event
 import 'package:uq_system_app/presentation/pages/dashboard/on_site/on_site_selector.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/on_site/on_site_state.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/widgets/site_skeleton.dart';
+import 'package:uq_system_app/presentation/widgets/base_app_bar.dart';
 import 'package:uq_system_app/presentation/widgets/dashboard_app_bar.dart';
 
 import '../../../../core/languages/translation_keys.g.dart';
@@ -36,6 +37,7 @@ class _DashBoardOnSitePageState extends State<DashBoardOnSitePage> {
   final Account? account = getIt.get<AuthBloc>().state.account;
   List<SiteResponse> sites = [];
   Timer? searchOnStoppedTyping;
+
   @override
   void initState() {
     scheduleMicrotask(() {
@@ -67,15 +69,16 @@ class _DashBoardOnSitePageState extends State<DashBoardOnSitePage> {
     return BlocProvider.value(
       value: _bloc,
       child: Scaffold(
-        appBar: DashBoardAppBar(
-          title: context.tr(LocaleKeys.Dashboard_OnSite),
+        appBar: CustomAppBar(
+          context,
+          appBarTitle: context.tr(LocaleKeys.Dashboard_OnSite),
           leftIcPath: Assets.icons.svg.icMenu.path,
           rightIcPath: (account?.role == 1 || account?.role == 2) &&
               account?.company.type == 1
               ? Assets.icons.svg.icDashboardOnsite.path
               : null,
-          rightIcDescription: context.tr(LocaleKeys.OnSite_SignUp),
-          onRightPressed: () async{
+          rightIcDescription:context.tr(LocaleKeys.OnSite_SignUp) ,
+          onRightPress: () async{
             await context.router.push( CreateSiteRoute(siteId: null)).then((value){
               if(value != null){
                 _bloc.add(const OnSiteEvent.onLoad());
@@ -83,6 +86,22 @@ class _DashBoardOnSitePageState extends State<DashBoardOnSitePage> {
             });
           },
         ),
+        // DashBoardAppBar(
+        //   title: context.tr(LocaleKeys.Dashboard_OnSite),
+        //   leftIcPath: Assets.icons.svg.icMenu.path,
+        //   rightIcPath: (account?.role == 1 || account?.role == 2) &&
+        //       account?.company.type == 1
+        //       ? Assets.icons.svg.icDashboardOnsite.path
+        //       : null,
+        //   rightIcDescription: context.tr(LocaleKeys.OnSite_SignUp),
+        //   onRightPressed: () async{
+        //     await context.router.push( CreateSiteRoute(siteId: null)).then((value){
+        //       if(value != null){
+        //         _bloc.add(const OnSiteEvent.onLoad());
+        //       }
+        //     });
+        //   },
+        // ),
         body: OnSiteStatusListener(
           statuses: const [OnSiteStatus.success, OnSiteStatus.loading],
           listener: (BuildContext context, OnSiteState state) {
@@ -153,8 +172,8 @@ class _DashBoardOnSitePageState extends State<DashBoardOnSitePage> {
   }
 
   void _onLoading() async {
-    Future.delayed(const Duration(milliseconds: 500), (){
- _bloc.add(const OnSiteEvent.onLoadMore());
+    Future.delayed(const Duration(milliseconds: 500), () {
+      _bloc.add(const OnSiteEvent.onLoadMore());
     });
   }
 
@@ -171,7 +190,7 @@ class _DashBoardOnSitePageState extends State<DashBoardOnSitePage> {
       }
       return SmartRefresher(
         controller: _bloc.refreshController,
-        enablePullDown:  status != OnSiteStatus.loadingMore,
+        enablePullDown: status != OnSiteStatus.loadingMore,
         enablePullUp: status != OnSiteStatus.loadingMore,
         onRefresh: _onRefresh,
         onLoading: _onLoading,

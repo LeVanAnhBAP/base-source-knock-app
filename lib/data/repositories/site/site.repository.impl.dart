@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -16,11 +15,13 @@ import 'package:uq_system_app/data/sources/network/network.dart';
 @LazySingleton(as: SiteRepository)
 class SiteRepositoryImpl extends SiteRepository {
   final NetworkDataSource _networkDataSource;
+
   SiteRepositoryImpl(this._networkDataSource);
+
   @override
   Future<List<SiteResponse>> paginateSite(PaginateSiteParams request) async {
     var result = await _networkDataSource.paginateSite(
-        request.page, request.startDayRequest,request.name);
+        request.page, request.startDayRequest, request.name);
     return result.data!.data;
   }
 
@@ -33,24 +34,25 @@ class SiteRepositoryImpl extends SiteRepository {
   @override
   Future<List<ImageResponse>> upLoadImages(List<File> images) async {
     //TODO: Implement multi images
-   var result = await _networkDataSource.uploadImages("", images[0]);
-   return result.data!;
+    var result = await _networkDataSource.uploadImages("", images[0]);
+    return result.data!;
   }
 
   @override
-  Future<SiteDetailsResponse> createSite(SiteParams siteParams) async {
+  Future<void> createSite(SiteParams siteParams) async {
     var result = await _networkDataSource.createSite(siteParams);
     return result.data!;
   }
 
   @override
-  Future<SiteDetailsResponse> getSiteDetails(int siteId) async{
+  Future<SiteDetailsResponse> getSiteDetails(int siteId) async {
     var result = await _networkDataSource.getSiteDetails(siteId);
     return result.data!;
   }
 
-
-  
+  @override
+  Future<void> updateSite(SiteParams siteParams) async {
+    var result = await _networkDataSource.updateSite(siteParams.id!, siteParams);
+    return result.data!;
+  }
 }
-
-

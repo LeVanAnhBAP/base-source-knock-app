@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uq_system_app/data/models/price_order_detail_model.dart';
-import 'package:uq_system_app/data/models/response/address_info_response.dart';
 import 'package:uq_system_app/data/models/response/image_response.dart';
 import 'package:uq_system_app/data/models/response/member_response.dart';
 import 'package:uq_system_app/data/models/response/occupation_response.dart';
@@ -29,9 +28,9 @@ class SiteDetailsResponse with _$SiteDetailsResponse {
     @JsonKey(name: 'wards') String? wards,
     @JsonKey(name: 'building_number') String? buildingNumber,
     @JsonKey(name: 'remarks') String? remarks,
-    @JsonKey(name: 'total_amount') required int totalAmount,
-    @JsonKey(name: 'order_number') required int orderNumber,
-    @JsonKey(name: 'expenses') required int expenses,
+    @JsonKey(name: 'total_amount')  int? totalAmount,
+    @JsonKey(name: 'order_number')  int? orderNumber,
+    @JsonKey(name: 'expenses')  int? expenses,
     @JsonKey(name: 'tax_amount')  int? taxAmount,
     @JsonKey(name: 'prefecture_city_name') String? prefectureCityName,
     @JsonKey(name: 'factory_floor_members')

@@ -20,6 +20,7 @@ class SiteDetailsBloc extends Bloc<SiteDetailsEvent, SiteDetailsState> {
       SiteDetailsLoadData event,
       Emitter<SiteDetailsState> emit,
       ) async {
+    emit(state.copyWith(status: SiteDetailsStatus.loading));
     EasyLoading.show();
     var result = await _getSiteDetailsUseCase(event.siteId);
     EasyLoading.dismiss();

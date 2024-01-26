@@ -79,6 +79,7 @@ class CustomAppBar extends AppBar {
         children: [
           SizedBox(
             width: 25,
+            height: 25,
             child: SvgPicture.asset(
               icPath,
               fit: BoxFit.scaleDown,
@@ -113,7 +114,7 @@ class CustomAppBar extends AppBar {
   @override
   Widget? get leading => leftIcPath != null
       ? InkWell(
-          borderRadius: const BorderRadius.all(Radius.circular(24)),
+          borderRadius: const BorderRadius.all(Radius.circular(48)),
           onTap: onLeftPress ??
               () {
                 context.router.pop();
