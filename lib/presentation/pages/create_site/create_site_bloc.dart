@@ -89,16 +89,22 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
     address +=
         "${factoryFloorAddress.wards ?? ''}${factoryFloorAddress.buildingNumber ?? ''}";
     var siteParams = state.siteParams.copyWith(
-        members: memberIds,
-        address: address.isNotEmpty ? address : null,
-        isDraft: event.isDaft,
-        occupations: state.occupation != null ? [state.occupation!.id] : null,
-      imageType1: state.siteParams.imageType1.map((e) => ImageParams(url: e.path ?? "")).toList(),
-      imageType2: state.siteParams.imageType2.map((e) => ImageParams(url: e.path ?? "")).toList(),
+      members: memberIds,
+      address: address.isNotEmpty ? address : null,
+      isDraft: event.isDaft,
+      occupations: state.occupation != null ? [state.occupation!.id] : null,
+      imageType1: state.siteParams.imageType1
+          .map((e) => ImageParams(url: e.path ?? ""))
+          .toList(),
+      imageType2: state.siteParams.imageType2
+          .map((e) => ImageParams(url: e.path ?? ""))
+          .toList(),
     );
     if (siteParams.id != null) {
       await _updateSiteUseCase(siteParams.copyWith(
-          status: siteParams.status == 0 && !event.isDaft ? 1 : siteParams.status, isDraft: event.isDaft));
+          status:
+              siteParams.status == 0 && !event.isDaft ? 1 : siteParams.status,
+          isDraft: event.isDaft));
     } else {
       await _createSiteUseCase(siteParams);
     }
@@ -125,7 +131,8 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
       CreateSiteAddImages event, Emitter<CreateSiteState> emit) async {
     EasyLoading.show();
     var result = await _uploadImagesUseCase(event.images);
-    var imagesParams = result.map((e) => ImageParams(url: e.url, path: e.path)).toList();
+    var imagesParams =
+        result.map((e) => ImageParams(url: e.url ?? "", path: e.path)).toList();
     var updatedSiteParams = event.imageType == 1
         ? state.siteParams.copyWith(
             imageType1: List.from(state.siteParams.imageType1)
@@ -273,6 +280,7 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
           occupation: siteDetailsResult?.occupations.firstOrNull,
           siteParams: siteDetailsResult != null
               ? SiteMapper.responseToRequest(siteDetailsResult!)
+                  .copyWith(id: event.isCopy ? null : siteDetailsResult!.id)
               : SiteParams(
                   startDayRequest: DateTime.now(),
                   endDayRequest: DateTime.now(),

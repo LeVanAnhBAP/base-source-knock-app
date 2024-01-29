@@ -6,8 +6,11 @@ import 'package:injectable/injectable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/data/models/request/paginate_site_params.dart';
+import 'package:uq_system_app/data/models/response/site_response.dart';
+import 'package:uq_system_app/data/models/response/unread_count_response.dart';
+import 'package:uq_system_app/data/usecases/nofity/get_notify_usecase.dart';
+import 'package:uq_system_app/data/usecases/nofity/get_unread_count_usecase.dart';
 import 'package:uq_system_app/data/usecases/site/paginate_site_usecase.dart';
-import 'package:uq_system_app/data/usecases/user/get_account_usecase.dart';
 
 import 'home_event.dart';
 import 'home_state.dart';
@@ -15,12 +18,15 @@ import 'home_state.dart';
 @lazySingleton
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final PaginateSiteUseCase _paginateSiteUseCase;
+  final GetUnreadCountUseCase _getUnreadCountUseCase;
+  final GetNotifyUseCase _getNotifyUseCase;
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
   int page = 1;
   String _startDayRequest = "";
 
-  HomeBloc(this._paginateSiteUseCase)
+  HomeBloc(this._paginateSiteUseCase, this._getUnreadCountUseCase,
+      this._getNotifyUseCase)
       : super(const HomeState()) {
     on<DashboardHomeGetDataStarted>(_onGetDataStated);
     on<HomeErrorOccurred>(_onErrorOccurred);
@@ -50,8 +56,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeErrorOccurred event,
     Emitter<HomeState> emit,
   ) {
-    if(refreshController.isLoading) refreshController.loadComplete();
-    if(refreshController.isRefresh) refreshController.refreshCompleted();
+    if (refreshController.isLoading) refreshController.loadComplete();
+    if (refreshController.isRefresh) refreshController.refreshCompleted();
     emit(state.copyWith(
       status: HomeStatus.failure,
       error: event.error,
@@ -64,12 +70,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(state.copyWith(status: HomeStatus.loading));
     _startDayRequest = DateFormat("yyyy-MM-dd").format(DateTime.now());
-    var result = await _paginateSiteUseCase(
-        PaginateSiteParams(page: page, startDayRequest: _startDayRequest));
-    emit(state.copyWith(
-        status: HomeStatus.success,
-        sites: result,
-        startDayRequest: DateTime.now()));
+    await Future.wait([
+      _paginateSiteUseCase(
+          PaginateSiteParams(page: page, startDayRequest: _startDayRequest)),
+      _getUnreadCountUseCase(),
+      _getNotifyUseCase(),
+    ]).then((value){
+      emit(state.copyWith(
+          status: HomeStatus.success,
+          sites: value[0] as List<SiteResponse>,
+          unreadNotifyCount: (value[1] as UnreadCount).count,
+          startDayRequest: DateTime.now()));
+    });
   }
 
   FutureOr<void> _onRefreshData(

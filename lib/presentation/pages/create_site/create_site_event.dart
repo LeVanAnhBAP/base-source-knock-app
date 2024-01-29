@@ -15,7 +15,7 @@ part 'create_site_event.freezed.dart';
 @freezed
 class CreateSiteEvent with _$CreateSiteEvent {
   const factory CreateSiteEvent.errorOccurred([BaseException? error]) = CreateSiteErrorOccurred;
-  const factory CreateSiteEvent.loadInfo({int? siteId,required int userId}) = CreateSiteLoadInfo;
+  const factory CreateSiteEvent.loadInfo({int? siteId,required bool isCopy,required int userId}) = CreateSiteLoadInfo;
   const factory CreateSiteEvent.updateMembers({required List<Member> newMembers}) = CreateSiteUpdateMembers;
   const factory CreateSiteEvent.removeMember({required int id}) = CreateSiteRemoveMemeber;
   const factory CreateSiteEvent.updateOccupation({required OccupationResponse occupation}) = CreateSiteUpdateOccupation;

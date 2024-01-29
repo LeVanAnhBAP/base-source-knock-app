@@ -16,6 +16,7 @@ import '../../blocs/system/system_bloc.dart';
 import '../../blocs/system/system_state.dart';
 import '../../widgets/alert_dialog.dart';
 import 'widgets/icon_item.dart';
+import 'package:badges/badges.dart' as badges;
 
 @RoutePage()
 class DashboardPage extends StatefulWidget {
@@ -26,7 +27,7 @@ class DashboardPage extends StatefulWidget {
     return _DashboardPageState();
   }
 }
-
+final dashboardKey = GlobalKey<_DashboardPageState>();
 class _DashboardPageState extends State<DashboardPage> {
   late int companyType;
 
@@ -62,10 +63,13 @@ class _DashboardPageState extends State<DashboardPage> {
           onTap: tabsRouter.setActiveIndex,
           items: [
             BottomNavigationBarItem(
-              activeIcon: IconItem(
-                  path: Assets.icons.svg.icDashboardHome.path,
-                  isSelected: tabsRouter.activeIndex == 0),
-              icon: IconItem(path: Assets.icons.svg.icDashboardHome.path),
+              activeIcon: badges.Badge(
+                child: IconItem(
+                    path: Assets.icons.svg.icDashboardHome.path,
+                    isSelected: tabsRouter.activeIndex == 0),
+              ),
+              icon: badges.Badge(
+                  child: IconItem(path: Assets.icons.svg.icDashboardHome.path)),
               label: context.tr(LocaleKeys.Dashboard_Home),
             ),
             BottomNavigationBarItem(
@@ -76,10 +80,12 @@ class _DashboardPageState extends State<DashboardPage> {
               label: context.tr(LocaleKeys.Dashboard_OnSite),
             ),
             BottomNavigationBarItem(
-              activeIcon: IconItem(
-                  path: Assets.icons.svg.icDashboardChat.path,
-                  isSelected: tabsRouter.activeIndex == 2),
-              icon: IconItem(path: Assets.icons.svg.icDashboardChat.path),
+              activeIcon: badges.Badge(
+                child: IconItem(
+                    path: Assets.icons.svg.icDashboardChat.path,
+                    isSelected: tabsRouter.activeIndex == 2),
+              ),
+              icon: badges.Badge(child: IconItem(path: Assets.icons.svg.icDashboardChat.path)),
               label: context.tr(LocaleKeys.Dashboard_Chat),
             ),
             if (companyType == 1)

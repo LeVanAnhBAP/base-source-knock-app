@@ -10,8 +10,9 @@ import 'package:uq_system_app/utils/utils.dart';
 class SiteItem extends StatelessWidget {
   final SiteResponse site;
   final int companyType;
+  final void Function()? onReload;
 
-  const SiteItem({super.key, required this.site, required this.companyType});
+  const SiteItem({super.key, required this.site, required this.companyType, this.onReload});
 
   @override
   Widget build(BuildContext context) {
@@ -158,10 +159,15 @@ class SiteItem extends StatelessWidget {
           child: InkWell(
             onTap: () {
               if (site.status == 0) {
-                context.router.push(CreateSiteRoute(siteId: site.id, isDraft: true));
+                 context.router.push(CreateSiteRoute(siteId: site.id, isDraft: true)).then((value){
+                 onReload?.call();
+               });
               } else {
-                context.router.push(SiteDetailsRoute(siteId: site.id));
+                context.router.push(SiteDetailsRoute(siteId: site.id)).then((value){
+                  onReload?.call();
+                });
               }
+
             },
             child: Container(
               decoration: BoxDecoration(

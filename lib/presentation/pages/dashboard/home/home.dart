@@ -134,17 +134,24 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
           Positioned(
               top: 0,
               right: 0,
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                    shape: BoxShape.circle, color: Colors.red),
-                child: Text(
-                  "2",
-                  style: context.typographies.subBody3
-                      .withSize(12)
-                      .withColor(Colors.white)
-                      .withWeight(FontWeight.w600),
-                ),
+              child: HomeStatusSelector(
+                builder: (HomeStatus data) {
+                  if(_bloc.state.unreadNotifyCount > 0){
+                    return Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle, color: Colors.red),
+                      child: Text(
+                        _bloc.state.unreadNotifyCount.toString(),
+                        style: context.typographies.subBody3
+                            .withSize(12)
+                            .withColor(Colors.white)
+                            .withWeight(FontWeight.w600),
+                      ),
+                    );
+                  }
+                  return Container();
+                },
               )),
         ],
       ),
@@ -217,6 +224,9 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
                 itemBuilder: (context, index) => SiteItem(
                   site: sites[index],
                   companyType: account?.company.type ?? 1,
+                  onReload: (){
+                    _onRefresh();
+                  },
                 ),
               ),
             ],

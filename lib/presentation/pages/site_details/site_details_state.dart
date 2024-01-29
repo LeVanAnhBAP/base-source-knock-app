@@ -8,6 +8,7 @@ enum SiteDetailsStatus {
   initial,
   loading,
   success,
+  removed,
   failure,
 }
 

@@ -23,6 +23,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: CreateSitePage(
           siteId: args.siteId,
           isDraft: args.isDraft,
+          isCopy: args.isCopy,
         ),
       );
     },
@@ -144,9 +145,10 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     WorkerMapRoute.name: (routeData) {
+      final args = routeData.argsAs<WorkerMapRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: WorkerMapPage(),
+        child: WorkerMapPage(args.siteId),
       );
     },
   };
@@ -158,12 +160,14 @@ class CreateSiteRoute extends PageRouteInfo<CreateSiteRouteArgs> {
   CreateSiteRoute({
     int? siteId,
     bool isDraft = false,
+    bool isCopy = false,
     List<PageRouteInfo>? children,
   }) : super(
           CreateSiteRoute.name,
           args: CreateSiteRouteArgs(
             siteId: siteId,
             isDraft: isDraft,
+            isCopy: isCopy,
           ),
           initialChildren: children,
         );
@@ -178,15 +182,18 @@ class CreateSiteRouteArgs {
   const CreateSiteRouteArgs({
     this.siteId,
     this.isDraft = false,
+    this.isCopy = false,
   });
 
   final int? siteId;
 
   final bool isDraft;
 
+  final bool isCopy;
+
   @override
   String toString() {
-    return 'CreateSiteRouteArgs{siteId: $siteId, isDraft: $isDraft}';
+    return 'CreateSiteRouteArgs{siteId: $siteId, isDraft: $isDraft, isCopy: $isCopy}';
   }
 }
 
@@ -537,14 +544,29 @@ class SplashRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [WorkerMapPage]
-class WorkerMapRoute extends PageRouteInfo<void> {
-  const WorkerMapRoute({List<PageRouteInfo>? children})
-      : super(
+class WorkerMapRoute extends PageRouteInfo<WorkerMapRouteArgs> {
+  WorkerMapRoute({
+    required int siteId,
+    List<PageRouteInfo>? children,
+  }) : super(
           WorkerMapRoute.name,
+          args: WorkerMapRouteArgs(siteId: siteId),
           initialChildren: children,
         );
 
   static const String name = 'WorkerMapRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<WorkerMapRouteArgs> page =
+      PageInfo<WorkerMapRouteArgs>(name);
+}
+
+class WorkerMapRouteArgs {
+  const WorkerMapRouteArgs({required this.siteId});
+
+  final int siteId;
+
+  @override
+  String toString() {
+    return 'WorkerMapRouteArgs{siteId: $siteId}';
+  }
 }

@@ -6,8 +6,8 @@ part 'image_response.g.dart';
 @freezed
 class ImageResponse with _$ImageResponse{
   const factory ImageResponse({
-    @JsonKey(name: 'url') required String url,
-    @JsonKey(name: 'path') required String path,
+    @JsonKey(name: 'url')  String? url,
+    @JsonKey(name: 'path')  String? path,
   }) = _ImageResponse;
      factory ImageResponse.fromJson(Map<String, dynamic> json) =>
       _$ImageResponseFromJson(json);

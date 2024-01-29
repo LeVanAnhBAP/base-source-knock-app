@@ -61,75 +61,82 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: _bloc,
-      child: Scaffold(
-        appBar: CustomAppBar(
-          context,
-          appBarTitle:
-              context.tr(LocaleKeys.SiteDetail_DetailedInformationOnSite),
-          rightIcPath: Assets.icons.svg.icMoreHorizontal.path,
-          onRightPress: () {
-            _displayMenuPopup();
-          },
-        ),
-        body: SiteDetailsStatusSelector(
-          builder: (data) {
-            if (data == SiteDetailsStatus.success) {
-              return Column(
-                children: [
-                  _buildHeader(),
-                  _buildTapBars(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Expanded(
-                      child: Container(
-                    color: Colors.white,
-                    child: Stack(
-                      children: [
-                        TabBarView(controller: controller, children: [
-                          _buildDetail(_bloc.state.siteDetails!),
-                          _buildImages(_bloc.state.siteDetails!)
-                        ]),
-                        Positioned(
-                            bottom: 5,
-                            left: 0,
-                            right: 0,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  await context.router
-                                      .push(CreateSiteRoute(
-                                          siteId: widget.siteId))
-                                      .then((value) {
-                                    if (value != null) {
-                                      _bloc.add(SiteDetailsEvent.loadData(
-                                          siteId: widget.siteId));
-                                    }
-                                  });
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: context.colors.tertiary,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15))),
-                                child: Text(
-                                  context.tr(LocaleKeys
-                                      .SiteDetail_MoveToCorrectionScreen),
-                                  style: context.typographies.title3Bold
-                                      .withColor(Colors.white),
-                                ),
-                              ),
-                            ))
-                      ],
+      child: MultiBlocListener(
+        listeners: [
+          SiteDetailsStatusListener(statuses: const  [SiteDetailsStatus.removed], listener: (context, state) {
+            context.router.pop();
+          },)
+        ],
+        child: Scaffold(
+          appBar: CustomAppBar(
+            context,
+            appBarTitle:
+                context.tr(LocaleKeys.SiteDetail_DetailedInformationOnSite),
+            rightIcPath: Assets.icons.svg.icMoreHorizontal.path,
+            onRightPress: () {
+              _displayMenuPopup();
+            },
+          ),
+          body: SiteDetailsStatusSelector(
+            builder: (data) {
+              if (data == SiteDetailsStatus.success) {
+                return Column(
+                  children: [
+                    _buildHeader(),
+                    _buildTapBars(),
+                    const SizedBox(
+                      height: 20,
                     ),
-                  )),
-                ],
-              );
-            }
-            return Container();
-          },
+                    Expanded(
+                        child: Container(
+                      color: Colors.white,
+                      child: Stack(
+                        children: [
+                          TabBarView(controller: controller, children: [
+                            _buildDetail(_bloc.state.siteDetails!),
+                            _buildImages(_bloc.state.siteDetails!)
+                          ]),
+                          Positioned(
+                              bottom: 5,
+                              left: 0,
+                              right: 0,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    await context.router
+                                        .push(CreateSiteRoute(
+                                            siteId: widget.siteId))
+                                        .then((value) {
+                                      if (value != null) {
+                                        _bloc.add(SiteDetailsEvent.loadData(
+                                            siteId: widget.siteId));
+                                      }
+                                    });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: context.colors.tertiary,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15))),
+                                  child: Text(
+                                    context.tr(LocaleKeys
+                                        .SiteDetail_MoveToCorrectionScreen),
+                                    style: context.typographies.title3Bold
+                                        .withColor(Colors.white),
+                                  ),
+                                ),
+                              ))
+                        ],
+                      ),
+                    )),
+                  ],
+                );
+              }
+              return Container();
+            },
+          ),
         ),
       ),
     );
@@ -495,7 +502,7 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Image.network(
-                    data.imageType1[index].url,
+                    data.imageType1[index].url ?? "",
                     fit: BoxFit.contain,
                   ),
                 ));
@@ -523,7 +530,7 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Image.network(
-                    data.imageType2[index].url,
+                    data.imageType2[index].url ?? "",
                     fit: BoxFit.contain,
                   ),
                 ));

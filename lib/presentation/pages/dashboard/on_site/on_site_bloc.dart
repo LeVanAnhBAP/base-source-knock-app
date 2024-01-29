@@ -45,7 +45,8 @@ class OnSiteBloc extends Bloc<OnSiteEvent, OnSiteState> {
   }
 
   FutureOr<void> _onLoad(OnSiteLoad event, Emitter<OnSiteState> emit) async {
-    if (!event.isRefresh) emit(const OnSiteState(status: OnSiteStatus.loading));
+    emit(const OnSiteState(status: OnSiteStatus.loading));
+    page = 1;
     var result = await _paginateSiteUseCase(PaginateSiteParams(page: page));
     emit(state.copyWith(
       status: OnSiteStatus.success,

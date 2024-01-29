@@ -144,7 +144,8 @@
     "AddOnSitePhoto" : "現場写真を追加",
     "YourRegistrationIsComplete" : "登録が完了しました",
     "YouWantToSaveTheScene" : "シーンを保存しますか",
-    "DoYouWantToReturnWithoutRegistering" : "登録しないで戻りますか？"
+    "DoYouWantToReturnWithoutRegistering" : "登録しないで戻りますか？",
+    "DoYouReallyWantToDeleteThis" : "本当に削除しますか？"
   },
   "SearchMember" : {
     "PersonInChargeSearch" : "担当者検索",
@@ -175,6 +176,9 @@
     "AmountExcludingTax" : "金額（税抜）",
     "Registration" : "登録",
     "Delete" : "削除"
+  },
+  "WorkerMap" : {
+    "SearchFromTheSite" : "現場から探す"
   },
   "InformationNotEntered" : "情報未入力",
   "PhotoLibrary" : "写真ライブラリ",

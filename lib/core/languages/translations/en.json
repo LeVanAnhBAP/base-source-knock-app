@@ -141,7 +141,8 @@
     "AddDrawing": "Add drawing",
     "AddOnSitePhoto" : "Add site photo",
     "YourRegistrationIsComplete" : "Registration is complete",
-    "DoYouWantToReturnWithoutRegistering" : "Do you want to return without registering?"
+    "DoYouWantToReturnWithoutRegistering" : "Do you want to return without registering?",
+    "DoYouReallyWantToDeleteThis" : "Are you sure you want to delete this?"
   },
   "SearchMember" : {
     "PersonInChargeSearch" : "PersonInChargeSearch",
@@ -172,6 +173,9 @@
     "Registration" : "Registration",
     "Delete" : "Delete",
     "UpTo100DetailLinesCanBeRegistered" : "Up to 100 detail lines can be registered."
+  },
+  "WorkerMap" : {
+    "SearchFromTheSite" : "Search from the site"
   },
   "InformationNotEntered" : "Information not entered",
   "PhotoLibrary" : "Photo Library",
