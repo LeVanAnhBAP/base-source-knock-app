@@ -21,8 +21,8 @@ enum CreateSiteStatus {
 @freezed
 class CreateSiteState with _$CreateSiteState {
   const factory CreateSiteState({
+    @Default(false) bool isEdited,
     @Default(SiteParams()) SiteParams siteParams,
-    @Default(0) int totalAmount,
     OccupationResponse? occupation,
     StaticDataResponse? staticData,
     @Default(<Member>[]) List<Member> members,

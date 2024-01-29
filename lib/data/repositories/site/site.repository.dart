@@ -11,7 +11,9 @@ import 'package:uq_system_app/data/models/response/tax_rate_response.dart';
 
 abstract class SiteRepository{
   Future<List<SiteResponse>> paginateSite(PaginateSiteParams request);
-  Future<SiteDetailsResponse> createSite(SiteParams siteParams);
+  Future<SiteDetailsResponse> getSiteDetails(int siteId);
+  Future<void> createSite(SiteParams siteParams);
+  Future<void> updateSite(SiteParams siteParams);
   Future<TaxRateResponse> getTaxRate(String name);
   Future<List<ImageResponse>> upLoadImages(List<File> images);
 }

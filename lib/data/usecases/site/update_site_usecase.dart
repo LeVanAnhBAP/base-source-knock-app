@@ -5,12 +5,12 @@ import 'package:uq_system_app/data/models/request/site_params.dart';
 import 'package:uq_system_app/data/repositories/site/site.repository.dart';
 
 @injectable
-class CreateSiteUseCase extends UseCase<void, SiteParams>{
-  final SiteRepository _siteRepository;
-  CreateSiteUseCase(this._siteRepository);
+class UpdateSiteUseCase extends UseCase<void , SiteParams>{
+  final SiteRepository _repository;
+  UpdateSiteUseCase(this._repository);
   @override
   Future<void> call(SiteParams params) {
-    return _siteRepository.createSite(params);
+    return _repository.updateSite(params);
   }
-  
+
 }

@@ -139,7 +139,9 @@
     "MoveToCorrectionScreen": "Move to correction screen",
     "Upload" : "Upload",
     "AddDrawing": "Add drawing",
-    "AddOnSitePhoto" : "Add site photo"
+    "AddOnSitePhoto" : "Add site photo",
+    "YourRegistrationIsComplete" : "Registration is complete",
+    "DoYouWantToReturnWithoutRegistering" : "Do you want to return without registering?"
   },
   "SearchMember" : {
     "PersonInChargeSearch" : "PersonInChargeSearch",
@@ -175,5 +177,8 @@
   "PhotoLibrary" : "Photo Library",
   "TakeAPhoto" : "Take a photo",
   "FileSelection" : "File selection",
-  "Cancel" : "Cancel"
+  "Cancel" : "Cancel",
+  "AreYouSureYouWantToSaveTheScene" : "Are you sure you want to save the scene?",
+  "Yes" : "Yes",
+  "No": "No"
 }

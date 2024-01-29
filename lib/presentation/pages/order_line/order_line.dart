@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uq_system_app/core/extensions/text_style.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
-import 'package:uq_system_app/data/models/request/price_order_detail_params.dart';
+import 'package:uq_system_app/data/models/price_order_detail_model.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/pages/order_line/order_line_bloc.dart';
 import 'package:uq_system_app/presentation/pages/order_line/order_line_event.dart';
@@ -23,7 +23,7 @@ import '../../widgets/input_container.dart';
 
 @RoutePage()
 class OrderLinePage extends StatefulWidget {
-  final PriceOrderDetailParams? params;
+  final PriceOrderDetailModel? params;
   final List<CommonItemResponse> units;
 
   const OrderLinePage(this.params, this.units);
@@ -53,7 +53,7 @@ class _OrderLinePageState extends State<OrderLinePage> {
       _priceUnitController.text = "¥${Utils.formatCurrency(widget.params!.priceUnit!.toString())}";
     } else {
       _bloc.add(OrderLineUpdateParams(
-          prams: PriceOrderDetailParams(unit: widget.units[0].id)));
+          prams: PriceOrderDetailModel(unit: widget.units[0].id)));
     }
   }
 

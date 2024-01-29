@@ -17,6 +17,7 @@ class MainTextField extends StatefulWidget {
   final TextEditingController? controller;
   final void Function(PointerDownEvent)? onTapOutside;
   final void Function()? onTap;
+  final void Function(String value)? onChanged;
 
   const MainTextField(
       {super.key,
@@ -31,7 +32,8 @@ class MainTextField extends StatefulWidget {
       this.textInputType,
       this.inputFormatters,
       this.onTapOutside,
-      this.onTap});
+      this.onTap,
+      this.onChanged});
 
   @override
   State<MainTextField> createState() => _MainTextFieldState();
@@ -48,7 +50,6 @@ class _MainTextFieldState extends State<MainTextField> {
       children: [
         InputContainer(
             height: widget.height,
-            alignment: Alignment.topLeft,
             child: TextField(
               keyboardType: widget.textInputType,
               inputFormatters: widget.inputFormatters,
@@ -61,6 +62,7 @@ class _MainTextFieldState extends State<MainTextField> {
                     counterText = value.length;
                   });
                 }
+                widget.onChanged?.call(value);
               },
               onTap: widget.onTap,
               onTapOutside: widget.onTapOutside,
@@ -68,11 +70,15 @@ class _MainTextFieldState extends State<MainTextField> {
               style: context.typographies.bodyBold
                   .withColor(context.colors.primary),
               decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                  counter: Container(),
-                  error: Container(),
+
+                  errorMaxLines: 0,
+                  isCollapsed: true,
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                  counter: const SizedBox.shrink(),
+                  // error: const SizedBox.shrink(),
                   fillColor: const Color(0xffF7F8FA),
-                  hintStyle: const TextStyle(color: Color(0xffA2A2A2)),
+                  hintStyle: context.typographies.body.withColor(context.colors.primary),
                   hintText: widget.hintText,
                   border: InputBorder.none),
               maxLines: widget.maxLines,

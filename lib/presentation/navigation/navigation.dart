@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:uq_system_app/data/models/request/price_order_detail_params.dart';
+import 'package:uq_system_app/data/models/price_order_detail_model.dart';
 import 'package:uq_system_app/data/models/response/common_item_response.dart';
 import 'package:uq_system_app/data/models/response/occupation_major_response.dart';
 import 'package:uq_system_app/data/models/response/occupation_response.dart';
@@ -23,6 +23,7 @@ import 'package:uq_system_app/presentation/pages/search_member/search_member.dar
 import 'package:uq_system_app/presentation/pages/site_details/site_details.dart';
 
 import 'package:uq_system_app/presentation/pages/splash/splash.dart';
+import 'package:uq_system_app/presentation/pages/worker_map/worker_map.dart';
 
 part 'navigation.gr.dart';
 
@@ -50,6 +51,7 @@ class AppRouter extends _$AppRouter{
     AutoRoute(path: '/occupation', page: OccupationRoute.page),
     AutoRoute(path: '/order_details', page: OrderDetailsRoute.page),
     AutoRoute(path: '/order_line', page: OrderLineRoute.page),
+    AutoRoute(path: '/worker_map', page: WorkerMapRoute.page),
 
   ];
 @override

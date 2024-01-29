@@ -6,7 +6,8 @@ part 'image_params.g.dart';
 @freezed
 class ImageParams with _$ImageParams{
   const factory ImageParams({
-    @JsonKey(name: 'url') required String url
+    @JsonKey(name: 'url') required String url,
+    @JsonKey(name : 'path') String? path
 }) = _ImageParams;
   factory ImageParams.fromJson(Map<String, Object?> json) =>
       _$ImageParamsFromJson(json);

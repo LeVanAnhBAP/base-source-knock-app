@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
-import 'package:uq_system_app/data/models/request/price_order_detail_params.dart';
+import 'package:uq_system_app/data/models/price_order_detail_model.dart';
 import 'package:uq_system_app/presentation/pages/order_details/order_details_event.dart';
 import 'package:uq_system_app/presentation/pages/order_details/order_details_state.dart';
 
@@ -38,12 +38,12 @@ class OrderDetailsBloc extends Bloc<OrderDetailsEvent, OrderDetailsState> {
     OrderDetailsUpdate event,
     Emitter<OrderDetailsState> emit,
   ) {
-    var newPriceOrders = List<PriceOrderDetailParams>.from(state.priceOrders);
+    var newPriceOrders = List<PriceOrderDetailModel>.from(state.priceOrders);
     newPriceOrders[event.index] = event.params;
     _updateState(newPriceOrders, emit);
   }
   FutureOr<void> _updateState(
-      List<PriceOrderDetailParams> newPriceOrders,
+      List<PriceOrderDetailModel> newPriceOrders,
       Emitter<OrderDetailsState> emit,
       ) async{
     var total = newPriceOrders.fold<int>(

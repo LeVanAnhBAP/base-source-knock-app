@@ -141,7 +141,10 @@
     "MoveToCorrectionScreen" : "修正画面へ移動",
     "Upload" : "アップロード",
     "AddDrawing" : "図面を追加",
-    "AddOnSitePhoto" : "現場写真を追加"
+    "AddOnSitePhoto" : "現場写真を追加",
+    "YourRegistrationIsComplete" : "登録が完了しました",
+    "YouWantToSaveTheScene" : "シーンを保存しますか",
+    "DoYouWantToReturnWithoutRegistering" : "登録しないで戻りますか？"
   },
   "SearchMember" : {
     "PersonInChargeSearch" : "担当者検索",
@@ -177,6 +180,9 @@
   "PhotoLibrary" : "写真ライブラリ",
   "TakeAPhoto" : "写真を撮る",
   "FileSelection" : "ファイル選択",
-  "Cancel" : "キャンセル"
+  "Cancel" : "キャンセル",
+  "AreYouSureYouWantToSaveTheScene" : "現場を保存して、 よろしいでしょうか",
+  "Yes" : "はい",
+  "No" : "いいえ"
 
 }

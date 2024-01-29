@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
-import 'package:uq_system_app/data/models/request/price_order_detail_params.dart';
+import 'package:uq_system_app/data/models/price_order_detail_model.dart';
 
 part 'order_line_state.freezed.dart';
 
@@ -16,7 +16,7 @@ enum OrderLineStatus {
 class OrderLineState with _$OrderLineState {
   const factory OrderLineState({
     @Default(false) bool isValidate,
-    @Default(PriceOrderDetailParams()) PriceOrderDetailParams params,
+    @Default(PriceOrderDetailModel()) PriceOrderDetailModel params,
     @Default(0) int total,
     @Default(OrderLineStatus.initial) OrderLineStatus status,
     BaseException? error,

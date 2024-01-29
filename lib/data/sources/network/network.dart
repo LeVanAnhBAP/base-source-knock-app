@@ -51,8 +51,19 @@ abstract class NetworkDataSource {
     @Query('name') String? name,
   );
   @POST(NetworkUrls.factoryFloor)
-  Future<BaseResponse<SiteDetailsResponse>> createSite(
+  Future<BaseResponse> createSite(
       @Body() SiteParams request,
+      );
+
+  @GET('${NetworkUrls.factoryFloor}/{id}')
+  Future<BaseResponse<SiteDetailsResponse>> getSiteDetails(
+      @Path('id') int siteId,
+      );
+
+  @PUT('${NetworkUrls.factoryFloor}/{id}')
+  Future<BaseResponse> updateSite(
+      @Path('id') int siteId,
+      @Body() SiteParams request
       );
   //Partner
   @GET(NetworkUrls.searchPartner)

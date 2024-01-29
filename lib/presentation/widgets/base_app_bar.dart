@@ -49,7 +49,6 @@ class CustomAppBar extends AppBar {
   Widget? get title => Container(
         margin: titleMargin ??
             const EdgeInsets.only(
-              right: 34,
               top: 0,
               bottom: 0,
             ),
@@ -80,6 +79,7 @@ class CustomAppBar extends AppBar {
         children: [
           SizedBox(
             width: 25,
+            height: 25,
             child: SvgPicture.asset(
               icPath,
               fit: BoxFit.scaleDown,
@@ -101,10 +101,11 @@ class CustomAppBar extends AppBar {
   @override
   List<Widget>? get actions => [
         if (rightIcPath != null)
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: InkWell(
-              onTap: onRightPress,
+          InkWell(
+            borderRadius: const BorderRadius.all(Radius.circular(50)),
+            onTap: onRightPress,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal : 15),
               child: _buildIcon(rightIcPath!, rightIcDescription),
             ),
           ),
@@ -113,7 +114,7 @@ class CustomAppBar extends AppBar {
   @override
   Widget? get leading => leftIcPath != null
       ? InkWell(
-          borderRadius: const BorderRadius.all(Radius.circular(24)),
+          borderRadius: const BorderRadius.all(Radius.circular(48)),
           onTap: onLeftPress ??
               () {
                 context.router.pop();
