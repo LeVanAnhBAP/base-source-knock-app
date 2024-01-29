@@ -27,7 +27,6 @@ class DashboardHomePage extends StatefulWidget {
 
 class _DashboardHomePageState extends State<DashboardHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
   final Map<DateTime, List<String>> _events = {
     DateTime(2023, 1, 2): ['Event 1', 'Event 2'],
@@ -77,7 +76,9 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
             },
             rightButtonIcon: Assets.icons.svg.icFeatherBell.path,
           ),
-          drawer:DashboardDrawer(context: context,),
+          drawer: DashboardDrawer(
+            context: context,
+          ),
           body: Container(
               margin: const EdgeInsets.only(
                 left: 16,
@@ -152,11 +153,9 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
         calendarStyle: CalendarStyle(
           defaultTextStyle: context.typographies.body,
           weekendTextStyle: context.typographies.body,
-          todayDecoration: BoxDecoration(
-            color: context.colors.background
-          ),
+          todayDecoration: BoxDecoration(color: context.colors.background),
           todayTextStyle: context.typographies.body,
-          selectedDecoration:  BoxDecoration(
+          selectedDecoration: BoxDecoration(
             color: context.colors.secondary,
             shape: BoxShape.circle,
           ),
@@ -183,13 +182,31 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
     );
   }
 
-  Widget title() {
+  Widget title(int totalPage) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          '${DateFormat('M/dd', 'ja_JP').format(_selectedDay)} の現場',
-          style: context.typographies.body,
+        Row(
+          children: [
+            Text(
+              '${DateFormat('M/dd', 'ja_JP').format(_selectedDay)} ',
+              style: context.typographies.body,
+            ),
+            const Gap(4),
+            Text(
+              'の現場',
+              style: context.typographies.caption1,
+            ),
+            const Gap(4),
+            CircleAvatar(
+              radius: 10,
+              backgroundColor: context.colors.primary,
+              child: Text(
+                totalPage.toString(),
+                style: TextStyle(fontSize: 13, color: context.colors.text),
+              ),
+            )
+          ],
         ),
         Row(
           children: [
@@ -247,7 +264,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
                 notificationButton(),
                 calendar(),
                 const SizedBox(height: 24),
-                title(),
+                title(state.totalPage ?? 0),
                 const SizedBox(height: 8),
                 listCard(listData: state.listData ?? []),
               ],

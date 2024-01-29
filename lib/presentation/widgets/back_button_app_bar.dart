@@ -36,6 +36,7 @@ class BackAppBar extends StatelessWidget implements PreferredSizeWidget {
                   fontSize: 24,
                 ),
               ),
+              const SizedBox(height: 4),
               Container(
                 decoration: BoxDecoration(
                     color: context.colors.warning,

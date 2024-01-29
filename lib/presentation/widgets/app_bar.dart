@@ -50,6 +50,7 @@ class AppBars extends StatelessWidget implements PreferredSizeWidget {
                   fontFamily: 'hiraginoW3',
                 ),
               ),
+              const SizedBox(height: 4),
               Container(
                 decoration: BoxDecoration(
                     color: context.colors.warning,

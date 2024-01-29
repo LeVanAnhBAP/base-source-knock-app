@@ -50,7 +50,7 @@ class _SiteDetailsState extends State<SiteDetailsPage>
 
   String convertOrderNumber(String? orderNumber) {
     if (orderNumber == null) {
-      return 'null';
+      return '00000';
     } else {
       String numString = orderNumber.toString();
       return numString.length >= 5
@@ -129,7 +129,7 @@ class _SiteDetailsState extends State<SiteDetailsPage>
                     children: [
                       Container(
                         padding: const EdgeInsets.all(4),
-                        height: 40,
+                        height: 48,
                         width: 300,
                         decoration: BoxDecoration(
                             color: context.colors.background,
@@ -181,29 +181,88 @@ class _SiteDetailsState extends State<SiteDetailsPage>
   }
 
   Widget _buildImageTab() {
+    List<dynamic>? listImage1 = _currentSiteDetail?['image_type_1'] ?? [];
+    int listImage1length =
+        listImage1 != null || listImage1!.isNotEmpty ? listImage1.length : 0;
+    List<dynamic>? listImage2 = _currentSiteDetail?['image_type_2'] ?? [];
+    int listImage2length =
+        listImage2 != null || listImage2!.isNotEmpty ? listImage2.length : 0;
     return Container(
       padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
       color: context.colors.background,
       child: ListView(
         children: [
-          const TitleDetail(text: 'abcdef'),
+          const TitleDetail(text: 'Image type 1'),
           SizedBox(
-            height: 400,
+            height: (200 * ((listImage1length / 2).round())).toDouble(),
             child: GridView.builder(
+                shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 4,
+                itemCount: listImage1length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisSpacing: 32,
-                  crossAxisSpacing: 32,
-                  mainAxisExtent: 160,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 16,
                 ),
                 itemBuilder: (context, index) {
                   return Container(
+                    padding: const EdgeInsets.all(8),
+                    margin: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                        color: context.colors.border,
+                        color: const Color.fromRGBO(247, 248, 250, 1),
+                        border: Border.all(
+                            color: context.colors.background, width: 2),
+                        boxShadow: [
+                          BoxShadow(
+                            color: context.colors.disabled,
+                            offset: const Offset(0, 0),
+                            blurRadius: 12,
+                            spreadRadius: 0.3,
+                          ),
+                        ],
                         borderRadius:
                             const BorderRadius.all(Radius.circular(32))),
+                    child: Image.network(
+                      listImage1[index]['url'],
+                      fit: BoxFit.contain,
+                    ),
+                  );
+                }),
+          ),
+          const TitleDetail(text: 'Image type 2'),
+          SizedBox(
+            height: (200 * ((listImage2length / 2).round())).toDouble(),
+            child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: listImage2length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 16,
+                ),
+                itemBuilder: (context, index) {
+                  return Container(
+                    padding: const EdgeInsets.all(8),
+                    margin: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                        color: const Color.fromRGBO(247, 248, 250, 1),
+                        border: Border.all(
+                            color: context.colors.background, width: 2),
+                        boxShadow: [
+                          BoxShadow(
+                            color: context.colors.disabled,
+                            offset: const Offset(0, 0),
+                            blurRadius: 12,
+                            spreadRadius: 0.3,
+                          ),
+                        ],
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(32))),
+                    child: Image.network(
+                      listImage2[index]['url'],
+                      fit: BoxFit.contain,
+                    ),
                   );
                 }),
           )
@@ -260,13 +319,15 @@ class _SiteDetailsState extends State<SiteDetailsPage>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: (siteDetail?['factory_floor_members']
-                                as List<dynamic>?)==[]
-                            ?
-                    [const Text('null')]
+                                as List<dynamic>?) ==
+                            null ||
+                        (siteDetail?['factory_floor_members']
+                                as List<dynamic>?)!
+                            .isEmpty
+                    ? [const Text('null')]
                     : List.generate(
-                        (siteDetail?['factory_floor_members'] as List<dynamic>?)
-                                ?.length ??
-                            0,
+                        (siteDetail?['factory_floor_members'] as List<dynamic>)
+                            .length,
                         (index) {
                           return Text(
                             '${siteDetail?['factory_floor_members'][index]['first_name']}'
@@ -292,12 +353,12 @@ class _SiteDetailsState extends State<SiteDetailsPage>
             children: [
               const TitleDetail(text: '職種'),
               ContentDetail(
-                  text: (siteDetail?['factory_floor_occupation'] == []
-                          ? null
-                          : siteDetail?['factory_floor_occupation'][0]
-                                  ['name'] ??
-                              'null')
-                      .toString()),
+                text: (siteDetail?['factory_floor_occupation'] != null &&
+                        siteDetail?['factory_floor_occupation'].isNotEmpty)
+                    ? (siteDetail?['factory_floor_occupation'][0]['name'])
+                        .toString()
+                    : 'null',
+              ),
             ],
           ),
           line(),
