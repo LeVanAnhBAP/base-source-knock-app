@@ -10,6 +10,8 @@ import 'package:uq_system_app/core/extensions/text_style.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
+import 'package:uq_system_app/presentation/blocs/system_notify/system_notify_bloc.dart';
+import 'package:uq_system_app/presentation/blocs/system_notify/system_notify_event.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_selector.dart';
@@ -37,7 +39,8 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
   @override
   void initState() {
     scheduleMicrotask(() {
-      _bloc.add(HomeEvent.paginateSite(DateTime.now()));
+      getIt.get<SystemNotifyBloc>().add(const SystemNotifyEvent.loadUnread());
+      _bloc.add(const HomeEvent.getDataStarted());
     });
     super.initState();
   }

@@ -3,16 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uq_system_app/presentation/pages/notification/notification_bloc.dart';
 import 'package:uq_system_app/presentation/pages/notification/notification_state.dart';
 
-class NotificationStatusSelector
-    extends BlocSelector<NotificationBloc, NotificationState, NotificationStatus> {
-  NotificationStatusSelector({
-    required Widget Function(NotificationStatus data) builder,
+class NotificationSelector<T>
+    extends BlocSelector<NotificationBloc, NotificationState, T> {
+  NotificationSelector({
+    required Widget Function(T data) builder,
+    required super.selector
   }) : super(
-          selector: (state) => state.status,
-          builder: (_, status) => builder(status),
+          builder: (_, data) => builder(data),
         );
 }
-
 class NotificationStatusListener extends BlocListener<NotificationBloc, NotificationState> {
   NotificationStatusListener({
     required Iterable<NotificationStatus> statuses,

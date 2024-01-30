@@ -8,8 +8,10 @@ import 'package:uq_system_app/data/models/request/site_params.dart';
 import 'package:uq_system_app/data/models/request/static_data_params.dart';
 import 'package:uq_system_app/data/models/response/account.dart';
 import 'package:uq_system_app/data/models/response/company_response.dart';
+import 'package:uq_system_app/data/models/response/deal_room_response.dart';
 import 'package:uq_system_app/data/models/response/image_response.dart';
 import 'package:uq_system_app/data/models/response/member_response.dart';
+import 'package:uq_system_app/data/models/response/notification_response.dart';
 import 'package:uq_system_app/data/models/response/partner_response.dart';
 import 'package:uq_system_app/data/models/response/address_info_response.dart';
 import 'package:uq_system_app/data/models/response/site_details_response.dart';
@@ -63,10 +65,11 @@ abstract class NetworkDataSource {
   Future<BaseResponse<SiteDetailsResponse>> getSiteDetails(
     @Path('id') int siteId,
   );
+
   @DELETE('${NetworkUrls.factoryFloor}/{id}')
   Future<BaseResponse> removeSite(
-      @Path('id') int siteId,
-      );
+    @Path('id') int siteId,
+  );
 
   @PUT('${NetworkUrls.factoryFloor}/{id}')
   Future<BaseResponse> updateSite(
@@ -132,6 +135,18 @@ abstract class NetworkDataSource {
   //Notify
   @GET(NetworkUrls.notify)
   Future<BaseResponse<UnreadResponse>> getNotify();
+
   @GET(NetworkUrls.unreadCount)
   Future<BaseResponse<UnreadCount>> getUnreadCount();
+
+  @GET(NetworkUrls.myNotifications)
+  Future<BaseResponse<PaginateResponse<List<NotificationResponse>>>> getNotifications(
+    @Query('page') int page,
+  );
+
+  //Chat
+  @GET(NetworkUrls.listRoomChatDeal)
+  Future<BaseResponse<PaginateResponse<List<DealRoomResponse>>>> getDealRooms(
+      @Query('page') int page,
+      );
 }

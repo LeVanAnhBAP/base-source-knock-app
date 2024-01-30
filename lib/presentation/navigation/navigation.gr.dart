@@ -69,6 +69,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const DashboardPage(),
       );
     },
+    DealRoomRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: DealRoomPage(),
+      );
+    },
     LoginRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -291,6 +297,20 @@ class DashboardRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'DashboardRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [DealRoomPage]
+class DealRoomRoute extends PageRouteInfo<void> {
+  const DealRoomRoute({List<PageRouteInfo>? children})
+      : super(
+          DealRoomRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DealRoomRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

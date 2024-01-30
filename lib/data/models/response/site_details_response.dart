@@ -34,13 +34,14 @@ class SiteDetailsResponse with _$SiteDetailsResponse {
     @JsonKey(name: 'tax_amount')  int? taxAmount,
     @JsonKey(name: 'prefecture_city_name') String? prefectureCityName,
     @JsonKey(name: 'factory_floor_members')
-    required List<MemberResponse> members,
+    @Default([])
+     List<MemberResponse> members,
     @JsonKey(name: 'factory_floor_occupation')
-    required List<OccupationResponse> occupations,
+    @Default([]) List<OccupationResponse> occupations,
     @JsonKey(name: 'price_order_details')
-    required List<PriceOrderDetailModel> priceOrderDetails,
-    @JsonKey(name: 'image_type_1') required List<ImageResponse> imageType1,
-    @JsonKey(name: 'image_type_2') required List<ImageResponse> imageType2,
+    @Default([]) List<PriceOrderDetailModel> priceOrderDetails,
+    @JsonKey(name: 'image_type_1')  @Default([]) List<ImageResponse> imageType1,
+    @JsonKey(name: 'image_type_2')  @Default([]) List<ImageResponse> imageType2,
   }) = _SiteDetailsResponse;
 
   factory SiteDetailsResponse.fromJson(Map<String, dynamic> json) =>

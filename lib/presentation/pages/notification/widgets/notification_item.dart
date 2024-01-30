@@ -10,7 +10,7 @@ class NotificationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(15),
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       padding: const EdgeInsets.only(left: 15, top: 12, bottom: 12, right: 10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
@@ -23,7 +23,7 @@ class NotificationItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  notification.title,
+                  notification.title ?? "",
                   style: context.typographies.body,
                 ),
                 Text(
@@ -33,13 +33,13 @@ class NotificationItem extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              height: 10,
+              height: 15,
             ),
             Row(
               children: [
                 Expanded(
                   child: Text(
-                    notification.content,
+                    notification.content ?? "",
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: context.typographies.subBody1,
@@ -50,17 +50,33 @@ class NotificationItem extends StatelessWidget {
                 )
               ],
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 15),
             Row(
               children: [
                 const SizedBox(width: 5),
-                AssetGenImage(Assets.images.imgBuildingLogo.path)
-                    .image(width: 25),
+                if(notification.siteOrder?.workCompany.logo?.url != null ) ...[
+                  CircleAvatar(
+                    radius: 15,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: Image.network(notification.siteOrder!.workCompany.logo!.url!, width: 25,errorBuilder:
+                        (BuildContext context, Object error, StackTrace? stackTrace) {
+                      return Container(
+                        height: 250,
+                        color: Colors.grey,
+                      );
+                    }).image,
+                  ),
+                ]
+                else ...[
+                  AssetGenImage(Assets.images.imgBuildingLogo.path)
+                      .image(width: 25)
+                ]
+                ,
                 const SizedBox(
-                  width: 5,
+                  width: 10,
                 ),
                 Text(
-                  notification.company,
+              notification.siteOrder?.workCompany.name ?? "",
                   style: context.typographies.subBody2,
                 )
               ],

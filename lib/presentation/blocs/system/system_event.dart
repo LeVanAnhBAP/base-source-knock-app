@@ -13,4 +13,5 @@ class SystemEvent with _$SystemEvent {
       SystemLanguageChanged;
 
   const factory SystemEvent.errorOccurred({BaseException? exception}) = SystemErrorOccurred;
+
 }
