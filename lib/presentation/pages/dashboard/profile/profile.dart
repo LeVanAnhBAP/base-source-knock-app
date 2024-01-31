@@ -75,116 +75,112 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
   }
 
   Widget _buildNestedScrollView(AccountState state) {
-    return NestedScrollView(
-      headerSliverBuilder: (context, innerBoxIsScrolled) {
-        return [
-          SliverAppBar(
-            backgroundColor: context.colors.background,
-            expandedHeight: 300.0,
-            floating: true,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              background: _buildAvatarAndBackground(state),
-            ),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(58),
-              child: Container(
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 60,
-                        vertical: 8,
-                      ),
-                      padding: const EdgeInsets.all(6),
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: context.colors.divider,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                      ),
-                      child: TabBar(
-                        indicator: BoxDecoration(
-                          color: context.colors.border,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(16),
-                          ),
-                        ),
-                        labelStyle: TextStyle(
-                          color: context.colors.background,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        unselectedLabelStyle: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        controller: _tabController,
-                        onTap: (index) {
-                          setState(() {
-                            _tabController.index = index;
-                          });
-                        },
-                        tabs: const [
-                          Tab(
-                            text: '本人情報',
-                          ),
-                          Tab(text: '会社情報'),
-                        ],
-                      ),
+    if (state.status == AccountStatus.loading) {
+      return const Center(
+        child: SizedBox(
+          width: 32,
+          height: 32,
+          child: CircularProgressIndicator(),
+        ),
+      );
+    } else if (state.status == AccountStatus.success) {
+      return NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              backgroundColor: context.colors.background,
+              expandedHeight: 300.0,
+              floating: true,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                background: _buildAvatarAndBackground(state),
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(58),
+                child: Container(
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
                     ),
-                    Container(
-                      color: context.colors.hint,
-                      height: 0.5,
-                    )
-                  ],
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 60,
+                          vertical: 8,
+                        ),
+                        padding: const EdgeInsets.all(6),
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: context.colors.divider,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                        child: TabBar(
+                          indicator: BoxDecoration(
+                            color: context.colors.border,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(16),
+                            ),
+                          ),
+                          labelStyle: TextStyle(
+                            color: context.colors.background,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          unselectedLabelStyle: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          controller: _tabController,
+                          onTap: (index) {
+                            setState(() {
+                              _tabController.index = index;
+                            });
+                          },
+                          tabs: const [
+                            Tab(
+                              text: '本人情報',
+                            ),
+                            Tab(text: '会社情報'),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        color: context.colors.hint,
+                        height: 0.5,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ];
-      },
-      body: _buildBody(state),
-    );
-  }
-
-  Widget _buildBody(AccountState state) {
-    if (state.status == AccountStatus.loading) {
-      return const Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: 32,
-            height: 32,
-            child: CircularProgressIndicator(),
-          ),
-        ],
-      );
-    } else if (state.status == AccountStatus.success) {
-      return DefaultTabController(
-        length: 2,
-        child: TabBarView(
-          controller: _tabController,
-          children: <Widget>[
-            _buildPersonalInformationTab(state),
-            _buildCompanyInformationTab(state),
-          ],
-        ),
+          ];
+        },
+        body: _buildBody(state),
       );
     } else {
-      // Handle error state
       return Center(
         child: Text('Error: ${state.error?.message ?? "Unknown error"}'),
       );
     }
+  }
+
+  Widget _buildBody(AccountState state) {
+    return DefaultTabController(
+      length: 2,
+      child: TabBarView(
+        controller: _tabController,
+        children: <Widget>[
+          _buildPersonalInformationTab(state),
+          _buildCompanyInformationTab(state),
+        ],
+      ),
+    );
   }
 
   Widget _buildAvatarAndBackground(AccountState state) {
@@ -303,51 +299,86 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
           ContentDetail(text: companyInfo['hp_url']),
           line(),
           rowContent(
-              title: '保有資格', content:  (companyInfo['certificate'] as List<dynamic>).isEmpty
-              ? [const Text('')]
-              : List.generate(
-              (companyInfo['certificate'] as List<dynamic>).length,
-                  (index) {
-                return index ==
-                    ((companyInfo['certificate'] as List<dynamic>)
-                        .length -
-                        1)
-                    ? Text(
-                  (companyInfo['certificate'][index]).toString(),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                )
-                    : Text(
-                  '${companyInfo['certificate'][index]}, ',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                );
-              }),
-
-            ),
+              title: '保有資格',
+              content: '${companyInfo['certificate'][0]}, '
+                  '${companyInfo['certificate'][1]}, '
+                  '${companyInfo['certificate'][2]}',
+              isAlignRight: true),
           line(),
-         rowContent(
-             title: '対応エリア',
-             content:  (companyInfo['work_areas'] as List<dynamic>).isEmpty
-                 ? [const Text('')]
-                 : List.generate(
-                 (companyInfo['work_areas'] as List<dynamic>).length,
-                     (index) {
-                   return index ==
-                       ((companyInfo['work_areas'] as List<dynamic>)
-                           .length -
-                           1)
-                       ? Text(
-                     (companyInfo['work_areas'][index]).toString(),
-                     maxLines: 1,
-                     overflow: TextOverflow.ellipsis,
-                   )
-                       : Text(
-                     '${companyInfo['work_areas'][index]['name']}, ',
-                     maxLines: 1,
-                     overflow: TextOverflow.ellipsis,
-                   );
-                 }), ),
+          rowContent(
+            title: '対応エリア',
+            content: '${companyInfo['work_areas'][0]['name']}, '
+                '${companyInfo['work_areas'][1]['name']}, '
+                '${companyInfo['work_areas'][2]['name']}, '
+                '${companyInfo['work_areas'][3]['name']}',
+            isAlignRight: true,
+          ),
+          line(),
+          rowContent(
+              title: '職種',
+              content: companyInfo['occupation_sub_item'][0]['name'],
+              isAlignRight: true),
+          line(),
+          const TitleDetail(text: '労災保険'),
+          ContentDetail(
+              text: companyInfo['fire_insurance'] == 1 ? '加入している' : '加入していない'),
+          const TitleDetail(text: '社会保険'),
+          ContentDetail(
+              text:
+                  companyInfo['social_insurance'] == 1 ? '加入している' : '加入していない'),
+          const TitleDetail(text: 'その他の保険'),
+          ContentDetail(text: companyInfo['other_insurance']['name']),
+          line(),
+          rowContent(title: '履歴事項全部証明書', content: '', isAlignRight: true),
+          line(),
+          rowContent(title: '建設業許可証明書', content: '', isAlignRight: true),
+          line(),
+          const TitleDetail(text: 'ひとこと紹介'),
+          ContentDetail(text: companyInfo['intro']),
+          const TitleDetail(text: '自己紹介'),
+          ContentDetail(text: companyInfo['self_intro']),
+          const TitleDetail(text: '稼働可能人数'),
+          ContentDetail(text: '${companyInfo['man_number']}人'),
+          line(),
+          const TitleDetail(text: '会計期間'),
+          rowContent(
+              title: '開始日',
+              content:
+                  ' ${companyInfo['start_period_month']}月${companyInfo['start_period_day']}日',
+              isAlignRight: false),
+          rowContent(
+              title: '終了日',
+              content:
+                  '${companyInfo['end_period_month']}月${companyInfo['end_period_day']}日',
+              isAlignRight: false),
+          line(),
+          const TitleDetail(text: '締め日'),
+          ContentDetail(text: companyInfo['deadline_day'].toString()),
+          const TitleDetail(text: '支払日'),
+          ContentDetail(text: '${companyInfo['payment_latter_month']}ヶ月後の月末日'),
+          line(),
+          const TitleDetail(text: '口座情報'),
+          rowContent(
+              title: '金融機関名',
+              content: companyInfo['bank_name'],
+              isAlignRight: false),
+          rowContent(
+              title: '支店名',
+              content: companyInfo['bank_branch_name'],
+              isAlignRight: false),
+          rowContent(
+              title: '口座種別',
+              content: companyInfo['bank_account_type'].toString(),
+              isAlignRight: false),
+          rowContent(
+              title: '口座番号',
+              content: companyInfo['bank_account_number'].toString(),
+              isAlignRight: false),
+          rowContent(
+              title: '口座名義',
+              content: companyInfo['bank_account_name'],
+              isAlignRight: false),
+          line(),
           const Gap(20),
         ],
       ),
@@ -362,17 +393,21 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
     );
   }
 
-  rowContent({required String title,required List<Widget> content}) {
-    Row(
+  rowContent(
+      {required String title,
+      required String content,
+      required bool isAlignRight}) {
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TitleDetail(text: title),
-        Container(
-          width: MediaQuery.of(context).size.width-140,
-          color: Colors.blue,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: content,
+        SizedBox(
+          width: MediaQuery.of(context).size.width - 200,
+          child: Align(
+            alignment: isAlignRight == true
+                ? Alignment.centerRight
+                : Alignment.centerLeft,
+            child: Text(content, maxLines: 1, overflow: TextOverflow.ellipsis),
           ),
         )
       ],

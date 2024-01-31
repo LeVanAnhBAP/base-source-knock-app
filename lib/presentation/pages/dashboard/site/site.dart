@@ -119,43 +119,43 @@ class _DashboardSitePageContentState extends State<DashboardSitePageContent> {
             return const Center(child: CircularProgressIndicator());
           } else if (state.status == SiteStatus.success) {
             if (state.listSite != null && state.listSite!.isNotEmpty) {
+              List<dynamic> listSite = state.listSite!;
               return Scrollbar(
                 thickness: 8,
                 isAlwaysShown: true,
                 controller: _scrollController,
                 child: ListView.builder(
                   controller: _scrollController,
-                  itemCount: state.listSite!.length,
+                  itemCount: listSite.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Column(
                       children: [
                         ScheduleCard(
-                          title: state.listSite![index]['name'] ?? 'null',
-                          location: state.listSite![index]['address'] ?? 'null',
-                          dayFrom: state.listSite![index]['start_day_request'],
-                          dayTo: state.listSite![index]['end_day_request'],
-                          company: state.listSite![index]
-                                  ['company_name_kana'] ??
-                              'null',
+                          title: listSite[index]['name'] ?? 'null',
+                          location: listSite[index]['address'] ?? 'null',
+                          dayFrom: listSite[index]['start_day_request'],
+                          dayTo: listSite[index]['end_day_request'],
+                          company:
+                              listSite[index]['company_name_kana'] ?? 'null',
                           companyLogo:
                               Assets.icons.png.icScheduleCardCompanyLogo.path,
                           clickDropRight: () {
-                            if (state.listSite![index]['status'].toString() ==
-                                '0') {
-                              context.router.push(const CreateSiteRoute());
+                            if (listSite[index]['status'].toString() == '0') {
+                              context.router.push(CreateSiteRoute(
+                                  siteID: listSite[index]['id'], accessToken: widget.accessToken));
                             } else {
                               context.router.push(
                                 SiteDetailsRoute(
-                                  id: state.listSite![index]['id'].toString(),
+                                  id: listSite[index]['id'].toString(),
                                   accessToken: widget.accessToken,
                                 ),
                               );
                             }
                           },
                           status: _statusCheck(
-                              state.listSite![index]['status'].toString()),
+                              listSite[index]['status'].toString()),
                           scheduleCreator:
-                              '${state.listSite![index]['first_name']} ${state.listSite![index]['last_name']}',
+                              '${listSite[index]['first_name']} ${listSite[index]['last_name']}',
                         ),
                         const SizedBox(height: 16),
                       ],

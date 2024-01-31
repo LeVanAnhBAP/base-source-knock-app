@@ -40,9 +40,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     CreateSiteRoute.name: (routeData) {
+      final args = routeData.argsAs<CreateSiteRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: CreateSitePage(),
+        child: CreateSitePage(
+          siteID: args.siteID,
+          accessToken: args.accessToken,
+        ),
       );
     },
     DashboardRoute.name: (routeData) {
@@ -175,16 +179,40 @@ class DashboardChatRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [CreateSitePage]
-class CreateSiteRoute extends PageRouteInfo<void> {
-  const CreateSiteRoute({List<PageRouteInfo>? children})
-      : super(
+class CreateSiteRoute extends PageRouteInfo<CreateSiteRouteArgs> {
+  CreateSiteRoute({
+    required int siteID,
+    required String accessToken,
+    List<PageRouteInfo>? children,
+  }) : super(
           CreateSiteRoute.name,
+          args: CreateSiteRouteArgs(
+            siteID: siteID,
+            accessToken: accessToken,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'CreateSiteRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<CreateSiteRouteArgs> page =
+      PageInfo<CreateSiteRouteArgs>(name);
+}
+
+class CreateSiteRouteArgs {
+  const CreateSiteRouteArgs({
+    required this.siteID,
+    required this.accessToken,
+  });
+
+  final int siteID;
+
+  final String accessToken;
+
+  @override
+  String toString() {
+    return 'CreateSiteRouteArgs{siteID: $siteID, accessToken: $accessToken}';
+  }
 }
 
 /// generated route for
