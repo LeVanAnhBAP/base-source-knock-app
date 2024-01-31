@@ -148,5 +148,6 @@ abstract class NetworkDataSource {
   @GET(NetworkUrls.listRoomChatDeal)
   Future<BaseResponse<PaginateResponse<List<DealRoomResponse>>>> getDealRooms(
       @Query('page') int page,
+      @Query('company_name') String companyName
       );
 }

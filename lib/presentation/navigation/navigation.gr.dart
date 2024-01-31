@@ -15,6 +15,12 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    ChatDealRoomRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ChatDealRoomPage(),
+      );
+    },
     CreateSiteRoute.name: (routeData) {
       final args = routeData.argsAs<CreateSiteRouteArgs>(
           orElse: () => const CreateSiteRouteArgs());
@@ -158,6 +164,20 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [ChatDealRoomPage]
+class ChatDealRoomRoute extends PageRouteInfo<void> {
+  const ChatDealRoomRoute({List<PageRouteInfo>? children})
+      : super(
+          ChatDealRoomRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ChatDealRoomRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

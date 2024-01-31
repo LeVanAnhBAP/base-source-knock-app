@@ -24,6 +24,7 @@ class DealRoomPage extends StatefulWidget {
 
 class _DealRoomPageState extends State<DealRoomPage> {
   final DealRoomBloc _bloc = getIt.get<DealRoomBloc>();
+  Timer? searchOnStoppedTyping;
   @override
   void initState() {
     super.initState();
@@ -37,7 +38,16 @@ class _DealRoomPageState extends State<DealRoomPage> {
 
     super.dispose();
   }
-
+  _onTextChangedHandler(value) {
+    if (searchOnStoppedTyping != null) {
+      setState(() {
+        searchOnStoppedTyping?.cancel();
+      });
+    }
+    setState(() => searchOnStoppedTyping = Timer(
+        const Duration(milliseconds: 200),
+            () => _bloc.add(DealRoomEvent.search(name: value))));
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
@@ -45,7 +55,7 @@ class _DealRoomPageState extends State<DealRoomPage> {
       child: Scaffold(
         appBar: CustomAppBar(
           context,
-          appBarTitle: '交渉ルーム',
+          titleText: '交渉ルーム',
         ),
         body: Column(
           children: [
@@ -76,6 +86,7 @@ class _DealRoomPageState extends State<DealRoomPage> {
             ),
             Expanded(
               child: TextField(
+                onChanged: _onTextChangedHandler,
                 style: context.typographies.subBody2,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.zero,
@@ -93,11 +104,15 @@ class _DealRoomPageState extends State<DealRoomPage> {
       ),
     );
   }
+  void _onLoading() async {
+    _bloc.add(const DealRoomEvent.loadMore());
+  }
 
   Widget _buildBody() {
     return SmartRefresher(
       enablePullDown: false,
       enablePullUp: true,
+      onLoading: _onLoading,
       controller: _bloc.refreshController,
       child: DealRoomSelector(
         builder: (data) {

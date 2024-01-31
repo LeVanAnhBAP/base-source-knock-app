@@ -7,6 +7,7 @@ part 'deal_room_state.freezed.dart';
 enum DealRoomStatus {
   initial,
   loading,
+  loadingMore,
   success,
   failure,
 }
@@ -16,6 +17,7 @@ class DealRoomState with _$DealRoomState {
   const factory DealRoomState({
     @Default([]) List<DealRoomResponse> dealRooms,
     @Default(1) int page,
+    @Default("") String searchCompanyName,
     @Default(DealRoomStatus.initial) DealRoomStatus status,
     BaseException? error,
   }) = _DealRoomState;

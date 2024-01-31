@@ -73,7 +73,7 @@ class _WorkerMapPageState extends State<WorkerMapPage> {
       child: Scaffold(
         appBar: CustomAppBar(
           context,
-          appBarTitle: context.tr(LocaleKeys.WorkerMap_SearchFromTheSite),
+          titleText: context.tr(LocaleKeys.WorkerMap_SearchFromTheSite),
         ),
         body: MultiBlocListener(
           listeners: [

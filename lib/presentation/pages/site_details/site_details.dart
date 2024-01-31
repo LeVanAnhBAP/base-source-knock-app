@@ -70,7 +70,7 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
         child: Scaffold(
           appBar: CustomAppBar(
             context,
-            appBarTitle:
+            titleText:
                 context.tr(LocaleKeys.SiteDetail_DetailedInformationOnSite),
             rightIcPath: Assets.icons.svg.icMoreHorizontal.path,
             onRightPress: () {

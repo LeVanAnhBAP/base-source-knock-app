@@ -41,7 +41,7 @@ class _NotificationPageState extends State<NotificationPage> {
       child: Scaffold(
         appBar: CustomAppBar(
           context,
-          appBarTitle: '大事なお知らせ',
+          titleText: '大事なお知らせ',
         ),
         body: NotificationSelector(
             selector: (state) => state.status,

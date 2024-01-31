@@ -58,7 +58,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: CustomAppBar(context,
-            appBarTitle: context.tr(LocaleKeys.OrderDetails_OrderDetails)),
+            titleText: context.tr(LocaleKeys.OrderDetails_OrderDetails)),
         body: PopScope(
           canPop: false,
           onPopInvoked: (value) {

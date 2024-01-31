@@ -59,7 +59,7 @@ class _OccupationPageState extends State<OccupationPage> {
         backgroundColor: Colors.white,
         appBar: CustomAppBar(
           context,
-          appBarTitle: context.tr(LocaleKeys.Occupation_Occupation),
+          titleText: context.tr(LocaleKeys.Occupation_Occupation),
           leftIcPath: Assets.icons.svg.icClose.path,
         ),
         body: PopScope(

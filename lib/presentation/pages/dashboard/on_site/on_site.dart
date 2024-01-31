@@ -70,7 +70,7 @@ class _DashBoardOnSitePageState extends State<DashBoardOnSitePage> {
       child: Scaffold(
         appBar: CustomAppBar(
           context,
-          appBarTitle: context.tr(LocaleKeys.Dashboard_OnSite),
+          titleText: context.tr(LocaleKeys.Dashboard_OnSite),
           leftIcPath: Assets.icons.svg.icMenu.path,
           rightIcPath: (account?.role == 1 || account?.role == 2) &&
               account?.company.type == 1
