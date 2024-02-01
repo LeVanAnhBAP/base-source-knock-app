@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:uq_system_app/presentation/pages/dashboard/siteDetails/site_deta
 import 'package:uq_system_app/presentation/pages/dashboard/siteDetails/site_details_event.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/siteDetails/site_details_state.dart';
 import '../../../../assets.gen.dart';
+import '../../../navigation/navigation.dart';
 import '../../../widgets/back_button_app_bar.dart';
 import '../../../widgets/content_detail.dart';
 import '../../../widgets/title_detail.dart';
@@ -444,26 +446,31 @@ class _SiteDetailsState extends State<SiteDetailsPage>
       bottom: 16,
       left: 36,
       right: 36,
-      child: Container(
-        height: 60,
-        width: double.maxFinite,
-        decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 3,
-                offset: const Offset(0, 0),
+      child: InkWell(
+        onTap: (){
+          context.router.push(CreateSiteRoute(siteID: _currentSiteDetail!['id'], accessToken: widget.accessToken));
+        },
+        child: Container(
+          height: 60,
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 3,
+                  offset: const Offset(0, 0),
+                ),
+              ],
+              color: context.colors.information,
+              borderRadius: const BorderRadius.all(Radius.circular(8))),
+          child: const Center(
+            child: Text(
+              '修正画面へ移動',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
               ),
-            ],
-            color: context.colors.information,
-            borderRadius: const BorderRadius.all(Radius.circular(8))),
-        child: const Center(
-          child: Text(
-            '修正画面へ移動',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
             ),
           ),
         ),

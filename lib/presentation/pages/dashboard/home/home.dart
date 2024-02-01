@@ -235,7 +235,7 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
               companyLogo: Assets.icons.png.icScheduleCardCompanyLogo.path,
               clickDropRight: () {
                 if (listData[index]['status'].toString() == '0') {
-                  context.router.push(const CreateSiteRoute());
+                  context.router.push( CreateSiteRoute(siteID: listData[index]['id'], accessToken: widget.accessToken));
                 } else {
                   context.router.push(SiteDetailsRoute(
                       id: listData[index]['id'].toString(),

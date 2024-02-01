@@ -4,7 +4,7 @@ import 'package:uq_system_app/core/extensions/theme.dart';
 class InputField extends StatelessWidget {
   const InputField({
     super.key,
-    required this.textFieldHintText,
+    this.textFieldHintText = '',
     required this.controller,
     this.obscureText = false,
     this.onChangedValue,
@@ -20,6 +20,7 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8,horizontal: 8),
       height: height,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
