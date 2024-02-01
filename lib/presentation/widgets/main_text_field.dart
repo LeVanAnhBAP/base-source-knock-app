@@ -12,6 +12,7 @@ class MainTextField extends StatefulWidget {
   final int? maxLines;
   final bool isCounter;
   final bool? enable;
+  final EdgeInsets? scrollPadding;
   final TextInputType? textInputType;
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
@@ -22,6 +23,7 @@ class MainTextField extends StatefulWidget {
   const MainTextField(
       {super.key,
       this.hintText,
+      this.scrollPadding,
       this.width,
       this.height,
       this.maxLines,
@@ -51,6 +53,7 @@ class _MainTextFieldState extends State<MainTextField> {
         InputContainer(
             height: widget.height,
             child: TextField(
+              scrollPadding: widget.scrollPadding ?? const EdgeInsets.all(20.0),
               keyboardType: widget.textInputType,
               inputFormatters: widget.inputFormatters,
               enabled: widget.enable,
@@ -70,7 +73,6 @@ class _MainTextFieldState extends State<MainTextField> {
               style: context.typographies.bodyBold
                   .withColor(context.colors.primary),
               decoration: InputDecoration(
-
                   errorMaxLines: 0,
                   isCollapsed: true,
                   contentPadding:
@@ -78,7 +80,8 @@ class _MainTextFieldState extends State<MainTextField> {
                   counter: const SizedBox.shrink(),
                   // error: const SizedBox.shrink(),
                   fillColor: const Color(0xffF7F8FA),
-                  hintStyle: context.typographies.body.withColor(context.colors.primary),
+                  hintStyle: context.typographies.body
+                      .withColor(context.colors.primary),
                   hintText: widget.hintText,
                   border: InputBorder.none),
               maxLines: widget.maxLines,

@@ -60,6 +60,7 @@ class _NotificationPageState extends State<NotificationPage> {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: ListView.builder(
           itemCount: notifications.length,
+          physics: const  ClampingScrollPhysics(),
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           itemBuilder: (context, index) =>

@@ -8,6 +8,7 @@ import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/pages/chat_deal_room/chat_deal_room_bloc.dart';
 import 'package:uq_system_app/presentation/pages/chat_deal_room/widgets/chat_item.dart';
+import 'package:uq_system_app/presentation/pages/chat_deal_room/widgets/menu_popup.dart';
 import 'package:uq_system_app/presentation/widgets/base_app_bar.dart';
 import 'package:uq_system_app/presentation/widgets/divider_line.dart';
 import 'package:uq_system_app/presentation/widgets/expanded_animation_widget.dart';
@@ -51,6 +52,9 @@ class _ChatDealRoomPageState extends State<ChatDealRoomPage> {
             ],
           ),
           rightIcPath: Assets.icons.svg.icMoreHorizontal.path,
+          onRightPress: (){
+            _displayMenuPopup();
+          },
         ),
         body: Column(
           children: [
@@ -217,6 +221,15 @@ class _ChatDealRoomPageState extends State<ChatDealRoomPage> {
           },
         )
       ],
+    );
+  }
+  Future _displayMenuPopup() {
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(15))
+      ),
+      context: context,
+      builder: (context) => MenuPopup(),
     );
   }
 }

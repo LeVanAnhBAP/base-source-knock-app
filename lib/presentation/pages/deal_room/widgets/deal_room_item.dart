@@ -6,6 +6,7 @@ import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/data/models/response/deal_room_response.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
+import 'package:uq_system_app/presentation/widgets/circle_image_network.dart';
 class DealRoomItem extends StatelessWidget{
   final DealRoomResponse dealRoom;
   const DealRoomItem(this.dealRoom);
@@ -29,10 +30,7 @@ class DealRoomItem extends StatelessWidget{
           ),
           child: Row(
             children: [
-              CircleAvatar(
-                backgroundColor: Colors.grey,
-                backgroundImage: Image.network(dealRoom.companyLogo ?? "", width: 25).image,
-              ),
+              CircleImageNetwork(src: dealRoom.companyLogo ?? "", radius: 35,),
               const SizedBox(
                 width: 10,
               ),

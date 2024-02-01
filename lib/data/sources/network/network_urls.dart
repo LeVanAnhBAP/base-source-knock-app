@@ -18,6 +18,7 @@ class NetworkUrls {
   static const String addressInfo = "$share/address-info";
   static const String taxRate = "$share/get-tax-rate";
   static const String uploadFiles = "$share/upload-files";
+  static const String uploadMulti = "$share/s3-upload-multi";
   static const String prefecture = '$addressInfo/prefectures';
   static const String city = '$addressInfo/cities';
   static const String town = '$addressInfo/towns';

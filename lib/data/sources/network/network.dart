@@ -6,6 +6,7 @@ import 'package:uq_system_app/data/models/request/favorite_partner_params.dart';
 import 'package:uq_system_app/data/models/request/login_params.dart';
 import 'package:uq_system_app/data/models/request/site_params.dart';
 import 'package:uq_system_app/data/models/request/static_data_params.dart';
+import 'package:uq_system_app/data/models/request/upload_multi_params.dart';
 import 'package:uq_system_app/data/models/response/account.dart';
 import 'package:uq_system_app/data/models/response/company_response.dart';
 import 'package:uq_system_app/data/models/response/deal_room_response.dart';
@@ -107,7 +108,9 @@ abstract class NetworkDataSource {
   Future<BaseResponse<List<ImageResponse>>> uploadImages(
       @Part(name: 'with_s3_url') String? withUrl,
       @Part(name: 'files[0]') File file);
-
+  @POST(NetworkUrls.uploadMulti)
+  Future<BaseResponse<List<String>>> getImagesFromUpload(
+      @Body() UploadMultiParams filPaths,);
   //StaticData
   @POST(NetworkUrls.staticData)
   Future<BaseResponse<StaticDataResponse>> getStaticData(

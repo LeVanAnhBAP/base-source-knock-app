@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:uq_system_app/data/models/price_order_detail_model.dart';
 import 'package:uq_system_app/data/models/response/common_item_response.dart';
+import 'package:uq_system_app/data/models/response/notification_response.dart';
 import 'package:uq_system_app/data/models/response/occupation_major_response.dart';
 import 'package:uq_system_app/data/models/response/occupation_response.dart';
 import 'package:uq_system_app/domain/entities/member.dart';
 import 'package:uq_system_app/presentation/pages/auth/reset_password/reset_password_page.dart';
 import 'package:uq_system_app/presentation/pages/auth/login/login_page.dart';
+import 'package:uq_system_app/presentation/pages/completion_report/completion_report.dart';
 import 'package:uq_system_app/presentation/pages/create_site/create_site.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/account/account.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/chat/chat.dart';
@@ -57,6 +59,7 @@ class AppRouter extends _$AppRouter{
     AutoRoute(path: '/worker_map', page: WorkerMapRoute.page),
     AutoRoute(path: '/deal_room', page: DealRoomRoute.page),
     AutoRoute(path: '/chat_deal_room', page: ChatDealRoomRoute.page),
+    AutoRoute(path: '/completion_report', page: CompletionReportRoute.page),
   ];
 @override
   RouteType get defaultRouteType => const RouteType.material();

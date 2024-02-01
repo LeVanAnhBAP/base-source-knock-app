@@ -129,6 +129,8 @@ class _DetailsTabState extends State<DetailsTab> {
                     height: 5,
                   ),
                   MainTextField(
+                    scrollPadding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom + 100 ),
                     controller: _codeController,
                     onChanged: (value) {
                       _bloc.add(CreateSiteEvent.updateParams(
@@ -147,6 +149,8 @@ class _DetailsTabState extends State<DetailsTab> {
                     height: 5,
                   ),
                   MainTextField(
+                    scrollPadding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom + 100 ),
                     controller: _nameController,
                     onChanged: (value) {
                       _bloc.add(CreateSiteEvent.updateParams(
@@ -168,6 +172,8 @@ class _DetailsTabState extends State<DetailsTab> {
                     height: 5,
                   ),
                   MainTextField(
+                    scrollPadding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom + 100 ),
                     controller: _contentRequestController,
                     onChanged: (value) {
                       _bloc.add(CreateSiteEvent.updateParams(
@@ -499,6 +505,8 @@ class _DetailsTabState extends State<DetailsTab> {
                     height: 5,
                   ),
                   MainTextField(
+                    scrollPadding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom + 100 ),
                     controller: _wardsController,
                     onChanged: (value) {
                       var siteParams = _bloc.state.siteParams;
@@ -519,6 +527,8 @@ class _DetailsTabState extends State<DetailsTab> {
                     height: 5,
                   ),
                   MainTextField(
+                    scrollPadding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom + 100 ),
                     controller: _buildingController,
                     onChanged: (value) {
                       var siteParams = _bloc.state.siteParams;
@@ -652,6 +662,8 @@ class _DetailsTabState extends State<DetailsTab> {
                     height: 5,
                   ),
                   MainTextField(
+                    scrollPadding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom + 100 ),
                     controller: _remarksController,
                     height: 250,
                     onChanged: (value) {

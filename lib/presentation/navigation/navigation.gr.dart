@@ -21,6 +21,13 @@ abstract class _$AppRouter extends RootStackRouter {
         child: ChatDealRoomPage(),
       );
     },
+    CompletionReportRoute.name: (routeData) {
+      final args = routeData.argsAs<CompletionReportRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CompletionReportPage(args.notification),
+      );
+    },
     CreateSiteRoute.name: (routeData) {
       final args = routeData.argsAs<CreateSiteRouteArgs>(
           orElse: () => const CreateSiteRouteArgs());
@@ -178,6 +185,35 @@ class ChatDealRoomRoute extends PageRouteInfo<void> {
   static const String name = 'ChatDealRoomRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CompletionReportPage]
+class CompletionReportRoute extends PageRouteInfo<CompletionReportRouteArgs> {
+  CompletionReportRoute({
+    required NotificationResponse notification,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CompletionReportRoute.name,
+          args: CompletionReportRouteArgs(notification: notification),
+          initialChildren: children,
+        );
+
+  static const String name = 'CompletionReportRoute';
+
+  static const PageInfo<CompletionReportRouteArgs> page =
+      PageInfo<CompletionReportRouteArgs>(name);
+}
+
+class CompletionReportRouteArgs {
+  const CompletionReportRouteArgs({required this.notification});
+
+  final NotificationResponse notification;
+
+  @override
+  String toString() {
+    return 'CompletionReportRouteArgs{notification: $notification}';
+  }
 }
 
 /// generated route for
