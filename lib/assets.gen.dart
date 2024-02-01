@@ -133,6 +133,9 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/ic_back_app_bar.svg
   SvgGenImage get icBackAppBar => const SvgGenImage('assets/icons/svg/ic_back_app_bar.svg');
 
+  /// File path: assets/icons/svg/ic_calendar.svg
+  SvgGenImage get icCalendar => const SvgGenImage('assets/icons/svg/ic_calendar.svg');
+
   /// File path: assets/icons/svg/ic_camera.svg
   SvgGenImage get icCamera => const SvgGenImage('assets/icons/svg/ic_camera.svg');
 
@@ -251,6 +254,7 @@ class $AssetsIconsSvgGen {
         icAddBlue,
         icArrowDroprightCircle,
         icBackAppBar,
+        icCalendar,
         icCamera,
         icCopy,
         icDashboardAccount,

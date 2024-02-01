@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,6 +31,12 @@ class _CreateSiteState extends State<CreateSitePage>
   late final TabController _tabController;
   TextEditingController orderNumberController = TextEditingController();
   TextEditingController constructionDetailsController = TextEditingController();
+  TextEditingController codeController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController contentRequestController = TextEditingController();
+  TextEditingController occupationController = TextEditingController();
+  DateTime? selectedStartDay;
+  DateTime? selectedEndDay;
 
   @override
   void initState() {
@@ -38,8 +45,65 @@ class _CreateSiteState extends State<CreateSitePage>
         accessToken: widget.accessToken, id: widget.siteID));
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _createSiteBloc.stream.listen((state) {
+      initControllers(state);
+    });
   }
 
+  void initControllers(CreateSiteState state) {
+    if (state.status == CreateSiteStatus.success && state.site != null) {
+      setControllerValues(state.site!);
+    }
+  }
+
+  void setControllerValues(Map<String, dynamic> site) {
+    orderNumberController.text = (site['order_number'] ?? 'null').toString();
+    codeController.text = (site['code'] ?? 'null').toString();
+    nameController.text = (site['name'] ?? 'null').toString();
+    contentRequestController.text =
+        (site['content_request'] ?? 'null').toString();
+    occupationController.text =
+        (site['factory_floor_occupation'][0]['name'] ?? 'null').toString();
+  }
+
+  String dateFormatFromString(String date) {
+    return DateFormat('yyyy/MM/dd').format(DateTime.parse(date));
+  }
+
+  String dateFormatFromDateTime(DateTime date) {
+    final formatter = DateFormat('yyyy/MM/dd');
+    return formatter.format(date);
+  }
+
+  Future<void> _selectStartDay(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedStartDay ?? DateTime.now(),
+      firstDate: DateTime(2022),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null && pickedDate != selectedStartDay) {
+      setState(() {
+        selectedStartDay = pickedDate;
+      });
+    }
+  }
+
+  Future<void> _selectEndDay(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedEndDay ?? DateTime.now(),
+      firstDate: DateTime(2022),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null && pickedDate != selectedEndDay) {
+      setState(() {
+        selectedEndDay = pickedDate;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +225,6 @@ class _CreateSiteState extends State<CreateSitePage>
     if (site == null) {
       return const Text('');
     } else {
-      orderNumberController.text = (site['order_number'] ?? 'null').toString();
       return Container(
         padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
         color: context.colors.background,
@@ -186,7 +249,7 @@ class _CreateSiteState extends State<CreateSitePage>
                               .length,
                           (index) {
                             return SizedBox(
-                              height: 24,
+                              height: 28,
                               child: Row(
                                 children: [
                                   Text(
@@ -207,7 +270,7 @@ class _CreateSiteState extends State<CreateSitePage>
               ],
             ),
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 8=),
+              margin: const EdgeInsets.symmetric(vertical: 8),
               color: context.colors.border,
               height: 1,
             ),
@@ -228,37 +291,95 @@ class _CreateSiteState extends State<CreateSitePage>
               ),
             ),
             const TitleDetail(text: '工事コード'),
-            InputField(controller: TextEditingController()),
+            InputField(controller: codeController),
             const TitleDetail(text: '工事名'),
             InputField(
+                maxLength: 15,
                 onChangedValue: (value) {
                   setState(() {
-                    constructionDetailsController.text = value;
+                    nameController.text = value;
                   });
                 },
-                textFieldHintText: '0031',
-                controller: constructionDetailsController),
+                controller: nameController),
             Align(
               alignment: Alignment.centerRight,
-              child:
-                  Text('${constructionDetailsController.text.length}/15'),
+              child: Text('${nameController.text.length}/15'),
             ),
             const TitleDetail(text: '工事内容'),
             InputField(
                 maxLines: null,
-                height: 240,
+                height: 280,
                 onChangedValue: (value) {
                   setState(() {
-                    constructionDetailsController.text = value;
+                    contentRequestController.text = value;
                   });
                 },
-                textFieldHintText: '0031',
-                controller: constructionDetailsController),
+                controller: contentRequestController),
             Align(
               alignment: Alignment.centerRight,
-              child:
-                  Text('${constructionDetailsController.text.length}/500'),
+              child: Text('${contentRequestController.text.length}/500'),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const TitleDetail(text: '職種'),
+                IconButton(
+                    onPressed: () {},
+                    icon: SvgPicture.asset(
+                      Assets.icons.svg.drawerButton.path,
+                      height: 20,
+                    ))
+              ],
+            ),
+            InputField(controller: occupationController),
+            const TitleDetail(text: '工期'),
+            Row(
+              children: [
+                pickDateBox(
+                    date: selectedStartDay != null
+                        ? dateFormatFromDateTime(selectedStartDay!)
+                        : dateFormatFromString(site['start_day_request']),
+                    pickDate: () {
+                      _selectStartDay(context);
+                    }),
+                const Gap(4),
+                const Text('~'),
+                const Gap(4),
+                pickDateBox(
+                    date: selectedEndDay != null
+                        ? dateFormatFromDateTime(selectedEndDay!)
+                        : dateFormatFromString(site['end_day_request']),
+                    pickDate: () {
+                      _selectEndDay(context);
+                    }),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const TitleDetail(text: '工事場所'),
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 28, vertical: 4),
+                        decoration: BoxDecoration(
+                            color: context.colors.alert,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(24))),
+                        child: Text(
+                          '地図',
+                          style: TextStyle(color: context.colors.text),
+                        ),
+                      ),
+                    ),
+                    const Gap(8)
+                  ],
+                )
+              ],
+            )
           ],
         ),
       );
@@ -307,6 +428,38 @@ class _CreateSiteState extends State<CreateSitePage>
             text,
             style: TextStyle(color: textColor),
           )),
+    );
+  }
+
+  pickDateBox({required String date, required Function() pickDate}) {
+    return Expanded(
+      child: InkWell(
+        onTap: pickDate,
+        child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+          padding: const EdgeInsets.all(8),
+          height: 56,
+          decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  offset: Offset(0, 0),
+                  blurRadius: 6,
+                  spreadRadius: 4,
+                ),
+              ],
+              border: Border.all(color: context.colors.background, width: 2),
+              color: const Color.fromRGBO(247, 248, 250, 1),
+              borderRadius: const BorderRadius.all(Radius.circular(12))),
+          child: Row(
+            children: [
+              SvgPicture.asset(Assets.icons.svg.icCalendar.path),
+              const Gap(8),
+              Text(date)
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

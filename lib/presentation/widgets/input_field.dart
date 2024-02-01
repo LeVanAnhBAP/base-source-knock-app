@@ -9,7 +9,8 @@ class InputField extends StatelessWidget {
     this.obscureText = false,
     this.onChangedValue,
     this.height=60,
-    this.maxLines=1
+    this.maxLines=1,
+    this.maxLength
   });
   final Function(String value)? onChangedValue;
   final String textFieldHintText;
@@ -17,6 +18,18 @@ class InputField extends StatelessWidget {
   final bool obscureText;
   final double height;
   final int? maxLines;
+  final int? maxLength;
+
+  void _moveCursorToEnd() {
+    Future.delayed(Duration.zero, () {
+      final text = controller.text;
+      controller.value = controller.value.copyWith(
+        text: text,
+        selection: TextSelection.collapsed(offset: text.length),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,18 +43,21 @@ class InputField extends StatelessWidget {
           BoxShadow(
             color: Colors.black12,
             offset: Offset(0, 2),
-            blurRadius: 1,
-            spreadRadius: 1,
+            blurRadius: 2,
+            spreadRadius: 2,
           ),
         ],
       ),
       child: TextField(
+        maxLength: maxLength,
+        onTap: _moveCursorToEnd,
         keyboardType: TextInputType.multiline,
         textInputAction: TextInputAction.newline,
         maxLines: maxLines,
         obscureText: obscureText,
         controller: controller,
         decoration: InputDecoration(
+          counterText: '',
           filled: true,
           fillColor: const Color.fromRGBO(247, 248, 250, 1),
           border: const OutlineInputBorder(borderSide: BorderSide.none),

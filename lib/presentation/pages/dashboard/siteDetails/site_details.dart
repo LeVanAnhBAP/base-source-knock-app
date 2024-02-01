@@ -131,7 +131,7 @@ class _SiteDetailsState extends State<SiteDetailsPage>
                     children: [
                       Container(
                         padding: const EdgeInsets.all(4),
-                        height: 48,
+                        height: 40,
                         width: 300,
                         decoration: BoxDecoration(
                             color: context.colors.background,
@@ -180,6 +180,111 @@ class _SiteDetailsState extends State<SiteDetailsPage>
         : state.status == SiteDetailsStatus.failure
             ? _buildErrorWidget(state.error?.message)
             : _buildDetailSiteContent(state.siteDetail);
+  }
+
+  Widget _buildDetailSiteContent(Map<String, dynamic>? siteDetail) {
+    print(siteDetail?['id']);
+    return Container(
+      padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
+      color: Colors.white,
+      child: ListView(
+        children: [
+          const TitleDetail(text: '注文No'),
+          ContentDetail(
+              text: convertOrderNumber(siteDetail?['order_number'].toString())),
+          line(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const TitleDetail(text: '担当者'),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: (siteDetail?['factory_floor_members']
+                as List<dynamic>?) ==
+                    null ||
+                    (siteDetail?['factory_floor_members']
+                    as List<dynamic>?)!
+                        .isEmpty
+                    ? [const Text('null')]
+                    : List.generate(
+                  (siteDetail?['factory_floor_members'] as List<dynamic>)
+                      .length,
+                      (index) {
+                    return Text(
+                      '${siteDetail?['factory_floor_members'][index]['first_name']}'
+                          ' ${siteDetail?['factory_floor_members'][index]['last_name']}',
+                      style: TextStyle(color: context.colors.border),
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
+          line(),
+          const TitleDetail(text: '工事コード'),
+          ContentDetail(text: (siteDetail?['code'] ?? 'null').toString()),
+          const TitleDetail(text: '工事名'),
+          ContentDetail(text: (siteDetail?['name'] ?? 'null').toString()),
+          const TitleDetail(text: '工事内容'),
+          ContentDetail(
+              text: (siteDetail?['content_request'] ?? 'null').toString()),
+          line(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const TitleDetail(text: '職種'),
+              ContentDetail(
+                text: (siteDetail?['factory_floor_occupation'] != null &&
+                    siteDetail?['factory_floor_occupation'].isNotEmpty)
+                    ? (siteDetail?['factory_floor_occupation'][0]['name'])
+                    .toString()
+                    : 'null',
+              ),
+            ],
+          ),
+          line(),
+          const TitleDetail(text: '工期'),
+          ContentDetail(
+              text: dayFormat(
+                (siteDetail?['start_day_request'] ?? 'null').toString(),
+                (siteDetail?['end_day_request'] ?? 'null').toString(),
+              )),
+          line(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const TitleDetail(text: '工事場所'),
+              button(
+                text: '地図',
+                icon: Assets.icons.svg.icSiteDetailsLocation.path,
+              )
+            ],
+          ),
+          ContentDetail(
+              text: '${(siteDetail?['prefecture_id'] ?? 'null').toString()}, '
+                  '${(siteDetail?['city_id'] ?? 'null').toString()}, '
+                  '${(siteDetail?['town_id'] ?? 'null').toString()}, '
+                  '${(siteDetail?['wards'] ?? 'null').toString()}, '
+                  '${(siteDetail?['address'] ?? 'null').toString()}'),
+          line(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const TitleDetail(text: '注文合計金額'),
+              button(
+                text: '注文明細',
+                icon: Assets.icons.svg.icSiteDetailsOrderDetail.path,
+              )
+            ],
+          ),
+          ContentDetail(text: convertPrice(siteDetail?['total_amount'])),
+          const TitleDetail(text: '備考（記載した内容は注文書に反映されます）'),
+          ContentDetail(text: (siteDetail?['remarks'] ?? 'null').toString()),
+          const Gap(100)
+        ],
+      ),
+    );
   }
 
   Widget _buildImageTab() {
@@ -302,119 +407,12 @@ class _SiteDetailsState extends State<SiteDetailsPage>
     );
   }
 
-  Widget _buildDetailSiteContent(Map<String, dynamic>? siteDetail) {
-    print(siteDetail?['id']);
-    return Container(
-      padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
-      color: Colors.white,
-      child: ListView(
-        children: [
-          const TitleDetail(text: '注文No'),
-          ContentDetail(
-              text: convertOrderNumber(siteDetail?['order_number'].toString())),
-          line(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const TitleDetail(text: '担当者'),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: (siteDetail?['factory_floor_members']
-                                as List<dynamic>?) ==
-                            null ||
-                        (siteDetail?['factory_floor_members']
-                                as List<dynamic>?)!
-                            .isEmpty
-                    ? [const Text('null')]
-                    : List.generate(
-                        (siteDetail?['factory_floor_members'] as List<dynamic>)
-                            .length,
-                        (index) {
-                          return Text(
-                            '${siteDetail?['factory_floor_members'][index]['first_name']}'
-                            ' ${siteDetail?['factory_floor_members'][index]['last_name']}',
-                            style: TextStyle(color: context.colors.border),
-                          );
-                        },
-                      ),
-              )
-            ],
-          ),
-          line(),
-          const TitleDetail(text: '工事コード'),
-          ContentDetail(text: (siteDetail?['code'] ?? 'null').toString()),
-          const TitleDetail(text: '工事名'),
-          ContentDetail(text: (siteDetail?['name'] ?? 'null').toString()),
-          const TitleDetail(text: '工事内容'),
-          ContentDetail(
-              text: (siteDetail?['content_request'] ?? 'null').toString()),
-          line(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const TitleDetail(text: '職種'),
-              ContentDetail(
-                text: (siteDetail?['factory_floor_occupation'] != null &&
-                        siteDetail?['factory_floor_occupation'].isNotEmpty)
-                    ? (siteDetail?['factory_floor_occupation'][0]['name'])
-                        .toString()
-                    : 'null',
-              ),
-            ],
-          ),
-          line(),
-          const TitleDetail(text: '工期'),
-          ContentDetail(
-              text: dayFormat(
-            (siteDetail?['start_day_request'] ?? 'null').toString(),
-            (siteDetail?['end_day_request'] ?? 'null').toString(),
-          )),
-          line(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const TitleDetail(text: '工事場所'),
-              button(
-                  text: '地図',
-                  icon: Assets.icons.svg.icSiteDetailsLocation.path,
-                  width: 72)
-            ],
-          ),
-          ContentDetail(
-              text: '${(siteDetail?['prefecture_id'] ?? 'null').toString()}, '
-                  '${(siteDetail?['city_id'] ?? 'null').toString()}, '
-                  '${(siteDetail?['town_id'] ?? 'null').toString()}, '
-                  '${(siteDetail?['wards'] ?? 'null').toString()}, '
-                  '${(siteDetail?['address'] ?? 'null').toString()}'),
-          line(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const TitleDetail(text: '注文合計金額'),
-              button(
-                  text: '注文明細',
-                  icon: Assets.icons.svg.icSiteDetailsOrderDetail.path,
-                  width: 100)
-            ],
-          ),
-          ContentDetail(text: convertPrice(siteDetail?['total_amount'])),
-          const TitleDetail(text: '備考（記載した内容は注文書に反映されます）'),
-          ContentDetail(text: (siteDetail?['remarks'] ?? 'null').toString()),
-          const Gap(100)
-        ],
-      ),
-    );
-  }
-
-  Widget button(
-      {required String text, required String icon, required double width}) {
+  Widget button({required String text, required String icon}) {
     return InkWell(
       onTap: () {},
       child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 4),
         margin: const EdgeInsets.only(right: 16),
-        height: 28,
-        width: width,
         decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -441,7 +439,7 @@ class _SiteDetailsState extends State<SiteDetailsPage>
     );
   }
 
-  editButton() {
+  Widget editButton() {
     return Positioned(
       bottom: 16,
       left: 36,
@@ -552,8 +550,7 @@ class _SiteDetailsState extends State<SiteDetailsPage>
         });
   }
 
-  Widget bottomSheetButton(
-      {required String icon, required String text, required Color textColor}) {
+  Widget bottomSheetButton({required String icon, required String text, required Color textColor}) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 3,
       height: 60,
