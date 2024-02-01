@@ -318,10 +318,10 @@ class _DashboardAccountPageState extends State<DashboardAccountPage>
                 content: account.company.furigana),
             InfoItem(
                 title: context.tr(LocaleKeys.Profile_InvoiceNumber),
-                content: account.company.invoiceNumber),
+                content: account.company.invoiceNumber?? ""),
             InfoItem(
                 title: context.tr(LocaleKeys.Profile_PostCode),
-                content: account.company.postalCode),
+                content: account.company.postalCode ?? ""),
             InfoItem(
                 title: context.tr(LocaleKeys.Profile_Address),
                 content: account.company.locationMunicipality ?? ""),
@@ -333,10 +333,10 @@ class _DashboardAccountPageState extends State<DashboardAccountPage>
                 content: account.company.building ?? ""),
             InfoItem(
                 title: context.tr(LocaleKeys.Profile_RepresentativeTel),
-                content: account.company.telNumber),
+                content: account.company.telNumber ?? ""),
             InfoItem(
                 title: context.tr(LocaleKeys.Profile_HPURL),
-                content: account.company.hpUrl),
+                content: account.company.hpUrl ?? ""),
             const SizedBox(
               height: 25,
             ),

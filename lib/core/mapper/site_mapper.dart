@@ -29,8 +29,8 @@ class SiteMapper{
       ),
       priceOrderDetails: response.priceOrderDetails,
       totalAmount: response.totalAmount,
-      imageType1: response.imageType1.map((e) => ImageParams(url: e.url, path: e.path)).toList(),
-      imageType2: response.imageType2.map((e) => ImageParams(url: e.url, path: e.path)).toList(),
+      imageType1: response.imageType1.map((e) => ImageParams(url: e.url ?? "", path: e.path)).toList(),
+      imageType2: response.imageType2.map((e) => ImageParams(url: e.url ?? "", path: e.path)).toList(),
       remarks: response.remarks,
       expenses: response.expenses
     );

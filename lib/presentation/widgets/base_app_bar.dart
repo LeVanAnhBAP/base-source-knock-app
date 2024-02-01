@@ -17,7 +17,8 @@ class IconOptions {
 }
 
 class CustomAppBar extends AppBar {
-  final String appBarTitle;
+  final String? titleText;
+  final Widget? customTitle;
   final TextAlign titleAlign;
   final EdgeInsetsGeometry? titleMargin;
   final String? leftIcPath;
@@ -29,7 +30,8 @@ class CustomAppBar extends AppBar {
   final BuildContext context;
 
   CustomAppBar(this.context,
-      {required this.appBarTitle,
+      { this.titleText,
+        this.customTitle,
       this.leftIcPath,
       this.leftIcDescription,
       this.rightIcPath,
@@ -46,30 +48,30 @@ class CustomAppBar extends AppBar {
       super.surfaceTintColor = Colors.transparent});
 
   @override
-  Widget? get title => Container(
-        margin: titleMargin ??
-            const EdgeInsets.only(
-              top: 0,
-              bottom: 0,
-            ),
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              appBarTitle,
-              style: context.typographies.title2.withWeight(FontWeight.w300),
-            ),
-            Container(
-              width: 70,
-              height: 3,
-              decoration: BoxDecoration(
-                  color: context.colors.secondary,
-                  borderRadius: BorderRadius.circular(5)),
-            )
-          ],
+  Widget? get title => customTitle ?? Container(
+    margin: titleMargin ??
+        const EdgeInsets.only(
+          top: 0,
+          bottom: 0,
         ),
-      );
+    width: double.infinity,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          titleText ?? "",
+          style: context.typographies.title2.withWeight(FontWeight.w300),
+        ),
+        Container(
+          width: 70,
+          height: 3,
+          decoration: BoxDecoration(
+              color: context.colors.secondary,
+              borderRadius: BorderRadius.circular(5)),
+        )
+      ],
+    ),
+  );
 
   Widget _buildIcon(String icPath, String? icDescription) {
     return Align(

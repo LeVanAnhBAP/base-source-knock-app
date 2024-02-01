@@ -7,6 +7,7 @@ import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/data/models/response/account.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
+import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/chat/chat_bloc.dart';
 import 'package:uq_system_app/presentation/widgets/dashboard_app_bar.dart';
 
@@ -56,29 +57,34 @@ class _DashBoardChatPageState extends State<DashBoardChatPage> {
   }
 
   Widget _buildNegotiateRoom(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.9,
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(width: 1, color: context.colors.primary),
-          borderRadius: BorderRadius.circular(15)),
-      child: Column(children: [
-        Container(
-          decoration: const BoxDecoration(
-              shape: BoxShape.circle, color: Color(0xFFDDEAF7)),
-          child: AssetGenImage(
-            Assets.images.imgNegotiate.path,
-          ).image(height: 100),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          context.tr(LocaleKeys.Chat_NegotiationRoom),
-          style: context.typographies.title1Normal,
-        )
-      ]),
+    return InkWell(
+      onTap: (){
+        context.router.push(const DealRoomRoute());
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.9,
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(width: 1, color: context.colors.primary),
+            borderRadius: BorderRadius.circular(15)),
+        child: Column(children: [
+          Container(
+            decoration: const BoxDecoration(
+                shape: BoxShape.circle, color: Color(0xFFDDEAF7)),
+            child: AssetGenImage(
+              Assets.images.imgNegotiate.path,
+            ).image(height: 100),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            context.tr(LocaleKeys.Chat_NegotiationRoom),
+            style: context.typographies.title1Normal,
+          )
+        ]),
+      ),
     );
   }
 

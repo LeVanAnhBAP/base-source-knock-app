@@ -6,4 +6,5 @@ part 'worker_map_event.freezed.dart';
 @freezed
 class WorkerMapEvent with _$WorkerMapEvent {
   const factory WorkerMapEvent.errorOccurred([BaseException? error]) = WorkerMapErrorOccurred;
+  const factory WorkerMapEvent.loadData({required int siteId}) = WorkerMapLoadData;
 }

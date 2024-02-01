@@ -55,7 +55,7 @@ class _SearchMemberPageState extends State<SearchMemberPage> {
         backgroundColor: Colors.white,
         appBar: CustomAppBar(
           context,
-          appBarTitle: context.tr(LocaleKeys.SearchMember_PersonInChargeSearch),
+          titleText: context.tr(LocaleKeys.SearchMember_PersonInChargeSearch),
         ),
         body: PopScope(
           canPop: false,

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/core/themes/themes.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:uq_system_app/data/models/response/unread_response.dart';
 
 part 'system_state.freezed.dart';
 

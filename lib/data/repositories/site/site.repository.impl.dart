@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
+import 'package:uq_system_app/data/models/request/company_nearby_params.dart';
 import 'package:uq_system_app/data/models/request/paginate_site_params.dart';
 import 'package:uq_system_app/data/models/request/site_params.dart';
 import 'package:uq_system_app/data/models/response/image_response.dart';
@@ -11,6 +12,8 @@ import 'package:uq_system_app/data/models/response/site_response.dart';
 import 'package:uq_system_app/data/models/response/tax_rate_response.dart';
 import 'package:uq_system_app/data/repositories/site/site.repository.dart';
 import 'package:uq_system_app/data/sources/network/network.dart';
+
+import '../../models/response/company_response.dart';
 
 @LazySingleton(as: SiteRepository)
 class SiteRepositoryImpl extends SiteRepository {
@@ -54,5 +57,16 @@ class SiteRepositoryImpl extends SiteRepository {
   Future<void> updateSite(SiteParams siteParams) async {
     var result = await _networkDataSource.updateSite(siteParams.id!, siteParams);
     return result.data!;
+  }
+
+  @override
+  Future<List<CompanyResponse>> getCompaniesNearby(CompanyNearbyParams request) async {
+    var result = await _networkDataSource.getCompaniesNearby(request.siteId, request.distance);
+    return result.data!;
+  }
+
+  @override
+  Future<void> removeSite(int siteId) async{
+    await _networkDataSource.removeSite(siteId);
   }
 }

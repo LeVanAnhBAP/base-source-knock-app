@@ -70,7 +70,7 @@ class _OrderLinePageState extends State<OrderLinePage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: CustomAppBar(context,
-            appBarTitle: context.tr(LocaleKeys.OrderLine_OrderLine)),
+            titleText: context.tr(LocaleKeys.OrderLine_OrderLine)),
         body: SingleChildScrollView(
           child: Column(
             children: [

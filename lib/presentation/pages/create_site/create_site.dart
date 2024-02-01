@@ -24,7 +24,8 @@ import 'create_site_state.dart';
 class CreateSitePage extends StatefulWidget {
   final int? siteId;
   final bool isDraft;
-  const CreateSitePage({this.siteId, this.isDraft = false});
+  final bool isCopy;
+  const CreateSitePage({this.siteId, this.isDraft = false, this.isCopy = false});
   @override
   State<CreateSitePage> createState() => _CreateSitePageState();
 }
@@ -40,7 +41,7 @@ class _CreateSitePageState extends State<CreateSitePage>
     super.initState();
     controller = TabController(length: 2, vsync: this);
     scheduleMicrotask(() {
-      _bloc.add(CreateSiteLoadInfo(userId: userId,siteId: widget.siteId));
+      _bloc.add(CreateSiteLoadInfo(userId: userId,siteId: widget.siteId, isCopy: widget.isCopy));
     });
   }
 
