@@ -7,27 +7,25 @@ import 'package:uq_system_app/presentation/pages/dashboard/search/search_state.d
 import 'package:uq_system_app/presentation/widgets/app_bar.dart';
 import 'package:uq_system_app/presentation/widgets/search_screen_item.dart';
 import '../../../../assets.gen.dart';
+import '../../../../data/services/auth/auth.services.dart';
 
 @RoutePage()
 class DashboardSearchPage extends StatelessWidget {
-  final String accessToken;
-
-  const DashboardSearchPage({Key? key, required this.accessToken})
+  const DashboardSearchPage({Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SearchBloc(),
-      child: _DashboardSearchPageContent(accessToken: accessToken),
+      child: const _DashboardSearchPageContent(),
     );
   }
 }
 
 class _DashboardSearchPageContent extends StatefulWidget {
-  final String accessToken;
 
-  const _DashboardSearchPageContent({Key? key, required this.accessToken})
+  const _DashboardSearchPageContent({Key? key})
       : super(key: key);
 
   @override
@@ -44,7 +42,7 @@ class _DashboardSearchPageContentState
     _scrollController.addListener(_scrollListener);
     context
         .read<SearchBloc>()
-        .add(DashboardSearchGetDataStarted(accessToken: widget.accessToken));
+        .add(const DashboardSearchGetDataStarted());
     super.initState();
   }
 
@@ -54,7 +52,7 @@ class _DashboardSearchPageContentState
         !_scrollController.position.outOfRange) {
       context
           .read<SearchBloc>()
-          .add(DashboardSearchLoadMoreData(accessToken: widget.accessToken));
+          .add(const DashboardSearchLoadMoreData());
     }
   }
 
@@ -75,7 +73,7 @@ class _DashboardSearchPageContentState
     return RefreshIndicator(
       onRefresh: () async {
         context.read<SearchBloc>().add(
-            DashboardSearchGetDataStarted(accessToken: widget.accessToken));
+            const DashboardSearchGetDataStarted());
       },
       child: Container(
         margin: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),

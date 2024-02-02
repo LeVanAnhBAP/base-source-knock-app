@@ -2,14 +2,17 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/search/search_event.dart';
 
 import '../../../../core/exceptions/unknown_exception.dart';
+import '../../../../data/services/auth/auth.services.impl.dart';
 import 'search_state.dart';
 
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
+  final authServices = AuthServicesImpl(const FlutterSecureStorage());
   SearchBloc() : super(const SearchState()) {
     on<DashboardSearchGetDataStarted>(_onGetDataStated);
     on<DashboardSearchLoadMoreData>(_onLoadMoreData);
@@ -34,7 +37,7 @@ int currentPage = 1;
       ) async {
     try {
       currentPage++;
-      List<dynamic>? data = await loadPartner(event.accessToken!,currentPage);
+      List<dynamic>? data = await loadPartner(currentPage);
       if (data != null) {
         emit(state.copyWith(
           status: SearchStatus.success,
@@ -57,7 +60,7 @@ int currentPage = 1;
       Emitter<SearchState> emit,) async {
     emit(state.copyWith(status: SearchStatus.loading));
     try {
-      List<dynamic>? data = await loadPartner(event.accessToken!,1);
+      List<dynamic>? data = await loadPartner(1);
       if (data != null) {
         emit(state.copyWith(
           status: SearchStatus.success,
@@ -78,7 +81,8 @@ int currentPage = 1;
   }
 
 
-  Future<List< dynamic>?> loadPartner(String accessToken,int page) async {
+  Future<List< dynamic>?> loadPartner(int page) async {
+    final accessToken = await authServices.getAccessToken();
     final dio = Dio();
     dio.options.headers['Authorization'] = 'Bearer $accessToken';
     String api =

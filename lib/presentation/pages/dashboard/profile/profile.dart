@@ -1,10 +1,12 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:uq_system_app/assets.gen.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
+import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/profile/profile_bloc.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/profile/profile_event.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/profile/profile_state.dart';
@@ -12,11 +14,11 @@ import 'package:uq_system_app/presentation/widgets/app_bar.dart';
 import 'package:uq_system_app/presentation/widgets/content_detail.dart';
 import 'package:uq_system_app/presentation/widgets/title_detail.dart';
 
+import '../../../../data/services/auth/auth.services.dart';
+
 @RoutePage()
 class DashboardProfilePage extends StatefulWidget {
-  final String accessToken;
-
-  const DashboardProfilePage({required this.accessToken});
+  const DashboardProfilePage({Key? key}) : super(key: key);
 
   @override
   State<DashboardProfilePage> createState() => _DashboardProfilePageState();
@@ -30,7 +32,7 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
   @override
   void initState() {
     _bloc = AccountBloc()
-      ..add(AccountGetDataStarted(accessToken: widget.accessToken));
+      ..add(const AccountGetDataStarted());
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
@@ -267,7 +269,17 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
       margin: const EdgeInsets.symmetric(horizontal: 16),
       child: ListView(
         children: [
-          const TitleDetail(text: '種別'),
+           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const TitleDetail(text: '種別'),
+              IconButton(
+                  onPressed: (){
+                       context.router.push(const EditCompanyInfoRoute());
+                  },
+                  icon: SvgPicture.asset(Assets.icons.svg.icEditCompanyInfo.path))
+            ],
+          ),
           const ContentDetail(text: 'aaaaaaaa'),
           const TitleDetail(text: '会社形態'),
           const ContentDetail(

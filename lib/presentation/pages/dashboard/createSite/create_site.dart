@@ -11,15 +11,15 @@ import 'package:uq_system_app/presentation/pages/dashboard/createSite/create_sit
 import 'package:uq_system_app/presentation/widgets/title_detail.dart';
 
 import '../../../../assets.gen.dart';
+import '../../../../data/services/auth/auth.services.dart';
 import '../../../widgets/back_button_app_bar.dart';
 import '../../../widgets/input_field.dart';
 
 @RoutePage()
 class CreateSitePage extends StatefulWidget {
   final int siteID;
-  final String accessToken;
 
-  const CreateSitePage({required this.siteID, required this.accessToken});
+  const CreateSitePage({required this.siteID});
 
   @override
   State<StatefulWidget> createState() => _CreateSiteState();
@@ -41,8 +41,7 @@ class _CreateSiteState extends State<CreateSitePage>
   @override
   void initState() {
     _createSiteBloc = CreateSiteBloc();
-    _createSiteBloc.add(CreateSiteGetDataStarted(
-        accessToken: widget.accessToken, id: widget.siteID));
+    _createSiteBloc.add(CreateSiteGetDataStarted( id: widget.siteID));
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _createSiteBloc.stream.listen((state) {

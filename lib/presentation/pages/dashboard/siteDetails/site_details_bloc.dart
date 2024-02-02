@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/siteDetails/site_details_event.dart';
 import '../../../../core/exceptions/unknown_exception.dart';
+import '../../../../data/services/auth/auth.services.impl.dart';
 import 'site_details_state.dart';
 
 class SiteDetailsBloc extends Bloc<SiteDetailsEvent, SiteDetailsState> {
+  final authServices = AuthServicesImpl(const FlutterSecureStorage());
   SiteDetailsBloc() : super( SiteDetailsState()) {
     on<SiteDetailsGetDataStarted>(_onGetDataStated);
     on<SiteDetailsErrorOccurred>(_onErrorOccurred);
@@ -36,7 +39,7 @@ class SiteDetailsBloc extends Bloc<SiteDetailsEvent, SiteDetailsState> {
       ) async {
     emit(state.copyWith(status: SiteDetailsStatus.loading));
     try {
-      Map<String,dynamic>? data = await loadDetailSite(event.accessToken!,event.id!);
+      Map<String,dynamic>? data = await loadDetailSite(event.id!);
       if (data != null) {
         emit(state.copyWith(
           status: SiteDetailsStatus.success,
@@ -58,7 +61,8 @@ class SiteDetailsBloc extends Bloc<SiteDetailsEvent, SiteDetailsState> {
 
 
 
-  Future<Map<String, dynamic>?> loadDetailSite(String accessToken,String id) async {
+  Future<Map<String, dynamic>?> loadDetailSite(String id) async {
+    final accessToken = await authServices.getAccessToken();
     final dio = Dio();
     dio.options.headers['Authorization'] = 'Bearer $accessToken';
     String api =

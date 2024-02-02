@@ -10,6 +10,7 @@ import 'package:uq_system_app/presentation/pages/dashboard/siteDetails/site_deta
 import 'package:uq_system_app/presentation/pages/dashboard/siteDetails/site_details_event.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/siteDetails/site_details_state.dart';
 import '../../../../assets.gen.dart';
+import '../../../../data/services/auth/auth.services.dart';
 import '../../../navigation/navigation.dart';
 import '../../../widgets/back_button_app_bar.dart';
 import '../../../widgets/content_detail.dart';
@@ -18,9 +19,8 @@ import '../../../widgets/title_detail.dart';
 @RoutePage()
 class SiteDetailsPage extends StatefulWidget {
   final String id;
-  final String accessToken;
 
-  const SiteDetailsPage({required this.id, required this.accessToken});
+  const SiteDetailsPage({required this.id});
 
   @override
   State<StatefulWidget> createState() => _SiteDetailsState();
@@ -34,8 +34,7 @@ class _SiteDetailsState extends State<SiteDetailsPage>
   @override
   void initState() {
     _siteDetailsBloc = SiteDetailsBloc();
-    _siteDetailsBloc.add(SiteDetailsGetDataStarted(
-        accessToken: widget.accessToken, id: widget.id));
+    _siteDetailsBloc.add(SiteDetailsGetDataStarted( id: widget.id));
 
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
@@ -446,7 +445,7 @@ class _SiteDetailsState extends State<SiteDetailsPage>
       right: 36,
       child: InkWell(
         onTap: (){
-          context.router.push(CreateSiteRoute(siteID: _currentSiteDetail!['id'], accessToken: widget.accessToken));
+          context.router.push(CreateSiteRoute(siteID: _currentSiteDetail!['id']));
         },
         child: Container(
           height: 60,

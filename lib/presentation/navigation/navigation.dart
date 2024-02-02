@@ -5,6 +5,7 @@ import 'package:uq_system_app/presentation/pages/auth/new_password/new_password_
 import 'package:uq_system_app/presentation/pages/auth/reset/reset_password_screen.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/chat/chat.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/dashboard.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/editCompanyInfo/edit_company_info.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/notification/notification.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/profile/profile.dart';
@@ -35,9 +36,9 @@ class AppRouter extends _$AppRouter {
     AutoRoute(page: NegotiationRoomRoute.page),
     AutoRoute(page: NotificationRoute.page),
     AutoRoute(page: SiteDetailsRoute.page),
-    AutoRoute(page: CreateSiteRoute.page)
+    AutoRoute(page: CreateSiteRoute.page),
+    AutoRoute(page: EditCompanyInfoRoute.page)
   ];
-
   @override
   RouteType get defaultRouteType => const RouteType.cupertino();
 }

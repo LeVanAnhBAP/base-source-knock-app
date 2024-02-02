@@ -8,6 +8,6 @@ class SiteDetailsEvent with _$SiteDetailsEvent {
   const factory SiteDetailsEvent.errorOccurred([BaseException? error]) =
   SiteDetailsErrorOccurred;
 
-  const factory SiteDetailsEvent.getDataStarted({String? accessToken,String? id}) = SiteDetailsGetDataStarted;
+  const factory SiteDetailsEvent.getDataStarted({String? id}) = SiteDetailsGetDataStarted;
 
 }
