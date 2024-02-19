@@ -110,7 +110,7 @@ abstract class NetworkDataSource {
       @Part(name: 'files[0]') File file);
   @POST(NetworkUrls.uploadMulti)
   Future<BaseResponse<List<String>>> getImagesFromUpload(
-      @Body() UploadMultiParams filPaths,);
+      @Body() UploadMultiParams filePaths,);
   //StaticData
   @POST(NetworkUrls.staticData)
   Future<BaseResponse<StaticDataResponse>> getStaticData(

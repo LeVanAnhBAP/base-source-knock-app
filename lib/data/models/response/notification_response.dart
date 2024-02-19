@@ -12,6 +12,7 @@ class NotificationResponse with _$NotificationResponse{
     @JsonKey(name : 'type') required int type,
     @JsonKey(name : 'seen_flag') required int seenFlag,
     @JsonKey(name: 'content')  String? content,
+    @JsonKey(name: 'json_image')  String? jsonImage,
     @JsonKey(name: 'created_at')  String? createAt,
     @JsonKey(name: 'room_id')  int? roomId,
     @JsonKey(name: 'factory_floor')  SiteDetailsResponse? site,

@@ -10,7 +10,6 @@ import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/data/models/response/notification_response.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/pages/completion_report/completion_report_bloc.dart';
-import 'package:uq_system_app/presentation/pages/completion_report/completion_report_event.dart';
 import 'package:uq_system_app/presentation/widgets/base_app_bar.dart';
 import 'package:uq_system_app/presentation/widgets/divider_line.dart';
 
@@ -61,6 +60,7 @@ class _CompletionReportPageState extends State<CompletionReportPage> {
             Text(
               widget.notification.content ?? "",
               style: context.typographies.bodyBold,
+              textAlign: TextAlign.center,
             ),
             const SizedBox(
               height: 10,

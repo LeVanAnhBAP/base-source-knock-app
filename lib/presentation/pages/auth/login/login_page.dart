@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uq_system_app/assets.gen.dart';
+import 'package:uq_system_app/core/extensions/text_style.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/presentation/widgets/input_container.dart';
 import 'package:uq_system_app/utils/utils.dart';
@@ -47,9 +48,9 @@ class _LoginPageState extends State<LoginPage> {
               break;
             case AuthStatus.failure:
               {
-                showAlertDialog(
-                    context: context,
-                    messages: [Utils.baseExceptionToString(context, state.error)]);
+                showAlertDialog(context: context, messages: [
+                  Utils.baseExceptionToString(context, state.error)
+                ]);
               }
               break;
             default:
@@ -73,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 40,
                     ),
                     _buildForm(),
+
                   ]),
             ),
           ),
@@ -128,13 +130,26 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(
             height: 19,
           ),
+          Row(
+            children: [
+              Checkbox(value: true, onChanged: (value) {}),
+              Text(
+                "メールアドレスとパスワードを保存する",
+                style: context.typographies.bodyBold
+                    .withColor(context.colors.primary),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 30),
             child: GestureDetector(
               onTap: () {
                 AutoRouter.of(context).push(const ResetPasswordRoute());
               },
-              child:  Text(
+              child: Text(
                 context.tr(LocaleKeys.Login_IfYouForgotYourPasswordClickHere),
                 style: const TextStyle(
                   decoration: TextDecoration.underline,
@@ -146,6 +161,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
+
           const SizedBox(
             height: 30,
           ),
@@ -172,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                 borderRadius: BorderRadius.circular(10),
                 color: const Color(0xffFFAD0E),
               ),
-              child:  Center(
+              child: Center(
                 child: Text(
                   context.tr(LocaleKeys.Login_Login),
                   style: const TextStyle(
@@ -192,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildEmailFiled() {
     return InputContainer(
-      padding: const  EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: TextFormField(
         validator: (value) {
           var errorValue = EmailValidator.validate(value ?? "")
@@ -205,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
         },
         controller: _emailController,
         style: context.appTheme.styles.textStyle,
-        decoration:  InputDecoration(
+        decoration: InputDecoration(
             errorStyle: const TextStyle(
               fontSize: 0,
             ),
@@ -223,8 +239,9 @@ class _LoginPageState extends State<LoginPage> {
       padding: const EdgeInsets.only(right: 10, top: 4, bottom: 4),
       child: TextFormField(
         validator: (value) {
-          var errorValue =
-              value == null || value.isEmpty ? context.tr(LocaleKeys.Login_PleaseEnterYourPassword) : null;
+          var errorValue = value == null || value.isEmpty
+              ? context.tr(LocaleKeys.Login_PleaseEnterYourPassword)
+              : null;
 
           setState(() {
             _errorPassword = errorValue;
@@ -248,7 +265,6 @@ class _LoginPageState extends State<LoginPage> {
               minWidth: 24,
               minHeight: 24,
             ),
-
             suffixIconColor: context.colors.primary,
             errorStyle: const TextStyle(
               fontSize: 0,
