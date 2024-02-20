@@ -241,12 +241,12 @@ class AppTheme extends ThemeExtension<AppTheme> {
         unselectedWidgetColor: colors.hint,
         disabledColor: colors.disabled,
         scaffoldBackgroundColor: colors.background,
+        drawerTheme: const DrawerThemeData(
+            backgroundColor: Colors.white, surfaceTintColor: Colors.white),
         hintColor: colors.hint,
         dividerColor: colors.divider,
         bottomSheetTheme: const BottomSheetThemeData(
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.white
-        ),
+            backgroundColor: Colors.white, surfaceTintColor: Colors.white),
         datePickerTheme: DatePickerThemeData(
             todayForegroundColor: MaterialStateProperty.resolveWith<Color?>(
               (Set<MaterialState> states) {
@@ -393,17 +393,17 @@ class AppTheme extends ThemeExtension<AppTheme> {
         checkboxTheme: CheckboxThemeData(
           visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-          side: MaterialStateBorderSide.resolveWith((states) => BorderSide(
-            color: colors.primary,
-            width: 1
-          )),
+          side: MaterialStateBorderSide.resolveWith(
+              (states) => BorderSide(color: colors.primary, width: 1)),
           fillColor: MaterialStateProperty.resolveWith((states) {
             return Colors.white;
           }),
           checkColor: MaterialStateProperty.resolveWith((states) {
             return states.contains(MaterialState.selected)
                 ? colors.primary
-                : states.contains(MaterialState.pressed) ? colors.primary : Colors.white;
+                : states.contains(MaterialState.pressed)
+                    ? colors.primary
+                    : Colors.white;
           }),
         ),
         radioTheme: const RadioThemeData(

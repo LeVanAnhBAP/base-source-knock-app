@@ -1,5 +1,7 @@
+import 'dart:convert';
 
 import 'package:injectable/injectable.dart';
+import 'package:uq_system_app/data/models/request/login_params.dart';
 import 'package:uq_system_app/data/services/auth/auth.services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -10,13 +12,13 @@ class AuthServicesImpl extends AuthServices {
   final String key;
   final FlutterSecureStorage _storage;
 
-
   const AuthServicesImpl._(
     this._storage,
     this.key,
   );
 
-  const AuthServicesImpl(FlutterSecureStorage storage,@Named('key') String? key)
+  const AuthServicesImpl(
+      FlutterSecureStorage storage, @Named('key') String? key)
       : this._(
           storage,
           key ?? 'default',
@@ -28,6 +30,7 @@ class AuthServicesImpl extends AuthServices {
 
   String get _tokenExpiresTime => '$_prefix/$key/tokenExpiresTime';
 
+  String get _loginInfoKey => '$_prefix/$key/loginInfo';
 
   @override
   Future<String?> getAccessToken() async {
@@ -76,16 +79,27 @@ class AuthServicesImpl extends AuthServices {
   Future<void> logout() async {
     await removeAllTokens();
   }
-  
- 
-  
+
   @override
   Future<void> saveTokenExpiresTime(String? expiresAt) {
     return _storage.write(key: _tokenExpiresTime, value: expiresAt);
   }
-  
+
   @override
   Future<String?> getTokenExpiresTime() {
     return _storage.read(key: _tokenExpiresTime).onError((_, __) => null);
+  }
+
+  @override
+  Future<void> saveLoginInfo(LoginParams loginInfo) {
+    return _storage.write(
+        key: _loginInfoKey, value: json.encode(loginInfo.toJson()));
+  }
+
+  @override
+  Future<LoginParams?> getLoginInfo() {
+    return _storage.read(key: _loginInfoKey).then((value) {
+      if (value != null) LoginParams.fromJson(jsonDecode(value));
+    }).onError((_, __) => null);
   }
 }
