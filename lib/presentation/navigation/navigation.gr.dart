@@ -28,6 +28,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: CompletionReportPage(args.notification),
       );
     },
+    ContractInformationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ContractInformationPage(),
+      );
+    },
     CreateSiteRoute.name: (routeData) {
       final args = routeData.argsAs<CreateSiteRouteArgs>(
           orElse: () => const CreateSiteRouteArgs());
@@ -88,10 +94,22 @@ abstract class _$AppRouter extends RootStackRouter {
         child: DealRoomPage(),
       );
     },
+    InvoiceRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: InvoicePage(),
+      );
+    },
     LoginRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const LoginPage(),
+      );
+    },
+    MemberInvitationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: MemberInvitationPage(),
       );
     },
     NotificationRoute.name: (routeData) {
@@ -214,6 +232,20 @@ class CompletionReportRouteArgs {
   String toString() {
     return 'CompletionReportRouteArgs{notification: $notification}';
   }
+}
+
+/// generated route for
+/// [ContractInformationPage]
+class ContractInformationRoute extends PageRouteInfo<void> {
+  const ContractInformationRoute({List<PageRouteInfo>? children})
+      : super(
+          ContractInformationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ContractInformationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -372,6 +404,20 @@ class DealRoomRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [InvoicePage]
+class InvoiceRoute extends PageRouteInfo<void> {
+  const InvoiceRoute({List<PageRouteInfo>? children})
+      : super(
+          InvoiceRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'InvoiceRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [LoginPage]
 class LoginRoute extends PageRouteInfo<void> {
   const LoginRoute({List<PageRouteInfo>? children})
@@ -381,6 +427,20 @@ class LoginRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'LoginRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MemberInvitationPage]
+class MemberInvitationRoute extends PageRouteInfo<void> {
+  const MemberInvitationRoute({List<PageRouteInfo>? children})
+      : super(
+          MemberInvitationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MemberInvitationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

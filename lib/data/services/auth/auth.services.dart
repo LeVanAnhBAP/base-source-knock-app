@@ -13,6 +13,8 @@ abstract class AuthServices {
   Future<String?> getTokenExpiresTime();
   Future<void> saveAccessToken(String? token);
   Future<void> saveLoginInfo(LoginParams loginInfo);
+  Future<void> saveRememberLoginInfoFlag(String flag);
+  Future<String?> getRememberLoginInfoFlag();
   Future<LoginParams?> getLoginInfo();
   Future<void> saveRefreshToken(String? token);
 

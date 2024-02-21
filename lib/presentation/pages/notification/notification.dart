@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:uq_system_app/data/models/response/notification_response.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/pages/notification/notification_bloc.dart';
 import 'package:uq_system_app/presentation/pages/notification/notification_event.dart';

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:injectable/injectable.dart';
 import 'package:uq_system_app/data/models/request/login_params.dart';
@@ -31,6 +32,8 @@ class AuthServicesImpl extends AuthServices {
   String get _tokenExpiresTime => '$_prefix/$key/tokenExpiresTime';
 
   String get _loginInfoKey => '$_prefix/$key/loginInfo';
+
+  String get _rememberLoginInfoFlagKey => '$_prefix/$key/rememberLoginInfo';
 
   @override
   Future<String?> getAccessToken() async {
@@ -101,5 +104,17 @@ class AuthServicesImpl extends AuthServices {
     return _storage.read(key: _loginInfoKey).then((value) {
       if (value != null) LoginParams.fromJson(jsonDecode(value));
     }).onError((_, __) => null);
+  }
+
+
+  @override
+  Future<String?> getRememberLoginInfoFlag() {
+    return _storage.read(key: _rememberLoginInfoFlagKey).onError((_, __) => null);
+  }
+
+  @override
+  Future<void> saveRememberLoginInfoFlag(String flag) {
+    return _storage.write(
+        key: _rememberLoginInfoFlagKey, value: flag);
   }
 }
