@@ -96,9 +96,10 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     EditCompanyInfoRoute.name: (routeData) {
+      final args = routeData.argsAs<EditCompanyInfoRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: EditCompanyInfoPage(),
+        child: EditCompanyInfoPage(companyInfo: args.companyInfo),
       );
     },
   };
@@ -318,14 +319,29 @@ class SiteDetailsRouteArgs {
 
 /// generated route for
 /// [EditCompanyInfoPage]
-class EditCompanyInfoRoute extends PageRouteInfo<void> {
-  const EditCompanyInfoRoute({List<PageRouteInfo>? children})
-      : super(
+class EditCompanyInfoRoute extends PageRouteInfo<EditCompanyInfoRouteArgs> {
+  EditCompanyInfoRoute({
+    required Map<String, dynamic> companyInfo,
+    List<PageRouteInfo>? children,
+  }) : super(
           EditCompanyInfoRoute.name,
+          args: EditCompanyInfoRouteArgs(companyInfo: companyInfo),
           initialChildren: children,
         );
 
   static const String name = 'EditCompanyInfoRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<EditCompanyInfoRouteArgs> page =
+      PageInfo<EditCompanyInfoRouteArgs>(name);
+}
+
+class EditCompanyInfoRouteArgs {
+  const EditCompanyInfoRouteArgs({required this.companyInfo});
+
+  final Map<String, dynamic> companyInfo;
+
+  @override
+  String toString() {
+    return 'EditCompanyInfoRouteArgs{companyInfo: $companyInfo}';
+  }
 }

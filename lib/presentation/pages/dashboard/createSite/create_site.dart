@@ -8,10 +8,10 @@ import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/createSite/create_site_bloc.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/createSite/create_site_event.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/createSite/create_site_state.dart';
+import 'package:uq_system_app/presentation/widgets/dropdown_address_button.dart';
 import 'package:uq_system_app/presentation/widgets/title_detail.dart';
 
 import '../../../../assets.gen.dart';
-import '../../../../data/services/auth/auth.services.dart';
 import '../../../widgets/back_button_app_bar.dart';
 import '../../../widgets/input_field.dart';
 
@@ -35,13 +35,54 @@ class _CreateSiteState extends State<CreateSitePage>
   TextEditingController nameController = TextEditingController();
   TextEditingController contentRequestController = TextEditingController();
   TextEditingController occupationController = TextEditingController();
+  TextEditingController wardsController = TextEditingController();
+  TextEditingController buildingController = TextEditingController();
   DateTime? selectedStartDay;
   DateTime? selectedEndDay;
+  List<String> listProvince = [
+    'js',
+    'ujaow',
+    'omfj',
+    'shtgtthyhytjyujtjjj',
+    's',
+    'sda',
+    'qankn',
+    'shdbj',
+    'jsjbjh',
+    'njkenknnr',
+    'eowp',
+    'zskj'
+  ];
+  List<String> listCity = [
+    'js',
+    'ujaow',
+    'omfj',
+    'sh',
+    's',
+    'sda',
+    'qankn',
+    'shdbjaaaaa',
+    'jsjbjh'
+  ];
+  List<String> listTown = [
+    'js',
+    'ujaow',
+    'omfj',
+    'sh',
+    's',
+    'sda',
+    'qanknmjjkjkjo',
+    'shdbj',
+    'jsjbjh'
+  ];
+  String provinceDropdownValue = 'js';
+  String cityDropdownValue = 'js';
+  String townDropdownValue = 'js';
 
   @override
   void initState() {
     _createSiteBloc = CreateSiteBloc();
-    _createSiteBloc.add(CreateSiteGetDataStarted( id: widget.siteID));
+    _createSiteBloc.add(CreateSiteGetDataStarted(id: widget.siteID));
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _createSiteBloc.stream.listen((state) {
@@ -54,7 +95,14 @@ class _CreateSiteState extends State<CreateSitePage>
       setControllerValues(state.site!);
     }
   }
-
+  String convertPrice(int? price) {
+    if (price == null) {
+      return 'null';
+    } else {
+      final format = NumberFormat("#,###");
+      return '¥${format.format(price).toString()}';
+    }
+  }
   void setControllerValues(Map<String, dynamic> site) {
     orderNumberController.text = (site['order_number'] ?? 'null').toString();
     codeController.text = (site['code'] ?? 'null').toString();
@@ -63,6 +111,8 @@ class _CreateSiteState extends State<CreateSitePage>
         (site['content_request'] ?? 'null').toString();
     occupationController.text =
         (site['factory_floor_occupation'][0]['name'] ?? 'null').toString();
+    wardsController.text = (site['wards'] ?? 'null').toString();
+    buildingController.text = (site['building_number'] ?? 'null').toString();
   }
 
   String dateFormatFromString(String date) {
@@ -151,71 +201,76 @@ class _CreateSiteState extends State<CreateSitePage>
   }
 
   Widget _buildBody(Map<String, dynamic>? site) {
-    return Container(
-      margin: const EdgeInsets.only(top: 20),
-      child: Column(
-        children: [
-          Container(
-            height: 40,
-            width: 200,
-            decoration: BoxDecoration(
-              color: context.colors.background,
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
-              border: Border.all(
-                color: context.colors.primary,
-                width: 2,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Container(
+        margin: const EdgeInsets.only(top: 20),
+        child: Column(
+          children: [
+            Container(
+              height: 40,
+              width: 200,
+              decoration: BoxDecoration(
+                color: context.colors.background,
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                border: Border.all(
+                  color: context.colors.primary,
+                  width: 2,
+                ),
+              ),
+              child: const Center(
+                child: Text('発注現場'),
               ),
             ),
-            child: const Center(
-              child: Text('発注現場'),
-            ),
-          ),
-          const Gap(16),
-          Flexible(
-            child: DefaultTabController(
-              length: 2,
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(4),
-                    height: 40,
-                    width: 300,
-                    decoration: BoxDecoration(
-                        color: context.colors.background,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(24))),
-                    child: TabBar(
-                      indicator: BoxDecoration(
-                          color: context.colors.backgroundDark,
+            const Gap(16),
+            Flexible(
+              child: DefaultTabController(
+                length: 2,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(4),
+                      height: 40,
+                      width: 300,
+                      decoration: BoxDecoration(
+                          color: context.colors.background,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(24))),
-                      labelStyle: TextStyle(color: context.colors.background),
-                      unselectedLabelStyle:
-                          TextStyle(color: context.colors.backgroundDark),
-                      controller: _tabController,
-                      tabs: const [
-                        Tab(text: '現場詳細'),
-                        Tab(text: '画像'),
-                      ],
+                      child: TabBar(
+                        indicator: BoxDecoration(
+                            color: context.colors.backgroundDark,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(24))),
+                        labelStyle: TextStyle(color: context.colors.background),
+                        unselectedLabelStyle:
+                            TextStyle(color: context.colors.backgroundDark),
+                        controller: _tabController,
+                        tabs: const [
+                          Tab(text: '現場詳細'),
+                          Tab(text: '画像'),
+                        ],
+                      ),
                     ),
-                  ),
-                  const Gap(16),
-                  Expanded(
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: [
-                        siteDetailTab(site),
-                        const Center(
-                          child: Text('Content for Tab 2'),
-                        ),
-                      ],
+                    const Gap(16),
+                    Expanded(
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          siteDetailTab(site),
+                          const Center(
+                            child: Text('Content for Tab 2'),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -378,6 +433,73 @@ class _CreateSiteState extends State<CreateSitePage>
                   ],
                 )
               ],
+            ),
+            const TitleDetail(text: '都道府県'),
+            DropdownAddress(
+              list: listProvince,
+              dropdownValue: provinceDropdownValue,
+              onChanged: (String? value) {
+                setState(() {
+                  provinceDropdownValue = value!;
+                });
+              },
+            ),
+            const TitleDetail(text: '市区町村'),
+            DropdownAddress(
+              list: listCity,
+              dropdownValue: cityDropdownValue,
+              onChanged: (String? value) {
+                setState(() {
+                  cityDropdownValue = value!;
+                });
+              },
+            ),
+            const TitleDetail(text: '町域'),
+            DropdownAddress(
+              list: listTown,
+              dropdownValue: townDropdownValue,
+              onChanged: (String? value) {
+                setState(() {
+                  townDropdownValue = value!;
+                });
+              },
+            ),
+            const TitleDetail(text: '番地以降'),
+            InputField(controller: wardsController),
+            const TitleDetail(text: '建物名称等'),
+            InputField(controller: buildingController),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const TitleDetail(text: '注文合計金額'),
+                orderDetailsButton(
+                    text: '注文明細',
+                    icon: Assets.icons.svg.icSiteDetailsOrderDetail.path)
+              ],
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              height: 60,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                color: const Color.fromRGBO(235, 235, 235, 1),
+                border: Border.all(color: context.colors.background, width: 2),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    offset: Offset(0, 2),
+                    blurRadius: 2,
+                    spreadRadius: 2,
+                  ),
+                ],
+              ),
+              child:  Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    convertPrice(site['total_amount']),
+                    style: const TextStyle(fontSize: 18),
+                  )),
             )
           ],
         ),
@@ -457,6 +579,38 @@ class _CreateSiteState extends State<CreateSitePage>
               Text(date)
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget orderDetailsButton({required String text, required String icon}) {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        margin: const EdgeInsets.only(right: 16),
+        decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 0.2,
+                blurRadius: 4,
+                offset: const Offset(0, 0),
+              ),
+            ],
+            borderRadius: const BorderRadius.all(Radius.circular(16)),
+            color: context.colors.secondary),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(icon),
+            const Gap(4),
+            Text(
+              text,
+              style: TextStyle(color: context.colors.background),
+            )
+          ],
         ),
       ),
     );

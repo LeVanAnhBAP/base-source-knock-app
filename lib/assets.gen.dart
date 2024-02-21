@@ -163,6 +163,9 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/ic_dashboard_site.svg
   SvgGenImage get icDashboardSite => const SvgGenImage('assets/icons/svg/ic_dashboard_site.svg');
 
+  /// File path: assets/icons/svg/ic_dropdown.svg
+  SvgGenImage get icDropdown => const SvgGenImage('assets/icons/svg/ic_dropdown.svg');
+
   /// File path: assets/icons/svg/ic_edit_company_info.svg
   SvgGenImage get icEditCompanyInfo =>
       const SvgGenImage('assets/icons/svg/ic_edit_company_info.svg');
@@ -267,6 +270,7 @@ class $AssetsIconsSvgGen {
         icDashboardProfile,
         icDashboardSearch,
         icDashboardSite,
+        icDropdown,
         icEditCompanyInfo,
         icEmployees,
         icFeatherBell,

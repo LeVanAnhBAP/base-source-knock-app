@@ -10,7 +10,7 @@ class InputField extends StatelessWidget {
     this.onChangedValue,
     this.height=60,
     this.maxLines=1,
-    this.maxLength
+    this.maxLength,
   });
   final Function(String value)? onChangedValue;
   final String textFieldHintText;

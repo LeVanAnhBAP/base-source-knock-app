@@ -14,8 +14,6 @@ import 'package:uq_system_app/presentation/widgets/app_bar.dart';
 import 'package:uq_system_app/presentation/widgets/content_detail.dart';
 import 'package:uq_system_app/presentation/widgets/title_detail.dart';
 
-import '../../../../data/services/auth/auth.services.dart';
-
 @RoutePage()
 class DashboardProfilePage extends StatefulWidget {
   const DashboardProfilePage({Key? key}) : super(key: key);
@@ -275,7 +273,7 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
               const TitleDetail(text: '種別'),
               IconButton(
                   onPressed: (){
-                       context.router.push(const EditCompanyInfoRoute());
+                       context.router.push( EditCompanyInfoRoute(companyInfo: companyInfo));
                   },
                   icon: SvgPicture.asset(Assets.icons.svg.icEditCompanyInfo.path))
             ],
