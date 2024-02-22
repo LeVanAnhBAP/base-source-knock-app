@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uq_system_app/assets.gen.dart';
@@ -6,6 +7,7 @@ import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_event.dart';
+import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/widgets/divider_line.dart';
 
 class DrawerList extends StatelessWidget {
@@ -40,7 +42,9 @@ class DrawerList extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    _buildItem(context, "メンバー招待", () {})
+                    _buildItem(context, "メンバー招待", () {
+                      context.router.push(const MemberInvitationRoute());
+                    })
                   ],
                 ),
               ),
@@ -218,18 +222,21 @@ class DrawerList extends StatelessWidget {
   }
 
   Widget _buildItem(BuildContext context, String desc, void Function() onTap) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          desc,
-          style: context.typographies.body,
-        ),
-        SvgPicture.asset(
-          Assets.icons.svg.icRightBack.path,
-          width: 8,
-        )
-      ],
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            desc,
+            style: context.typographies.body,
+          ),
+          SvgPicture.asset(
+            Assets.icons.svg.icRightBack.path,
+            width: 8,
+          )
+        ],
+      ),
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:uq_system_app/domain/entities/member.dart';
 import 'package:uq_system_app/presentation/pages/auth/reset_password/reset_password_page.dart';
 import 'package:uq_system_app/presentation/pages/auth/login/login_page.dart';
 import 'package:uq_system_app/presentation/pages/completion_report/completion_report.dart';
+import 'package:uq_system_app/presentation/pages/contract_information/contract_information.dart';
 import 'package:uq_system_app/presentation/pages/create_site/create_site.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/account/account.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/chat/chat.dart';
@@ -17,6 +18,8 @@ import 'package:uq_system_app/presentation/pages/dashboard/on_site/on_site.dart'
 import 'package:uq_system_app/presentation/pages/dashboard/profile/profile.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/search/search.dart';
 import 'package:uq_system_app/presentation/pages/deal_room/deal_room.dart';
+import 'package:uq_system_app/presentation/pages/invoice/invoice.dart';
+import 'package:uq_system_app/presentation/pages/member_invitation/member_invitation.dart';
 import 'package:uq_system_app/presentation/pages/notification/notification.dart';
 import 'package:uq_system_app/presentation/pages/occupation/occupation.dart';
 import 'package:uq_system_app/presentation/pages/order_details/order_details.dart';
@@ -60,6 +63,9 @@ class AppRouter extends _$AppRouter{
     AutoRoute(path: '/deal_room', page: DealRoomRoute.page),
     AutoRoute(path: '/chat_deal_room', page: ChatDealRoomRoute.page),
     AutoRoute(path: '/completion_report', page: CompletionReportRoute.page),
+    AutoRoute(path: '/member_invitation', page: MemberInvitationRoute.page),
+    AutoRoute(path: '/contract_information', page: ContractInformationRoute.page),
+    AutoRoute(path: '/invoice', page: InvoiceRoute.page),
   ];
 @override
   RouteType get defaultRouteType => const RouteType.material();
