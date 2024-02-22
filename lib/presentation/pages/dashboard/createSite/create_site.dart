@@ -484,13 +484,13 @@ class _CreateSiteState extends State<CreateSitePage>
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
                 color: const Color.fromRGBO(235, 235, 235, 1),
-                border: Border.all(color: context.colors.background, width: 2),
+                border: Border.all(color: context.colors.background, width: 4),
                 boxShadow: const [
                   BoxShadow(
-                    color: Colors.black12,
+                    color: Colors.black26,
                     offset: Offset(0, 2),
-                    blurRadius: 2,
-                    spreadRadius: 2,
+                    blurRadius: 2.5,
+                    spreadRadius: 1.2,
                   ),
                 ],
               ),

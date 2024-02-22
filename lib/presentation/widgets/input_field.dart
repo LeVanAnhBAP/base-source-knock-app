@@ -38,13 +38,13 @@ class InputField extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
         color: const Color.fromRGBO(247, 248, 250, 1),
-        border: Border.all(color: context.colors.background, width: 2),
+        border: Border.all(color: context.colors.background, width: 4),
         boxShadow: const [
           BoxShadow(
-            color: Colors.black12,
+            color: Colors.black26,
             offset: Offset(0, 2),
-            blurRadius: 2,
-            spreadRadius: 2,
+            blurRadius: 2.5,
+            spreadRadius: 1.2,
           ),
         ],
       ),
@@ -59,10 +59,16 @@ class InputField extends StatelessWidget {
         decoration: InputDecoration(
           counterText: '',
           filled: true,
-          fillColor: const Color.fromRGBO(247, 248, 250, 1),
-          border: const OutlineInputBorder(borderSide: BorderSide.none),
+          fillColor:  const Color.fromRGBO(247, 248, 250, 1),
+          border:  OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
           enabledBorder:
-              const OutlineInputBorder(borderSide: BorderSide.none),
+          OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
           hintStyle: const TextStyle(
             fontSize: 16,
             color: Colors.cyan,

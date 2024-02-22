@@ -96,7 +96,7 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
                 background: _buildAvatarAndBackground(state),
               ),
               bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(58),
+                preferredSize: const Size.fromHeight(66),
                 child: Container(
                   width: double.infinity,
                   decoration: const BoxDecoration(
@@ -111,10 +111,10 @@ class _DashboardProfilePageState extends State<DashboardProfilePage>
                       Container(
                         margin: const EdgeInsets.symmetric(
                           horizontal: 60,
-                          vertical: 8,
+                          vertical: 16,
                         ),
-                        padding: const EdgeInsets.all(6),
-                        height: 40,
+                        padding: const EdgeInsets.all(4),
+                        height: 32,
                         decoration: BoxDecoration(
                           color: context.colors.divider,
                           borderRadius: const BorderRadius.all(
