@@ -45,7 +45,8 @@ class CustomAppBar extends AppBar {
       super.elevation,
       super.backgroundColor = Colors.white,
       super.titleSpacing = 0,
-      super.surfaceTintColor = Colors.transparent});
+      super.surfaceTintColor = Colors.transparent
+      });
 
   @override
   Widget? get title =>

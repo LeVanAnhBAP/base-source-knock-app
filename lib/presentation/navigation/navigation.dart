@@ -5,6 +5,7 @@ import 'package:uq_system_app/data/models/response/notification_response.dart';
 import 'package:uq_system_app/data/models/response/occupation_major_response.dart';
 import 'package:uq_system_app/data/models/response/occupation_response.dart';
 import 'package:uq_system_app/domain/entities/member.dart';
+import 'package:uq_system_app/presentation/pages/account_information/account_information.dart';
 import 'package:uq_system_app/presentation/pages/auth/reset_password/reset_password_page.dart';
 import 'package:uq_system_app/presentation/pages/auth/login/login_page.dart';
 import 'package:uq_system_app/presentation/pages/completion_report/completion_report.dart';
@@ -66,6 +67,7 @@ class AppRouter extends _$AppRouter{
     AutoRoute(path: '/member_invitation', page: MemberInvitationRoute.page),
     AutoRoute(path: '/contract_information', page: ContractInformationRoute.page),
     AutoRoute(path: '/invoice', page: InvoiceRoute.page),
+    AutoRoute(path: '/account_information', page: AccountInformationRoute.page),
   ];
 @override
   RouteType get defaultRouteType => const RouteType.material();
