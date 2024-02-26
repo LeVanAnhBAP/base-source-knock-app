@@ -14,6 +14,7 @@ import 'package:uq_system_app/presentation/pages/dashboard/site/site.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/negotiationRoom/negotiation_room.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/createSite/create_site.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/siteDetails/site_details.dart';
+import 'package:uq_system_app/presentation/pages/detailPartner/detail_partner.dart';
 part 'navigation.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page,Route')
@@ -37,7 +38,8 @@ class AppRouter extends _$AppRouter {
     AutoRoute(page: NotificationRoute.page),
     AutoRoute(page: SiteDetailsRoute.page),
     AutoRoute(page: CreateSiteRoute.page),
-    AutoRoute(page: EditCompanyInfoRoute.page)
+    AutoRoute(page: EditCompanyInfoRoute.page),
+    AutoRoute(page: DetailPartnerRoute.page)
   ];
   @override
   RouteType get defaultRouteType => const RouteType.cupertino();

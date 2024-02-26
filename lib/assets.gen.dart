@@ -185,6 +185,9 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/ic_menu.svg
   SvgGenImage get icMenu => const SvgGenImage('assets/icons/svg/ic_menu.svg');
 
+  /// File path: assets/icons/svg/ic_phone.svg
+  SvgGenImage get icPhone => const SvgGenImage('assets/icons/svg/ic_phone.svg');
+
   /// File path: assets/icons/svg/ic_red_pin.svg
   SvgGenImage get icRedPin => const SvgGenImage('assets/icons/svg/ic_red_pin.svg');
 
@@ -277,6 +280,7 @@ class $AssetsIconsSvgGen {
         icJob,
         icMark,
         icMenu,
+        icPhone,
         icRedPin,
         icRemove,
         icScheduleArrowDropright,

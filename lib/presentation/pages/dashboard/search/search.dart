@@ -1,13 +1,14 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/search/search_bloc.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/search/search_event.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/search/search_state.dart';
 import 'package:uq_system_app/presentation/widgets/app_bar.dart';
 import 'package:uq_system_app/presentation/widgets/search_screen_item.dart';
 import '../../../../assets.gen.dart';
-import '../../../../data/services/auth/auth.services.dart';
 
 @RoutePage()
 class DashboardSearchPage extends StatelessWidget {
@@ -106,6 +107,9 @@ class _DashboardSearchPageContentState
                         manNumber:
                             '稼働可能人員目安 ${listPartner[index]['man_number'] ?? '0'}人',
                         logo: (listPartner[index]['logo']['url']).toString(),
+                        onClick: () { 
+                          context.router.push(const DetailPartnerRoute());
+                        },
                       );
                     },
                   ),

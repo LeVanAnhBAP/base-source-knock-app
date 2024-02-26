@@ -102,6 +102,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: EditCompanyInfoPage(companyInfo: args.companyInfo),
       );
     },
+    DetailPartnerRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: DetailPartnerPage(),
+      );
+    },
   };
 }
 
@@ -344,4 +350,18 @@ class EditCompanyInfoRouteArgs {
   String toString() {
     return 'EditCompanyInfoRouteArgs{companyInfo: $companyInfo}';
   }
+}
+
+/// generated route for
+/// [DetailPartnerPage]
+class DetailPartnerRoute extends PageRouteInfo<void> {
+  const DetailPartnerRoute({List<PageRouteInfo>? children})
+      : super(
+          DetailPartnerRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DetailPartnerRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
