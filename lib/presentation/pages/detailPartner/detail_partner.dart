@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
+import 'package:uq_system_app/presentation/widgets/title_detail.dart';
 
 import '../../../assets.gen.dart';
 
@@ -16,7 +17,32 @@ class DetailPartnerPage extends StatefulWidget {
 class DetailPartnerState extends State<DetailPartnerPage>
     with TickerProviderStateMixin {
   late final TabController _tabController;
-
+  List<String> titleBasicInfo = [
+    '代表管理者',
+    '所在地',
+    'ひとこと',
+    '自己紹介',
+    '職種',
+    '保有資格',
+    '労災保険',
+    '社会保険',
+    'その他の保険',
+    '本人確認資料',
+    '建設業許可証明書'
+  ];
+  List<String> contentBasicInfo = [
+    'asdaf',
+    'fewgsds',
+    'sdgfsd sfdsf',
+    'sgbe erw',
+    'as fgwe',
+    'sfd jkshhdfhj jkhsoijip s;lkl sklkfklkl koijoihdgornjkn dfhiu gdihigersf',
+    'g uhu qwdsa',
+    'hjoasdiuhiujh',
+    'sd',
+    'asgd',
+    'hhgauyjghshj'
+  ];
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
@@ -31,7 +57,7 @@ class DetailPartnerState extends State<DetailPartnerPage>
           return [
             SliverAppBar(
               backgroundColor: context.colors.background,
-              expandedHeight: 360.0,
+              expandedHeight: 340.0,
               floating: true,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
@@ -139,8 +165,8 @@ class DetailPartnerState extends State<DetailPartnerPage>
                   ClipOval(
                     child: Container(
                       color: Colors.white,
-                      height: 100,
-                      width: 100,
+                      height: 88,
+                      width: 88,
                     ),
                   ),
                   const Gap(20),
@@ -155,24 +181,30 @@ class DetailPartnerState extends State<DetailPartnerPage>
                       Text(
                         'kkhkjh ksd',
                         style:
-                            TextStyle(fontSize: 20, color: context.colors.text),
+                            TextStyle(fontSize: 16, color: context.colors.text),
                       ),
+                      const Gap(4),
                       Text(
                         'kk hkjhksd',
-                        style:
-                            TextStyle(fontSize: 24, color: context.colors.text),
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: context.colors.text,
+                            fontWeight: FontWeight.bold),
                       ),
+                      const Gap(4),
                       Row(
                         children: [
                           SvgPicture.asset(
                             Assets.icons.svg.icPhone.path,
-                            height: 40,
+                            height: 32,
                           ),
-                          const Gap(8),
+                          const Gap(16),
                           Text(
                             '023847394',
                             style: TextStyle(
-                                fontSize: 22, color: context.colors.text),
+                                fontSize: 18,
+                                color: context.colors.text,
+                                fontWeight: FontWeight.bold),
                           )
                         ],
                       )
@@ -247,27 +279,71 @@ class DetailPartnerState extends State<DetailPartnerPage>
   Widget _buildScheduleTab() {
     return Container(
       color: context.colors.disabled,
-      padding: const EdgeInsets.all(16),
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: context.colors.background,
-          borderRadius: const BorderRadius.all(Radius.circular(20))
-        ),
-        child: TableCalendar(
-          focusedDay: DateTime.now(),
-          firstDay: DateTime.utc(2023, 1, 1),
-          lastDay: DateTime.utc(2024, 12, 31),
-        ),
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+                color: context.colors.background,
+                borderRadius: const BorderRadius.all(Radius.circular(20))),
+            height: 420,
+            child: TableCalendar(
+              focusedDay: DateTime.now(),
+              firstDay: DateTime.utc(2023, 1, 1),
+              lastDay: DateTime.utc(2024, 12, 31),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildBasicInfoTab() {
-    return Container();
+    return Container(
+      color: context.colors.disabled,
+      padding: const EdgeInsets.all(16),
+      child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          decoration: BoxDecoration(
+              color: context.colors.background,
+              borderRadius: const BorderRadius.all(Radius.circular(20))),
+          child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: titleBasicInfo.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TitleDetail(text: titleBasicInfo[index]),
+                    content(text: contentBasicInfo[index]),
+                    line()
+                  ],
+                );
+              })),
+    );
   }
 
   Widget _buildAchievementsTab() {
     return Container();
+  }
+
+  Widget line() {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      color: context.colors.disabled,
+      height: 0.8,
+    );
+  }
+
+  Widget content({required String text}) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: Text(
+        text,
+        style: TextStyle(color: context.colors.border, fontSize: 18),
+        softWrap: true,
+      ),
+    );
   }
 }

@@ -1,54 +1,55 @@
+
 import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
-import 'package:uq_system_app/presentation/pages/dashboard/profile/profile_event.dart';
 import '../../../../core/exceptions/unknown_exception.dart';
 import '../../../../data/services/auth/auth.services.impl.dart';
-import 'profile_state.dart';
+import 'detail_partner_event.dart';
+import 'detail_partner_state.dart';
 
 
-class AccountBloc extends Bloc<AccountEvent, AccountState> {
+class DetailPartnerBloc extends Bloc<DetailPartnerEvent, DetailPartnerState> {
   final authServices = AuthServicesImpl(const FlutterSecureStorage());
-  AccountBloc() : super(const AccountState()) {
-    on<AccountGetDataStarted>(_onGetDataStated);
-    on<AccountErrorOccurred>(_onErrorOccurred);
+  DetailPartnerBloc() : super(const DetailPartnerState()) {
+    on<DetailPartnerGetDataStarted>(_onGetDataStated);
+    on<DetailPartnerErrorOccurred>(_onErrorOccurred);
   }
 
   @override
   void onError(Object error, StackTrace stackTrace) {
-    add(AccountEvent.errorOccurred(BaseException.from(error)));
+    add(DetailPartnerEvent.errorOccurred(BaseException.from(error)));
     super.onError(error, stackTrace);
   }
 
-  FutureOr<void> _onErrorOccurred(AccountErrorOccurred event,
-      Emitter<AccountState> emit,) {
+  FutureOr<void> _onErrorOccurred(DetailPartnerErrorOccurred event,
+      Emitter<DetailPartnerState> emit,) {
     emit(state.copyWith(
-      status: AccountStatus.failure,
+      status: DetailPartnerStatus.failure,
     ));
   }
 
-  FutureOr<void> _onGetDataStated(AccountGetDataStarted event,
-      Emitter<AccountState> emit,) async {
-    emit(state.copyWith(status: AccountStatus.loading));
+  FutureOr<void> _onGetDataStated(DetailPartnerGetDataStarted event,
+      Emitter<DetailPartnerState> emit,) async {
+    emit(state.copyWith(status: DetailPartnerStatus.loading));
     try {
       Map<String, dynamic>? data = await loadUserInfo();
       if (data != null) {
         emit(state.copyWith(
-          status: AccountStatus.success,
+          status: DetailPartnerStatus.success,
           userInfo: data,
         ));
       } else {
         emit(state.copyWith(
-          status: AccountStatus.failure,
+          status: DetailPartnerStatus.failure,
           error: UnknownException('Failed to load data'),
         ));
       }
     } catch (error) {
       emit(state.copyWith(
-        status: AccountStatus.failure,
+        status: DetailPartnerStatus.failure,
         error: BaseException.from(error),
       ));
     }
