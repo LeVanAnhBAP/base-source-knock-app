@@ -36,7 +36,7 @@ class DetailPartnerState extends State<DetailPartnerPage>
     'sdgfsd sfdsf',
     'sgbe erw',
     'as fgwe',
-    'sfd jkshhdfhj jkhsoijip s;lkl sklkfklkl koijoihdgornjkn dfhiu gdihigersf',
+    'sfd jkshhdfhj jkhsoijip s;lkl s',
     'g uhu qwdsa',
     'hjoasdiuhiujh',
     'sd',
@@ -328,14 +328,6 @@ class DetailPartnerState extends State<DetailPartnerPage>
     return Container();
   }
 
-  Widget line() {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      color: context.colors.disabled,
-      height: 0.8,
-    );
-  }
-
   Widget content({required String text}) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -346,4 +338,12 @@ class DetailPartnerState extends State<DetailPartnerPage>
       ),
     );
   }
+  Widget line() {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      color: context.colors.disabled,
+      height: 0.8,
+    );
+  }
+
 }

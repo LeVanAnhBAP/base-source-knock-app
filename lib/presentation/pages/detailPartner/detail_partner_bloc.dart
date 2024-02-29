@@ -61,7 +61,7 @@ class DetailPartnerBloc extends Bloc<DetailPartnerEvent, DetailPartnerState> {
     final dio = Dio();
     dio.options.headers['Authorization'] = 'Bearer $accessToken';
     String api =
-        "https://dev-knock-api.oneknockapp.com/api/v1/user/me/info";
+        "";
 
     try {
       Response response = await dio.get(api);
