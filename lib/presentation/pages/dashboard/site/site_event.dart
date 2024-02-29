@@ -7,8 +7,8 @@ part 'site_event.freezed.dart';
 class SiteEvent with _$SiteEvent {
   const factory SiteEvent.errorOccurred([BaseException? error]) =
   SiteErrorOccurred;
-  const factory SiteEvent.getDataStarted({String? accessToken}) = DashboardSiteGetDataStarted;
-  const factory SiteEvent.loadSearchData({String? accessToken,String? searchText}) = DashboardSiteLoadSearchData;
-  const factory SiteEvent.loadMoreData({String? accessToken}) =DashboardSiteLoadMoreData;
+  const factory SiteEvent.getDataStarted() = DashboardSiteGetDataStarted;
+  const factory SiteEvent.loadSearchData({String? searchText}) = DashboardSiteLoadSearchData;
+  const factory SiteEvent.loadMoreData() =DashboardSiteLoadMoreData;
 
 }

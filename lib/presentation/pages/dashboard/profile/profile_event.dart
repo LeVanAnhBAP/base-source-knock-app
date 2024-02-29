@@ -7,5 +7,5 @@ part 'profile_event.freezed.dart';
 class AccountEvent with _$AccountEvent {
   const factory AccountEvent.errorOccurred([BaseException? error]) =
       AccountErrorOccurred;
-  const factory AccountEvent.getDataStarted({String? accessToken}) = AccountGetDataStarted;
+  const factory AccountEvent.getDataStarted() = AccountGetDataStarted;
 }

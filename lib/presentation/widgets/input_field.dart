@@ -9,7 +9,8 @@ class InputField extends StatelessWidget {
     this.obscureText = false,
     this.onChangedValue,
     this.height=60,
-    this.maxLines=1
+    this.maxLines=1,
+    this.maxLength,
   });
   final Function(String value)? onChangedValue;
   final String textFieldHintText;
@@ -17,6 +18,18 @@ class InputField extends StatelessWidget {
   final bool obscureText;
   final double height;
   final int? maxLines;
+  final int? maxLength;
+
+  void _moveCursorToEnd() {
+    Future.delayed(Duration.zero, () {
+      final text = controller.text;
+      controller.value = controller.value.copyWith(
+        text: text,
+        selection: TextSelection.collapsed(offset: text.length),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,28 +38,37 @@ class InputField extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
         color: const Color.fromRGBO(247, 248, 250, 1),
-        border: Border.all(color: context.colors.background, width: 2),
+        border: Border.all(color: context.colors.background, width: 4),
         boxShadow: const [
           BoxShadow(
-            color: Colors.black12,
+            color: Colors.black26,
             offset: Offset(0, 2),
-            blurRadius: 1,
-            spreadRadius: 1,
+            blurRadius: 2.5,
+            spreadRadius: 1.2,
           ),
         ],
       ),
       child: TextField(
+        maxLength: maxLength,
+        onTap: _moveCursorToEnd,
         keyboardType: TextInputType.multiline,
         textInputAction: TextInputAction.newline,
         maxLines: maxLines,
         obscureText: obscureText,
         controller: controller,
         decoration: InputDecoration(
+          counterText: '',
           filled: true,
-          fillColor: const Color.fromRGBO(247, 248, 250, 1),
-          border: const OutlineInputBorder(borderSide: BorderSide.none),
+          fillColor:  const Color.fromRGBO(247, 248, 250, 1),
+          border:  OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
           enabledBorder:
-              const OutlineInputBorder(borderSide: BorderSide.none),
+          OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
           hintStyle: const TextStyle(
             fontSize: 16,
             color: Colors.cyan,

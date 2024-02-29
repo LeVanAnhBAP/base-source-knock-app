@@ -9,6 +9,7 @@ import 'dart:async';
 
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
 
+import '../data/services/auth/auth.services.dart';
 import '../presentation/pages/dashboard/profile/profile_bloc.dart';
 
 FutureOr<void> registerStates() async {
@@ -30,10 +31,10 @@ FutureOr<void> registerStates() async {
   );
 
   provider.registerSingleton<AccountBloc>(
-    AccountBloc(),
+    AccountBloc( ),
   );
 
   provider.registerSingleton<HomeBloc>(
-    HomeBloc(),
+    HomeBloc( ),
   );
 }

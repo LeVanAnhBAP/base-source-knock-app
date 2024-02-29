@@ -18,8 +18,7 @@ import 'home_state.dart';
 
 @RoutePage()
 class DashboardHomePage extends StatefulWidget {
-  final String accessToken;
-  const DashboardHomePage({super.key, required this.accessToken});
+  const DashboardHomePage({super.key,});
 
   @override
   State<DashboardHomePage> createState() => _DashboardHomePageState();
@@ -50,7 +49,6 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
     homeBloc = context.read<HomeBloc>();
     scheduleMicrotask(() {
       homeBloc.add(DashboardHomeGetDataStarted(
-          accessToken: widget.accessToken,
           date: changeDateFormat(
             DateTime.now(),
           )));
@@ -174,7 +172,6 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
             print(_selectedDay);
           });
           homeBloc.add(DashboardHomeGetDataByDate(
-            accessToken: widget.accessToken,
             date: changeDateFormat(selectedDay),
           ));
         },
@@ -235,11 +232,11 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
               companyLogo: Assets.icons.png.icScheduleCardCompanyLogo.path,
               clickDropRight: () {
                 if (listData[index]['status'].toString() == '0') {
-                  context.router.push( CreateSiteRoute(siteID: listData[index]['id'], accessToken: widget.accessToken));
+                  context.router.push( CreateSiteRoute(siteID: listData[index]['id']));
                 } else {
                   context.router.push(SiteDetailsRoute(
                       id: listData[index]['id'].toString(),
-                      accessToken: widget.accessToken));
+                     ));
                 }
               },
               status: statusCheck(listData[index]['status'].toString()),

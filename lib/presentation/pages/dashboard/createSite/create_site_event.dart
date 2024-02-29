@@ -7,6 +7,6 @@ part 'create_site_event.freezed.dart';
 class CreateSiteEvent with _$CreateSiteEvent {
   const factory CreateSiteEvent.errorOccurred([BaseException? error]) =
   CreateSiteErrorOccurred;
-  const factory CreateSiteEvent.getDataStarted({String? accessToken,int? id}) = CreateSiteGetDataStarted;
-  const factory CreateSiteEvent.updateData({String? accessToken,int? id,Map<String,dynamic>? updatedSite}) =CreateSiteUpdateData;
+  const factory CreateSiteEvent.getDataStarted({int? id}) = CreateSiteGetDataStarted;
+  const factory CreateSiteEvent.updateData({int? id,Map<String,dynamic>? updatedSite}) =CreateSiteUpdateData;
 }

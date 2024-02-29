@@ -9,7 +9,7 @@ const ContentDetail({required this.text});
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Text(
         text,
-        style: TextStyle(color: context.colors.border),
+        style: TextStyle(color: context.colors.border,fontSize: 18),
         softWrap: true,
       ),
     );

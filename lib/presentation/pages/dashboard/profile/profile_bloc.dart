@@ -2,14 +2,16 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/profile/profile_event.dart';
-
 import '../../../../core/exceptions/unknown_exception.dart';
+import '../../../../data/services/auth/auth.services.impl.dart';
 import 'profile_state.dart';
 
 
 class AccountBloc extends Bloc<AccountEvent, AccountState> {
+  final authServices = AuthServicesImpl(const FlutterSecureStorage());
   AccountBloc() : super(const AccountState()) {
     on<AccountGetDataStarted>(_onGetDataStated);
     on<AccountErrorOccurred>(_onErrorOccurred);
@@ -32,7 +34,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       Emitter<AccountState> emit,) async {
     emit(state.copyWith(status: AccountStatus.loading));
     try {
-      Map<String, dynamic>? data = await loadUserInfo(event.accessToken!);
+      Map<String, dynamic>? data = await loadUserInfo();
       if (data != null) {
         emit(state.copyWith(
           status: AccountStatus.success,
@@ -53,7 +55,8 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   }
 
 
-  Future<Map<String, dynamic>?> loadUserInfo(String accessToken) async {
+  Future<Map<String, dynamic>?> loadUserInfo() async {
+    final accessToken = await authServices.getAccessToken();
     final dio = Dio();
     dio.options.headers['Authorization'] = 'Bearer $accessToken';
     String api =

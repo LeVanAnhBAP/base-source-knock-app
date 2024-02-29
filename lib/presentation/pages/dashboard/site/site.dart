@@ -12,31 +12,28 @@ import 'package:uq_system_app/presentation/widgets/dashboard_drawer.dart';
 import 'package:uq_system_app/presentation/widgets/schedule_card.dart';
 import 'package:uq_system_app/presentation/widgets/search_field.dart';
 import '../../../../assets.gen.dart';
+import '../../../../data/services/auth/auth.services.dart';
 import 'site_bloc.dart';
 
 @RoutePage()
 class DashboardSitePage extends StatelessWidget {
-  final String accessToken;
 
-  const DashboardSitePage({Key? key, required this.accessToken})
+  const DashboardSitePage({Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SiteBloc()
-        ..add(DashboardSiteGetDataStarted(
-          accessToken: accessToken,
-        )),
-      child: DashboardSitePageContent(accessToken: accessToken),
+        ..add(const DashboardSiteGetDataStarted()),
+      child: const DashboardSitePageContent(),
     );
   }
 }
 
 class DashboardSitePageContent extends StatefulWidget {
-  final String accessToken;
 
-  const DashboardSitePageContent({Key? key, required this.accessToken})
+  const DashboardSitePageContent({Key? key})
       : super(key: key);
 
   @override
@@ -60,7 +57,7 @@ class _DashboardSitePageContentState extends State<DashboardSitePageContent> {
         !_scrollController.position.outOfRange) {
       context
           .read<SiteBloc>()
-          .add(DashboardSiteLoadMoreData(accessToken: widget.accessToken));
+          .add(const DashboardSiteLoadMoreData());
     }
   }
 
@@ -99,7 +96,6 @@ class _DashboardSitePageContentState extends State<DashboardSitePageContent> {
       child: SearchField(
         onSearchValue: (value) async {
           context.read<SiteBloc>().add(DashboardSiteLoadSearchData(
-                accessToken: widget.accessToken,
                 searchText: value,
               ));
         },
@@ -142,12 +138,11 @@ class _DashboardSitePageContentState extends State<DashboardSitePageContent> {
                           clickDropRight: () {
                             if (listSite[index]['status'].toString() == '0') {
                               context.router.push(CreateSiteRoute(
-                                  siteID: listSite[index]['id'], accessToken: widget.accessToken));
+                                  siteID: listSite[index]['id']));
                             } else {
                               context.router.push(
                                 SiteDetailsRoute(
-                                  id: listSite[index]['id'].toString(),
-                                  accessToken: widget.accessToken,
+                                  id: listSite[index]['id'].toString()
                                 ),
                               );
                             }
