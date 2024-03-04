@@ -26,8 +26,9 @@ class _OnsiteInformationRoomPageState extends State<OnsiteInformationRoomPage> {
     return BlocProvider.value(
       value: _bloc,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Onsite Information Room Page'),
+        appBar: CustomAppBar(
+          context,
+          titleText: '大事なお知らせ',
         ),
         body: const Center(
           child: Text('Onsite Information Room Page'),
