@@ -26,8 +26,9 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
     return BlocProvider.value(
       value: _bloc,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Account Information Page'),
+        appBar: CustomAppBar(
+          context,
+          titleText: 'アカウント情報',
         ),
         body: const Center(
           child: Text('Account Information Page'),
