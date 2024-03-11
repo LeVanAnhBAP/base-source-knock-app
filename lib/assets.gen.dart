@@ -142,8 +142,30 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/.gitkeep
   String get gitkeep => 'assets/icons/svg/.gitkeep';
 
+  /// File path: assets/icons/svg/ic_arrow_down.svg
+  SvgGenImage get icArrowDown => const SvgGenImage('assets/icons/svg/ic_arrow_down.svg');
+
+  /// File path: assets/icons/svg/ic_arrow_up.svg
+  SvgGenImage get icArrowUp => const SvgGenImage('assets/icons/svg/ic_arrow_up.svg');
+
+  /// File path: assets/icons/svg/ic_attach_file.svg
+  SvgGenImage get icAttachFile => const SvgGenImage('assets/icons/svg/ic_attach_file.svg');
+
   /// File path: assets/icons/svg/ic_calendar.svg
   SvgGenImage get icCalendar => const SvgGenImage('assets/icons/svg/ic_calendar.svg');
+
+  /// File path: assets/icons/svg/ic_calendar_2.svg
+  SvgGenImage get icCalendar2 => const SvgGenImage('assets/icons/svg/ic_calendar_2.svg');
+
+  /// File path: assets/icons/svg/ic_close.svg
+  SvgGenImage get icClose => const SvgGenImage('assets/icons/svg/ic_close.svg');
+
+  /// File path: assets/icons/svg/ic_confirmed_order_green.svg
+  SvgGenImage get icConfirmedOrderGreen =>
+      const SvgGenImage('assets/icons/svg/ic_confirmed_order_green.svg');
+
+  /// File path: assets/icons/svg/ic_copy.svg
+  SvgGenImage get icCopy => const SvgGenImage('assets/icons/svg/ic_copy.svg');
 
   /// File path: assets/icons/svg/ic_dashboard_account.svg
   SvgGenImage get icDashboardAccount =>
@@ -188,11 +210,29 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/ic_notification.svg
   SvgGenImage get icNotification => const SvgGenImage('assets/icons/svg/ic_notification.svg');
 
+  /// File path: assets/icons/svg/ic_order.svg
+  SvgGenImage get icOrder => const SvgGenImage('assets/icons/svg/ic_order.svg');
+
+  /// File path: assets/icons/svg/ic_order_list.svg
+  SvgGenImage get icOrderList => const SvgGenImage('assets/icons/svg/ic_order_list.svg');
+
   /// File path: assets/icons/svg/ic_personal.svg
   SvgGenImage get icPersonal => const SvgGenImage('assets/icons/svg/ic_personal.svg');
 
+  /// File path: assets/icons/svg/ic_plus.svg
+  SvgGenImage get icPlus => const SvgGenImage('assets/icons/svg/ic_plus.svg');
+
+  /// File path: assets/icons/svg/ic_right_back.svg
+  SvgGenImage get icRightBack => const SvgGenImage('assets/icons/svg/ic_right_back.svg');
+
   /// File path: assets/icons/svg/ic_search.svg
   SvgGenImage get icSearch => const SvgGenImage('assets/icons/svg/ic_search.svg');
+
+  /// File path: assets/icons/svg/ic_search_worker.svg
+  SvgGenImage get icSearchWorker => const SvgGenImage('assets/icons/svg/ic_search_worker.svg');
+
+  /// File path: assets/icons/svg/ic_send_message.svg
+  SvgGenImage get icSendMessage => const SvgGenImage('assets/icons/svg/ic_send_message.svg');
 
   /// File path: assets/icons/svg/ic_site_status_1.svg
   SvgGenImage get icSiteStatus1 => const SvgGenImage('assets/icons/svg/ic_site_status_1.svg');
@@ -215,6 +255,15 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/ic_site_status_7.svg
   SvgGenImage get icSiteStatus7 => const SvgGenImage('assets/icons/svg/ic_site_status_7.svg');
 
+  /// File path: assets/icons/svg/ic_total_cent.svg
+  SvgGenImage get icTotalCent => const SvgGenImage('assets/icons/svg/ic_total_cent.svg');
+
+  /// File path: assets/icons/svg/ic_trash_can.svg
+  SvgGenImage get icTrashCan => const SvgGenImage('assets/icons/svg/ic_trash_can.svg');
+
+  /// File path: assets/icons/svg/ic_trash_can_2.svg
+  SvgGenImage get icTrashCan2 => const SvgGenImage('assets/icons/svg/ic_trash_can_2.svg');
+
   /// File path: assets/icons/svg/ic_under_construction.svg
   SvgGenImage get icUnderConstruction =>
       const SvgGenImage('assets/icons/svg/ic_under_construction.svg');
@@ -225,7 +274,14 @@ class $AssetsIconsSvgGen {
   /// List of all assets
   List<dynamic> get values => [
         gitkeep,
+        icArrowDown,
+        icArrowUp,
+        icAttachFile,
         icCalendar,
+        icCalendar2,
+        icClose,
+        icConfirmedOrderGreen,
+        icCopy,
         icDashboardAccount,
         icDashboardChat,
         icDashboardHome,
@@ -239,8 +295,12 @@ class $AssetsIconsSvgGen {
         icMenu,
         icMoreHorizontal,
         icNotification,
+        icOrder,
+        icOrderList,
         icPersonal,
         icSearch,
+        icSearchWorker,
+        icSendMessage,
         icSiteStatus1,
         icSiteStatus2,
         icSiteStatus3,

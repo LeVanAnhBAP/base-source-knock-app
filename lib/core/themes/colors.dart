@@ -7,6 +7,7 @@ class AppColors {
   final Color tertiary;
   final Color quaternary;
   final Color quinary;
+  final Color blurryTitle;
   final Color accent;
   final Color background;
   final Color backgroundDark;
@@ -24,6 +25,7 @@ class AppColors {
   const AppColors({
     required this.primarySwatch,
     required this.primary,
+    required this.blurryTitle,
     required this.tertiary,
     required this.secondary,
     required this.quaternary,
@@ -50,6 +52,7 @@ class AppColors {
     return AppColors(
       primarySwatch: primarySwatch,
       primary: Color.lerp(primary, other.primary, t)!,
+      blurryTitle: Color.lerp(blurryTitle, other.blurryTitle, t)!,
       tertiary: Color.lerp(tertiary, other.tertiary, t)!,
       secondary: Color.lerp(secondary, other.secondary, t)!,
       quaternary: Color.lerp(quaternary, other.quaternary, t)!,

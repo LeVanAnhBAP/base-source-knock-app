@@ -17,6 +17,7 @@ enum HomeStatus {
 @freezed
 class HomeState with _$HomeState {
   const factory HomeState({
+    @Default(0) int unreadNotifyCount,
     DateTime? startDayRequest,
     @Default(<SiteResponse>[])
     List<SiteResponse> sites,

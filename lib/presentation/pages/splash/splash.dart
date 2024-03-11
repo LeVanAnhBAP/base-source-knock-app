@@ -10,6 +10,7 @@ import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_event.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_state.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/dashboard.dart';
 import 'package:uq_system_app/utils/utils.dart';
 
 @RoutePage()
@@ -46,7 +47,7 @@ class _SplashPageState extends State<SplashPage> {
         BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state.authStatus == AuthStatus.success) {
-              AutoRouter.of(context).replace(const DashboardRoute());
+              AutoRouter.of(context).replace(const  DashboardRoute());
             }
           },
         )

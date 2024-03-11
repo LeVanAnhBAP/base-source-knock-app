@@ -1,5 +1,9 @@
+import 'package:flutter_svg/svg.dart';
+import 'package:uq_system_app/core/extensions/text_style.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:flutter/material.dart';
+
+import '../../assets.gen.dart';
 
 class SearchField extends StatefulWidget {
   final String? placeholder;
@@ -17,11 +21,11 @@ class SearchField extends StatefulWidget {
     required this.onSearchValue,
     this.placeholder,
     this.fontSize = 16,
-    this.borderRadius = const BorderRadius.all(Radius.circular(8)),
-    this.padding = const EdgeInsets.symmetric(vertical: 8),
+    this.borderRadius = const BorderRadius.all(Radius.circular(25)),
+    this.padding = const EdgeInsets.symmetric(vertical: 3, horizontal: 25),
     this.backgroundColor,
-    this.placeholderColor,
-    this.backgroundOpacity = 0.2,
+    this.placeholderColor = Colors.transparent,
+    this.backgroundOpacity = 1,
     this.placeholderOpacity = 0.5,
   });
 
@@ -32,29 +36,39 @@ class SearchField extends StatefulWidget {
 class _SearchFieldState extends State<SearchField> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        hintText: widget.placeholder,
-        prefixIcon: Icon(
-          Icons.search_outlined,
-          color: context.colors.background,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: widget.borderRadius,
-        ),
-        hintStyle: context.typographies.body.copyWith(
-          color: (widget.placeholderColor ?? context.colors.background)
-              .withOpacity(widget.placeholderOpacity),
-          fontSize: widget.fontSize,
-        ),
-        contentPadding: widget.padding,
-        fillColor: (widget.backgroundColor ?? context.colors.background)
-            .withOpacity(widget.backgroundOpacity),
+    return Container(
+      padding: widget.padding,
+      decoration: BoxDecoration(
+          color: widget.backgroundColor ?? const Color(0xFFF5F5F5),
+          borderRadius: BorderRadius.circular(25)),
+      child: Row(
+        children: [
+          SvgPicture.asset(
+            Assets.icons.svg.icSearch.path,
+            width: 15,
+            height: 15,
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: TextField(
+              style: context.typographies.body.withColor(context.colors.primary
+                  ),
+              onChanged: widget.onSearchValue,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.zero,
+                enabledBorder: InputBorder.none,
+                border: InputBorder.none,
+                fillColor: widget.backgroundColor ?? const Color(0xFFF5F5F5),
+                hintText: widget.placeholder,
+                hintStyle:
+                    context.typographies.body.withColor(context.colors.primary.withOpacity(widget.placeholderOpacity)),
+              ),
+            ),
+          )
+        ],
       ),
-      autocorrect: false,
-      style: context.typographies.body.copyWith(fontSize: widget.fontSize),
-      onChanged: widget.onSearchValue,
     );
   }
 }

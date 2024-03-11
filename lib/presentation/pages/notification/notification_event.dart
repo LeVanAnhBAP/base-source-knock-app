@@ -6,4 +6,6 @@ part 'notification_event.freezed.dart';
 @freezed
 class NotificationEvent with _$NotificationEvent {
   const factory NotificationEvent.errorOccurred([BaseException? error]) = NotificationErrorOccurred;
+  const factory NotificationEvent.onLoad() = NotificationLoad;
+  const factory NotificationEvent.onLoadMore() = NotificationLoadMore;
 }

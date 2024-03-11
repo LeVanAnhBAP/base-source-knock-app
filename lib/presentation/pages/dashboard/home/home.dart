@@ -10,12 +10,16 @@ import 'package:uq_system_app/core/extensions/text_style.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
+import 'package:uq_system_app/presentation/blocs/system_notify/system_notify_bloc.dart';
+import 'package:uq_system_app/presentation/blocs/system_notify/system_notify_event.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_bloc.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/home_selector.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/home/widgets/calendar_view.dart';
+import 'package:uq_system_app/presentation/pages/dashboard/widgets/drawer_list.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/widgets/site_item.dart';
 import 'package:uq_system_app/presentation/pages/dashboard/widgets/site_skeleton.dart';
+import 'package:uq_system_app/presentation/widgets/base_app_bar.dart';
 import 'package:uq_system_app/presentation/widgets/dashboard_app_bar.dart';
 
 import '../../../../core/languages/translation_keys.g.dart';
@@ -34,10 +38,12 @@ class DashboardHomePage extends StatefulWidget {
 class _DashboardHomePageState extends State<DashboardHomePage> {
   final HomeBloc _bloc = getIt.get<HomeBloc>();
   final Account? account = getIt.get<AuthBloc>().state.account;
+
   @override
   void initState() {
     scheduleMicrotask(() {
-      _bloc.add(HomeEvent.paginateSite(DateTime.now()));
+      getIt.get<SystemNotifyBloc>().add(const SystemNotifyEvent.loadUnread());
+      _bloc.add(const HomeEvent.getDataStarted());
     });
     super.initState();
   }
@@ -46,15 +52,27 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
     _bloc.add(const HomeEvent.getRefreshData());
   }
 
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: _bloc,
       child: Scaffold(
-        appBar: DashBoardAppBar(
-            title: context.tr(LocaleKeys.Dashboard_Home),
-            leftIcPath: Assets.icons.svg.icMenu.path,
-            rightIcPath: Assets.icons.svg.icNotification.path),
+        key: scaffoldKey,
+        drawer: Drawer(
+          child: DrawerList(),
+        ),
+        appBar: CustomAppBar(
+          context,
+          titleText: context.tr(LocaleKeys.Dashboard_Home),
+          leftIcPath: Assets.icons.svg.icMenu.path,
+          rightIcPath: Assets.icons.svg.icNotification.path,
+          onLeftPress: (){
+            scaffoldKey.currentState?.openDrawer();
+          },
+        ),
+
         body: SmartRefresher(
           onRefresh: _onRefresh,
           controller: _bloc.refreshController,
@@ -96,7 +114,9 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
             margin: const EdgeInsets.only(top: 20, right: 10),
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 7),
             decoration: BoxDecoration(
-                color: account?.company.type == 1 ? context.colors.tertiary : context.colors.secondary,
+                color: account?.company.type == 1
+                    ? context.colors.tertiary
+                    : context.colors.secondary,
                 borderRadius: BorderRadius.circular(12)),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -104,8 +124,8 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
                 const SizedBox(
                   width: 20,
                 ),
-                 Text(
-                   context.tr(LocaleKeys.Home_ImportantNotice),
+                Text(
+                  context.tr(LocaleKeys.Home_ImportantNotice),
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -124,7 +144,9 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
                     child: Icon(
                       Icons.keyboard_arrow_right,
                       size: 30,
-                      color: account?.company.type == 1 ? context.colors.tertiary : context.colors.secondary,
+                      color: account?.company.type == 1
+                          ? context.colors.tertiary
+                          : context.colors.secondary,
                     ),
                   ),
                 ),
@@ -134,17 +156,24 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
           Positioned(
               top: 0,
               right: 0,
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                    shape: BoxShape.circle, color: Colors.red),
-                child: Text(
-                  "2",
-                  style: context.typographies.subBody3
-                      .withSize(12)
-                      .withColor(Colors.white)
-                      .withWeight(FontWeight.w600),
-                ),
+              child: HomeStatusSelector(
+                builder: (HomeStatus data) {
+                  if (_bloc.state.unreadNotifyCount > 0) {
+                    return Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle, color: Colors.red),
+                      child: Text(
+                        _bloc.state.unreadNotifyCount.toString(),
+                        style: context.typographies.subBody3
+                            .withSize(12)
+                            .withColor(Colors.white)
+                            .withWeight(FontWeight.w600),
+                      ),
+                    );
+                  }
+                  return Container();
+                },
               )),
         ],
       ),
@@ -157,7 +186,11 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15), color: Colors.white),
-      child:  SizedBox(height: 124, child: CalendarView(companyType: account?.company.type ?? 1,)),
+      child: SizedBox(
+          height: 124,
+          child: CalendarView(
+            companyType: account?.company.type ?? 1,
+          )),
     );
   }
 
@@ -184,7 +217,9 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
                     Container(
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
-                          color: account?.company.type == 1 ? context.colors.secondary : context.colors.tertiary,
+                          color: account?.company.type == 1
+                              ? context.colors.secondary
+                              : context.colors.tertiary,
                           shape: BoxShape.circle),
                       child: Text(
                         sites.length.toString(),
@@ -197,7 +232,8 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
                       onTap: () {
                         context.router.push(const ScheduleDetailsRoute());
                       },
-                      child: Text(context.tr(LocaleKeys.Home_ScheduleManagement),
+                      child: Text(
+                          context.tr(LocaleKeys.Home_ScheduleManagement),
                           style: TextStyle(
                               color: context.colors.tertiary,
                               fontSize: 15,
@@ -217,23 +253,30 @@ class _DashboardHomePageState extends State<DashboardHomePage> {
                 itemBuilder: (context, index) => SiteItem(
                   site: sites[index],
                   companyType: account?.company.type ?? 1,
+                  onReload: () {
+                    _onRefresh();
+                  },
                 ),
               ),
             ],
           );
         }
-       if(status == HomeStatus.loadingSites){
-         return ListView.builder(
-           itemCount: 4,
-           scrollDirection: Axis.vertical,
-           shrinkWrap: true,
-           physics: const NeverScrollableScrollPhysics(),
-           itemBuilder: (context, index) => const SiteSkeleton(),
-         );
-       }
-       return Container();
+        if (status == HomeStatus.loadingSites) {
+          return ListView.builder(
+            itemCount: 4,
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) => const SiteSkeleton(),
+          );
+        }
+        return Container();
       },
-      statuses: const [HomeStatus.loadingSites, HomeStatus.success, HomeStatus.failure],
+      statuses: const [
+        HomeStatus.loadingSites,
+        HomeStatus.success,
+        HomeStatus.failure
+      ],
     );
   }
 }

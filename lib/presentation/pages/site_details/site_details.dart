@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
@@ -5,18 +7,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:uq_system_app/core/extensions/text_style.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
+import 'package:uq_system_app/data/models/response/site_details_response.dart';
 import 'package:uq_system_app/di/injection.dart';
+import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import 'package:uq_system_app/presentation/pages/site_details/site_details_bloc.dart';
+import 'package:uq_system_app/presentation/pages/site_details/site_details_event.dart';
+import 'package:uq_system_app/presentation/pages/site_details/site_details_selector.dart';
+import 'package:uq_system_app/presentation/pages/site_details/site_details_state.dart';
+import 'package:uq_system_app/presentation/pages/site_details/widgets/menu_popup.dart';
+import 'package:uq_system_app/presentation/widgets/base_app_bar.dart';
 import 'package:uq_system_app/presentation/widgets/info_item.dart';
+import 'package:uq_system_app/utils/utils.dart';
 
 import '../../../assets.gen.dart';
 import '../../../core/languages/translation_keys.g.dart';
 import '../../../data/models/response/account.dart';
 import '../../blocs/auth/auth_bloc.dart';
-import '../../widgets/dashboard_app_bar.dart';
+import '../../widgets/input_container.dart';
 
 @RoutePage()
 class SiteDetailsPage extends StatefulWidget {
+  final int siteId;
+
+  const SiteDetailsPage(this.siteId);
+
   @override
   State<SiteDetailsPage> createState() => _SiteDetailsPageState();
 }
@@ -30,6 +44,9 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
   @override
   void initState() {
     super.initState();
+    scheduleMicrotask(() {
+      _bloc.add(SiteDetailsEvent.loadData(siteId: widget.siteId));
+    });
     controller = TabController(length: 2, vsync: this);
   }
 
@@ -44,54 +61,82 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: _bloc,
-      child: Scaffold(
-        appBar: DashBoardAppBar(
-          title: context.tr(LocaleKeys.SiteDetail_DetailedInformationOnSite),
-          leftIcPath: Assets.icons.svg.icLeftBack.path,
-          rightIcPath: Assets.icons.svg.icMoreHorizontal.path,
-          onLeftPressed: (){
+      child: MultiBlocListener(
+        listeners: [
+          SiteDetailsStatusListener(statuses: const  [SiteDetailsStatus.removed], listener: (context, state) {
             context.router.pop();
-          },
-        ),
-        body: Column(
-          children: [
-            _buildHeader(),
-            _buildTapBars(),
-            const SizedBox(
-              height: 20,
-            ),
-            Expanded(
-                child: Container(
-              color: Colors.white,
-              child: Stack(
-                children: [
-                  TabBarView(
-                      controller: controller,
-                      children: [_buildDetail(), _buildImages()]),
-                  Positioned(
-                      bottom: 5,
-                      left: 0,
-                      right: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: context.colors.tertiary,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15))),
-                          child: Text(
-                            context.tr(
-                                LocaleKeys.SiteDetail_MoveToCorrectionScreen),
-                            style: context.typographies.title3Bold
-                                .withColor(Colors.white),
-                          ),
-                        ),
-                      ))
-                ],
-              ),
-            )),
-          ],
+          },)
+        ],
+        child: Scaffold(
+          appBar: CustomAppBar(
+            context,
+            titleText:
+                context.tr(LocaleKeys.SiteDetail_DetailedInformationOnSite),
+            rightIcPath: Assets.icons.svg.icMoreHorizontal.path,
+            onRightPress: () {
+              _displayMenuPopup();
+            },
+          ),
+          body: SiteDetailsStatusSelector(
+            builder: (data) {
+              if (data == SiteDetailsStatus.success) {
+                return Column(
+                  children: [
+                    _buildHeader(),
+                    _buildTapBars(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Expanded(
+                        child: Container(
+                      color: Colors.white,
+                      child: Stack(
+                        children: [
+                          TabBarView(controller: controller, children: [
+                            _buildDetail(_bloc.state.siteDetails!),
+                            _buildImages(_bloc.state.siteDetails!)
+                          ]),
+                          Positioned(
+                              bottom: 5,
+                              left: 0,
+                              right: 0,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    await context.router
+                                        .push(CreateSiteRoute(
+                                            siteId: widget.siteId))
+                                        .then((value) {
+                                      if (value != null) {
+                                        _bloc.add(SiteDetailsEvent.loadData(
+                                            siteId: widget.siteId));
+                                      }
+                                    });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: context.colors.tertiary,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15))),
+                                  child: Text(
+                                    context.tr(LocaleKeys
+                                        .SiteDetail_MoveToCorrectionScreen),
+                                    style: context.typographies.title3Bold
+                                        .withColor(Colors.white),
+                                  ),
+                                ),
+                              ))
+                        ],
+                      ),
+                    )),
+                  ],
+                );
+              }
+              return Container();
+            },
+          ),
         ),
       ),
     );
@@ -144,16 +189,16 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SvgPicture.asset(
-                          Assets.icons.svg.icSiteStatus1.path,
+                          Utils.siteStatusToIconPath(_bloc.state.siteDetails!.status),
                           width: 20,
                         ),
                         const SizedBox(
                           height: 3,
                         ),
                         Text(
-                          context.tr(LocaleKeys.OnSite_NotOrdering),
+                          Utils.siteStatusToString(context,_bloc.state.siteDetails!.status,1),
                           style: TextStyle(
-                              color: context.colors.secondary, fontSize: 10),
+                              color: Utils.siteStatusToColor(_bloc.state.siteDetails!.status, context), fontSize: 10),
                         )
                       ],
                     ),
@@ -197,8 +242,9 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
     );
   }
 
-  Widget _buildDetail() {
+  Widget _buildDetail(SiteDetailsResponse data) {
     return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
@@ -206,7 +252,7 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
           children: [
             InfoItem(
                 title: context.tr(LocaleKeys.SiteDetail_OrderNo),
-                content: "200031"),
+                content: NumberFormat('00000').format(data.orderNumber)),
             const SizedBox(
               height: 20,
             ),
@@ -223,23 +269,24 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
                     children: [
                       Flexible(
                         child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: 2,
-                          itemBuilder: (context, index) => Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: Text(
-                              textAlign: TextAlign.right,
-                              "不動産　太郎",
-                              style: context.typographies.subBody1,
-                            ),
-                          ),
-                        ),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: data.members.length,
+                            itemBuilder: (context, index) {
+                              var member = data.members[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 20),
+                                child: Text(
+                                  textAlign: TextAlign.right,
+                                  "${member.firstName} ${member.lastName}",
+                                  style: context.typographies.subBody1,
+                                ),
+                              );
+                            }),
                       )
                     ],
                   ),
                 ),
-
               ],
             ),
             Divider(
@@ -248,15 +295,15 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
             ),
             InfoItem(
                 title: context.tr(LocaleKeys.SiteDetail_ConstructionCode),
-                content: "TM20003"),
+                content: data.code ?? ""),
             InfoItem(
                 title: context.tr(LocaleKeys.SiteDetail_ConstructionName),
-                content: "千葉県稲毛市クロス貼り替え"),
+                content: data.name ?? ""),
             InfoItem(
                 title: context.tr(LocaleKeys.SiteDetail_ConstructionDetails),
-                content: "千葉県稲毛市クロス貼り替え"),
+                content: data.contentRequest ?? ""),
             const SizedBox(
-              height: 80,
+              height: 20,
             ),
             Divider(
               height: 1,
@@ -274,7 +321,9 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Text(
-                      "インテリア工事",
+                      data.occupations.isNotEmpty
+                          ? data.occupations[0].name
+                          : "",
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: context.typographies.body,
@@ -289,7 +338,8 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
             ),
             InfoItem(
                 title: context.tr(LocaleKeys.SiteDetail_ConstructionPeriod),
-                content: "2023/10/10    〜    2023/10/15"),
+                content:
+                    "${data.startDayRequest}    〜    ${data.endDayRequest}"),
             const SizedBox(
               height: 20,
             ),
@@ -297,118 +347,125 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
               height: 1,
               color: context.colors.divider,
             ),
-            Stack(
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      context.tr(LocaleKeys.SiteDetail_ConstructionSite),
-                      style: context.typographies.subBodyBold1,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "東京都新宿区〇〇〇〇町　1-1-1Knockハウス101号室",
-                      style: context.typographies.body,
-                    )
-                  ],
+                Text(
+                  context.tr(LocaleKeys.SiteDetail_ConstructionSite),
+                  style: context.typographies.subBodyBold1,
                 ),
-                Positioned(
-                    top: 5,
-                    right: 0,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                          color: context.colors.secondary,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgPicture.asset(
-                            Assets.icons.svg.icLocation.path,
-                            colorFilter: const ColorFilter.mode(
-                              Colors.white,
-                              BlendMode.srcIn,
-                            ),
-                            width: 13,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "地図",
-                            style: context.typographies.bodyBold
-                                .withColor(Colors.white),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                        ],
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                      color: context.colors.secondary,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SvgPicture.asset(
+                        Assets.icons.svg.icLocation.path,
+                        colorFilter: const ColorFilter.mode(
+                          Colors.white,
+                          BlendMode.srcIn,
+                        ),
+                        width: 13,
                       ),
-                    ))
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "地図",
+                        style: context.typographies.bodyBold
+                            .withColor(Colors.white),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
             const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                data.address ?? "",
+                style: context.typographies.subBody1,
+              ),
+            ),
+            const SizedBox(
               height: 20,
             ),
             Divider(
               height: 1,
               color: context.colors.divider,
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Stack(
-                children: [
-                  InfoItem(
-                      title: context.tr(LocaleKeys.SiteDetail_TotalOrderAmount),
-                      content: "¥33,000"),
-                  Positioned(
-                      top: 5,
-                      right: 0,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                            color: context.colors.secondary,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SvgPicture.asset(
-                              Assets.icons.svg.icTotalCent.path,
-                              colorFilter: const ColorFilter.mode(
-                                Colors.white,
-                                BlendMode.srcIn,
-                              ),
-                              width: 15,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "注文明細",
-                              style: context.typographies.bodyBold
-                                  .withColor(Colors.white),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                          ],
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  context.tr(LocaleKeys.SiteDetail_TotalOrderAmount),
+                  style: context.typographies.subBodyBold1,
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                      color: context.colors.secondary,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SvgPicture.asset(
+                        Assets.icons.svg.icTotalCent.path,
+                        colorFilter: const ColorFilter.mode(
+                          Colors.white,
+                          BlendMode.srcIn,
                         ),
-                      ))
-                ],
+                        width: 15,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        "注文明細",
+                        style: context.typographies.bodyBold
+                            .withColor(Colors.white),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                "¥${Utils.formatCurrency(data.totalAmount?.toString() ?? "0")}",
+                style: context.typographies.subBody1,
               ),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             InfoItem(
                 title: context.tr(LocaleKeys
                     .SiteDetail_RemarksTheContentsDescribedWillBeReflectedInTheOrderForm),
-                content: "33,000円のうち、材料費として前払金3,000円支払う"),
+                content: data.remarks ?? ""),
             const SizedBox(
               height: 100,
             )
@@ -418,19 +475,38 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
     );
   }
 
-  Widget _buildImages() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+  Widget _buildImages(SiteDetailsResponse data) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 100),
+      child: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 20,
-            ),
             Text(
               context.tr(LocaleKeys.SiteDetail_Drawing),
               style: context.typographies.subBodyBold1,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            GridView.builder(
+              shrinkWrap: true,
+              itemCount: data.imageType1.length,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisSpacing: 40, mainAxisSpacing: 40, crossAxisCount: 2),
+              itemBuilder: (context, index) {
+                return InputContainer(
+                    child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: Image.network(
+                    data.imageType1[index].url ?? "",
+                    fit: BoxFit.contain,
+                  ),
+                ));
+              },
             ),
             const SizedBox(
               height: 40,
@@ -439,9 +515,40 @@ class _SiteDetailsPageState extends State<SiteDetailsPage>
               context.tr(LocaleKeys.SiteDetail_OnSitePhoto),
               style: context.typographies.subBodyBold1,
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            GridView.builder(
+              shrinkWrap: true,
+              itemCount: data.imageType2.length,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisSpacing: 40, mainAxisSpacing: 40, crossAxisCount: 2),
+              itemBuilder: (context, index) {
+                return InputContainer(
+                    child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: Image.network(
+                    data.imageType2[index].url ?? "",
+                    fit: BoxFit.contain,
+                  ),
+                ));
+              },
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  Future _displayMenuPopup() {
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(15))
+      ),
+      context: context,
+      builder: (context) => MenuPopup(_bloc),
     );
   }
 }

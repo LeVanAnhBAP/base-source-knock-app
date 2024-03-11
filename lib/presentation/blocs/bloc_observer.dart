@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
 import 'package:uq_system_app/core/exceptions/unauthorized_exception.dart';
+import 'package:uq_system_app/core/exceptions/unknown_exception.dart';
 import 'package:uq_system_app/di/injection.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_bloc.dart';
 import 'package:uq_system_app/presentation/blocs/auth/auth_event.dart';
 import 'package:uq_system_app/presentation/blocs/system/system_bloc.dart';
+import 'package:uq_system_app/presentation/blocs/system/system_event.dart';
 import 'package:uq_system_app/presentation/blocs/system/system_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,6 +34,9 @@ class AppBlocObserver extends BlocObserver {
         (actualError is DioException &&
             actualError.response?.statusCode == 401)) {
       _authBloc.add(const AuthLoggedOut());
+    }
+    if(error is UnknownException){
+      _systemBloc.add(SystemEvent.errorOccurred(exception: error));
     }
 
     super.onError(bloc, error, stackTrace);

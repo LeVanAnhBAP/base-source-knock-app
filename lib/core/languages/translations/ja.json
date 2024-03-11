@@ -138,12 +138,55 @@
     "RemarksTheContentsDescribedWillBeReflectedInTheOrderForm" : "備考（記載した内容は注文書に反映されます）",
     "Drawing" : "図面",
     "OnSitePhoto" : "現場写真",
-    "MoveToCorrectionScreen" : "修正画面へ移動"
+    "MoveToCorrectionScreen" : "修正画面へ移動",
+    "Upload" : "アップロード",
+    "AddDrawing" : "図面を追加",
+    "AddOnSitePhoto" : "現場写真を追加",
+    "YourRegistrationIsComplete" : "登録が完了しました",
+    "YouWantToSaveTheScene" : "シーンを保存しますか",
+    "DoYouWantToReturnWithoutRegistering" : "登録しないで戻りますか？",
+    "DoYouReallyWantToDeleteThis" : "本当に削除しますか？"
   },
-
+  "SearchMember" : {
+    "PersonInChargeSearch" : "担当者検索",
+    "PersonNameSearch" : "担当者氏名検索"
+  },
+  "Occupation" : {
+    "Occupation" : "職種",
+    "JobTitleSearch" : "職種名検索"
+  },
+  "OrderDetails" : {
+    "OrderDetails" : "注文明細",
+    "ConstructionName" : "工事名",
+    "TotalOrderAmountTaxIncluded" : "注文合計金額（税込）",
+    "ConstructionCostExcludingTax" : "工事金額（税抜）",
+    "ConsumptionTax" : "消費税",
+    "Name" : "名称",
+    "AmountOfMoney" : "金額",
+    "AddRow" : "行の追加",
+    "UpTo100DetailLinesCanBeRegistered." : "明細行は、100行までの登録となります。"
+  },
+  "OrderLine" : {
+    "OrderLine" : "注文明細行",
+    "Name" : "名称",
+    "SpecificationsSummary" : "仕様・摘要",
+    "Quantity" : "数量",
+    "Unit" : "単位",
+    "UnitPriceExcludingTax" : "単価（税抜）",
+    "AmountExcludingTax" : "金額（税抜）",
+    "Registration" : "登録",
+    "Delete" : "削除"
+  },
+  "WorkerMap" : {
+    "SearchFromTheSite" : "現場から探す"
+  },
   "InformationNotEntered" : "情報未入力",
   "PhotoLibrary" : "写真ライブラリ",
   "TakeAPhoto" : "写真を撮る",
-  "Cancel" : "キャンセル"
+  "FileSelection" : "ファイル選択",
+  "Cancel" : "キャンセル",
+  "AreYouSureYouWantToSaveTheScene" : "現場を保存して、 よろしいでしょうか",
+  "Yes" : "はい",
+  "No" : "いいえ"
 
 }

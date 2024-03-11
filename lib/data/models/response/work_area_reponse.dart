@@ -7,7 +7,7 @@ part 'work_area_reponse.g.dart';
 class WorkAreaResponse with _$WorkAreaResponse{
   const factory WorkAreaResponse({
     @JsonKey(name: 'id') required int id,
-    @JsonKey(name: 'serial_number') required int seriaNumber,
+    @JsonKey(name: 'serial_number') required int serialNumber,
     @JsonKey(name: 'name') required String name,
   }) = _WorkAreaResponse;
     factory WorkAreaResponse.fromJson(Map<String, dynamic> json) =>

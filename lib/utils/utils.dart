@@ -89,4 +89,6 @@ class Utils {
     DateTime dateTimeFromStr = DateTime.parse(dateString);
     return dateTimeFromStr.isBefore(DateTime.now());
   }
+
+  static String  formatCurrency(String value) =>NumberFormat.decimalPattern('en').format(int.parse(value));
 }

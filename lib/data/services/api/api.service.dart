@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:uq_system_app/core/bases/responses/base_error_response.dart';
 import 'package:uq_system_app/core/exceptions/network_exception.dart';
 import 'package:uq_system_app/core/exceptions/unauthorized_exception.dart';
 import 'package:uq_system_app/core/exceptions/unknown_exception.dart';
@@ -54,7 +55,7 @@ class ApiServices extends DioForNative implements Interceptor {
       return handler.next(UnauthorizedException());
     }
     return handler.next(UnknownException(
-        err.response?.data['message'][0] ?? LocaleKeys.Errors_UnknownError));
+        BaseErrorResponse.fromJson(err.response?.data)));
   }
 
   @override
@@ -76,22 +77,32 @@ class ApiServices extends DioForNative implements Interceptor {
     if (response.requestOptions.path == NetworkUrls.login &&
         response.data is Map) {
       final accessToken = response.data['data']?['access_token'];
-      await _authServices.saveAccessToken(accessToken);
+      if (accessToken != null) await _authServices.saveAccessToken(accessToken);
       final expiresAt = response.data['data']?['expires_at'];
-      await _authServices.saveTokenExpiresTime(expiresAt);
+      if (expiresAt != null)  await _authServices.saveTokenExpiresTime(expiresAt);
     }
-    
+
     if (response.requestOptions.path == NetworkUrls.logout) {
       await _authServices.removeAllTokens();
     }
 
-    if(NetworkUrls.requireAuthentication(response.requestOptions.path) && response.data is Map){
-       final accessToken = response.data['new_token']?['access_token'];
-      await _authServices.saveAccessToken(accessToken);
+    if (NetworkUrls.requireAuthentication(response.requestOptions.path) &&
+        response.data is Map) {
+      final accessToken = response.data['new_token']?['access_token'];
+      if (accessToken != null) await _authServices.saveAccessToken(accessToken);
       final expiresAt = response.data['new_token']?['expires_at'];
-      await _authServices.saveTokenExpiresTime(expiresAt);
+      if (expiresAt != null)  await _authServices.saveTokenExpiresTime(expiresAt);
     }
     return handler.next(response);
+  }
+
+  Future<void> saveAuth(Response response) async {
+    final accessToken = response.data['new_token']?['access_token'];
+    if (accessToken == null) return;
+    await _authServices.saveAccessToken(accessToken);
+    final expiresAt = response.data['new_token']?['expires_at'];
+    if (expiresAt == null) return;
+    await _authServices.saveTokenExpiresTime(expiresAt);
   }
 
   void setLocale(language) {}
