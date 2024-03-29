@@ -15,6 +15,43 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AccountInformationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AccountInformationPage(),
+      );
+    },
+    ChatDealRoomRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ChatDealRoomPage(),
+      );
+    },
+    CompletionReportRoute.name: (routeData) {
+      final args = routeData.argsAs<CompletionReportRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CompletionReportPage(args.notification),
+      );
+    },
+    ContractInformationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ContractInformationPage(),
+      );
+    },
+    CreateSiteRoute.name: (routeData) {
+      final args = routeData.argsAs<CreateSiteRouteArgs>(
+          orElse: () => const CreateSiteRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CreateSitePage(
+          siteId: args.siteId,
+          isDraft: args.isDraft,
+          isCopy: args.isCopy,
+        ),
+      );
+    },
     DashBoardChatRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -57,16 +94,65 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const DashboardPage(),
       );
     },
+    DealRoomRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: DealRoomPage(),
+      );
+    },
+    InvoiceRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: InvoicePage(),
+      );
+    },
     LoginRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const LoginPage(),
       );
     },
+    MemberInvitationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: MemberInvitationPage(),
+      );
+    },
     NotificationRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: NotificationPage(),
+      );
+    },
+    OccupationRoute.name: (routeData) {
+      final args = routeData.argsAs<OccupationRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: OccupationPage(
+          args.occupations,
+          args.selectedOccupation,
+        ),
+      );
+    },
+    OrderDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<OrderDetailsRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: OrderDetailsPage(
+          args.taxRate,
+          args.orders,
+          args.units,
+        ),
+      );
+    },
+    OrderLineRoute.name: (routeData) {
+      final args = routeData.argsAs<OrderLineRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: OrderLinePage(
+          args.params,
+          args.units,
+        ),
       );
     },
     ResetPasswordRoute.name: (routeData) {
@@ -81,10 +167,18 @@ abstract class _$AppRouter extends RootStackRouter {
         child: ScheduleDetailsPage(),
       );
     },
-    SiteDetailsRoute.name: (routeData) {
+    SearchMemberRoute.name: (routeData) {
+      final args = routeData.argsAs<SearchMemberRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: SiteDetailsPage(),
+        child: SearchMemberPage(args.members),
+      );
+    },
+    SiteDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<SiteDetailsRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SiteDetailsPage(args.siteId),
       );
     },
     SplashRoute.name: (routeData) {
@@ -93,7 +187,128 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SplashPage(),
       );
     },
+    WorkerMapRoute.name: (routeData) {
+      final args = routeData.argsAs<WorkerMapRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WorkerMapPage(args.siteId),
+      );
+    },
   };
+}
+
+/// generated route for
+/// [AccountInformationPage]
+class AccountInformationRoute extends PageRouteInfo<void> {
+  const AccountInformationRoute({List<PageRouteInfo>? children})
+      : super(
+          AccountInformationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AccountInformationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ChatDealRoomPage]
+class ChatDealRoomRoute extends PageRouteInfo<void> {
+  const ChatDealRoomRoute({List<PageRouteInfo>? children})
+      : super(
+          ChatDealRoomRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ChatDealRoomRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CompletionReportPage]
+class CompletionReportRoute extends PageRouteInfo<CompletionReportRouteArgs> {
+  CompletionReportRoute({
+    required NotificationResponse notification,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CompletionReportRoute.name,
+          args: CompletionReportRouteArgs(notification: notification),
+          initialChildren: children,
+        );
+
+  static const String name = 'CompletionReportRoute';
+
+  static const PageInfo<CompletionReportRouteArgs> page =
+      PageInfo<CompletionReportRouteArgs>(name);
+}
+
+class CompletionReportRouteArgs {
+  const CompletionReportRouteArgs({required this.notification});
+
+  final NotificationResponse notification;
+
+  @override
+  String toString() {
+    return 'CompletionReportRouteArgs{notification: $notification}';
+  }
+}
+
+/// generated route for
+/// [ContractInformationPage]
+class ContractInformationRoute extends PageRouteInfo<void> {
+  const ContractInformationRoute({List<PageRouteInfo>? children})
+      : super(
+          ContractInformationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ContractInformationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CreateSitePage]
+class CreateSiteRoute extends PageRouteInfo<CreateSiteRouteArgs> {
+  CreateSiteRoute({
+    int? siteId,
+    bool isDraft = false,
+    bool isCopy = false,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CreateSiteRoute.name,
+          args: CreateSiteRouteArgs(
+            siteId: siteId,
+            isDraft: isDraft,
+            isCopy: isCopy,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CreateSiteRoute';
+
+  static const PageInfo<CreateSiteRouteArgs> page =
+      PageInfo<CreateSiteRouteArgs>(name);
+}
+
+class CreateSiteRouteArgs {
+  const CreateSiteRouteArgs({
+    this.siteId,
+    this.isDraft = false,
+    this.isCopy = false,
+  });
+
+  final int? siteId;
+
+  final bool isDraft;
+
+  final bool isCopy;
+
+  @override
+  String toString() {
+    return 'CreateSiteRouteArgs{siteId: $siteId, isDraft: $isDraft, isCopy: $isCopy}';
+  }
 }
 
 /// generated route for
@@ -195,6 +410,34 @@ class DashboardRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [DealRoomPage]
+class DealRoomRoute extends PageRouteInfo<void> {
+  const DealRoomRoute({List<PageRouteInfo>? children})
+      : super(
+          DealRoomRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DealRoomRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [InvoicePage]
+class InvoiceRoute extends PageRouteInfo<void> {
+  const InvoiceRoute({List<PageRouteInfo>? children})
+      : super(
+          InvoiceRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'InvoiceRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [LoginPage]
 class LoginRoute extends PageRouteInfo<void> {
   const LoginRoute({List<PageRouteInfo>? children})
@@ -204,6 +447,20 @@ class LoginRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'LoginRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MemberInvitationPage]
+class MemberInvitationRoute extends PageRouteInfo<void> {
+  const MemberInvitationRoute({List<PageRouteInfo>? children})
+      : super(
+          MemberInvitationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MemberInvitationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -220,6 +477,125 @@ class NotificationRoute extends PageRouteInfo<void> {
   static const String name = 'NotificationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [OccupationPage]
+class OccupationRoute extends PageRouteInfo<OccupationRouteArgs> {
+  OccupationRoute({
+    required List<OccupationMajorResponse> occupations,
+    required OccupationResponse? selectedOccupation,
+    List<PageRouteInfo>? children,
+  }) : super(
+          OccupationRoute.name,
+          args: OccupationRouteArgs(
+            occupations: occupations,
+            selectedOccupation: selectedOccupation,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'OccupationRoute';
+
+  static const PageInfo<OccupationRouteArgs> page =
+      PageInfo<OccupationRouteArgs>(name);
+}
+
+class OccupationRouteArgs {
+  const OccupationRouteArgs({
+    required this.occupations,
+    required this.selectedOccupation,
+  });
+
+  final List<OccupationMajorResponse> occupations;
+
+  final OccupationResponse? selectedOccupation;
+
+  @override
+  String toString() {
+    return 'OccupationRouteArgs{occupations: $occupations, selectedOccupation: $selectedOccupation}';
+  }
+}
+
+/// generated route for
+/// [OrderDetailsPage]
+class OrderDetailsRoute extends PageRouteInfo<OrderDetailsRouteArgs> {
+  OrderDetailsRoute({
+    required double taxRate,
+    required List<PriceOrderDetailModel> orders,
+    required List<CommonItemResponse> units,
+    List<PageRouteInfo>? children,
+  }) : super(
+          OrderDetailsRoute.name,
+          args: OrderDetailsRouteArgs(
+            taxRate: taxRate,
+            orders: orders,
+            units: units,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'OrderDetailsRoute';
+
+  static const PageInfo<OrderDetailsRouteArgs> page =
+      PageInfo<OrderDetailsRouteArgs>(name);
+}
+
+class OrderDetailsRouteArgs {
+  const OrderDetailsRouteArgs({
+    required this.taxRate,
+    required this.orders,
+    required this.units,
+  });
+
+  final double taxRate;
+
+  final List<PriceOrderDetailModel> orders;
+
+  final List<CommonItemResponse> units;
+
+  @override
+  String toString() {
+    return 'OrderDetailsRouteArgs{taxRate: $taxRate, orders: $orders, units: $units}';
+  }
+}
+
+/// generated route for
+/// [OrderLinePage]
+class OrderLineRoute extends PageRouteInfo<OrderLineRouteArgs> {
+  OrderLineRoute({
+    required PriceOrderDetailModel? params,
+    required List<CommonItemResponse> units,
+    List<PageRouteInfo>? children,
+  }) : super(
+          OrderLineRoute.name,
+          args: OrderLineRouteArgs(
+            params: params,
+            units: units,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'OrderLineRoute';
+
+  static const PageInfo<OrderLineRouteArgs> page =
+      PageInfo<OrderLineRouteArgs>(name);
+}
+
+class OrderLineRouteArgs {
+  const OrderLineRouteArgs({
+    required this.params,
+    required this.units,
+  });
+
+  final PriceOrderDetailModel? params;
+
+  final List<CommonItemResponse> units;
+
+  @override
+  String toString() {
+    return 'OrderLineRouteArgs{params: $params, units: $units}';
+  }
 }
 
 /// generated route for
@@ -251,17 +627,61 @@ class ScheduleDetailsRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [SearchMemberPage]
+class SearchMemberRoute extends PageRouteInfo<SearchMemberRouteArgs> {
+  SearchMemberRoute({
+    required List<Member> members,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SearchMemberRoute.name,
+          args: SearchMemberRouteArgs(members: members),
+          initialChildren: children,
+        );
+
+  static const String name = 'SearchMemberRoute';
+
+  static const PageInfo<SearchMemberRouteArgs> page =
+      PageInfo<SearchMemberRouteArgs>(name);
+}
+
+class SearchMemberRouteArgs {
+  const SearchMemberRouteArgs({required this.members});
+
+  final List<Member> members;
+
+  @override
+  String toString() {
+    return 'SearchMemberRouteArgs{members: $members}';
+  }
+}
+
+/// generated route for
 /// [SiteDetailsPage]
-class SiteDetailsRoute extends PageRouteInfo<void> {
-  const SiteDetailsRoute({List<PageRouteInfo>? children})
-      : super(
+class SiteDetailsRoute extends PageRouteInfo<SiteDetailsRouteArgs> {
+  SiteDetailsRoute({
+    required int siteId,
+    List<PageRouteInfo>? children,
+  }) : super(
           SiteDetailsRoute.name,
+          args: SiteDetailsRouteArgs(siteId: siteId),
           initialChildren: children,
         );
 
   static const String name = 'SiteDetailsRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<SiteDetailsRouteArgs> page =
+      PageInfo<SiteDetailsRouteArgs>(name);
+}
+
+class SiteDetailsRouteArgs {
+  const SiteDetailsRouteArgs({required this.siteId});
+
+  final int siteId;
+
+  @override
+  String toString() {
+    return 'SiteDetailsRouteArgs{siteId: $siteId}';
+  }
 }
 
 /// generated route for
@@ -276,4 +696,33 @@ class SplashRoute extends PageRouteInfo<void> {
   static const String name = 'SplashRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [WorkerMapPage]
+class WorkerMapRoute extends PageRouteInfo<WorkerMapRouteArgs> {
+  WorkerMapRoute({
+    required int siteId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          WorkerMapRoute.name,
+          args: WorkerMapRouteArgs(siteId: siteId),
+          initialChildren: children,
+        );
+
+  static const String name = 'WorkerMapRoute';
+
+  static const PageInfo<WorkerMapRouteArgs> page =
+      PageInfo<WorkerMapRouteArgs>(name);
+}
+
+class WorkerMapRouteArgs {
+  const WorkerMapRouteArgs({required this.siteId});
+
+  final int siteId;
+
+  @override
+  String toString() {
+    return 'WorkerMapRouteArgs{siteId: $siteId}';
+  }
 }

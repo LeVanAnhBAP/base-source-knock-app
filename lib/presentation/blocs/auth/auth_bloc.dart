@@ -31,6 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       AuthEventErrorOccurred event,
       Emitter<AuthState> emit,
       ) {
+    if(EasyLoading.isShow) EasyLoading.dismiss();
     emit(state.copyWith(authStatus: AuthStatus.failure, error: event.error));
   }
   FutureOr<void> _onUpdateAvatar(AuthUpdateAvatar event,Emitter<AuthState> emit) async{
@@ -72,8 +73,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onLogin(AuthLogin event, Emitter<AuthState> emit) async {
-    emit(state.copyWith(authStatus: AuthStatus.loading));
+    EasyLoading.show();
     var result = await _loginUseCase(event.loginParams);
+    EasyLoading.dismiss();
     emit(state.copyWith(authStatus: AuthStatus.success, account: result));
   }
 

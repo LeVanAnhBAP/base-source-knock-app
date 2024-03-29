@@ -27,7 +27,7 @@ class SiteSkeleton extends StatelessWidget {
             child: SkeletonItem(
                 child: Column(
               children: [
-            
+
                 SkeletonLine(
                   style: SkeletonLineStyle(
                     borderRadius: BorderRadius.circular(15),

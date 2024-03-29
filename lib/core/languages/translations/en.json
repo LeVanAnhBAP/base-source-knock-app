@@ -136,10 +136,53 @@
     "RemarksTheContentsDescribedWillBeReflectedInTheOrderForm" : "Remarks (The contents you describe will be reflected in the order form)",
     "Drawing" : "Drawing",
     "OnSitePhoto" : "OnSitePhoto",
-    "MoveToCorrectionScreen": "Move to correction screen"
+    "MoveToCorrectionScreen": "Move to correction screen",
+    "Upload" : "Upload",
+    "AddDrawing": "Add drawing",
+    "AddOnSitePhoto" : "Add site photo",
+    "YourRegistrationIsComplete" : "Registration is complete",
+    "DoYouWantToReturnWithoutRegistering" : "Do you want to return without registering?",
+    "DoYouReallyWantToDeleteThis" : "Are you sure you want to delete this?"
+  },
+  "SearchMember" : {
+    "PersonInChargeSearch" : "PersonInChargeSearch",
+    "PersonNameSearch" : "Person name search"
+  },
+  "Occupation" : {
+    "Occupation": "Occupation",
+    "JobTitleSearch" : "Job title search"
+  },
+  "OrderDetails" : {
+    "OrderDetails" : "Order details",
+    "ConstructionName": "Construction Name",
+    "TotalOrderAmountTaxIncluded" : "Total order amount (tax included)",
+    "ConstructionCostExcludingTax": "Construction cost (excluding tax)",
+    "ConsumptionTax" : "Consumption tax",
+    "Name" : "Name",
+    "AmountOfMoney" : "Amount",
+    "AddRow" : "Add row"
+  },
+  "OrderLine" : {
+    "OrderLine" : "Order line",
+    "Name" : "Name",
+    "SpecificationsSummary": "Specifications/Summary",
+    "Quantity" : "Quantity",
+    "Unit" : "Unit",
+    "UnitPriceExcludingTax" : "Unit price (excluding tax)",
+    "AmountExcludingTax" : "Amount (excluding tax)",
+    "Registration" : "Registration",
+    "Delete" : "Delete",
+    "UpTo100DetailLinesCanBeRegistered" : "Up to 100 detail lines can be registered."
+  },
+  "WorkerMap" : {
+    "SearchFromTheSite" : "Search from the site"
   },
   "InformationNotEntered" : "Information not entered",
   "PhotoLibrary" : "Photo Library",
   "TakeAPhoto" : "Take a photo",
-  "Cancel" : "Cancel"
+  "FileSelection" : "File selection",
+  "Cancel" : "Cancel",
+  "AreYouSureYouWantToSaveTheScene" : "Are you sure you want to save the scene?",
+  "Yes" : "Yes",
+  "No": "No"
 }

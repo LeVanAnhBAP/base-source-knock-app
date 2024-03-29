@@ -10,8 +10,9 @@ import 'package:uq_system_app/utils/utils.dart';
 class SiteItem extends StatelessWidget {
   final SiteResponse site;
   final int companyType;
+  final void Function()? onReload;
 
-  const SiteItem({super.key, required this.site, required this.companyType});
+  const SiteItem({super.key, required this.site, required this.companyType, this.onReload});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,9 @@ class SiteItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       decoration: BoxDecoration(
-          color: companyType == 1 ? context.colors.tertiary : context.colors.secondary,
+          color: companyType == 1
+              ? context.colors.tertiary
+              : context.colors.secondary,
           borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(15), topRight: Radius.circular(15))),
       child: Row(
@@ -52,7 +55,7 @@ class SiteItem extends StatelessWidget {
               ],
             ),
           ),
-          if(companyType == 1)...[
+          if (companyType == 1) ...[
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
@@ -65,8 +68,8 @@ class SiteItem extends StatelessWidget {
                     fontWeight: FontWeight.w600),
               ),
             )
-          ]
-          else Container()
+          ] else
+            Container()
         ],
       ),
     );
@@ -154,8 +157,17 @@ class SiteItem extends StatelessWidget {
           top: 0,
           bottom: 0,
           child: InkWell(
-            onTap: (){
-              context.router.push(const SiteDetailsRoute());
+            onTap: () {
+              if (site.status == 0) {
+                 context.router.push(CreateSiteRoute(siteId: site.id, isDraft: true)).then((value){
+                 onReload?.call();
+               });
+              } else {
+                context.router.push(SiteDetailsRoute(siteId: site.id)).then((value){
+                  onReload?.call();
+                });
+              }
+
             },
             child: Container(
               decoration: BoxDecoration(
