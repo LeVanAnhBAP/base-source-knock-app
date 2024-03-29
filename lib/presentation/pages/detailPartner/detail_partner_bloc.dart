@@ -1,72 +1,67 @@
+
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
-import 'package:uq_system_app/presentation/pages/dashboard/siteDetails/site_details_event.dart';
 import '../../../../core/exceptions/unknown_exception.dart';
 import '../../../../data/services/auth/auth.services.impl.dart';
-import 'site_details_state.dart';
+import 'detail_partner_event.dart';
+import 'detail_partner_state.dart';
 
-class SiteDetailsBloc extends Bloc<SiteDetailsEvent, SiteDetailsState> {
+
+class DetailPartnerBloc extends Bloc<DetailPartnerEvent, DetailPartnerState> {
   final authServices = AuthServicesImpl(const FlutterSecureStorage());
-  SiteDetailsBloc() : super( SiteDetailsState()) {
-    on<SiteDetailsGetDataStarted>(_onGetDataStated);
-    on<SiteDetailsErrorOccurred>(_onErrorOccurred);
+  DetailPartnerBloc() : super(const DetailPartnerState()) {
+    on<DetailPartnerGetDataStarted>(_onGetDataStated);
+    on<DetailPartnerErrorOccurred>(_onErrorOccurred);
   }
 
   @override
   void onError(Object error, StackTrace stackTrace) {
-    add(SiteDetailsErrorOccurred(BaseException.from(error)));
+    add(DetailPartnerEvent.errorOccurred(BaseException.from(error)));
     super.onError(error, stackTrace);
   }
 
-  FutureOr<void> _onErrorOccurred(
-      SiteDetailsErrorOccurred event,
-      Emitter<SiteDetailsState> emit,
-      ) {
+  FutureOr<void> _onErrorOccurred(DetailPartnerErrorOccurred event,
+      Emitter<DetailPartnerState> emit,) {
     emit(state.copyWith(
-      status: SiteDetailsStatus.failure,
-      error: event.error,
+      status: DetailPartnerStatus.failure,
     ));
   }
 
-  FutureOr<void> _onGetDataStated(
-      SiteDetailsGetDataStarted event,
-      Emitter<SiteDetailsState> emit,
-      ) async {
-    emit(state.copyWith(status: SiteDetailsStatus.loading));
+  FutureOr<void> _onGetDataStated(DetailPartnerGetDataStarted event,
+      Emitter<DetailPartnerState> emit,) async {
+    emit(state.copyWith(status: DetailPartnerStatus.loading));
     try {
-      Map<String,dynamic>? data = await loadDetailSite(event.id!);
+      Map<String, dynamic>? data = await loadUserInfo();
       if (data != null) {
         emit(state.copyWith(
-          status: SiteDetailsStatus.success,
-          siteDetail: data,
+          status: DetailPartnerStatus.success,
+          userInfo: data,
         ));
       } else {
         emit(state.copyWith(
-          status: SiteDetailsStatus.failure,
+          status: DetailPartnerStatus.failure,
           error: UnknownException('Failed to load data'),
         ));
       }
     } catch (error) {
       emit(state.copyWith(
-        status: SiteDetailsStatus.failure,
+        status: DetailPartnerStatus.failure,
         error: BaseException.from(error),
       ));
     }
   }
 
 
-
-  Future<Map<String, dynamic>?> loadDetailSite(String id) async {
+  Future<Map<String, dynamic>?> loadUserInfo() async {
     final accessToken = await authServices.getAccessToken();
     final dio = Dio();
     dio.options.headers['Authorization'] = 'Bearer $accessToken';
     String api =
-        "https://dev-knock-api.oneknockapp.com/api/v1/user/factory-floors/$id";
+        "";
 
     try {
       Response response = await dio.get(api);

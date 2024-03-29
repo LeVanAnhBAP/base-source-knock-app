@@ -7,9 +7,9 @@ part 'home_event.freezed.dart';
 class HomeEvent with _$HomeEvent {
   const factory HomeEvent.errorOccurred([BaseException? error]) =
       HomeErrorOccurred;
-  const factory HomeEvent.getDataStarted({String? accessToken,String? date}) = DashboardHomeGetDataStarted;
+  const factory HomeEvent.getDataStarted({String? date}) = DashboardHomeGetDataStarted;
 
-  const factory HomeEvent.getDataByDate({String? accessToken,String? date}) = DashboardHomeGetDataByDate;
+  const factory HomeEvent.getDataByDate({String? date}) = DashboardHomeGetDataByDate;
 
   const factory HomeEvent.getRefreshData() = HomeRefreshData;
 }

@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gap/gap.dart';
 import 'package:uq_system_app/core/extensions/theme.dart';
 import 'package:uq_system_app/presentation/navigation/navigation.dart';
 import '../../../../assets.gen.dart';
+import '../../../../data/services/auth/auth.services.impl.dart';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/log_button.dart';
 
@@ -20,9 +22,6 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   Future<void> login({required String email, required String password}) async {
-    if (!mounted) {
-      return;
-    }
     final BuildContext localContext = context;
     const api = 'https://dev-knock-api.oneknockapp.com/api/v1/user/auth/login';
     final data = {'email': email, 'password': password};
@@ -33,7 +32,9 @@ class _LoginPageState extends State<LoginPage> {
       if (response.statusCode == 200) {
         final body = response.data;
         final String accessToken = body['data']['access_token'].toString();
-        localContext.router.replace( DashboardRoute(accessToken:accessToken));
+        final authServices = AuthServicesImpl(const FlutterSecureStorage());
+        await authServices.saveAccessToken(accessToken);
+        localContext.router.replace( const DashboardRoute());
         print('Response Body: ${response.data}');
       } else {
       }

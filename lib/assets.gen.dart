@@ -133,6 +133,9 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/ic_back_app_bar.svg
   SvgGenImage get icBackAppBar => const SvgGenImage('assets/icons/svg/ic_back_app_bar.svg');
 
+  /// File path: assets/icons/svg/ic_calendar.svg
+  SvgGenImage get icCalendar => const SvgGenImage('assets/icons/svg/ic_calendar.svg');
+
   /// File path: assets/icons/svg/ic_camera.svg
   SvgGenImage get icCamera => const SvgGenImage('assets/icons/svg/ic_camera.svg');
 
@@ -160,6 +163,13 @@ class $AssetsIconsSvgGen {
   /// File path: assets/icons/svg/ic_dashboard_site.svg
   SvgGenImage get icDashboardSite => const SvgGenImage('assets/icons/svg/ic_dashboard_site.svg');
 
+  /// File path: assets/icons/svg/ic_dropdown.svg
+  SvgGenImage get icDropdown => const SvgGenImage('assets/icons/svg/ic_dropdown.svg');
+
+  /// File path: assets/icons/svg/ic_edit_company_info.svg
+  SvgGenImage get icEditCompanyInfo =>
+      const SvgGenImage('assets/icons/svg/ic_edit_company_info.svg');
+
   /// File path: assets/icons/svg/ic_employees.svg
   SvgGenImage get icEmployees => const SvgGenImage('assets/icons/svg/ic_employees.svg');
 
@@ -174,6 +184,9 @@ class $AssetsIconsSvgGen {
 
   /// File path: assets/icons/svg/ic_menu.svg
   SvgGenImage get icMenu => const SvgGenImage('assets/icons/svg/ic_menu.svg');
+
+  /// File path: assets/icons/svg/ic_phone.svg
+  SvgGenImage get icPhone => const SvgGenImage('assets/icons/svg/ic_phone.svg');
 
   /// File path: assets/icons/svg/ic_red_pin.svg
   SvgGenImage get icRedPin => const SvgGenImage('assets/icons/svg/ic_red_pin.svg');
@@ -251,6 +264,7 @@ class $AssetsIconsSvgGen {
         icAddBlue,
         icArrowDroprightCircle,
         icBackAppBar,
+        icCalendar,
         icCamera,
         icCopy,
         icDashboardAccount,
@@ -259,11 +273,14 @@ class $AssetsIconsSvgGen {
         icDashboardProfile,
         icDashboardSearch,
         icDashboardSite,
+        icDropdown,
+        icEditCompanyInfo,
         icEmployees,
         icFeatherBell,
         icJob,
         icMark,
         icMenu,
+        icPhone,
         icRedPin,
         icRemove,
         icScheduleArrowDropright,

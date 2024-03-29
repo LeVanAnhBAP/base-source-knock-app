@@ -1,15 +1,16 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
-
 import '../../../../core/exceptions/unknown_exception.dart';
+import '../../../../data/services/auth/auth.services.impl.dart';
 import 'home_event.dart';
 import 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  final authServices = AuthServicesImpl(const FlutterSecureStorage());
   int totalPage=0;
   HomeBloc() : super(const HomeState()) {
     on<DashboardHomeGetDataStarted>(_onGetDataStated);
@@ -39,7 +40,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     try {
-      List<dynamic>? data = await loadSite(event.accessToken!,event.date!);
+      List<dynamic>? data = await loadSite(event.date!);
       if (data != null) {
         emit(state.copyWith(
           status: HomeStatus.success,
@@ -65,7 +66,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ) async {
     emit(state.copyWith(status: HomeStatus.loading));
     try {
-      List<dynamic>? data = await loadSite(event.accessToken!,event.date!);
+      List<dynamic>? data = await loadSite(event.date!);
       if (data != null) {
         emit(state.copyWith(
           status: HomeStatus.success,
@@ -90,7 +91,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(state.copyWith(status: HomeStatus.refreshing));
   }
 
-  Future<List<dynamic>?> loadSite(String accessToken,String date) async {
+  Future<List<dynamic>?> loadSite(String date) async {
+    final accessToken = await authServices.getAccessToken();
     final dio = Dio();
     dio.options.headers['Authorization'] = 'Bearer $accessToken';
     String api =

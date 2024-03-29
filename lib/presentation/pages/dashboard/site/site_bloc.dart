@@ -1,15 +1,16 @@
 import 'dart:async';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
-
 import '../../../../core/exceptions/unknown_exception.dart';
+import '../../../../data/services/auth/auth.services.dart';
+import '../../../../data/services/auth/auth.services.impl.dart';
 import 'site_event.dart';
 import 'site_state.dart';
 
 class SiteBloc extends Bloc<SiteEvent, SiteState> {
+  final authServices = AuthServicesImpl(const FlutterSecureStorage());
   int currentPage =1;
   String currentSearchText ='';
   SiteBloc() : super(const SiteState()) {
@@ -41,7 +42,7 @@ class SiteBloc extends Bloc<SiteEvent, SiteState> {
     try {
       currentPage=1;
       currentSearchText =event.searchText!;
-      List<dynamic>? data = await searchSite(event.accessToken!,event.searchText!,1);
+      List<dynamic>? data = await searchSite(event.searchText!,1);
       if (data != null) {
         emit(state.copyWith(
           status: SiteStatus.success,
@@ -66,7 +67,7 @@ class SiteBloc extends Bloc<SiteEvent, SiteState> {
       ) async {
     emit(state.copyWith(status: SiteStatus.loading));
     try {
-      List<dynamic>? data = await searchSite(event.accessToken!,'',1);
+      List<dynamic>? data = await searchSite('',1);
       if (data != null) {
         emit(state.copyWith(
           status: SiteStatus.success,
@@ -91,7 +92,7 @@ class SiteBloc extends Bloc<SiteEvent, SiteState> {
       ) async {
     try {
       currentPage++;
-      List<dynamic>? data = await searchSite(event.accessToken!,currentSearchText,currentPage);
+      List<dynamic>? data = await searchSite(currentSearchText,currentPage);
       if (data != null) {
         emit(state.copyWith(
           status: SiteStatus.success,
@@ -111,8 +112,8 @@ class SiteBloc extends Bloc<SiteEvent, SiteState> {
     }
   }
 
-  Future<List<dynamic>> searchSite(
-      String accessToken,  String searchText, int page) async {
+  Future<List<dynamic>> searchSite( String searchText, int page) async {
+    final accessToken = await authServices.getAccessToken();
     final dio = Dio();
     dio.options.headers['Authorization'] = 'Bearer $accessToken';
     String api =

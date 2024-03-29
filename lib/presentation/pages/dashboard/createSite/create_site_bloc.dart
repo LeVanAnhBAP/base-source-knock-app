@@ -2,13 +2,16 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uq_system_app/core/exceptions/exception.dart';
 import '../../../../core/exceptions/unknown_exception.dart';
+import '../../../../data/services/auth/auth.services.impl.dart';
 import 'create_site_event.dart';
 import 'create_site_state.dart';
 
 
 class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
+  final authServices = AuthServicesImpl(const FlutterSecureStorage());
   CreateSiteBloc() : super(const CreateSiteState()) {
     on<CreateSiteGetDataStarted>(_onGetDataStated);
     on<CreateSiteErrorOccurred>(_onErrorOccurred);
@@ -31,7 +34,7 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
       Emitter<CreateSiteState> emit,) async {
     emit(state.copyWith(status: CreateSiteStatus.loading));
     try {
-      Map<String, dynamic>? data = await loadDetailSite(event.accessToken!, event.id!);
+      Map<String, dynamic>? data = await loadDetailSite(event.id!);
       if (data != null) {
         emit(state.copyWith(
           status: CreateSiteStatus.success,
@@ -52,7 +55,8 @@ class CreateSiteBloc extends Bloc<CreateSiteEvent, CreateSiteState> {
   }
 
 
-  Future<Map<String, dynamic>?> loadDetailSite(String accessToken,int id) async {
+  Future<Map<String, dynamic>?> loadDetailSite(int id) async {
+    final accessToken = await authServices.getAccessToken();
     final dio = Dio();
     dio.options.headers['Authorization'] = 'Bearer $accessToken';
     String api =

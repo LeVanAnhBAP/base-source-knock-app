@@ -9,8 +9,7 @@ import 'widgets/icon_item.dart';
 
 @RoutePage()
 class DashboardPage extends StatefulWidget {
-  final String accessToken;
-  const DashboardPage({super.key, required this.accessToken});
+  const DashboardPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -22,12 +21,12 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
-      routes: [
-        DashboardHomeRoute(accessToken: widget.accessToken),
-        DashboardSiteRoute(accessToken: widget.accessToken),
-        const DashboardChatRoute(),
-        DashboardSearchRoute(accessToken: widget.accessToken),
-        DashboardProfileRoute(accessToken: widget.accessToken)
+      routes: const [
+        DashboardHomeRoute(),
+        DashboardSiteRoute(),
+        DashboardChatRoute(),
+        DashboardSearchRoute(),
+        DashboardProfileRoute()
       ],
       bottomNavigationBuilder: (context, tabsRouter) => Container(
         height: 80,
